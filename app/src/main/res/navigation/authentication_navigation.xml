@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/authentication_navigation"
+    app:startDestination="@id/insertPhoneNumberFragment">
+
+    <fragment
+        android:id="@+id/insertPhoneNumberFragment"
+        android:name="com.farshidabz.kindnesswall.view.authentication.InsertPhoneNumberFragment"
+        android:label="InsertPhoneNumberFragment"
+        tools:layout="@layout/fragment_insert_phone_number">
+
+        <action
+            android:id="@+id/action_insertPhoneNumberFragment_to_insertVerificationNumberFragment"
+            app:destination="@id/insertVerificationNumberFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/insertVerificationNumberFragment"
+        android:name="com.farshidabz.kindnesswall.view.authentication.InsertVerificationNumberFragment"
+        android:label="InsertVerificationNumberFragment"
+        tools:layout="@layout/fragment_insert_verification_number">
+
+        <action
+            android:id="@+id/action_insertVerificationNumberFragment_to_insertUserNameFragment"
+            app:destination="@id/insertUserNameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/insertUserNameFragment"
+        android:name="com.farshidabz.kindnesswall.view.authentication.InsertUserNameFragment"
+        android:label="InsertUserNameFragment"
+        tools:layout="@layout/fragment_insert_username" />
+
+</navigation>

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">KidnessWall</string>
+
+    <string name="tabbar_home">خانه</string>
+    <string name="tabbar_charity">خیریه</string>
+    <string name="tabbar_conversation">گفتگو</string>
+    <string name="tabbar_more">بیشتر</string>
+
+    <string name="unauthenticated">Unauthenticated User</string>
+    <string name="unauthorized">Unauthorized User</string>
+    <string name="toast__check_info">Please check your information</string>
+    <string name="toast__something_is_wrong">Something went wrong, please try again later</string>
+    <string name="no_internet__body">It seems you don\'t have active internet connection. Please try to connect to the internet</string>
+    <string name="kindness_wall">دیوار مهربانی</string>
+    <string name="register_for_get_and_send_gifts">برای دریافت و ارسال هدایا لطفا ثبت نام کنید</string>
+    <string name="phone_number">شماره تلفن</string>
+    <string name="_98">+98</string>
+    <string name="phone_number_hint">1234567890</string>
+    <string name="phone_number_is_wrong">شماره وارد شده صحیح نیست</string>
+    <string name="send">ارسال</string>
+    <string name="send_again">ارسال مجدد کد</string>
+    <string name="skip">رد کردن</string>
+    <string name="insert_verification_code">کدی که برای شما ارسال شده است را وارد کنید</string>
+    <string name="insert_user_name">برای ورود به سامانه نام کاربری خود را وارد نمایید</string>
+    <string name="username">نام کاربری</string>
+    <string name="skip_username_warning">در صورت رد کردن این بخش باید مراحل را از ابتدا شروع کنید</string>
+
+</resources>
