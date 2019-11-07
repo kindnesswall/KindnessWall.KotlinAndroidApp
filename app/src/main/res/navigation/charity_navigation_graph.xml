@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/notification_navigation_graph.xml">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notification_navigation_graph.xml"
+    app:startDestination="@id/charityFragment">
+    <fragment
+        android:id="@+id/charityFragment"
+        android:name="com.farshidabz.kindnesswall.view.charity.CharityFragment"
+        android:label="CharityFragment" />
 </navigation>

@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/home_navigation_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_navigation_graph"
+    app:startDestination="@id/catalogFragment">
 
+    <fragment
+        android:id="@+id/catalogFragment"
+        android:name="com.farshidabz.kindnesswall.view.catalog.CatalogFragment"
+        android:label="CatalogFragment">
+        <action
+            android:id="@+id/action_catalogFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.farshidabz.kindnesswall.view.catalog.search.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

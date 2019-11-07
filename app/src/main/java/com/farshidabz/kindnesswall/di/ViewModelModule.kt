@@ -1,6 +1,7 @@
 package com.farshidabz.kindnesswall.di
 
 import com.farshidabz.kindnesswall.view.authentication.AuthenticationViewModel
+import com.farshidabz.kindnesswall.view.main.MainViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -17,4 +18,5 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { AuthenticationViewModel(get()) }
+    viewModel { MainViewModel() }
 }

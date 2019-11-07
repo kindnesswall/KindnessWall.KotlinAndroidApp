@@ -117,24 +117,6 @@ class MainActivity : BaseActivity() {
         if (savedInstanceState == null) {
             currentController = navHomeController
         }
-
-        val itemView = findViewById<BottomNavigationItemView>(R.id.navigation_home)
-
-        for (item in itemView.children) {
-            if (item is TextView) {
-                itemView.removeView(item)
-                break
-            }
-        }
-
-        for (item in itemView.children) {
-            if (item is ImageView) {
-                item.layoutParams.width = 38.dp(this)
-                item.layoutParams.height = 38.dp(this)
-
-                break
-            }
-        }
     }
 
     private fun fixBottomNavigationBug() {

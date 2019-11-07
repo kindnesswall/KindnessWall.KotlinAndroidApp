@@ -47,11 +47,11 @@ class InsertPhoneNumberFragment : BaseFragment() {
 
     override fun configureViews() {
         binding.sendPhoneNumberTextView.setOnClickListener {
-            viewModel.registerUser().observeWithMessage(activity, viewLifecycleOwner, Observer {
-                if (!it.isFailed) {
+//            viewModel.registerUser().observeWithMessage(activity, viewLifecycleOwner, Observer {
+//                if (!it.isFailed) {
                     authenticationInteractor?.onPhoneNumberSent(binding.sendPhoneNumberTextView)
-                }
-            })
+//                }
+//            })
         }
 
         binding.viewModel = viewModel
