@@ -1,14 +1,19 @@
-package com.farshidabz.kindnesswall.view.catalog
+package com.farshidabz.kindnesswall.view.catalog.cataloglist
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import com.farshidabz.kindnesswall.BaseActivity
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.FragmentCatalogBinding
+import com.farshidabz.kindnesswall.view.catalog.CatalogFragmentDirections
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 /**
@@ -23,6 +28,8 @@ import com.farshidabz.kindnesswall.databinding.FragmentCatalogBinding
  */
 
 class CatalogFragment : BaseFragment() {
+    private val viewModel: CatalogViewModel by viewModel()
+
     lateinit var binding: FragmentCatalogBinding
 
     override fun onCreateView(
@@ -36,13 +43,29 @@ class CatalogFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        getGiftsFirstPage()
+    }
+
+    private fun getGiftsFirstPage() {
+        viewModel.catalogItems.observe(viewLifecycleOwner) {
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                    (activity as BaseActivity).showProgressDialog()
+                }
+
+                CustomResult.Status.SUCCESS -> {
+                    showList(it.data)
+                }
+            }
+        }
     }
 
     override fun configureViewModel() {
     }
 
     override fun configureViews() {
-        binding.gotoSearchFragment.setOnClickListener {
+        binding.searchImageView.setOnClickListener {
             it.findNavController()
                 .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
         }

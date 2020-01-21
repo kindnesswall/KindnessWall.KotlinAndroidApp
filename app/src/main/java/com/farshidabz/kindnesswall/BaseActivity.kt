@@ -27,4 +27,8 @@ abstract class BaseActivity : AppCompatActivity() {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
     }
+
+    fun showProgressDialog(){
+
+    }
 }
