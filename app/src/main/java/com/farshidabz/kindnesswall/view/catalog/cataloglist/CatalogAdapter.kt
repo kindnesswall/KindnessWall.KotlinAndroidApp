@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.farshidabz.kindnesswall.data.model.BaseModel
-import com.farshidabz.kindnesswall.databinding.FragmentCatalogBinding
+import com.farshidabz.kindnesswall.data.model.gift.GiftModel
+import com.farshidabz.kindnesswall.databinding.ItemCatalogBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 
 class CatalogAdapter(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<BaseModel, CatalogViewHolder>(CatalogDiffUtil()) {
+    ListAdapter<GiftModel, CatalogViewHolder>(CatalogDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CatalogViewHolder(
-            FragmentCatalogBinding.inflate(
+            ItemCatalogBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -28,28 +28,28 @@ class CatalogAdapter(private val onItemClickListener: OnItemClickListener) :
             )
         }
 
-    private fun createOnClickListener(position: Int, item: BaseModel) =
+    private fun createOnClickListener(position: Int, item: GiftModel) =
         View.OnClickListener {
             onItemClickListener.onItemClicked(position, item)
         }
 
 }
 
-class CatalogViewHolder(private val binding: FragmentCatalogBinding) :
+class CatalogViewHolder(private val binding: ItemCatalogBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: BaseModel, listener: View.OnClickListener) =
+    fun bind(item: GiftModel, listener: View.OnClickListener) =
         with(binding) {
-            //            this.item = item
-//            clickListener = listener
-//            executePendingBindings()
+            this.item = item
+            clickListener = listener
+            executePendingBindings()
         }
 }
 
 
-private class CatalogDiffUtil : DiffUtil.ItemCallback<BaseModel>() {
-    override fun areItemsTheSame(oldItem: BaseModel, newItem: BaseModel): Boolean =
+private class CatalogDiffUtil : DiffUtil.ItemCallback<GiftModel>() {
+    override fun areItemsTheSame(oldItem: GiftModel, newItem: GiftModel): Boolean =
         oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: BaseModel, newItem: BaseModel): Boolean =
+    override fun areContentsTheSame(oldItem: GiftModel, newItem: GiftModel): Boolean =
         oldItem.id == newItem.id
 }

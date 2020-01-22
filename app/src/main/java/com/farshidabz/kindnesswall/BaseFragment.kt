@@ -2,6 +2,7 @@ package com.farshidabz.kindnesswall
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 
@@ -28,4 +29,14 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun configureViewModel()
     abstract fun configureViews()
+
+    fun showToastMessage(message: String) {
+        if (message.isNotEmpty()) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun showProgressDialog(){
+
+    }
 }

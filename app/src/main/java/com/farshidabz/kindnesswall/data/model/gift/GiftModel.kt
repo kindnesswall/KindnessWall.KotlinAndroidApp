@@ -1,5 +1,7 @@
 package com.farshidabz.kindnesswall.data.model.gift
 
+import android.content.Context
+import com.farshidabz.kindnesswall.R
 import java.util.*
 
 class GiftModel {
@@ -15,9 +17,13 @@ class GiftModel {
     var isReviewed: Boolean = false
     var createdAt: Date? = null
     var provinceId: Int = 0
-    var giftImages: List<Any>? = null
+    var giftImages: List<String>? = null
     var updatedAt: Date? = null
     var price: String? = null
     var isDeleted: Boolean = false
     var categoryTitle: String? = null
+
+    fun getAdsTime(context: Context): String {
+        return context.getString(R.string.just_now)
+    }
 }

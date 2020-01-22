@@ -7,12 +7,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.Placeholder
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions.circleCropTransform
 import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
+import com.farshidabz.kindnesswall.utils.imageloader.roundCornerTransform
 
 
 /**
@@ -35,6 +37,21 @@ fun bindSrcCompat(imageView: ImageView, drawable: Drawable) {
 fun loadImage(view: ImageView, imageUrl: String?) {
     if (imageUrl == null) return
     loadImage(imageUrl, view)
+}
+
+@BindingAdapter("srcUrlWithPlaceHolder")
+fun loadImageWithPlaceHolder(view: ImageView, imageList: ArrayList<String>?) {
+    var imageUrl = ""
+
+    if (!imageList.isNullOrEmpty()) {
+        imageUrl = imageList[0]
+    }
+
+    loadImage(
+        imageUrl,
+        view,
+        placeHolderId = R.drawable.ic_placeholder
+    )
 }
 
 @BindingAdapter("srcUrlWithPlaceHolder")
@@ -87,7 +104,6 @@ fun TextView.setTintToDrawable(color: Int) {
     postDelayed({ setDrawableTintColor(color) }, 50)
 }
 
-
 @BindingAdapter("isBold")
 fun setBold(view: TextView, isBold: Boolean) {
     if (isBold) {
@@ -96,7 +112,6 @@ fun setBold(view: TextView, isBold: Boolean) {
         view.setTypeface(null, Typeface.NORMAL)
     }
 }
-
 
 @BindingAdapter("android:src")
 fun setImageUri(view: ImageView, imageUri: String?) {

@@ -24,5 +24,7 @@
     <string name="insert_user_name">برای ورود به سامانه نام کاربری خود را وارد نمایید</string>
     <string name="username">نام کاربری</string>
     <string name="skip_username_warning">در صورت رد کردن این بخش باید مراحل را از ابتدا شروع کنید</string>
+    <string name="horizontal_divider">|</string>
+    <string name="just_now">دقایقی پیش</string>
 
 </resources>
