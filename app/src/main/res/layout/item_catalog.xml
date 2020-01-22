@@ -25,7 +25,6 @@
             android:layout_width="125dp"
             android:layout_height="96dp"
             android:layout_margin="12dp"
-            android:background="4dp"
             app:cardBackgroundColor="@color/place_holder_back_color"
             app:cardCornerRadius="4dp"
             app:cardElevation="0dp"
@@ -35,10 +34,20 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/giftImagePlaceHolderImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_placeholder" />
+
+            <ImageView
                 android:id="@+id/giftImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcUrlWithPlaceHolder="@{item.giftImages}" />
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:loadImageFromList="@{item.giftImages}" />
 
         </androidx.cardview.widget.CardView>
 
@@ -109,13 +118,13 @@
             app:layout_constraintStart_toEndOf="@+id/divider"
             tools:text="دقایقی پیش" />
 
-<!--        <View-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="@color/divider"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+        <!--        <View-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:background="@color/divider"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -35,7 +35,7 @@ class CatalogAdapter(private val onItemClickListener: OnItemClickListener) :
 
 }
 
-class CatalogViewHolder(private val binding: ItemCatalogBinding) :
+class CatalogViewHolder(val binding: ItemCatalogBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: GiftModel, listener: View.OnClickListener) =
         with(binding) {
@@ -50,6 +50,5 @@ private class CatalogDiffUtil : DiffUtil.ItemCallback<GiftModel>() {
     override fun areItemsTheSame(oldItem: GiftModel, newItem: GiftModel): Boolean =
         oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: GiftModel, newItem: GiftModel): Boolean =
-        oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: GiftModel, newItem: GiftModel): Boolean = false
 }

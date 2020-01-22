@@ -1,7 +1,6 @@
 package com.farshidabz.kindnesswall.di
 
 import com.farshidabz.kindnesswall.BuildConfig
-import com.farshidabz.kindnesswall.di.network.ErrorHandlingCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +23,6 @@ private val sLogLevel =
     if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
 private const val baseUrl = BuildConfig.URL_WEBAPI
-private const val fcmUrl = "https://fcm.googleapis.com"
 
 private fun getLogInterceptor() = HttpLoggingInterceptor().apply {
     level =
@@ -56,7 +54,6 @@ private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit 
         .baseUrl(baseUrl)
         .client(httpClient)
         .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(ErrorHandlingCallAdapterFactory())
         .build()
 
 fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->

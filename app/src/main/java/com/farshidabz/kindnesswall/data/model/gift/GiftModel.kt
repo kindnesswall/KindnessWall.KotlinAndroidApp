@@ -3,6 +3,7 @@ package com.farshidabz.kindnesswall.data.model.gift
 import android.content.Context
 import com.farshidabz.kindnesswall.R
 import java.util.*
+import kotlin.collections.ArrayList
 
 class GiftModel {
     var cityId: Int = 0
@@ -17,7 +18,7 @@ class GiftModel {
     var isReviewed: Boolean = false
     var createdAt: Date? = null
     var provinceId: Int = 0
-    var giftImages: List<String>? = null
+    var giftImages: ArrayList<String>? = null
     var updatedAt: Date? = null
     var price: String? = null
     var isDeleted: Boolean = false

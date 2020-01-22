@@ -1,6 +1,7 @@
 package com.farshidabz.kindnesswall.view.catalog.cataloglist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.data.model.CustomResult
-import com.farshidabz.kindnesswall.data.model.gift.GiftResponseModel
+import com.farshidabz.kindnesswall.data.model.gift.GiftModel
 import com.farshidabz.kindnesswall.databinding.FragmentCatalogBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -50,26 +51,32 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
     private fun getGiftsFirstPage() {
         viewModel.catalogItems.observe(viewLifecycleOwner) {
-            when (it.status) {
-                CustomResult.Status.LOADING -> {
-                    showProgressDialog()
-                }
+            onCatalogItemsReceived(it)
+        }
+    }
 
-                CustomResult.Status.SUCCESS -> {
-                    showList(it.data)
-                }
+    private fun onCatalogItemsReceived(it: CustomResult<ArrayList<GiftModel>>) {
+        when (it.status) {
+            CustomResult.Status.LOADING -> {
+                showProgressDialog()
+            }
 
-                CustomResult.Status.ERROR -> {
-                    showToastMessage("")
-                }
+            CustomResult.Status.SUCCESS -> {
+                showList(it.data)
+            }
+
+            CustomResult.Status.ERROR -> {
+                showToastMessage("")
             }
         }
     }
 
-    private fun showList(data: GiftResponseModel?) {
-        data?.giftResponseModel?.let {
-            (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(it)
+    private fun showList(data: ArrayList<GiftModel>?) {
+        if (!data.isNullOrEmpty()) {
+            (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(data)
         }
+
+        Log.e(">>>>>", binding.itemsListRecyclerView.adapter?.itemCount.toString())
     }
 
     override fun configureViewModel() {

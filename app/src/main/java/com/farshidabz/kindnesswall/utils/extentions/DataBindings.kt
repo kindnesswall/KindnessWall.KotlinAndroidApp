@@ -39,29 +39,15 @@ fun loadImage(view: ImageView, imageUrl: String?) {
     loadImage(imageUrl, view)
 }
 
-@BindingAdapter("srcUrlWithPlaceHolder")
-fun loadImageWithPlaceHolder(view: ImageView, imageList: ArrayList<String>?) {
+@BindingAdapter("loadImageFromList")
+fun loadImageFromList(view: ImageView, imageList: ArrayList<String>?) {
     var imageUrl = ""
 
     if (!imageList.isNullOrEmpty()) {
         imageUrl = imageList[0]
     }
 
-    loadImage(
-        imageUrl,
-        view,
-        placeHolderId = R.drawable.ic_placeholder
-    )
-}
-
-@BindingAdapter("srcUrlWithPlaceHolder")
-fun loadImageWithPlaceHolder(view: ImageView, imageUrl: String?) {
-    if (imageUrl == null) return
-    loadImage(
-        imageUrl,
-        view,
-        placeHolderId = R.drawable.ic_profile_place_holder
-    )
+    loadImage(imageUrl, view)
 }
 
 @BindingAdapter("srcCircleUrl")

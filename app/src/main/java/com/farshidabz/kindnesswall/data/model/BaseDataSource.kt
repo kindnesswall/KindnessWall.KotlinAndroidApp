@@ -24,14 +24,16 @@ abstract class BaseDataSource {
         "${response.message()} | ${response.errorBody()?.string()}"
 
     protected fun <T> getResultWithExponentialBackoffStrategy(
-        times: Int = Int.MAX_VALUE,
+        times: Int = 2,
         initialDelay: Long = 100,
         maxDelay: Long = 10000,
         factor: Double = 2.0,
         call: suspend () -> Response<T>
     ) = flow {
+        var loopTimes = times
         var currentDelay = initialDelay
-        loop@ while (times - 1 != 0) {
+        loop@ while (loopTimes - 1 != 0) {
+            loopTimes--
             val response = getResult(call)
             when(response.status) {
                 CustomResult.Status.SUCCESS -> {

@@ -12,6 +12,4 @@ open class BaseModel : Serializable {
 
     @SerializedName("reason")
     var apiResponseMessage = ""
-
-    var id = ""
 }

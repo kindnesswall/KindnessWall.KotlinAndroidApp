@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
+import com.farshidabz.kindnesswall.data.model.gift.GiftModel
 import com.farshidabz.kindnesswall.data.model.gift.GiftResponseModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBody
 import com.farshidabz.kindnesswall.data.remote.network.CatalogApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -23,12 +25,15 @@ import kotlinx.coroutines.flow.collect
 
 class CatalogRepo(val context: Context, private val catalogApi: CatalogApi) : BaseDataSource() {
 
-    fun getGifts(viewModelScope: CoroutineScope): LiveData<CustomResult<GiftResponseModel>> =
+    fun getGifts(
+        viewModelScope: CoroutineScope,
+        lastId: Int = 50
+    ): LiveData<CustomResult<ArrayList<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGifts()
+                catalogApi.getGifts(GetGiftsRequestBody(lastId))
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
