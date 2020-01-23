@@ -1,3 +1,3 @@
 package com.farshidabz.kindnesswall.data.model.requestsmodel
 
-data class GetGiftsRequestBody(var beforeId : Long, var count : Int = 2)
+data class GetGiftsRequestBody(var beforeId: Long = Long.MAX_VALUE, var count: Int = 50)

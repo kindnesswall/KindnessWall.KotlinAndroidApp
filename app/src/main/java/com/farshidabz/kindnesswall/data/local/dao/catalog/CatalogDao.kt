@@ -10,6 +10,6 @@ interface CatalogDao {
     abstract suspend fun insert(team: List<GiftModel>)
 
     @Transaction
-    @Query("SELECT * from catalog_table")
+    @Query("SELECT * from catalog_table ORDER BY id DESC")
     fun getAll(): LiveData<List<GiftModel>>
 }

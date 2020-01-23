@@ -41,7 +41,7 @@ class CatalogRepo(
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGiftsFirstPage()
+                catalogApi.getGiftsFirstPage(GetGiftsRequestBody())
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {

@@ -23,5 +23,5 @@ interface CatalogApi {
     suspend fun getGifts(@Body getGiftsRequestBody: GetGiftsRequestBody): Response<List<GiftModel>>
 
     @POST("gifts")
-    suspend fun getGiftsFirstPage(): Response<List<GiftModel>>
+    suspend fun getGiftsFirstPage(@Body getGiftsRequestBody: GetGiftsRequestBody): Response<List<GiftModel>>
 }
