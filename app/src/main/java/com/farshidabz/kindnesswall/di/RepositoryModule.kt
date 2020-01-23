@@ -22,7 +22,7 @@ val repositoryModule = module {
     single { CharityRepo(androidContext(), charityApi = get()) }
     single { UserRepo(androidContext(), userApi = get()) }
     single { ChatRepo(androidContext(), chatApi = get()) }
-    single { CatalogRepo(androidContext(), catalogApi = get()) }
+    single { CatalogRepo(androidContext(), catalogApi = get(), catalogDao = get()) }
 
 //    single { LocationHandler(get()) }
 }

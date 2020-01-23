@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.IdRes
-import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -19,7 +17,6 @@ import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.databinding.ActivityMainBinding
 import com.farshidabz.kindnesswall.utils.BottomTabHistory
 import com.farshidabz.kindnesswall.utils.OnClickListener
-import com.farshidabz.kindnesswall.utils.extentions.dp
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -95,14 +92,10 @@ class MainActivity : BaseActivity() {
 
         readIntent()
         configureViews(savedInstanceState)
-        configureViewModel()
     }
 
     private fun readIntent() {
         viewModel.defaultTab = intent.getIntExtra("defaultTab", R.id.navigation_home)
-    }
-
-    override fun configureViewModel() {
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {

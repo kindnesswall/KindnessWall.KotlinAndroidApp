@@ -1,11 +1,9 @@
 package com.farshidabz.kindnesswall.data.remote.network
 
-import com.farshidabz.kindnesswall.data.model.gift.GiftModel
-import com.farshidabz.kindnesswall.data.model.gift.GiftResponseModel
+import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBody
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 
@@ -22,5 +20,8 @@ import retrofit2.http.POST
 
 interface CatalogApi {
     @POST("gifts")
-    suspend fun getGifts(@Body getGiftsRequestBody: GetGiftsRequestBody): Response<ArrayList<GiftModel>>
+    suspend fun getGifts(@Body getGiftsRequestBody: GetGiftsRequestBody): Response<List<GiftModel>>
+
+    @POST("gifts")
+    suspend fun getGiftsFirstPage(): Response<List<GiftModel>>
 }

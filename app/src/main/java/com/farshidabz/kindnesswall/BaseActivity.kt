@@ -45,7 +45,6 @@ abstract class BaseActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
-    abstract fun configureViewModel()
     abstract fun configureViews(savedInstanceState: Bundle?)
 
     fun showToastMessage(message: String) {

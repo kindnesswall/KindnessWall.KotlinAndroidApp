@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.databinding.FragmentInsertPhoneNumberBinding
@@ -40,9 +39,6 @@ class InsertPhoneNumberFragment : BaseFragment() {
         super.onAttach(context)
 
         authenticationInteractor = context as AuthenticationActivity
-    }
-
-    override fun configureViewModel() {
     }
 
     override fun configureViews() {

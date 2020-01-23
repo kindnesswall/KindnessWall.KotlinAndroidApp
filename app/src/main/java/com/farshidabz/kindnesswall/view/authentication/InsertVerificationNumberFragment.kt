@@ -38,9 +38,6 @@ class InsertVerificationNumberFragment : BaseFragment() {
         authenticationInteractor = context as AuthenticationActivity
     }
 
-    override fun configureViewModel() {
-    }
-
     override fun configureViews() {
         binding.sendVersificationTextView.setOnClickListener {
             authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)

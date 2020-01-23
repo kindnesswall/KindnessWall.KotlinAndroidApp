@@ -7,14 +7,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.Placeholder
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions.circleCropTransform
-import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
-import com.farshidabz.kindnesswall.utils.imageloader.roundCornerTransform
 
 
 /**
@@ -40,7 +37,7 @@ fun loadImage(view: ImageView, imageUrl: String?) {
 }
 
 @BindingAdapter("loadImageFromList")
-fun loadImageFromList(view: ImageView, imageList: ArrayList<String>?) {
+fun loadImageFromList(view: ImageView, imageList: List<String>?) {
     var imageUrl = ""
 
     if (!imageList.isNullOrEmpty()) {

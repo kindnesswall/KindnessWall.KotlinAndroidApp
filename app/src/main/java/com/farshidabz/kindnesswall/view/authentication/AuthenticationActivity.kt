@@ -19,11 +19,7 @@ class AuthenticationActivity : BaseActivity(), AuthenticationInteractor {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_authentication)
 
-        configureViewModel()
         configureViews(savedInstanceState)
-    }
-
-    override fun configureViewModel() {
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {

@@ -36,9 +36,6 @@ class MoreFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-    override fun configureViewModel() {
-    }
-
     override fun configureViews() {
     }
 }

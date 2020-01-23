@@ -23,11 +23,9 @@ abstract class BaseFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        configureViewModel()
         configureViews()
     }
 
-    abstract fun configureViewModel()
     abstract fun configureViews()
 
     fun showToastMessage(message: String) {

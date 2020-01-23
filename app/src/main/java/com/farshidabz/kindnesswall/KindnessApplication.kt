@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.core.os.ConfigurationCompat
 import com.chibatching.kotpref.Kotpref
 import com.farshidabz.kindnesswall.data.local.AppPref
+import com.farshidabz.kindnesswall.di.dataBaseModule
 import com.farshidabz.kindnesswall.di.networkModule
 import com.farshidabz.kindnesswall.di.repositoryModule
 import com.farshidabz.kindnesswall.di.viewModelModule
@@ -33,7 +34,7 @@ class KindnessApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@KindnessApplication)
-            modules(listOf(repositoryModule, networkModule, viewModelModule))
+            modules(listOf(repositoryModule, networkModule, viewModelModule, dataBaseModule))
         }
 
         changeLocale()

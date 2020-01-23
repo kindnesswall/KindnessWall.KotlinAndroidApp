@@ -39,7 +39,4 @@ class InsertUserNameFragment : BaseFragment() {
             authenticationInteractor?.onAuthenticationComplete(binding.sendUsernameTextView)
         }
     }
-
-    override fun configureViewModel() {
-    }
 }

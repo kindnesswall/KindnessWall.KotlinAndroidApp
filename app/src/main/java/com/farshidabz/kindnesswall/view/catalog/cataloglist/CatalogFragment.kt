@@ -1,7 +1,6 @@
 package com.farshidabz.kindnesswall.view.catalog.cataloglist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
-import com.farshidabz.kindnesswall.data.model.gift.GiftModel
 import com.farshidabz.kindnesswall.databinding.FragmentCatalogBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
+import com.farshidabz.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -34,6 +35,9 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
     lateinit var binding: FragmentCatalogBinding
 
+    private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,13 +53,52 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         getGiftsFirstPage()
     }
 
+    override fun configureViews() {
+        binding.searchImageView.setOnClickListener {
+            it.findNavController()
+                .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
+        }
+
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        binding.itemsListRecyclerView.apply {
+            adapter = CatalogAdapter(this@CatalogFragment)
+            setHasFixedSize(true)
+            setRecyclerViewPagination(this.layoutManager as LinearLayoutManager)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
+    }
+
+    private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {
+        endlessRecyclerViewScrollListener =
+            object : EndlessRecyclerViewScrollListener(layoutManager) {
+                override fun onLoadMore() {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                    loadNextPage()
+                }
+
+                override fun onScrolled(position: Int) {
+                }
+            }
+
+        binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
+    }
+
+    private fun loadNextPage() {
+        viewModel.getCatalogItemsFromServer().observe(viewLifecycleOwner) {
+            onCatalogItemsReceived(it)
+        }
+    }
+
     private fun getGiftsFirstPage() {
         viewModel.catalogItems.observe(viewLifecycleOwner) {
             onCatalogItemsReceived(it)
         }
     }
 
-    private fun onCatalogItemsReceived(it: CustomResult<ArrayList<GiftModel>>) {
+    private fun onCatalogItemsReceived(it: CustomResult<List<GiftModel>>) {
         when (it.status) {
             CustomResult.Status.LOADING -> {
                 showProgressDialog()
@@ -71,31 +114,9 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
-    private fun showList(data: ArrayList<GiftModel>?) {
+    private fun showList(data: List<GiftModel>?) {
         if (!data.isNullOrEmpty()) {
             (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(data)
-        }
-
-        Log.e(">>>>>", binding.itemsListRecyclerView.adapter?.itemCount.toString())
-    }
-
-    override fun configureViewModel() {
-    }
-
-    override fun configureViews() {
-        binding.searchImageView.setOnClickListener {
-            it.findNavController()
-                .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
-        }
-
-        initRecyclerView()
-    }
-
-    private fun initRecyclerView() {
-        binding.itemsListRecyclerView.apply {
-            adapter = CatalogAdapter(this@CatalogFragment)
-            setHasFixedSize(true)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 
