@@ -39,7 +39,8 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_placeholder" />
+                app:srcCompat="@drawable/ic_placeholder"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/giftImageView"
@@ -47,7 +48,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                app:loadImageFromList="@{item.giftImages}" />
+                app:loadImageFromList="@{item.giftImages}"
+                tools:ignore="ContentDescription" />
 
         </androidx.cardview.widget.CardView>
 
@@ -56,16 +58,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="21dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:ellipsize="marquee"
+            android:gravity="right"
             android:singleLine="true"
             android:text="@{item.title}"
+            android:textAlignment="gravity"
             android:textColor="@color/primaryTextColor"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/giftCardView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded"
             tools:text="کفش مردانه" />
 
         <ImageView
@@ -77,16 +82,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_place_gray" />
+            app:srcCompat="@drawable/ic_place_gray"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/giftAddressTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginBottom="12dp"
             android:maxLength="15"
-            android:text="@{item.address}"
+            android:text="@{item.getShortAddress()}"
             android:textColor="@color/secondaryTextColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -110,11 +116,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="12dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="@{item.getAdsTime(context)}"
             android:textColor="@color/secondaryTextColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/giftCardView"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/divider"
             tools:text="دقایقی پیش" />
 

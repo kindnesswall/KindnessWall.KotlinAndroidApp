@@ -172,4 +172,5 @@ dependencies {
 
     // image picker
     implementation 'com.myhexaville:smart-image-picker:1.0.4'
+    implementation project(path: ':timeago')
 }
