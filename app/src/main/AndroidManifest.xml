@@ -7,24 +7,24 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".KindnessApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".KindnessApplication"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
-        <activity android:name=".view.onbording.OnBoardingActivity" />
-
-        <activity android:name=".view.authentication.AuthenticationActivity">
+        <activity android:name=".view.onbording.OnBoardingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.authentication.AuthenticationActivity" />
 
         <activity android:name=".view.main.MainActivity" />
     </application>

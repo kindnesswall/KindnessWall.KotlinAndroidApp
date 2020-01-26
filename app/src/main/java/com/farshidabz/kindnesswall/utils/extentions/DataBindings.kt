@@ -30,6 +30,16 @@ fun bindSrcCompat(imageView: ImageView, drawable: Drawable) {
     imageView.setImageDrawable(drawable)
 }
 
+@BindingAdapter("app:srcCompatWithId")
+fun bindSrcCompatWithId(imageView: ImageView, drawableId: Int) {
+    imageView.setImageResource(drawableId)
+}
+
+@BindingAdapter("app:backgroundColorWithId")
+fun bindbackgroundColorWithId(view: View, backgroundColorId: Int) {
+    view.setBackgroundResource(backgroundColorId)
+}
+
 @BindingAdapter("srcUrl")
 fun loadImage(view: ImageView, imageUrl: String?) {
     if (imageUrl == null) return

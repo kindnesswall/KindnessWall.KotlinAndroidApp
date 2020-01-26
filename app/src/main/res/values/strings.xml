@@ -26,5 +26,18 @@
     <string name="skip_username_warning">در صورت رد کردن این بخش باید مراحل را از ابتدا شروع کنید</string>
     <string name="horizontal_divider">|</string>
     <string name="just_now">دقایقی پیش</string>
+    <string name="next">بعدی</string>
+
+    <string name="onboarding_title_first">نیاز داری بردار ، نیاز نداری بذار</string>
+    <string name="onboarding_desc_first">همه ما کلی وسیله توی خونه داریم که بهشون !نیاز نداریم اما نمی دونیم باهشون چیکار کنیم چه بهتر از اینکه به کسی بدیم که بهش نیاز داره؟</string>
+
+    <string name="onboarding_title_second">خیریه ها</string>
+    <string name="onboarding_desc_second">خیلیا میخوان به نیازمندای واقعی کمک کنن اما نمیدونن چطوری اینجا میتونین کمکهاتون رو به خیریه های مطمئن بدین</string>
+
+    <string name="onboarding_title_third">همیشه رایگان</string>
+    <string name="onboarding_desc_third">برنامه دیوار مهربانی برای همیشه رایگان خواهد بود</string>
+
+    <string name="onboarding_title_fourth">متن باز</string>
+    <string name="onboarding_desc_fourth">کدهای برنامه همیشه در دسترس برنامه نویسان خواهد بود</string>
 
 </resources>

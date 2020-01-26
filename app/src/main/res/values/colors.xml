@@ -20,4 +20,9 @@
 
     <color name="place_holder_back_color">#C7C7C7</color>
 
+    <color name="onBoardingFirstColor">#DB4472</color>
+    <color name="onBoardingSecondColor">#36D5E7</color>
+    <color name="onBoardingThirdColor">#FDD835</color>
+    <color name="onBoardingFourthColor">#6A6AEC</color>
+
 </resources>
