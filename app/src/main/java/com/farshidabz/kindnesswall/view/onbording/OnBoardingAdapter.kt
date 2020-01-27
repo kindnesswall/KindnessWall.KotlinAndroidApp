@@ -9,9 +9,17 @@ import com.farshidabz.kindnesswall.annotation.OnBoardingLayoutType
 import com.farshidabz.kindnesswall.data.model.OnBoardingModel
 import com.farshidabz.kindnesswall.databinding.ItemOnboardingBinding
 import com.farshidabz.kindnesswall.databinding.ItemOnboardingCityBinding
+import com.farshidabz.kindnesswall.utils.OnItemClickListener
 
-class OnBoardingAdapter(var items: ArrayList<OnBoardingModel> = arrayListOf()) :
+class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private lateinit var onItemClickListener: OnItemClickListener
+
+    fun setItems(items: ArrayList<OnBoardingModel>) {
+        this.items = items
+        notifyDataSetChanged()
+    }
 
     override fun getItemViewType(position: Int): Int {
         if (position == 4) {
@@ -19,6 +27,10 @@ class OnBoardingAdapter(var items: ArrayList<OnBoardingModel> = arrayListOf()) :
         }
 
         return OnBoardingLayoutType.BENEFITS
+    }
+
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.onItemClickListener = onItemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -58,13 +70,13 @@ class OnBoardingAdapter(var items: ArrayList<OnBoardingModel> = arrayListOf()) :
         val item = items[position]
         when (holder) {
             is OnBoardingBenefitsViewHolder -> holder.binding.item = item
-            is OnBoardingCityViewHolder -> bindViewsToCityHolder(holder)
+            is OnBoardingCityViewHolder -> bindViewsToCityHolder(holder, item)
         }
     }
 
-    private fun bindViewsToCityHolder(holder: OnBoardingCityViewHolder) {
+    private fun bindViewsToCityHolder(holder: OnBoardingCityViewHolder, item: OnBoardingModel) {
         holder.binding.chooseCityContainer.setOnClickListener {
-
+            onItemClickListener.onItemClicked(holder.adapterPosition, item)
         }
     }
 }

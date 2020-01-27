@@ -12,6 +12,7 @@ import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.data.model.CityModel
 import com.farshidabz.kindnesswall.data.model.OnBoardingModel
 import com.farshidabz.kindnesswall.databinding.ActivityOnBoardingBinding
+import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.extentions.getSnapPosition
 import com.farshidabz.kindnesswall.view.main.MainActivity
 import java.util.*
@@ -58,6 +59,14 @@ class OnBoardingActivity : BaseActivity() {
 
     private fun initRecyclerView() {
         binding.onBoardingRecyclerView.adapter = OnBoardingAdapter(getOnBoardingModel())
+
+        (binding.onBoardingRecyclerView.adapter as OnBoardingAdapter).setOnItemClickListener(object :
+            OnItemClickListener {
+            override fun onItemClicked(position: Int, obj: Any?) {
+
+            }
+        })
+
         binding.recyclerPagerIndicator.attachToRecyclerView(binding.onBoardingRecyclerView)
 
         val snapHelper = PagerSnapHelper()
@@ -123,7 +132,9 @@ class OnBoardingActivity : BaseActivity() {
 
         if (requestCode == 125) {
             if (resultCode == Activity.RESULT_OK) {
-                getOnBoardingModel()[4].city = data?.getSerializableExtra("city") as CityModel
+                val items = getOnBoardingModel()
+                items[4].city = data?.getSerializableExtra("city") as CityModel
+                (binding.onBoardingRecyclerView.adapter as OnBoardingAdapter).setItems(items)
             }
         }
     }
