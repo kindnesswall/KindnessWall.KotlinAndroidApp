@@ -39,5 +39,8 @@
 
     <string name="onboarding_title_fourth">متن باز</string>
     <string name="onboarding_desc_fourth">کدهای برنامه همیشه در دسترس برنامه نویسان خواهد بود</string>
+    <string name="choose_city">انتخاب شهر</string>
+    <string name="choose_your_city">شهر خود را انتخاب کنید</string>
+    <string name="lets_go">بزن بریم</string>
 
 </resources>

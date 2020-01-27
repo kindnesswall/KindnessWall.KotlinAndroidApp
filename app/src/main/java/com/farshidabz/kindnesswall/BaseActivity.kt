@@ -25,6 +25,7 @@ import com.farshidabz.kindnesswall.utils.LocaleHelper
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
 
+
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(
             LocaleHelper.onAttach(
@@ -53,7 +54,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showProgressDialog(){
+    fun showProgressDialog() {
 
     }
 }

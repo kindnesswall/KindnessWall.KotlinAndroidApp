@@ -1,5 +1,6 @@
 package com.farshidabz.kindnesswall.view.onbording
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.farshidabz.kindnesswall.BaseActivity
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.model.CityModel
 import com.farshidabz.kindnesswall.data.model.OnBoardingModel
 import com.farshidabz.kindnesswall.databinding.ActivityOnBoardingBinding
 import com.farshidabz.kindnesswall.utils.extentions.getSnapPosition
@@ -111,6 +113,18 @@ class OnBoardingActivity : BaseActivity() {
             backgroundColor = R.color.onBoardingFourthColor
         })
 
+        items.add(OnBoardingModel())
+
         return items
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 125) {
+            if (resultCode == Activity.RESULT_OK) {
+                getOnBoardingModel()[4].city = data?.getSerializableExtra("city") as CityModel
+            }
+        }
     }
 }
