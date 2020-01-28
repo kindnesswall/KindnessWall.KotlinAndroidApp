@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/authentication_navigation"
+    app:startDestination="@id/chooseProvinceFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/chooseProvinceFragment"
+        android:name="com.farshidabz.kindnesswall.view.citychooser.ChooseProvinceFragment"
+        android:label="fragment_choose_province"
+        tools:layout="@layout/fragment_choose_province">
+
+        <action
+            android:id="@+id/action_chooseProvinceFragment_to_chooseCityFragment"
+            app:destination="@id/chooseCityFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/chooseCityFragment"
+        android:name="com.farshidabz.kindnesswall.view.citychooser.ChooseCityFragment"
+        android:label="fragment_choose_city"
+        tools:layout="@layout/fragment_choose_city">
+
+        <argument
+            android:name="province_id"
+            app:argType="integer" />
+
+    </fragment>
+
+</navigation>

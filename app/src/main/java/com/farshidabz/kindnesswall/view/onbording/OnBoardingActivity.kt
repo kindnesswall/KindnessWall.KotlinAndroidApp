@@ -12,8 +12,8 @@ import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.data.model.CityModel
 import com.farshidabz.kindnesswall.data.model.OnBoardingModel
 import com.farshidabz.kindnesswall.databinding.ActivityOnBoardingBinding
-import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.extentions.getSnapPosition
+import com.farshidabz.kindnesswall.view.citychooser.CityChooserActivity
 import com.farshidabz.kindnesswall.view.main.MainActivity
 import java.util.*
 
@@ -40,12 +40,6 @@ class OnBoardingActivity : BaseActivity() {
         initRecyclerView()
 
         binding.nextTextView.setOnClickListener {
-            if (snapPosition == 3) {
-                MainActivity.start(this)
-                finish()
-                return@setOnClickListener
-            }
-
             binding.onBoardingRecyclerView.smoothScrollToPosition(
                 snapPosition + 1
             )
@@ -60,12 +54,20 @@ class OnBoardingActivity : BaseActivity() {
     private fun initRecyclerView() {
         binding.onBoardingRecyclerView.adapter = OnBoardingAdapter(getOnBoardingModel())
 
-        (binding.onBoardingRecyclerView.adapter as OnBoardingAdapter).setOnItemClickListener(object :
-            OnItemClickListener {
-            override fun onItemClicked(position: Int, obj: Any?) {
+        (binding.onBoardingRecyclerView.adapter as OnBoardingAdapter).setOnItemClickListener { _, _ ->
+            CityChooserActivity.startActivityForResult(this)
+        }
 
+        (binding.onBoardingRecyclerView.adapter as OnBoardingAdapter).setOnActionButtonClickListener { model ->
+            when {
+                model.city == null -> showToastMessage(getString(R.string.choose_your_city))
+                model.city!!.name.isNullOrEmpty() -> showToastMessage(getString(R.string.choose_your_city))
+                else -> {
+                    MainActivity.start(this@OnBoardingActivity)
+                    this@OnBoardingActivity.finish()
+                }
             }
-        })
+        }
 
         binding.recyclerPagerIndicator.attachToRecyclerView(binding.onBoardingRecyclerView)
 
@@ -130,7 +132,7 @@ class OnBoardingActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 125) {
+        if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val items = getOnBoardingModel()
                 items[4].city = data?.getSerializableExtra("city") as CityModel

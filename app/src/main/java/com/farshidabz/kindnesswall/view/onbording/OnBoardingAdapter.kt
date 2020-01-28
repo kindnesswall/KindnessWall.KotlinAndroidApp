@@ -9,12 +9,12 @@ import com.farshidabz.kindnesswall.annotation.OnBoardingLayoutType
 import com.farshidabz.kindnesswall.data.model.OnBoardingModel
 import com.farshidabz.kindnesswall.databinding.ItemOnboardingBinding
 import com.farshidabz.kindnesswall.databinding.ItemOnboardingCityBinding
-import com.farshidabz.kindnesswall.utils.OnItemClickListener
 
 class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var onItemClickListener: OnItemClickListener
+    private lateinit var onItemClickListener: (Int, OnBoardingModel) -> Unit
+    private lateinit var onActionButtonClickListener :(OnBoardingModel) -> Unit
 
     fun setItems(items: ArrayList<OnBoardingModel>) {
         this.items = items
@@ -29,8 +29,12 @@ class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
         return OnBoardingLayoutType.BENEFITS
     }
 
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+    fun setOnItemClickListener(onItemClickListener: (Int, OnBoardingModel) -> Unit) {
         this.onItemClickListener = onItemClickListener
+    }
+
+    fun setOnActionButtonClickListener(onItemClickListener: (OnBoardingModel) -> Unit) {
+        this.onActionButtonClickListener = onItemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -76,7 +80,17 @@ class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
 
     private fun bindViewsToCityHolder(holder: OnBoardingCityViewHolder, item: OnBoardingModel) {
         holder.binding.chooseCityContainer.setOnClickListener {
-            onItemClickListener.onItemClicked(holder.adapterPosition, item)
+            onItemClickListener.invoke(holder.adapterPosition, item)
+        }
+
+        holder.binding.actionButton.setOnClickListener {
+            onActionButtonClickListener.invoke(item)
+        }
+
+        item.city?.let {
+            if(it.id > 0){
+                holder.binding.cityNameTextView.text = it.name
+            }
         }
     }
 }
