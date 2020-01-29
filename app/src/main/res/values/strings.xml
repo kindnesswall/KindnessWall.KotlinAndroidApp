@@ -14,7 +14,7 @@
     <string name="kindness_wall">دیوار مهربانی</string>
     <string name="register_for_get_and_send_gifts">برای دریافت و ارسال هدایا لطفا ثبت نام کنید</string>
     <string name="phone_number">شماره تلفن</string>
-    <string name="_98">+98</string>
+    <string name="_98">98+</string>
     <string name="phone_number_hint">1234567890</string>
     <string name="phone_number_is_wrong">شماره وارد شده صحیح نیست</string>
     <string name="send">ارسال</string>
@@ -45,5 +45,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_province">انتخاب استان</string>
 
 </resources>

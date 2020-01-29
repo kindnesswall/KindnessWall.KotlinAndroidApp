@@ -9,10 +9,13 @@ import androidx.navigation.findNavController
 import com.farshidabz.kindnesswall.BaseActivity
 import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.databinding.ActivityCityChooserBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CityChooserActivity : BaseActivity() {
 
     lateinit var binding: ActivityCityChooserBinding
+
+    private val viewModel: CityChooserViewModel by viewModel()
 
     companion object {
         const val CITY_CHOOSER_REQUEST_CODE = 125

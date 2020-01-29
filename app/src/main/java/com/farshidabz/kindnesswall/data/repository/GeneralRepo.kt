@@ -2,6 +2,7 @@ package com.farshidabz.kindnesswall.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceDao
@@ -67,7 +68,9 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var province
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-//                            emitSource(result.data.map { CustomResult.success(it) })
+                            emitSource(MutableLiveData<List<CityModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())

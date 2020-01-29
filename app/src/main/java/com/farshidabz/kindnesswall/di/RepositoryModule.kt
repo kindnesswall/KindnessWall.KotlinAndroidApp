@@ -18,7 +18,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single { AuthRepo(androidContext(), authApi = get()) }
-    single { GeneralRepo(androidContext(), generalApi = get()) }
+    single { GeneralRepo(androidContext(), generalApi = get(), provinceDao = get()) }
     single { CharityRepo(androidContext(), charityApi = get()) }
     single { UserRepo(androidContext(), userApi = get()) }
     single { ChatRepo(androidContext(), chatApi = get()) }

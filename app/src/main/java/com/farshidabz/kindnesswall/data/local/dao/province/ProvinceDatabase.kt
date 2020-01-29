@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [ProvinceModel::class], version = 1)
 abstract class ProvinceDatabase : RoomDatabase() {
-    abstract fun catalogDao(): ProvinceDao
+    abstract fun provinceDao(): ProvinceDao
 
     companion object {
         @Volatile
