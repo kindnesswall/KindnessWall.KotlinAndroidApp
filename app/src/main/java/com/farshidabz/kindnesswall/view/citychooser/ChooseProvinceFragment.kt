@@ -45,7 +45,11 @@ class ChooseProvinceFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        binding.provinceRecyclerView.adapter = ProvinceListAdapter()
+        binding.provinceRecyclerView.adapter = ProvinceListAdapter().apply {
+            onClickCallback = { model ->
+                viewModel.onClickCallback.onItemClicked(0, model)
+            }
+        }
 
         binding.provinceRecyclerView.setHasFixedSize(true)
         binding.provinceRecyclerView.addItemDecoration(

@@ -46,6 +46,9 @@ class ChooseCityFragment : BaseFragment() {
 
     private fun initRecyclerView() {
         binding.cityRecyclerView.adapter = CityListAdapter().apply {
+            onClickCallback = { model ->
+                viewModel.onClickCallback.onItemClicked(0, model)
+            }
         }
 
         binding.cityRecyclerView.setHasFixedSize(true)
@@ -58,7 +61,7 @@ class ChooseCityFragment : BaseFragment() {
     }
 
     private fun getCities() {
-        viewModel.cityList.observe(viewLifecycleOwner) {
+        viewModel.getCities().observe(viewLifecycleOwner) {
             when (it.status) {
                 CustomResult.Status.LOADING -> {
                 }

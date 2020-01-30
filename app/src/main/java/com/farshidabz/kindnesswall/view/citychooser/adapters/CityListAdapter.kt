@@ -17,6 +17,8 @@ class CityListAdapter : RecyclerView.Adapter<CityListViewHolder>() {
         notifyDataSetChanged()
     }
 
+    public lateinit var onClickCallback: (CityModel) -> Unit?
+
     override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityListViewHolder {
@@ -32,6 +34,7 @@ class CityListAdapter : RecyclerView.Adapter<CityListViewHolder>() {
 
     override fun onBindViewHolder(holder: CityListViewHolder, position: Int) {
         holder.binding.item = items[position]
+        holder.itemView.setOnClickListener { onClickCallback.invoke(items[holder.adapterPosition]) }
     }
 }
 

@@ -12,6 +12,8 @@ class ProvinceListAdapter : RecyclerView.Adapter<ProvinceListViewHolder>() {
 
     private var items = ArrayList<ProvinceModel>()
 
+    public lateinit var onClickCallback: (ProvinceModel) -> Unit?
+
     public fun setItems(items: List<ProvinceModel>) {
         this.items = items as ArrayList<ProvinceModel>
         notifyDataSetChanged()
@@ -32,6 +34,7 @@ class ProvinceListAdapter : RecyclerView.Adapter<ProvinceListViewHolder>() {
 
     override fun onBindViewHolder(holder: ProvinceListViewHolder, position: Int) {
         holder.binding.item = items[position]
+        holder.itemView.setOnClickListener { onClickCallback.invoke(items[holder.adapterPosition]) }
     }
 }
 

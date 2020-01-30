@@ -5,6 +5,7 @@ import com.farshidabz.kindnesswall.data.model.CityModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -21,6 +22,6 @@ interface GeneralApi {
     @GET("provinces")
     suspend fun getProvinces(): Response<List<ProvinceModel>>
 
-    @POST("cities/{provincesId}")
-    suspend fun getCities(@Query("provincesId") id: Int): Response<List<CityModel>>
+    @GET("cities/{provincesId}")
+    suspend fun getCities(@Path("provincesId") id: Int): Response<List<CityModel>>
 }
