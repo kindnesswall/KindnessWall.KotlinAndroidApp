@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <color name="selectedTabColor">#FFFFFF</color>
     <color name="unselectedTabColor">#b4c4cc</color>
@@ -17,6 +18,7 @@
     <color name="red">#FF0000</color>
 
     <color name="transparent">#00FFFFFF</color>
+    <color name="primary_transparent">#00008577</color>
 
     <color name="place_holder_back_color">#C7C7C7</color>
 

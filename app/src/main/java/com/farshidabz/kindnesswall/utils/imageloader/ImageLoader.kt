@@ -2,16 +2,16 @@ package com.farshidabz.kindnesswall.utils.imageloader
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -39,7 +39,7 @@ fun loadImage(
     progressBar: ProgressBar? = null,
     forceOriginalSize: Boolean = false,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
-    callback: ((Drawable?, Boolean) -> Unit)? = null
+    callback: ((Bitmap?, Boolean) -> Unit)? = null
 ) {
     val glideRequest = getGlideRequest(
         imageViewToLoad.context,
@@ -57,7 +57,8 @@ fun loadImage(
 
     glideRequest.diskCacheStrategy(diskCacheStrategy)
 
-    glideRequest.transition(DrawableTransitionOptions.withCrossFade())
+    glideRequest.transition(BitmapTransitionOptions.withCrossFade())
+
     if (forceOriginalSize)
         glideRequest.override(Target.SIZE_ORIGINAL)
     glideRequest.into(imageViewToLoad)
@@ -65,15 +66,15 @@ fun loadImage(
 
 @SuppressLint("CheckResult")
 private fun setGlideListener(
-    glideRequest: GlideRequest<Drawable>,
+    glideRequest: GlideRequest<Bitmap>,
     progressBar: ProgressBar?,
-    callback: ((Drawable?, Boolean) -> Unit)?
+    callback: ((Bitmap?, Boolean) -> Unit)?
 ) {
-    glideRequest.listener(object : RequestListener<Drawable> {
+    glideRequest.listener(object : RequestListener<Bitmap> {
         override fun onLoadFailed(
             e: GlideException?,
             model: Any?,
-            target: Target<Drawable>?,
+            target: Target<Bitmap>?,
             isFirstResource: Boolean
         ): Boolean {
             callback?.invoke(null, false)
@@ -82,9 +83,9 @@ private fun setGlideListener(
         }
 
         override fun onResourceReady(
-            resource: Drawable?,
+            resource: Bitmap?,
             model: Any?,
-            target: Target<Drawable>?,
+            target: Target<Bitmap>?,
             dataSource: DataSource?,
             isFirstResource: Boolean
         ): Boolean {
@@ -95,21 +96,21 @@ private fun setGlideListener(
     })
 }
 
-private fun setOptions(glideRequest: GlideRequest<Drawable>, options: RequestOptions?) {
+private fun setOptions(glideRequest: GlideRequest<Bitmap>, options: RequestOptions?) {
     options?.let {
         glideRequest.apply(options)
     }
 }
 
 @SuppressLint("CheckResult")
-private fun setPlaceHolder(glideRequest: GlideRequest<Drawable>, placeHolderId: Int) {
+private fun setPlaceHolder(glideRequest: GlideRequest<Bitmap>, placeHolderId: Int) {
     if (placeHolderId > 0) {
         glideRequest.placeholder(placeHolderId)
     }
 }
 
 private fun getGlideRequest(context: Context, imageUrl: String?) =
-    GlideApp.with(context).load(imageUrl).centerCrop()
+    GlideApp.with(context).asBitmap().load(imageUrl).centerCrop()
 
 fun circleCropTransform() = RequestOptions.circleCropTransform()
 fun roundCornerTransform(cornerRadius: Int) =

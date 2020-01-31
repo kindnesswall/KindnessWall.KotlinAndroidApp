@@ -32,7 +32,6 @@ class CatalogAdapter(private val onItemClickListener: OnItemClickListener) :
         View.OnClickListener {
             onItemClickListener.onItemClicked(position, item)
         }
-
 }
 
 class CatalogViewHolder(val binding: ItemCatalogBinding) :

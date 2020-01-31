@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/photoSliderPlaceHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/place_holder_back_color"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:layout_height="300dp"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/giftImagePlaceHolderImage"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_placeholder"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photoSliderRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        tools:layout_height="300dp" />
+
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+        android:id="@+id/recyclerPagerIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/photoSliderRecyclerView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layoutDirection="ltr"
+        app:dotCount="3"
+        app:dotRadius="2dp"
+        app:dotSeparation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photoSliderRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:selectedDotColor="@color/white"
+        app:selectedDotRadius="3dp" />
+
+</RelativeLayout>

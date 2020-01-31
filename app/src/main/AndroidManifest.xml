@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.farshidabz.kindnesswall">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -15,19 +16,21 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
+
+        <activity android:name=".view.giftdetail.GiftDetailActivity" />
+        <activity android:name=".view.gallery.GalleryActivity" />
         <activity android:name=".view.citychooser.CityChooserActivity" />
+        <activity android:name=".view.onbording.OnBoardingActivity" />
+        <activity android:name=".view.main.MainActivity" />
 
-        <activity android:name=".view.onbording.OnBoardingActivity">
-
-        </activity>
-        <activity android:name=".view.authentication.AuthenticationActivity" >
+        <activity android:name=".view.authentication.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.main.MainActivity" />
+
     </application>
 
 </manifest>

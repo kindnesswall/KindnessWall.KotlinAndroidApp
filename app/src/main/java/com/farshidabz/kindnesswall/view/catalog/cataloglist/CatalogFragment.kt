@@ -16,6 +16,7 @@ import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.FragmentCatalogBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import com.farshidabz.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -121,6 +122,6 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
-
+        context?.let { GiftDetailActivity.start(it, obj as GiftModel) }
     }
 }

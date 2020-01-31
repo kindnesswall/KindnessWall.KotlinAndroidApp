@@ -1,14 +1,13 @@
 package com.farshidabz.kindnesswall.data.local.dao.catalog
 
-import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.timeago.TimeAgo
 import com.example.timeago.TimeAgoMessages
 import com.farshidabz.kindnesswall.utils.helper.DataConverter
+import java.io.Serializable
 import java.util.*
-
 
 @Entity(tableName = "catalog_table")
 @TypeConverters(DataConverter::class)
@@ -34,8 +33,8 @@ data class GiftModel(
     var categoryTitle: String? = null,
     var provinceName: String? = null,
     var cityName: String? = null
-) {
-    fun getAdsTime(context: Context): String {
+) : Serializable {
+    fun getAdsTime(): String {
         val messages = TimeAgoMessages.Builder().withLocale(Locale("fa")).build()
 
         return TimeAgo.using(updatedAt?.time ?: Date().time, messages)

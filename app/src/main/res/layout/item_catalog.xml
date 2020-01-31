@@ -17,6 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:onClick="@{clickListener}"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -120,7 +121,7 @@
             android:layout_marginBottom="12dp"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:text="@{item.getAdsTime(context)}"
+            android:text="@{item.getAdsTime()}"
             android:textColor="@color/secondaryTextColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

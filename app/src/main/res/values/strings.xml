@@ -53,5 +53,9 @@
     <string name="about">معرفی دیوار مهربانی</string>
     <string name="contact_us">ارتباط با ما</string>
     <string name="logout">خروج از حساب کاربری</string>
+    <string name="category">دسته بندی</string>
+    <string name="neighborhood">محل</string>
+    <string name="description">توضیحات</string>
+    <string name="request">درخواست</string>
 
 </resources>
