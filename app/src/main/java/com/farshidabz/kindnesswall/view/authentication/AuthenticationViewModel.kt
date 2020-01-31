@@ -1,10 +1,11 @@
 package com.farshidabz.kindnesswall.view.authentication
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.farshidabz.kindnesswall.data.model.BaseModel
+import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.repository.AuthRepo
-import com.farshidabz.kindnesswall.utils.ResponseLiveData
 
 
 /**
@@ -28,7 +29,7 @@ class AuthenticationViewModel(private val authRepo: AuthRepo) : ViewModel() {
         phoneNumber.postValue(text.toString())
     }
 
-    fun registerUser(): ResponseLiveData<BaseModel> {
+    fun registerUser(): LiveData<CustomResult<BaseModel>> {
         return authRepo.registerUser(phoneNumber.value ?: "")
     }
 }

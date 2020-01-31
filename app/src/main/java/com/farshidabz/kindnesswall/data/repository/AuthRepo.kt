@@ -1,9 +1,11 @@
 package com.farshidabz.kindnesswall.data.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.farshidabz.kindnesswall.data.model.BaseModel
+import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.remote.network.AuthApi
-import com.farshidabz.kindnesswall.utils.ResponseLiveData
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -16,8 +18,8 @@ import com.farshidabz.kindnesswall.utils.ResponseLiveData
 
 class AuthRepo(private val context: Context, private var authApi: AuthApi) {
 
-    fun registerUser(phoneNumber: String): ResponseLiveData<BaseModel> {
-        val data = ResponseLiveData<BaseModel>()
+    fun registerUser(phoneNumber: String): LiveData<CustomResult<BaseModel>>{
+        val data = MutableLiveData<CustomResult<BaseModel>>()
 //        authApi.registerUser(RegisterModel().apply { this.phoneNumber = phoneNumber })
 //            .enqueue(object : RetrofitCallback<BaseModel> {
 //                override fun success(response: Response<BaseModel>) {

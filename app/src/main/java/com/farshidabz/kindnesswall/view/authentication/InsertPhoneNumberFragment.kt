@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
@@ -31,10 +32,6 @@ class InsertPhoneNumberFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -42,15 +39,31 @@ class InsertPhoneNumberFragment : BaseFragment() {
     }
 
     override fun configureViews() {
+        binding.phoneNumberEditText.doOnTextChanged { text, start, count, after ->
+            onPhoneNumberChanged(text)
+        }
+
         binding.sendPhoneNumberTextView.setOnClickListener {
-//            viewModel.registerUser().observeWithMessage(activity, viewLifecycleOwner, Observer {
+            //            viewModel.registerUser().observeWithMessage(activity, viewLifecycleOwner, Observer {
 //                if (!it.isFailed) {
-                    authenticationInteractor?.onPhoneNumberSent(binding.sendPhoneNumberTextView)
+            authenticationInteractor?.onPhoneNumberSent(binding.sendPhoneNumberTextView)
 //                }
 //            })
         }
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+    }
+
+    private fun onPhoneNumberChanged(text: CharSequence?) {
+        if (text.isNullOrEmpty()) {
+            binding.sendPhoneNumberTextView.isEnabled = false
+        } else {
+            if (text.startsWith("0")) {
+                binding.sendPhoneNumberTextView.isEnabled = false
+            } else if (!text.startsWith("9")) {
+                binding.sendPhoneNumberTextView.isEnabled = false
+            } else binding.sendPhoneNumberTextView.isEnabled = text.length >= 10
+        }
     }
 }
