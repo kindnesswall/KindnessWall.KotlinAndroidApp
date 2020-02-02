@@ -1,17 +1,25 @@
 package com.farshidabz.kindnesswall.view.authentication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.local.UserInfoPref
+import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.FragmentInsertVerificationNumberBinding
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class InsertVerificationNumberFragment : BaseFragment() {
+    private var couldResendCode: Boolean = false
+
     private val viewModel by sharedViewModel<AuthenticationViewModel>()
     private var authenticationInteractor: AuthenticationInteractor? = null
 
@@ -34,13 +42,104 @@ class InsertVerificationNumberFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         authenticationInteractor = context as AuthenticationActivity
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        registerUser()
     }
 
     override fun configureViews() {
         binding.sendVersificationTextView.setOnClickListener {
-            authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+            loginUser()
+        }
+
+        binding.verificationCodeEditText.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> binding.sendVersificationTextView.isEnabled = false
+                text.length < 4 -> binding.sendVersificationTextView.isEnabled = false
+                else -> binding.sendVersificationTextView.isEnabled = true
+            }
+        }
+
+        binding.sendVerificationCodeAgainTextView.setOnClickListener {
+            if (couldResendCode) {
+                registerUser()
+            }
+        }
+
+        binding.skipAuthenticationTextView.setOnClickListener { activity?.finish() }
+    }
+
+    private fun registerUser() {
+        viewModel.registerUser().observe(viewLifecycleOwner) {
+            when (it.status) {
+                CustomResult.Status.SUCCESS -> {
+                    dismissProgressDialog()
+                    startTimer()
+                }
+                CustomResult.Status.LOADING -> {
+                    showProgressDialog()
+                }
+                CustomResult.Status.ERROR -> {
+                    showToastMessage("")
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun startTimer() {
+        couldResendCode = false
+        binding.countDownNumberTextView.text = "60:00"
+
+        object : CountDownTimer(1000 * 60, 1000) {
+            override fun onFinish() {
+                couldResendCode = true
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onTick(millisUntilFinished: Long) {
+                binding.countDownNumberTextView.text = "00:${millisUntilFinished / 1000}"
+            }
+        }.start()
+    }
+
+    private fun loginUser() {
+        viewModel.loginUser(binding.verificationCodeEditText.text.toString())
+            .observe(viewLifecycleOwner) {
+                when (it.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        UserInfoPref.bearerToken = it.data?.token?.token ?: ""
+                        UserInfoPref.id = it.data?.token?.userID ?: 0
+                        getUserProfile()
+                    }
+                    CustomResult.Status.LOADING -> {
+                        showProgressDialog()
+                    }
+                    CustomResult.Status.ERROR -> {
+                        showToastMessage("")
+                    }
+                }
+            }
+    }
+
+    private fun getUserProfile() {
+        viewModel.getUserProfile().observe(viewLifecycleOwner) {
+            when (it.status) {
+                CustomResult.Status.SUCCESS -> {
+                    dismissProgressDialog()
+                    authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+                }
+                CustomResult.Status.LOADING -> {
+                    showProgressDialog()
+                }
+                CustomResult.Status.ERROR -> {
+                    showToastMessage("")
+                }
+            }
         }
     }
 }

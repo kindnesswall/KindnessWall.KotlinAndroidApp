@@ -34,7 +34,11 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    fun showProgressDialog(){
+    fun showProgressDialog() {
+
+    }
+
+    fun dismissProgressDialog() {
 
     }
 }

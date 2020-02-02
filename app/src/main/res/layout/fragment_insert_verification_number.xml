@@ -24,12 +24,13 @@
             app:layout_constraintTop_toBottomOf="@+id/kindnessWallText" />
 
         <EditText
+            android:id="@+id/verificationCodeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@null"
-            android:maxLength="4"
             android:gravity="center"
+            android:maxLength="4"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
             android:paddingEnd="16dp"
@@ -66,7 +67,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
             android:text="@string/phone_number_is_wrong"
-            android:textColor="@color/red" />
+            android:textColor="@color/red"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/sendVersificationTextView"
@@ -76,11 +78,12 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="28dp"
             android:background="@drawable/primary_round_selector_4dp"
+            android:enabled="false"
             android:gravity="center"
             android:text="@string/send"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/sendVerificationCodeAgainTextView"
@@ -111,7 +114,7 @@
             android:gravity="center"
             android:paddingStart="48dp"
             android:paddingEnd="48dp"
-            android:text="@string/skip"
+            android:text="@string/close"
             android:textColor="@color/secondaryTextColor"
             android:textSize="16sp"
             android:textStyle="bold"

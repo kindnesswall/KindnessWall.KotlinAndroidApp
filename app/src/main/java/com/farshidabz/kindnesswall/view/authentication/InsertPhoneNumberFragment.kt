@@ -44,12 +44,11 @@ class InsertPhoneNumberFragment : BaseFragment() {
         }
 
         binding.sendPhoneNumberTextView.setOnClickListener {
-            //            viewModel.registerUser().observeWithMessage(activity, viewLifecycleOwner, Observer {
-//                if (!it.isFailed) {
+            viewModel.phoneNumber.value = binding.sendPhoneNumberTextView.text.toString()
             authenticationInteractor?.onPhoneNumberSent(binding.sendPhoneNumberTextView)
-//                }
-//            })
         }
+
+        binding.skipAuthenticationTextView.setOnClickListener { activity?.finish() }
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

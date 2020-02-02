@@ -40,6 +40,7 @@
             app:layout_constraintTop_toBottomOf="@+id/kindnessWallText" />
 
         <EditText
+            android:id="@+id/userNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -70,7 +71,7 @@
             android:layout_marginEnd="28dp"
             android:background="@drawable/primary_round_selector_4dp"
             android:gravity="center"
-            android:text="@string/send"
+            android:text="@string/submit_information"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -91,23 +92,6 @@
             android:text="@string/skip"
             android:textColor="@color/secondaryTextColor"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/sendPhoneNumberTextViewTextView" />
-
-        <TextView
-            android:id="@+id/skipUsernameWarningText"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="28dp"
-            android:gravity="center"
-            android:paddingStart="48dp"
-            android:paddingEnd="48dp"
-            android:text="@string/skip_username_warning"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/sendPhoneNumberTextViewTextView" />
 

@@ -1,6 +1,8 @@
 package com.farshidabz.kindnesswall.di
 
 import com.farshidabz.kindnesswall.BuildConfig
+import com.farshidabz.kindnesswall.data.local.UserInfoPref
+import com.farshidabz.kindnesswall.utils.wrapInBearer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -60,11 +62,11 @@ fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->
     chain.proceed(
         chain.request().newBuilder()
             .addHeader("Content-Type", "application/json")
-//            .also {
-//                if (addAuthHeader) {
-//                    it.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
-//                }
-//            }
+            .also {
+                if (addAuthHeader) {
+                    it.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
+                }
+            }
             .build()
     )
 }

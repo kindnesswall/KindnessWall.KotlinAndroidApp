@@ -44,8 +44,6 @@
     <string name="choose_your_city">شهر خود را انتخاب کنید</string>
     <string name="lets_go">بزن بریم</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="choose_province">انتخاب استان</string>
     <string name="more_items">موارد بیشتر</string>
     <string name="bookmarks">نشان شده ها</string>
@@ -58,5 +56,8 @@
     <string name="neighborhood">محل</string>
     <string name="description">توضیحات</string>
     <string name="request">درخواست</string>
+    <string name="send_verification_code">ارسال کد ورود</string>
+    <string name="close">بستن</string>
+    <string name="submit_information">ثبت اطلاعات</string>
 
 </resources>

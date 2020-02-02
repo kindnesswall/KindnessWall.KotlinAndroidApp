@@ -12,6 +12,4 @@ package com.farshidabz.kindnesswall.data.model.requestsmodel
  *
  */
 
-class RegisterModel {
-    var phoneNumber = ""
-}
+data class RegisterModel(var phoneNumber: String)

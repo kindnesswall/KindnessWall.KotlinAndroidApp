@@ -1,5 +1,12 @@
 package com.farshidabz.kindnesswall.data.remote.network
 
+import com.farshidabz.kindnesswall.data.model.LoginResponseModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.LoginUserRequestBodyModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterModel
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
+
 /**
  * Created by Farshid Abazari since 25/10/19
  *
@@ -9,6 +16,9 @@ package com.farshidabz.kindnesswall.data.remote.network
  *
  */
 interface AuthApi {
-//    @POST("register")
-//    fun registerUser(@Body registerModel: RegisterModel) : RetrofitCall<BaseModel>
+    @POST("register")
+    fun registerUser(@Body registerModel: RegisterModel): Response<Any>
+
+    @POST("login")
+    fun loginUser(@Body loginModel: LoginUserRequestBodyModel): Response<LoginResponseModel>
 }

@@ -3,9 +3,12 @@ package com.farshidabz.kindnesswall.view.authentication
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.farshidabz.kindnesswall.data.model.BaseModel
+import androidx.lifecycle.viewModelScope
 import com.farshidabz.kindnesswall.data.model.CustomResult
+import com.farshidabz.kindnesswall.data.model.LoginResponseModel
+import com.farshidabz.kindnesswall.data.model.user.User
 import com.farshidabz.kindnesswall.data.repository.AuthRepo
+import com.farshidabz.kindnesswall.data.repository.UserRepo
 
 
 /**
@@ -19,7 +22,8 @@ import com.farshidabz.kindnesswall.data.repository.AuthRepo
  *
  */
 
-class AuthenticationViewModel(private val authRepo: AuthRepo) : ViewModel() {
+class AuthenticationViewModel(private val authRepo: AuthRepo, private val userRepo: UserRepo) :
+    ViewModel() {
     var phoneNumber = MutableLiveData<String>()
 
     /**
@@ -29,7 +33,19 @@ class AuthenticationViewModel(private val authRepo: AuthRepo) : ViewModel() {
         phoneNumber.postValue(text.toString())
     }
 
-    fun registerUser(): LiveData<CustomResult<BaseModel>> {
-        return authRepo.registerUser(phoneNumber.value ?: "")
+    fun registerUser(): LiveData<CustomResult<Any>> {
+        return authRepo.registerUser(viewModelScope, phoneNumber.value ?: "")
+    }
+
+    fun loginUser(verificationCode: String): LiveData<CustomResult<LoginResponseModel>> {
+        return authRepo.loginUser(viewModelScope, phoneNumber.value ?: "", verificationCode)
+    }
+
+    fun getUserProfile(): LiveData<CustomResult<User>> {
+        return userRepo.getUserProfile(viewModelScope)
+    }
+
+    fun updateUserProfile(userName: String, image: String): LiveData<CustomResult<Any>> {
+        return userRepo.updateUserProfile(viewModelScope, userName, image)
     }
 }

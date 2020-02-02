@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.local.UserInfoPref
+import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.FragmentInsertUsernameBinding
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -36,7 +39,30 @@ class InsertUserNameFragment : BaseFragment() {
 
     override fun configureViews() {
         binding.sendUsernameTextView.setOnClickListener {
-            authenticationInteractor?.onAuthenticationComplete(binding.sendUsernameTextView)
+            if (binding.userNameEditText.text.isEmpty()) {
+                showToastMessage(getString(R.string.insert_user_name))
+            } else {
+                viewModel.updateUserProfile(
+                    binding.userNameEditText.text.toString(),
+                    UserInfoPref.image
+                ).observe(viewLifecycleOwner) {
+                    when (it.status) {
+                        CustomResult.Status.LOADING -> {
+                            showProgressDialog()
+                        }
+
+                        CustomResult.Status.SUCCESS -> {
+                            dismissProgressDialog()
+                            authenticationInteractor?.onAuthenticationComplete(binding.sendUsernameTextView)
+                        }
+                        else -> {
+                            showToastMessage("")
+                        }
+                    }
+                }
+            }
         }
+
+        binding.skipAuthenticationTextView.setOnClickListener { activity?.finish() }
     }
 }

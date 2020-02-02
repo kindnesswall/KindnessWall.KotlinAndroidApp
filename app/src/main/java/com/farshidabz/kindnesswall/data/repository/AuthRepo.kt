@@ -3,9 +3,16 @@ package com.farshidabz.kindnesswall.data.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.farshidabz.kindnesswall.data.model.BaseModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
+import com.farshidabz.kindnesswall.data.model.LoginResponseModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.LoginUserRequestBodyModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterModel
 import com.farshidabz.kindnesswall.data.remote.network.AuthApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collect
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -16,30 +23,49 @@ import com.farshidabz.kindnesswall.data.remote.network.AuthApi
  *
  */
 
-class AuthRepo(private val context: Context, private var authApi: AuthApi) {
+class AuthRepo(private val context: Context, private var authApi: AuthApi) : BaseDataSource() {
 
-    fun registerUser(phoneNumber: String): LiveData<CustomResult<BaseModel>>{
-        val data = MutableLiveData<CustomResult<BaseModel>>()
-//        authApi.registerUser(RegisterModel().apply { this.phoneNumber = phoneNumber })
-//            .enqueue(object : RetrofitCallback<BaseModel> {
-//                override fun success(response: Response<BaseModel>) {
-//                    data.value = response.body()
-//                }
-//
-//                override fun failure(
-//                    response: Response<*>?,
-//                    e: IOException?,
-//                    t: Throwable?,
-//                    networkResponseType: Int
-//                ) {
-//                    data.value = BaseModel().apply {
-//                        isFailed = true
-//                        statusCode = networkResponseType
-//                        apiResponseMessage = buildAMessage(networkResponseType, response)
-//                    }
-//                }
-//            })
+    fun registerUser(
+        viewModelScope: CoroutineScope,
+        phoneNumber: String
+    ): LiveData<CustomResult<Any>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
 
-        return data
-    }
+            getResultWithExponentialBackoffStrategy {
+                authApi.registerUser(RegisterModel(phoneNumber))
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<Any>().map { CustomResult.success(it) })
+                    }
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(""))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
+
+    fun loginUser(viewModelScope: CoroutineScope, phoneNumber: String, verificationCode: String):
+            LiveData<CustomResult<LoginResponseModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy {
+                authApi.loginUser(LoginUserRequestBodyModel(phoneNumber, verificationCode))
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<LoginResponseModel>().apply {
+                            value = result.data
+                        }.map { CustomResult.success(it) })
+                    }
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(""))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
 }
