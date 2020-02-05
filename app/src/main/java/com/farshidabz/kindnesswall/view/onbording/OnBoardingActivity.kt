@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -90,7 +91,23 @@ class OnBoardingActivity : BaseActivity() {
         val snapPositionChanged = this.snapPosition != snapPosition
         if (snapPositionChanged) {
             this.snapPosition = snapPosition
+
+            if(snapPosition == 4){
+                hideBottomButtons()
+            } else {
+                showBottomButtons()
+            }
         }
+    }
+
+    private fun hideBottomButtons() {
+        binding.nextTextView.visibility = View.INVISIBLE
+        binding.skipTextView.visibility = View.INVISIBLE
+    }
+
+    private fun showBottomButtons() {
+        binding.nextTextView.visibility = View.VISIBLE
+        binding.skipTextView.visibility = View.VISIBLE
     }
 
     private fun getOnBoardingModel(): ArrayList<OnBoardingModel> {
