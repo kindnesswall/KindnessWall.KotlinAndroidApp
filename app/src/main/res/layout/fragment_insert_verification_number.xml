@@ -30,6 +30,7 @@
             android:layout_marginTop="8dp"
             android:background="@null"
             android:gravity="center"
+            android:inputType="numberDecimal"
             android:maxLength="4"
             android:paddingStart="16dp"
             android:paddingTop="4dp"

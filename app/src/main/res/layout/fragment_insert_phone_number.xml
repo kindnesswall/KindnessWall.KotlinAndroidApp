@@ -74,16 +74,18 @@
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:background="@null"
-            android:textDirection="ltr"
             android:gravity="start"
             android:hint="@string/phone_number_hint"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:padding="4dp"
             android:textAlignment="gravity"
+            android:textDirection="ltr"
             app:layout_constraintBottom_toBottomOf="@+id/codeTextView"
             app:layout_constraintEnd_toStartOf="@+id/codeTextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/codeTextView" />
+            app:layout_constraintTop_toTopOf="@+id/codeTextView"
+            tools:ignore="TextFields" />
 
         <View
             android:id="@+id/phoneNumberDivider"
@@ -101,10 +103,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:visibility="invisible"
             android:layout_marginBottom="8dp"
             android:text="@string/phone_number_is_wrong"
             android:textColor="@color/red"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumberDivider" />
 
@@ -114,9 +116,9 @@
             android:layout_height="48dp"
             android:layout_marginStart="28dp"
             android:layout_marginTop="64dp"
-            android:enabled="false"
             android:layout_marginEnd="28dp"
             android:background="@drawable/primary_round_selector_4dp"
+            android:enabled="false"
             android:gravity="center"
             android:text="@string/send_verification_code"
             android:textColor="@color/white"
