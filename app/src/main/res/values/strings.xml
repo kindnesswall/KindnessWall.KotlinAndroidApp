@@ -60,5 +60,11 @@
     <string name="close">بستن</string>
     <string name="submit_information">ثبت اطلاعات</string>
     <string name="charities">خیریه ها</string>
+    <string name="manager">مسئول</string>
+    <string name="central_office">دفتر مرکزی</string>
+    <string name="address">آدرس</string>
+    <string name="license_number">شماره مجوز</string>
+    <string name="national_id">شناسه ملی</string>
+    <string name="contact_info">اطلاعات تماس</string>
 
 </resources>
