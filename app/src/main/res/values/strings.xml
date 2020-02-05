@@ -59,5 +59,6 @@
     <string name="send_verification_code">ارسال کد ورود</string>
     <string name="close">بستن</string>
     <string name="submit_information">ثبت اطلاعات</string>
+    <string name="charities">خیریه ها</string>
 
 </resources>

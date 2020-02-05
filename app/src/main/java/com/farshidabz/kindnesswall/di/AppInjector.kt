@@ -1,6 +1,7 @@
 package com.farshidabz.kindnesswall.di
 
 import com.farshidabz.kindnesswall.data.local.dao.catalog.CatalogDatabase
+import com.farshidabz.kindnesswall.data.local.dao.charity.CharityDatabase
 import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceDatabase
 import com.farshidabz.kindnesswall.data.remote.network.*
 import org.koin.android.ext.koin.androidContext
@@ -31,6 +32,7 @@ private val catalogApi: CatalogApi = baseRetrofit.create(CatalogApi::class.java)
 val dataBaseModule = module {
     single { CatalogDatabase(androidContext()).catalogDao() }
     single { ProvinceDatabase(androidContext()).provinceDao() }
+    single { CharityDatabase(androidContext()).charityDao() }
 }
 
 val networkModule = module {

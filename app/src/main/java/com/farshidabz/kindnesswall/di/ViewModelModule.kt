@@ -2,6 +2,7 @@ package com.farshidabz.kindnesswall.di
 
 import com.farshidabz.kindnesswall.view.authentication.AuthenticationViewModel
 import com.farshidabz.kindnesswall.view.catalog.cataloglist.CatalogViewModel
+import com.farshidabz.kindnesswall.view.charity.CharityListViewModel
 import com.farshidabz.kindnesswall.view.citychooser.CityChooserViewModel
 import com.farshidabz.kindnesswall.view.gallery.GalleryViewModel
 import com.farshidabz.kindnesswall.view.giftdetail.GiftDetailViewModel
@@ -27,4 +28,5 @@ val viewModelModule = module {
     viewModel { CityChooserViewModel(get()) }
     viewModel { GiftDetailViewModel() }
     viewModel { GalleryViewModel() }
+    viewModel { CharityListViewModel(get()) }
 }

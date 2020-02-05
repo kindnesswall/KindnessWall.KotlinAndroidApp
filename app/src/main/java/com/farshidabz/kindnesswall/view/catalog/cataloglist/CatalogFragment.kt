@@ -38,7 +38,6 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
     private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
