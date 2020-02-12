@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.farshidabz.kindnesswall.data.local.dao.catalog.CatalogDao
+import com.farshidabz.kindnesswall.data.local.dao.AppDatabase
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
@@ -27,14 +27,14 @@ import kotlinx.coroutines.flow.collect
 class CatalogRepo(
     val context: Context,
     private val catalogApi: CatalogApi,
-    private val catalogDao: CatalogDao
+    private val appDatabase: AppDatabase
 ) : BaseDataSource() {
 
     fun getGiftsFirstPage(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = catalogDao.getAll().map { CustomResult.success(it) }
+            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
 
             emit(CustomResult.loading())
 
@@ -48,7 +48,7 @@ class CatalogRepo(
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            catalogDao.insert(result.data)
+                            appDatabase.catalogDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }
@@ -63,7 +63,7 @@ class CatalogRepo(
         lastId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = catalogDao.getAll().map { CustomResult.success(it) }
+            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
 
             emit(CustomResult.loading())
 
@@ -77,7 +77,7 @@ class CatalogRepo(
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            catalogDao.insert(result.data)
+                            appDatabase.catalogDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }

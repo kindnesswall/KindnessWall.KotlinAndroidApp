@@ -18,11 +18,11 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single { AuthRepo(androidContext(), authApi = get()) }
-    single { GeneralRepo(androidContext(), generalApi = get(), provinceDao = get()) }
-    single { CharityRepo(androidContext(), charityApi = get(), charityDao = get()) }
+    single { GeneralRepo(androidContext(), generalApi = get(), appDatabase = get()) }
+    single { CharityRepo(androidContext(), charityApi = get(), appDatabase = get()) }
     single { UserRepo(androidContext(), userApi = get()) }
     single { ChatRepo(androidContext(), chatApi = get()) }
-    single { CatalogRepo(androidContext(), catalogApi = get(), catalogDao = get()) }
+    single { CatalogRepo(androidContext(), catalogApi = get(), appDatabase = get()) }
 
 //    single { LocationHandler(get()) }
 }

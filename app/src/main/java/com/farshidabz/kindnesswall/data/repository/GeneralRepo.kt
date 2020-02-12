@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceDao
+import com.farshidabz.kindnesswall.data.local.dao.AppDatabase
 import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CityModel
@@ -25,12 +25,12 @@ import kotlinx.coroutines.flow.collect
  * Useful parameter:
  *
  */
-class GeneralRepo(val context: Context, var generalApi: GeneralApi, var provinceDao: ProvinceDao) :
+class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatabase: AppDatabase) :
     BaseDataSource() {
 
     fun getProvinces(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ProvinceModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = provinceDao.getAll().map { CustomResult.success(it) }
+            fun fetchFromDb() = appDatabase.provinceDao().getAll().map { CustomResult.success(it) }
 
             emit(CustomResult.loading())
 
@@ -44,7 +44,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var province
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            provinceDao.insert(result.data)
+                            appDatabase.provinceDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }

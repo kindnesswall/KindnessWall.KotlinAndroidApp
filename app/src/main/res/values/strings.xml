@@ -66,5 +66,6 @@
     <string name="license_number">شماره مجوز</string>
     <string name="national_id">شناسه ملی</string>
     <string name="contact_info">اطلاعات تماس</string>
+    <string name="registrationDate">تاریخ ثبت</string>
 
 </resources>

@@ -4,7 +4,9 @@ import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequest
 import com.farshidabz.kindnesswall.data.model.user.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -23,4 +25,7 @@ interface UserApi {
 
     @POST("profile")
     fun updateUserProfile(@Body updateProfileRequestModel: UpdateProfileRequestModel): Response<Any>
+
+    @GET("profile/{userId}")
+    fun getOtherUserProfile(@Path("userId") userId: Long): Response<User>
 }

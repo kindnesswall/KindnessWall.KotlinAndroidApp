@@ -77,4 +77,30 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
             }
         }
 
+    fun getOtherUsersProfile(viewModelScope: CoroutineScope, userId: Long?):
+            LiveData<CustomResult<User>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            if (userId == null) {
+                emit(CustomResult.error(""))
+                return@liveData
+            }
+
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                userApi.getOtherUserProfile(userId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<User>().apply { value = result.data }
+                            .map { CustomResult.success(it) })
+                    }
+
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(""))
+                    }
+
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
 }

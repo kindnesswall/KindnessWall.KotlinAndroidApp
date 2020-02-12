@@ -4,12 +4,10 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
-import com.farshidabz.kindnesswall.data.local.dao.charity.CharityDao
+import com.farshidabz.kindnesswall.data.local.dao.AppDatabase
 import com.farshidabz.kindnesswall.data.local.dao.charity.CharityModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
-import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBody
 import com.farshidabz.kindnesswall.data.remote.network.CharityApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -25,13 +23,13 @@ import kotlinx.coroutines.flow.collect
  * Useful parameter:
  *
  */
-class CharityRepo(val context: Context, var charityApi: CharityApi, var charityDao: CharityDao) :
+class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatabase : AppDatabase ) :
     BaseDataSource() {
     fun getCharityFirstPage(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<CharityModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = charityDao.getAll().map { CustomResult.success(it) }
+            fun fetchFromDb() = appDatabase.charityDao().getAll().map { CustomResult.success(it) }
 
             emit(CustomResult.loading())
 
@@ -45,7 +43,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var charityD
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            charityDao.insert(result.data)
+                            appDatabase.charityDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }
@@ -60,7 +58,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var charityD
         lastId: Long
     ): LiveData<CustomResult<List<CharityModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = charityDao.getAll().map { CustomResult.success(it) }
+            fun fetchFromDb() = appDatabase.charityDao().getAll().map { CustomResult.success(it) }
 
             emit(CustomResult.loading())
 
@@ -74,7 +72,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var charityD
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            charityDao.insert(result.data)
+                            appDatabase.charityDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }

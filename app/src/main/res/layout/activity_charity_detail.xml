@@ -7,11 +7,15 @@
 
         <variable
             name="item"
-            type="com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel" />
+            type="com.farshidabz.kindnesswall.data.local.dao.charity.CharityModel" />
+
+        <variable
+            name="otherUser"
+            type="com.farshidabz.kindnesswall.data.model.user.User" />
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.giftdetail.GiftDetailViewModel" />
+            type="com.farshidabz.kindnesswall.view.charity.charitydetail.CharityViewModel" />
     </data>
 
     <LinearLayout
@@ -33,11 +37,13 @@
                 android:background="@color/white"
                 tools:context=".view.giftdetail.GiftDetailActivity">
 
-                <com.farshidabz.kindnesswall.utils.widgets.photoslider.PhotoSlider
-                    android:id="@+id/photoSlider"
+                <ImageView
+                    android:id="@+id/charityImage"
+                    srcUrl="@{item.imageUrl}"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <View
                     android:layout_width="match_parent"
@@ -53,7 +59,8 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_arrow_back_white" />
+                    app:srcCompat="@drawable/ic_arrow_back_white"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/titleTextView"
@@ -63,11 +70,11 @@
                     android:fontFamily="@font/vazir_bold"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="@{item.title}"
+                    android:text="@{item.name}"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toStartOf="@+id/bookmarkImageView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/photoSlider" />
+                    app:layout_constraintTop_toBottomOf="@+id/charityImage" />
 
                 <ImageView
                     android:id="@+id/shareImageView"
@@ -80,7 +87,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/titleTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/titleTextView"
-                    app:srcCompat="@drawable/ic_share_gray" />
+                    app:srcCompat="@drawable/ic_share_gray"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/bookmarkImageView"
@@ -91,7 +99,8 @@
                     app:layout_constraintBottom_toBottomOf="@id/titleTextView"
                     app:layout_constraintEnd_toStartOf="@+id/shareImageView"
                     app:layout_constraintTop_toTopOf="@+id/titleTextView"
-                    app:srcCompat="@drawable/ic_bookmark_outline" />
+                    app:srcCompat="@drawable/ic_bookmark_outline"
+                    tools:ignore="ContentDescription" />
 
                 <View
                     android:id="@+id/firstDivider"
@@ -102,7 +111,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
                 <TextView
-                    android:id="@+id/categoryText"
+                    android:id="@+id/managerText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -114,19 +123,19 @@
                     app:layout_constraintTop_toBottomOf="@id/firstDivider" />
 
                 <TextView
-                    android:id="@+id/categoryTextView"
+                    android:id="@+id/managerTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:ellipsize="marquee"
                     android:singleLine="true"
-                    android:text="@{item.categoryTitle}"
-                    app:layout_constraintBottom_toBottomOf="@+id/categoryText"
+                    android:text="@{otherUser.name}"
+                    app:layout_constraintBottom_toBottomOf="@+id/managerText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/guideline"
-                    app:layout_constraintTop_toTopOf="@id/categoryText" />
+                    app:layout_constraintTop_toTopOf="@id/managerText" />
 
                 <TextView
                     android:id="@+id/neighborhoodText"
@@ -138,15 +147,15 @@
                     android:text="@string/central_office"
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/categoryText" />
+                    app:layout_constraintTop_toBottomOf="@+id/managerText" />
 
                 <TextView
                     android:id="@+id/neighborhoodTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{item.cityName}"
+                    android:text="@{item.address}"
                     app:layout_constraintBottom_toBottomOf="@+id/neighborhoodText"
-                    app:layout_constraintStart_toStartOf="@id/categoryTextView"
+                    app:layout_constraintStart_toStartOf="@id/managerTextView"
                     app:layout_constraintTop_toTopOf="@id/neighborhoodText" />
 
                 <TextView
@@ -165,9 +174,9 @@
                     android:id="@+id/addressTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{item.cityName}"
+                    android:text="@{item.address}"
                     app:layout_constraintBottom_toBottomOf="@+id/addressText"
-                    app:layout_constraintStart_toStartOf="@id/categoryTextView"
+                    app:layout_constraintStart_toStartOf="@id/managerTextView"
                     app:layout_constraintTop_toTopOf="@id/addressText" />
 
                 <View
@@ -194,31 +203,10 @@
                     android:id="@+id/licenseNumberTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{item.description}"
+                    android:text="@{item.registerId}"
                     app:layout_constraintBottom_toBottomOf="@+id/licenseNumberText"
-                    app:layout_constraintStart_toStartOf="@id/categoryTextView"
+                    app:layout_constraintStart_toStartOf="@id/managerTextView"
                     app:layout_constraintTop_toTopOf="@+id/licenseNumberText" />
-
-                <TextView
-                    android:id="@+id/nationalIdText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/vazir_bold"
-                    android:text="@string/national_id"
-                    android:textColor="@color/secondaryTextColor"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/licenseNumberText" />
-
-                <TextView
-                    android:id="@+id/nationalIdTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{item.description}"
-                    app:layout_constraintBottom_toBottomOf="@+id/nationalIdText"
-                    app:layout_constraintStart_toStartOf="@id/categoryTextView"
-                    app:layout_constraintTop_toTopOf="@+id/nationalIdText" />
 
                 <TextView
                     android:id="@+id/registerDateText"
@@ -227,18 +215,18 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/vazir_bold"
-                    android:text="@string/license_number"
+                    android:text="@string/registrationDate"
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nationalIdText" />
+                    app:layout_constraintTop_toBottomOf="@+id/licenseNumberText" />
 
                 <TextView
                     android:id="@+id/registerDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{item.description}"
+                    android:text="@{item.getRegisterDate()}"
                     app:layout_constraintBottom_toBottomOf="@+id/registerDateText"
-                    app:layout_constraintStart_toStartOf="@id/categoryTextView"
+                    app:layout_constraintStart_toStartOf="@id/managerTextView"
                     app:layout_constraintTop_toTopOf="@+id/registerDateText" />
 
                 <View
@@ -256,7 +244,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/vazir_bold"
-                    android:text="@string/license_number"
+                    android:text="@string/description"
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thirdDivider" />
@@ -267,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{item.description}"
                     app:layout_constraintBottom_toBottomOf="@+id/descriptionText"
-                    app:layout_constraintStart_toStartOf="@id/categoryTextView"
+                    app:layout_constraintStart_toStartOf="@id/managerTextView"
                     app:layout_constraintTop_toTopOf="@+id/descriptionText" />
 
                 <androidx.constraintlayout.widget.Guideline
@@ -281,7 +269,9 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <include layout="@layout/charity_contact_bottom_sheet" />
+        <include
+            android:id="@+id/informationBottomSheet"
+            layout="@layout/charity_contact_bottom_sheet" />
 
     </LinearLayout>
 
