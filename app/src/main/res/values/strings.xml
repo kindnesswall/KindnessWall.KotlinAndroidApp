@@ -67,5 +67,7 @@
     <string name="national_id">شناسه ملی</string>
     <string name="contact_info">اطلاعات تماس</string>
     <string name="registrationDate">تاریخ ثبت</string>
+    <string name="search">جستجو …</string>
+    <string name="search_your_word">کلمه مورد نظر خود را جستجو کنید!</string>
 
 </resources>
