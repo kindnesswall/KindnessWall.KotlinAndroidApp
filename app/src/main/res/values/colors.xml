@@ -17,6 +17,7 @@
 
     <color name="red">#FF0000</color>
 
+    <color name="search_transparent_background">#37505050</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="primary_transparent">#00008577</color>
 

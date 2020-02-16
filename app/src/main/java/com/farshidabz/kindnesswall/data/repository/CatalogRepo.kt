@@ -2,6 +2,7 @@ package com.farshidabz.kindnesswall.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.local.dao.AppDatabase
@@ -70,7 +71,7 @@ class CatalogRepo(
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGifts(GetGiftsRequestBody(lastId))
+                catalogApi.getGifts(GetGiftsRequestBody().apply { beforeId = lastId })
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -87,24 +88,24 @@ class CatalogRepo(
             }
         }
 
-    fun searchForGiftFirstPage(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>> =
+    fun searchForGiftFirstPage(
+        viewModelScope: CoroutineScope,
+        getGiftsRequestBody: GetGiftsRequestBody
+    ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
-
             emit(CustomResult.loading())
 
-            emitSource(fetchFromDb())
-
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGiftsFirstPage(GetGiftsRequestBody())
+                catalogApi.getGiftsFirstPage(getGiftsRequestBody)
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            appDatabase.catalogDao().insert(result.data)
-                            emitSource(fetchFromDb())
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -115,25 +116,23 @@ class CatalogRepo(
 
     fun searchForGifts(
         viewModelScope: CoroutineScope,
-        lastId: Long
+        lastId: Long,
+        getGiftsRequestBody: GetGiftsRequestBody
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
-
             emit(CustomResult.loading())
 
-            emitSource(fetchFromDb())
-
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGifts(GetGiftsRequestBody(lastId))
+                catalogApi.getGifts(getGiftsRequestBody.apply { beforeId = lastId })
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            appDatabase.catalogDao().insert(result.data)
-                            emitSource(fetchFromDb())
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
