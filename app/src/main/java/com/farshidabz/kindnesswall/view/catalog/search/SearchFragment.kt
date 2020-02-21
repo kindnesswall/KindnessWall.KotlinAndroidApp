@@ -18,6 +18,7 @@ import com.farshidabz.kindnesswall.databinding.FragmentSearchCatalogBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.extentions.onDone
 import com.farshidabz.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import com.farshidabz.kindnesswall.view.filter.FilterActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -184,6 +185,6 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun showFilterPage() {
-
+        FilterActivity.startActivityForResult(this)
     }
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/toolbarRelativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/backImageView"
+                android:fontFamily="@font/vazir"
+                android:text="@string/category"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/backImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_arrow_back_white" />
+
+            <ImageView
+                android:id="@+id/doneImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_done_white" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

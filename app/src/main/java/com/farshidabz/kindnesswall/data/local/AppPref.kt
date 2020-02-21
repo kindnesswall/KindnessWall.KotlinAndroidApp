@@ -27,7 +27,7 @@ object AppPref : KotprefModel() {
             searches.removeAt(0)
         }
 
-        recentSearch = Gson().toJson(searches, type).reversed()
+        recentSearch = Gson().toJson(searches, type)
     }
 
     fun addRecentSearch(search: String) {
@@ -53,6 +53,7 @@ object AppPref : KotprefModel() {
         }
 
         val type = object : TypeToken<List<String>>() {}.type
-        return Gson().fromJson(recentSearch, type)
+        val result: List<String> = Gson().fromJson(recentSearch, type)
+        return result.reversed() as ArrayList<String>
     }
 }

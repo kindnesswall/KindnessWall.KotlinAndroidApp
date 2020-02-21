@@ -57,4 +57,8 @@ abstract class BaseActivity : AppCompatActivity() {
     fun showProgressDialog() {
 
     }
+
+    fun dismissProgressDialog() {
+
+    }
 }

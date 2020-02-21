@@ -8,6 +8,7 @@ import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.local.dao.AppDatabase
 import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
+import com.farshidabz.kindnesswall.data.model.CategoryModel
 import com.farshidabz.kindnesswall.data.model.CityModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.remote.network.GeneralApi
@@ -77,5 +78,27 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                     else -> emit(CustomResult.error(""))
                 }
             }
+        }
+
+    fun getAllCatgories(viewModelScope: CoroutineScope): LiveData<CustomResult<List<CategoryModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { generalApi.getAllCategories() }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(""))
+                            } else {
+                                emitSource(MutableLiveData<List<CategoryModel>>().apply {
+                                    value = result.data
+                                }.map { CustomResult.success(it) })
+                            }
+                        }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(""))
+                    }
+                }
         }
 }
