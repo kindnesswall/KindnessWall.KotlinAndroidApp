@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.farshidabz.kindnesswall.data.local.AppPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
+import com.farshidabz.kindnesswall.data.model.FilterModel
 import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBody
 import com.farshidabz.kindnesswall.data.repository.CatalogRepo
 
@@ -14,6 +15,7 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
     var searchWorld: String? = null
 
     var getGiftsRequestBody = GetGiftsRequestBody()
+    var filterModel: FilterModel? = null
 
     fun onSearchTextChanged(text: CharSequence) {
         searchWorld = if (text.isEmpty()) {
@@ -28,7 +30,59 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
     val searchItems = MutableLiveData<ArrayList<GiftModel>>()
 
     fun searchFirstPage(): LiveData<CustomResult<List<GiftModel>>> {
+        setFilterModel()
         return catalogRepo.searchForGiftFirstPage(viewModelScope, getGiftsRequestBody)
+    }
+
+    private fun setFilterModel() {
+        if (filterModel == null) {
+            getGiftsRequestBody.clear()
+            return
+        }
+
+        filterModel?.let {
+            with(getGiftsRequestBody) {
+                getGiftsRequestBody.clear()
+
+                searchWord = searchWorld
+                beforeId = Long.MAX_VALUE
+                count = 50
+
+                it.categoryModel?.let { cats ->
+                    if (categoryIds == null) {
+                        categoryIds = arrayListOf()
+                    }
+
+                    for (cat in cats) {
+                        categoryIds!!.add(cat.id)
+                    }
+                }
+
+                if (it.city != null) {
+                    provinceId = it.city?.provinceId
+                    cityId = it.city?.id
+
+                    if (provinceId != null) {
+                        if (provinceId!! <= 0) provinceId = null
+                    }
+                    if (cityId != null) {
+                        if (cityId!! <= 0) cityId = null
+                    }
+
+                } else if (it.regionModel != null) {
+                    provinceId = it.regionModel?.province_id
+                    regionIds = it.regionModel?.id
+                    cityId = null
+
+                    if (provinceId != null) {
+                        if (provinceId!! <= 0) provinceId = null
+                    }
+                    if (regionIds != null) {
+                        if (regionIds!! <= 0) regionIds = null
+                    }
+                }
+            }
+        }
     }
 
     fun searchForItemFromServer(): LiveData<CustomResult<List<GiftModel>>> {

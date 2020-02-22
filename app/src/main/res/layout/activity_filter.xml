@@ -164,11 +164,20 @@
 
             </RelativeLayout>
 
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/selectedRegions"
+            <HorizontalScrollView
+                android:id="@+id/selectedRegionsScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp" />
+                android:layout_margin="12dp"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:id="@+id/selectedRegionsLinearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 

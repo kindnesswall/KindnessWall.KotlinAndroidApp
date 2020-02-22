@@ -1,5 +1,7 @@
 package com.farshidabz.kindnesswall.view.catalog.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,7 @@ import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.data.local.AppPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
+import com.farshidabz.kindnesswall.data.model.FilterModel
 import com.farshidabz.kindnesswall.databinding.FragmentSearchCatalogBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.extentions.onDone
@@ -74,6 +77,24 @@ class SearchFragment : BaseFragment() {
 
         viewModel.searchItems.value?.clear()
         binding.itemsListRecyclerView.adapter?.notifyDataSetChanged()
+
+        viewModel.searchFirstPage().observe(viewLifecycleOwner) {
+            onCatalogItemsReceived(it)
+        }
+    }
+
+    private fun searchByFilter() {
+        viewModel.searchItems.value?.clear()
+        binding.itemsListRecyclerView.adapter?.notifyDataSetChanged()
+
+        if (viewModel.filterModel == null) {
+            showPrvSearchList()
+
+            viewModel.searchItems.value?.clear()
+            binding.itemsListRecyclerView.adapter?.notifyDataSetChanged()
+
+            return
+        }
 
         viewModel.searchFirstPage().observe(viewLifecycleOwner) {
             onCatalogItemsReceived(it)
@@ -185,6 +206,17 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun showFilterPage() {
-        FilterActivity.startActivityForResult(this)
+        FilterActivity.startActivityForResult(this, viewModel.filterModel)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FilterActivity.FILTER_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.filterModel = data?.getSerializableExtra("filterModel") as FilterModel?
+                searchByFilter()
+            }
+        }
     }
 }

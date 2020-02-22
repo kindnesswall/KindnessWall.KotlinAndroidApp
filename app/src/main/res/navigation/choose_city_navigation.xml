@@ -31,7 +31,19 @@
         <argument
             android:name="province_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_chooseCityFragment_to_chooseRegionFragment"
+            app:destination="@id/chooseRegionFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/chooseRegionFragment"
+        android:name="com.farshidabz.kindnesswall.view.citychooser.ChooseRegionFragment"
+        android:label="fragment_choose_region"
+        tools:layout="@layout/fragment_choose_region" >
+        <argument
+            android:name="city_id"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
