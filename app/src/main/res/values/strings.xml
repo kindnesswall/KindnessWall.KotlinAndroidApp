@@ -76,7 +76,12 @@
     <string name="filters">فیلترها</string>
     <string name="remove_filters">حذف فیلترها</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gift_from_me">هدیه هایی که از طرف من…</string>
+    <string name="registered">ثبت شده</string>
+    <string name="filter_profile_donate">پذیرفته شده</string>
+    <string name="filter_profile_received">دریافت شده</string>
+    <string name="save">ذخیره</string>
+    <string name="cancel">لغو</string>
+    <string name="profile">پروفایل</string>
 
 </resources>

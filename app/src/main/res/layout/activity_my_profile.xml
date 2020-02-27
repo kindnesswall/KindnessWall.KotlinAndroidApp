@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/toolbarRelativeLayout"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/backImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="8dp"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_arrow_back_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:layout_toEndOf="@+id/backImageView"
+                    android:fontFamily="@font/vazir"
+                    android:text="@string/profile"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:ignore="RelativeOverlap" />
+
+                <ImageView
+                    android:id="@+id/editImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="8dp"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_edit_white"
+                    tools:ignore="ContentDescription" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
+
+            <ImageView
+                android:id="@+id/userImageView"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
+                app:srcCompat="@drawable/ic_profile_placeholder_gary"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/userNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@+id/userImageView"
+                app:layout_constraintStart_toStartOf="@+id/userImageView"
+                app:layout_constraintTop_toBottomOf="@+id/userImageView"
+                tools:text="مریم رضایی نایب" />
+
+            <LinearLayout
+                android:id="@+id/profileFilterContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/userNameText">
+
+                <TextView
+                    android:id="@+id/profileTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/gift_from_me"
+                    android:textColor="@color/secondaryTextColor"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userNameText" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profileTextView">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/registeredFilter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/selected_profile_filter"
+                            android:gravity="center"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:singleLine="true"
+                            android:text="@string/registered"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/donatedFilter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/profile_filter_stroke"
+                            android:gravity="center"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:singleLine="true"
+                            android:text="@string/filter_profile_donate"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/receivedFilter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/profile_filter_stroke"
+                            android:gravity="center"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:singleLine="true"
+                            android:text="@string/filter_profile_received"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userActivityList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/editProfileContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/userActivityList"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout">
+
+                <ImageView
+                    android:id="@+id/userNewImageView"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_profile_placeholder_gary"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/addNewPhotoImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/userNewImageView"
+                    app:layout_constraintStart_toStartOf="@+id/userNewImageView"
+                    app:srcCompat="@drawable/ic_add_circle_gray" />
+
+                <EditText
+                    android:id="@+id/userNameEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/secondaryTextColor"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userNewImageView"
+                    tools:text="مریم رضایی نایب" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userNameEditText">
+
+                    <TextView
+                        android:id="@+id/saveChangesTextView"
+                        android:layout_width="54dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/selected_profile_filter"
+                        android:fontFamily="@font/vazir_bold"
+                        android:gravity="center"
+                        android:text="@string/save"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/cancelChangesTextView"
+                        android:layout_width="54dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/profile_filter_stroke"
+                        android:fontFamily="@font/vazir_bold"
+                        android:gravity="center"
+                        android:text="@string/cancel"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
