@@ -21,6 +21,10 @@ fun Date.toSimpleFormat() =
 fun Date.toSimpleDotFormat() =
     SimpleDateFormat("dd.MM.yyyy", Locale(AppPref.currentLocale)).format(this)
 
+fun Date.toSimpleSlashFormat() =
+    SimpleDateFormat("dd/MM/yyyy", Locale(AppPref.currentLocale)).format(this)
+
+
 fun Date?.getHoursOfDay(): Int {
     if (this == null) return 0
     val calendar: Calendar = Calendar.getInstance()

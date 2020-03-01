@@ -61,7 +61,6 @@ private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit 
 fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->
     chain.proceed(
         chain.request().newBuilder()
-            .addHeader("Content-Type", "application/json")
             .also {
                 if (addAuthHeader) {
                     it.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))

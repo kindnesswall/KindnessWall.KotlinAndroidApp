@@ -83,5 +83,8 @@
     <string name="save">ذخیره</string>
     <string name="cancel">لغو</string>
     <string name="profile">پروفایل</string>
+    <string name="situation">وضعیت</string>
+    <string name="rejected">رد شده</string>
+    <string name="accepted">پذیرفته شده</string>
 
 </resources>

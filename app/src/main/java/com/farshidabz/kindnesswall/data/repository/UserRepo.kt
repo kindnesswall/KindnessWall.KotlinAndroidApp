@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.local.UserInfoPref
+import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestModel
@@ -92,6 +93,87 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emitSource(MutableLiveData<User>().apply { value = result.data }
+                            .map { CustomResult.success(it) })
+                    }
+
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(""))
+                    }
+
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
+
+    fun getUserReceivedGifts(viewModelScope: CoroutineScope, userId: Long?):
+            LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            if (userId == null) {
+                emit(CustomResult.error(""))
+                return@liveData
+            }
+
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                userApi.getUserReceivedGifts(userId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<List<GiftModel>>().apply { value = result.data }
+                            .map { CustomResult.success(it) })
+                    }
+
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(""))
+                    }
+
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
+
+    fun getUserDonatedGifts(viewModelScope: CoroutineScope, userId: Long?):
+            LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            if (userId == null) {
+                emit(CustomResult.error(""))
+                return@liveData
+            }
+
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                userApi.getUserDonatedGifts(userId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<List<GiftModel>>().apply { value = result.data }
+                            .map { CustomResult.success(it) })
+                    }
+
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(""))
+                    }
+
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
+
+    fun getUserRegisteredGifts(viewModelScope: CoroutineScope, userId: Long?):
+            LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            if (userId == null) {
+                emit(CustomResult.error(""))
+                return@liveData
+            }
+
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                userApi.getUserRegisteredGifts(userId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<List<GiftModel>>().apply { value = result.data }
                             .map { CustomResult.success(it) })
                     }
 

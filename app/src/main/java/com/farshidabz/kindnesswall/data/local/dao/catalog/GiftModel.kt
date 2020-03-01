@@ -1,10 +1,13 @@
 package com.farshidabz.kindnesswall.data.local.dao.catalog
 
+import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.timeago.TimeAgo
 import com.example.timeago.TimeAgoMessages
+import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.utils.extentions.toSimpleSlashFormat
 import com.farshidabz.kindnesswall.utils.helper.DataConverter
 import java.io.Serializable
 import java.util.*
@@ -43,4 +46,8 @@ data class GiftModel(
     fun getShortAddress(): String {
         return "$cityName،$provinceName"
     }
+
+    fun getRegistrationTime(context: Context) =
+        "${context.getString(R.string.registrationDate)}: ${createdAt?.toSimpleSlashFormat()
+            ?: ""}"
 }

@@ -105,6 +105,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.SUCCESS -> {
+                dismissProgressDialog()
                 showList(it.data)
             }
 
