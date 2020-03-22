@@ -9,6 +9,7 @@ import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.UploadImageResponse
+import com.farshidabz.kindnesswall.data.repository.FileUploadRepo
 import com.farshidabz.kindnesswall.data.repository.UserRepo
 import com.farshidabz.kindnesswall.utils.wrapInBearer
 import com.google.gson.Gson
@@ -18,7 +19,7 @@ import net.gotev.uploadservice.observer.request.RequestObserverDelegate
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import java.io.File
 
-class MyProfileViewModel(private val userRepo: UserRepo) : ViewModel() {
+class MyProfileViewModel(private val userRepo: UserRepo, private val fileUploadRepo: FileUploadRepo) : ViewModel() {
     val newUserName: String = ""
     var newImageUrlLiveData =
         MutableLiveData<UploadImageResponse>().apply { value = UploadImageResponse("") }
@@ -42,43 +43,7 @@ class MyProfileViewModel(private val userRepo: UserRepo) : ViewModel() {
     }
 
     fun uploadImage(context: Context, lifecycleOwner: LifecycleOwner) {
-        val request: MultipartUploadRequest =
-            MultipartUploadRequest(context, serverUrl = "${BuildConfig.URL_WEBAPI}/image/upload")
-                .setMethod("POST")
-                .addFileToUpload(filePath = selectedImagePath, parameterName = "image")
-
-        request.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
-
-        request.subscribe(context, lifecycleOwner, object : RequestObserverDelegate {
-            override fun onCompleted(context: Context, uploadInfo: UploadInfo) {
-                Log.e("LIFECYCLE", "Completed ")
-            }
-
-            override fun onCompletedWhileNotObserving() {
-            }
-
-            override fun onError(context: Context, uploadInfo: UploadInfo, exception: Throwable) {
-                Log.e("LIFECYCLE", "Error " + exception.message)
-            }
-
-            override fun onProgress(context: Context, uploadInfo: UploadInfo) {
-                Log.e("LIFECYCLE", "Progress " + uploadInfo.progressPercent)
-            }
-
-            override fun onSuccess(
-                context: Context,
-                uploadInfo: UploadInfo,
-                serverResponse: ServerResponse
-            ) {
-                Log.e("LIFECYCLE", "Success " + uploadInfo.progressPercent)
-                Log.e("LIFECYCLE", "server response is " + serverResponse.bodyString)
-
-                newImageUrlLiveData.value = Gson().fromJson<UploadImageResponse>(
-                    serverResponse.bodyString,
-                    UploadImageResponse::class.java
-                )
-            }
-        })
+        fileUploadRepo.uploadFile(context, lifecycleOwner, selectedImagePath, newImageUrlLiveData)
     }
 
     fun updateUserProfile(): LiveData<CustomResult<Any>> {
