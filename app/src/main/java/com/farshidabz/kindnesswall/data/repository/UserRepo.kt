@@ -7,6 +7,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
+import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
@@ -185,4 +186,8 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                 }
             }
         }
+
+    fun getBookmarkList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>>? {
+        return null
+    }
 }
