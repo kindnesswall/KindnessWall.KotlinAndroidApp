@@ -1,7 +1,7 @@
 package com.farshidabz.kindnesswall.data.remote.network
 
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
-import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
 import com.farshidabz.kindnesswall.data.model.user.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -25,8 +25,7 @@ interface UserApi {
     fun getUserProfile(): Response<User>
 
     @POST("profile")
-    fun updateUserProfile(@Body updateProfileRequestModel: UpdateProfileRequestModel): Response<Any>
-
+    fun updateUserProfile(@Body updateProfileRequestModel: UpdateProfileRequestBaseModel): Response<Any>
 
     @POST("gifts/userReceived/{userId}")
     fun getUserReceivedGifts(@Path("userId") userId: Long): Response<List<GiftModel>>

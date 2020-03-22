@@ -9,7 +9,7 @@ import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
-import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
 import com.farshidabz.kindnesswall.data.model.user.User
 import com.farshidabz.kindnesswall.data.remote.network.UserApi
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +59,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
-                userApi.updateUserProfile(UpdateProfileRequestModel(userName, imageUrl))
+                userApi.updateUserProfile(UpdateProfileRequestBaseModel(userName, imageUrl))
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {

@@ -8,8 +8,8 @@ import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.LoginResponseModel
-import com.farshidabz.kindnesswall.data.model.requestsmodel.LoginUserRequestBodyModel
-import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.LoginUserRequestBodyBaseModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterBaseModel
 import com.farshidabz.kindnesswall.data.remote.network.AuthApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -33,7 +33,7 @@ class AuthRepo(private val context: Context, private var authApi: AuthApi) : Bas
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
-                authApi.registerUser(RegisterModel(phoneNumber))
+                authApi.registerUser(RegisterBaseModel(phoneNumber))
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -53,7 +53,7 @@ class AuthRepo(private val context: Context, private var authApi: AuthApi) : Bas
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
-                authApi.loginUser(LoginUserRequestBodyModel(phoneNumber, verificationCode))
+                authApi.loginUser(LoginUserRequestBodyBaseModel(phoneNumber, verificationCode))
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {

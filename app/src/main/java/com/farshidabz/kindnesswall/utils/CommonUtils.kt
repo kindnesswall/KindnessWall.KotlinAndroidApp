@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +15,6 @@ import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
-import androidx.exifinterface.media.ExifInterface
 import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.utils.extentions.dp
 import com.google.android.material.bottomsheet.BottomSheetBehavior

@@ -1,8 +1,8 @@
 package com.farshidabz.kindnesswall.data.remote.network
 
 import com.farshidabz.kindnesswall.data.model.LoginResponseModel
-import com.farshidabz.kindnesswall.data.model.requestsmodel.LoginUserRequestBodyModel
-import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.LoginUserRequestBodyBaseModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterBaseModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -17,8 +17,8 @@ import retrofit2.http.POST
  */
 interface AuthApi {
     @POST("register")
-    fun registerUser(@Body registerModel: RegisterModel): Response<Any>
+    fun registerUser(@Body registerModel: RegisterBaseModel): Response<Any>
 
     @POST("login")
-    fun loginUser(@Body loginModel: LoginUserRequestBodyModel): Response<LoginResponseModel>
+    fun loginUser(@Body loginModel: LoginUserRequestBodyBaseModel): Response<LoginResponseModel>
 }

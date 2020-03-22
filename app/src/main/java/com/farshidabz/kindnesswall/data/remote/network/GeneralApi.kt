@@ -1,11 +1,15 @@
 package com.farshidabz.kindnesswall.data.remote.network
 
+import com.farshidabz.kindnesswall.data.local.AppPref
 import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceModel
 import com.farshidabz.kindnesswall.data.model.CategoryModel
 import com.farshidabz.kindnesswall.data.model.CityModel
 import com.farshidabz.kindnesswall.data.model.RegionModel
+import com.farshidabz.kindnesswall.data.model.requestsmodel.RequestBaseModel
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 
@@ -19,8 +23,8 @@ import retrofit2.http.Path
  */
 
 interface GeneralApi {
-    @GET("provinces")
-    suspend fun getProvinces(): Response<List<ProvinceModel>>
+    @GET("provinces/{countryId}")
+    suspend fun getProvinces(@Path("countryId") countryId: Int = AppPref.countryId): Response<List<ProvinceModel>>
 
     @GET("cities/{provincesId}")
     suspend fun getCities(@Path("provincesId") id: Int): Response<List<CityModel>>
@@ -28,6 +32,6 @@ interface GeneralApi {
     @GET("regions/{cityId}")
     suspend fun getRegions(@Path("cityId") id: Int): Response<List<RegionModel>>
 
-    @GET("categories")
-    suspend fun getAllCategories(): Response<List<CategoryModel>>
+    @POST("categories")
+    suspend fun getAllCategories(@Body requestBaseModel: RequestBaseModel = RequestBaseModel()): Response<List<CategoryModel>>
 }

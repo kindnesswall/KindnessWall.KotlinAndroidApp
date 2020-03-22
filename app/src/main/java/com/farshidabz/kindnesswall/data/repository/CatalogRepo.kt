@@ -9,7 +9,7 @@ import com.farshidabz.kindnesswall.data.local.dao.AppDatabase
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
-import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBody
+import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import com.farshidabz.kindnesswall.data.remote.network.CatalogApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -42,7 +42,7 @@ class CatalogRepo(
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGiftsFirstPage(GetGiftsRequestBody())
+                catalogApi.getGiftsFirstPage(GetGiftsRequestBaseBody())
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -71,7 +71,7 @@ class CatalogRepo(
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGifts(GetGiftsRequestBody().apply { beforeId = lastId })
+                catalogApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -90,7 +90,7 @@ class CatalogRepo(
 
     fun searchForGiftFirstPage(
         viewModelScope: CoroutineScope,
-        getGiftsRequestBody: GetGiftsRequestBody
+        getGiftsRequestBody: GetGiftsRequestBaseBody
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
@@ -117,7 +117,7 @@ class CatalogRepo(
     fun searchForGifts(
         viewModelScope: CoroutineScope,
         lastId: Long,
-        getGiftsRequestBody: GetGiftsRequestBody
+        getGiftsRequestBody: GetGiftsRequestBaseBody
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())

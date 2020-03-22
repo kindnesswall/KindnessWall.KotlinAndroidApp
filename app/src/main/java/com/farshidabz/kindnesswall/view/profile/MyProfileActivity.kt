@@ -1,10 +1,12 @@
 package com.farshidabz.kindnesswall.view.profile
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -18,6 +20,7 @@ import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.ActivityMyProfileBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
+import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MyProfileActivity : BaseActivity(), OnItemClickListener {
@@ -38,19 +41,30 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
         configureViews(savedInstanceState)
         getGiftList()
+
+        viewModel.newImageUrlLiveData.observe(this) {
+            dismissProgressDialog()
+            saveChanges()
+        }
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
         binding.backImageView.setOnClickListener { onBackPressed() }
-        binding.editImageView.setOnClickListener {
-            showEditInfoLayout()
-        }
+        binding.editImageView.setOnClickListener { showEditInfoLayout() }
 
         binding.cancelChangesTextView.setOnClickListener { revertAllChanges() }
-        binding.saveChangesTextView.setOnClickListener { saveChanges() }
 
-        binding.userNewImageView.setOnClickListener { saveChanges() }
-        binding.addNewPhotoImageView.setOnClickListener { saveChanges() }
+        binding.saveChangesTextView.setOnClickListener {
+            if (viewModel.selectedImageFile != null) {
+                showProgressDialog()
+                viewModel.uploadImage(context = this, lifecycleOwner = this)
+            } else {
+                saveChanges()
+            }
+        }
+
+        binding.userNewImageView.setOnClickListener { pickImage() }
+        binding.addNewPhotoImageView.setOnClickListener { pickImage() }
 
         binding.registeredFilter.setOnClickListener {
             deselectAllFilters()
@@ -76,6 +90,33 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
         initRecyclerView()
     }
 
+    private fun pickImage() {
+        ImagePicker.with(this)
+            .crop(1f, 1f)
+            .compress(1024)
+            .maxResultSize(1080, 1080)
+            .start { resultCode, data ->
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.let {
+                            it.data?.let { uri -> binding.userNewImageView.setImageURI(uri) }
+
+                            viewModel.selectedImageFile = ImagePicker.getFile(it)
+                            viewModel.selectedImagePath = ImagePicker.getFilePath(it).toString()
+                        }
+                    }
+
+                    ImagePicker.RESULT_ERROR -> {
+                        Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {
+                        Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
+
     private fun initRecyclerView() {
         binding.userActivityList.apply {
             adapter = UserGiftsAdapter(this@MyProfileActivity)
@@ -85,9 +126,7 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
     }
 
     private fun getGiftList() {
-        viewModel.getGifts().observe(this) {
-            onDataReceived(it)
-        }
+        viewModel.getGifts().observe(this) { onDataReceived(it) }
     }
 
     private fun onDataReceived(it: CustomResult<List<GiftModel>>) {
@@ -138,7 +177,26 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
     }
 
     private fun saveChanges() {
+        viewModel.updateUserProfile().observe(this) {
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                    showProgressDialog()
+                }
+                CustomResult.Status.ERROR -> {
+                    dismissProgressDialog()
+                }
 
+                CustomResult.Status.SUCCESS -> {
+                    loadImage(viewModel.newImageUrlLiveData.value?.address, binding.userImageView)
+                    binding.userNameText.text = viewModel.newUserName
+
+                    binding.editProfileContainer.visibility = View.GONE
+                    binding.editImageView.visibility = View.GONE
+
+                    dismissProgressDialog()
+                }
+            }
+        }
     }
 
     private fun revertAllChanges() {

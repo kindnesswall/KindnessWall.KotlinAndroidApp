@@ -1,6 +1,6 @@
 package com.farshidabz.kindnesswall.data.model.requestsmodel
 
-class GetGiftsRequestBody {
+class GetGiftsRequestBaseBody : RequestBaseModel() {
     var beforeId: Long = Long.MAX_VALUE
     var count: Int = 50
     var categoryIds: ArrayList<Int>? = null

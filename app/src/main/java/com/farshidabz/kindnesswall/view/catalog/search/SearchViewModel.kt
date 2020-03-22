@@ -8,13 +8,13 @@ import com.farshidabz.kindnesswall.data.local.AppPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.FilterModel
-import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBody
+import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import com.farshidabz.kindnesswall.data.repository.CatalogRepo
 
 class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
     var searchWorld: String? = null
 
-    var getGiftsRequestBody = GetGiftsRequestBody()
+    var getGiftsRequestBody = GetGiftsRequestBaseBody()
     var filterModel: FilterModel? = null
 
     fun onSearchTextChanged(text: CharSequence) {

@@ -12,4 +12,4 @@ package com.farshidabz.kindnesswall.data.model.requestsmodel
  *
  */
 
-data class RegisterModel(var phoneNumber: String)
+data class RegisterBaseModel(var phoneNumber: String) : RequestBaseModel()
