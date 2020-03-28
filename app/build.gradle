@@ -162,6 +162,9 @@ dependencies {
     //recycler view indicator
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10'
 
+    // chrome tab
+    implementation "androidx.browser:browser:1.2.0"
+
     implementation project(path: ':timeago')
 
     def uploadServiceVersion = "4.2.1"

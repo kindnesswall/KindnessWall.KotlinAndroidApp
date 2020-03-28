@@ -3,6 +3,7 @@ package com.farshidabz.kindnesswall.view.filter
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,8 @@ class FilterActivity : BaseActivity() {
     lateinit var binding: ActivityFilterBinding
 
     private var prvFilterModel: FilterModel? = FilterModel()
+
+    private var mapOfCategoryAndView = HashMap<View, CategoryModel>()
 
     companion object {
         const val FILTER_REQUEST_CODE = 125
@@ -110,10 +113,14 @@ class FilterActivity : BaseActivity() {
             return
         }
 
-        for (categoryModel in categoryModels!!) {
+        for (categoryModel in categoryModels!!.withIndex()) {
             val selectedFilterLayout = layoutInflater.inflate(R.layout.item_selected_filter, null)
+            val container =
+                selectedFilterLayout.findViewById<LinearLayout>(R.id.itemSelectedContainer)
             val textView = selectedFilterLayout.findViewById<TextView>(R.id.selectedCategoryTitle)
-            textView.text = categoryModel.title
+
+            textView.text = categoryModel.value.title
+            mapOfCategoryAndView[container] = categoryModel.value
 
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -124,8 +131,15 @@ class FilterActivity : BaseActivity() {
             params.setMargins(margin, margin, margin, margin)
 
             selectedFilterLayout.layoutParams = params
-
             selectedFilterLayout.minimumWidth = 70.dp(this)
+
+            container.setOnClickListener { view ->
+                categoryModels?.remove(mapOfCategoryAndView[view])
+                mapOfCategoryAndView.remove(view)
+
+                binding.selectedCategoriesLinearLayout.removeView(view)
+                binding.selectedCategoriesLinearLayout.requestLayout()
+            }
 
             binding.selectedCategoriesLinearLayout.addView(selectedFilterLayout)
         }
@@ -135,6 +149,10 @@ class FilterActivity : BaseActivity() {
         binding.selectedRegionsLinearLayout.removeAllViews()
 
         if (selectedRegion == null) {
+            return
+        }
+
+        if (selectedRegion!!.name.isNullOrEmpty()) {
             return
         }
 
@@ -202,7 +220,7 @@ class FilterActivity : BaseActivity() {
             val filterModel: FilterModel?
 
             if (categoryModels == null && selectedRegion == null && selectedCity == null) {
-                filterModel = null
+                filterModel = FilterModel()
             } else {
                 filterModel = FilterModel().apply {
                     categoryModel = categoryModels

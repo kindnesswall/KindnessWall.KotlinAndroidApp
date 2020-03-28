@@ -1,6 +1,7 @@
 package com.farshidabz.kindnesswall.view.charity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.FragmentCharityBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
 import com.farshidabz.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import com.farshidabz.kindnesswall.view.charity.charitydetail.CharityDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -105,6 +107,7 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
+                Log.e(">>>>>>", it.message.toString())
                 showToastMessage("")
             }
         }
@@ -117,6 +120,6 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
-//        context?.let { GiftDetailActivity.start(it, obj as CharityModel) }
+        context?.let { CharityDetailActivity.start(it, obj as CharityModel) }
     }
 }

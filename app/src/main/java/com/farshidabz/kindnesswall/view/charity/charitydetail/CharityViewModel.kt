@@ -11,22 +11,42 @@ import com.farshidabz.kindnesswall.data.repository.UserRepo
 class CharityViewModel(private val userRepo: UserRepo) : ViewModel() {
     var charityModel: CharityModel? = null
 
-    public var charityViewListener: CharityViewListener? = null
+    var charityViewListener: CharityViewListener? = null
 
-    public fun onBackButtonClicked() {
+    fun onBackButtonClicked() {
         charityViewListener?.onBackButtonClicked()
     }
 
-    public fun onRequestClicked() {
+    fun onRequestClicked() {
         charityViewListener?.onRequestClicked()
     }
 
-    public fun onShareClicked() {
+    fun onShareClicked() {
         charityViewListener?.onShareClicked()
     }
 
-    public fun onBookmarkClicked() {
+    fun onBookmarkClicked() {
         charityViewListener?.onBookmarkClicked()
+    }
+
+    fun onCallClicked() {
+        charityViewListener?.onCallClicked()
+    }
+
+    fun onTelegramClicked() {
+        charityViewListener?.onTelegramClicked()
+    }
+
+    fun onInstagramClicked() {
+        charityViewListener?.onInstagramClicked()
+    }
+
+    fun onEmailClicked() {
+        charityViewListener?.onEmailClicked()
+    }
+
+    fun onWebsiteClicked() {
+        charityViewListener?.onWebsiteClicked()
     }
 
     fun getUserInformation(): LiveData<CustomResult<User>> =

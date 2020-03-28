@@ -2,6 +2,7 @@ package com.farshidabz.kindnesswall.view.charity.charitydetail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -10,11 +11,12 @@ import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.data.local.dao.charity.CharityModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.ActivityCharityDetailBinding
+import com.farshidabz.kindnesswall.utils.StaticContentViewer
 import com.farshidabz.kindnesswall.utils.shareString
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
+class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
     lateinit var binding: ActivityCharityDetailBinding
 
@@ -52,7 +54,9 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.item = viewModel.charityModel
+
         binding.informationBottomSheet.item = viewModel.charityModel
+        binding.informationBottomSheet.viewModel = viewModel
 
         viewModel.charityViewListener = this
     }
@@ -70,5 +74,35 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
     override fun onBookmarkClicked() {
+    }
+
+    override fun onCallClicked() {
+        val intent = Intent(
+            Intent.ACTION_DIAL,
+            Uri.fromParts("tel", viewModel.charityModel?.telephoneNumber ?: "", null)
+        )
+
+        startActivity(intent)
+    }
+
+    override fun onTelegramClicked() {
+        StaticContentViewer.show(this, viewModel.charityModel?.telegram)
+    }
+
+    override fun onInstagramClicked() {
+        StaticContentViewer.show(this, viewModel.charityModel?.instagram)
+    }
+
+    override fun onEmailClicked() {
+        val emailIntent = Intent(
+            Intent.ACTION_SENDTO,
+            Uri.fromParts("mailto", viewModel.charityModel?.email, null)
+        )
+
+        startActivity(Intent.createChooser(emailIntent, "Send email..."))
+    }
+
+    override fun onWebsiteClicked() {
+        StaticContentViewer.show(this, viewModel.charityModel?.website)
     }
 }

@@ -5,6 +5,7 @@ import com.farshidabz.kindnesswall.view.catalog.cataloglist.CatalogViewModel
 import com.farshidabz.kindnesswall.view.catalog.search.SearchViewModel
 import com.farshidabz.kindnesswall.view.category.CategoryViewModel
 import com.farshidabz.kindnesswall.view.charity.CharityListViewModel
+import com.farshidabz.kindnesswall.view.charity.charitydetail.CharityViewModel
 import com.farshidabz.kindnesswall.view.citychooser.CityChooserViewModel
 import com.farshidabz.kindnesswall.view.gallery.GalleryViewModel
 import com.farshidabz.kindnesswall.view.giftdetail.GiftDetailViewModel
@@ -37,4 +38,5 @@ val viewModelModule = module {
     viewModel { CharityListViewModel(get()) }
     viewModel { BookmarksViewModel(get()) }
     viewModel { BlockListViewModel() }
+    viewModel { CharityViewModel(get()) }
 }

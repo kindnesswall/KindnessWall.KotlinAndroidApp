@@ -214,7 +214,8 @@ class SearchFragment : BaseFragment() {
 
         if (requestCode == FilterActivity.FILTER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.filterModel = data?.getSerializableExtra("filterModel") as FilterModel?
+                viewModel.filterModel =
+                    data?.getSerializableExtra("filterModel") as FilterModel
                 searchByFilter()
             }
         }

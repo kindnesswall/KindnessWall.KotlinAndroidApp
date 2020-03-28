@@ -15,7 +15,7 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
     var searchWorld: String? = null
 
     var getGiftsRequestBody = GetGiftsRequestBaseBody()
-    var filterModel: FilterModel? = null
+    var filterModel = FilterModel()
 
     fun onSearchTextChanged(text: CharSequence) {
         searchWorld = if (text.isEmpty()) {
@@ -35,12 +35,7 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
     }
 
     private fun setFilterModel() {
-        if (filterModel == null) {
-            getGiftsRequestBody.clear()
-            return
-        }
-
-        filterModel?.let {
+        filterModel.let {
             with(getGiftsRequestBody) {
                 getGiftsRequestBody.clear()
 
@@ -80,6 +75,18 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
                     if (regionIds != null) {
                         if (regionIds!! <= 0) regionIds = null
                     }
+                }
+
+                if (categoryIds.isNullOrEmpty()) {
+                    categoryIds = null
+                }
+
+                if (regionIds == 0) {
+                    regionIds = null
+                }
+
+                if (cityId == 0) {
+                    cityId = null
                 }
             }
         }

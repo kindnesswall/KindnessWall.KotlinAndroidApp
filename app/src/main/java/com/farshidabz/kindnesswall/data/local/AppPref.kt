@@ -55,6 +55,15 @@ object AppPref : KotprefModel() {
 
         val type = object : TypeToken<List<String>>() {}.type
         val result: List<String> = Gson().fromJson(recentSearch, type)
+
+        if (result.isNullOrEmpty()) {
+            return null
+        }
+
+        if (result.size == 1) {
+            return ArrayList<String>().apply { add(result[0]) }
+        }
+
         return result.reversed() as ArrayList<String>
     }
 }

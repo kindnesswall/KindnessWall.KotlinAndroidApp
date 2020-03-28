@@ -5,4 +5,10 @@ interface CharityViewListener {
     fun onRequestClicked()
     fun onShareClicked()
     fun onBookmarkClicked()
+
+    fun onCallClicked()
+    fun onTelegramClicked()
+    fun onInstagramClicked()
+    fun onEmailClicked()
+    fun onWebsiteClicked()
 }

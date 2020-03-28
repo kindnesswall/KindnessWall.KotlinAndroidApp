@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.collect
  * Useful parameter:
  *
  */
-class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatabase : AppDatabase ) :
+class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatabase: AppDatabase) :
     BaseDataSource() {
     fun getCharityFirstPage(
         viewModelScope: CoroutineScope
@@ -41,14 +41,14 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatab
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.message.toString()))
                         } else {
                             appDatabase.charityDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.message.toString()))
                 }
             }
         }
@@ -70,14 +70,14 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatab
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.message.toString()))
                         } else {
                             appDatabase.charityDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.message.toString()))
                 }
             }
         }
