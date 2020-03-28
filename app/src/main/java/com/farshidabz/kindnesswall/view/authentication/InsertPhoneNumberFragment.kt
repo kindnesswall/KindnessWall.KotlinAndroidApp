@@ -44,7 +44,7 @@ class InsertPhoneNumberFragment : BaseFragment() {
         }
 
         binding.sendPhoneNumberTextView.setOnClickListener {
-            viewModel.phoneNumber.value = binding.sendPhoneNumberTextView.text.toString()
+            viewModel.phoneNumber.value = "+98${binding.phoneNumberEditText.text}"
             authenticationInteractor?.onPhoneNumberSent(binding.sendPhoneNumberTextView)
         }
 

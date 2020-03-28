@@ -12,8 +12,13 @@ abstract class BaseDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) return CustomResult.success(body)
+                if (body != null) return CustomResult.success(body) else {
+                    if (response.message().toString().toLowerCase().contains("ok")) {
+                        return CustomResult.success(body as T)
+                    }
+                }
             }
+
             return CustomResult.error(getErrorMessage(response), serverError = true)
         } catch (e: Exception) {
             return CustomResult.error(e.message ?: e.toString(), serverError = false)
@@ -35,7 +40,7 @@ abstract class BaseDataSource {
         loop@ while (loopTimes - 1 != 0) {
             loopTimes--
             val response = getResult(call)
-            when(response.status) {
+            when (response.status) {
                 CustomResult.Status.SUCCESS -> {
                     emit(CustomResult.success(response.data))
                     break@loop
@@ -50,5 +55,4 @@ abstract class BaseDataSource {
             currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)
         }
     }
-
 }

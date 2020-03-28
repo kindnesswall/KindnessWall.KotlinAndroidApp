@@ -59,7 +59,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
         binding.verificationCodeEditText.doOnTextChanged { text, _, _, _ ->
             when {
                 text.isNullOrEmpty() -> binding.sendVersificationTextView.isEnabled = false
-                text.length < 4 -> binding.sendVersificationTextView.isEnabled = false
+                text.length < 5 -> binding.sendVersificationTextView.isEnabled = false
                 else -> binding.sendVersificationTextView.isEnabled = true
             }
         }
@@ -67,6 +67,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
         binding.sendVerificationCodeAgainTextView.setOnClickListener {
             if (couldResendCode) {
                 registerUser()
+                binding.sendVerificationCodeAgainTextView.visibility = View.GONE
             }
         }
 
@@ -84,7 +85,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
                     showProgressDialog()
                 }
                 CustomResult.Status.ERROR -> {
-                    showToastMessage("")
+                    showToastMessage(it.message.toString())
                 }
             }
         }
@@ -98,6 +99,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
         object : CountDownTimer(1000 * 60, 1000) {
             override fun onFinish() {
                 couldResendCode = true
+                binding.sendVerificationCodeAgainTextView.visibility = View.VISIBLE
             }
 
             @SuppressLint("SetTextI18n")

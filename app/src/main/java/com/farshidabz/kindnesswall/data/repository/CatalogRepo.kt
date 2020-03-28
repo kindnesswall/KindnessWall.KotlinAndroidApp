@@ -47,14 +47,14 @@ class CatalogRepo(
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.message.toString()))
                         } else {
                             appDatabase.catalogDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.message.toString()))
                 }
             }
         }

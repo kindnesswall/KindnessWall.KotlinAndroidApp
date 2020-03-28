@@ -33,7 +33,7 @@ class AuthenticationViewModel(private val authRepo: AuthRepo, private val userRe
         phoneNumber.postValue(text.toString())
     }
 
-    fun registerUser(): LiveData<CustomResult<Any>> {
+    fun registerUser(): LiveData<CustomResult<Any?>> {
         return authRepo.registerUser(viewModelScope, phoneNumber.value ?: "")
     }
 

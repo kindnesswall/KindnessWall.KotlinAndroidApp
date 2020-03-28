@@ -17,8 +17,8 @@ import retrofit2.http.POST
  */
 interface AuthApi {
     @POST("register")
-    fun registerUser(@Body registerModel: RegisterBaseModel): Response<Any>
+    suspend fun registerUser(@Body registerModel: RegisterBaseModel): Response<Any>
 
     @POST("login")
-    fun loginUser(@Body loginModel: LoginUserRequestBodyBaseModel): Response<LoginResponseModel>
+    suspend fun loginUser(@Body loginModel: LoginUserRequestBodyBaseModel): Response<LoginResponseModel>
 }

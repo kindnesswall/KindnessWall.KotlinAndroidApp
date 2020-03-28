@@ -5,9 +5,12 @@ import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.utils.wrapInBearer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 
 
@@ -55,6 +58,7 @@ private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit 
     Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(httpClient)
+        .addConverterFactory(NullOnEmptyConverterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -76,3 +80,17 @@ private fun setTimeOutToOkHttpClient(okHttpClientBuilder: OkHttpClient.Builder) 
         connectTimeout(BuildConfig.CONNECTION_TIMEOUT_SECOND, TimeUnit.SECONDS)
         writeTimeout(BuildConfig.READ_TIMEOUT_SECOND, TimeUnit.SECONDS)
     }
+
+class NullOnEmptyConverterFactory : Converter.Factory() {
+    override fun responseBodyConverter(
+        type: Type?,
+        annotations: Array<Annotation?>?,
+        retrofit: Retrofit
+    ): Converter<ResponseBody, Any?> {
+        val delegate: Converter<ResponseBody, Any> =
+            retrofit.nextResponseBodyConverter(this, type, annotations)
+        return Converter { body ->
+            if (body.contentLength() == 0L) null else delegate.convert(body)
+        }
+    }
+}

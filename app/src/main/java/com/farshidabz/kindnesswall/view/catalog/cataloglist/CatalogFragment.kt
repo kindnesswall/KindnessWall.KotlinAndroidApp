@@ -1,6 +1,7 @@
 package com.farshidabz.kindnesswall.view.catalog.cataloglist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -110,6 +111,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
+                Log.e(">>>>>", it.message.toString())
                 showToastMessage("")
             }
         }
