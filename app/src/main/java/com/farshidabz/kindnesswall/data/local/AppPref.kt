@@ -21,6 +21,8 @@ object AppPref : KotprefModel() {
 
     private var recentSearch by stringPref("")
 
+    var isOnBoardingShown by booleanPref(false)
+
     fun setRecentSearch(searches: ArrayList<String>) {
         val type = object : TypeToken<List<String>>() {}.type
 

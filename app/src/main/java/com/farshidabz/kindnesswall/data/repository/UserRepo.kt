@@ -32,7 +32,11 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy { userApi.getUserProfile(UserInfoPref.userId) }.collect { result ->
+            getResultWithExponentialBackoffStrategy {
+                userApi.getUserProfile(
+                    UserInfoPref.userId
+                )
+            }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         UserInfoPref.setUser(result.data)
