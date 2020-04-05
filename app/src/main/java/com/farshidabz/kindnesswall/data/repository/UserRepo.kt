@@ -7,7 +7,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
-import com.farshidabz.kindnesswall.data.local.dao.province.ProvinceModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
@@ -33,9 +32,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy {
-                userApi.getUserProfile()
-            }.collect { result ->
+            getResultWithExponentialBackoffStrategy { userApi.getUserProfile(UserInfoPref.userId) }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         UserInfoPref.setUser(result.data)
@@ -45,7 +42,29 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.message))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
+
+    fun getUserProfile(viewModelScope: CoroutineScope, userId: Long):
+            LiveData<CustomResult<User>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { userApi.getUserProfile(userId) }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        UserInfoPref.setUser(result.data)
+
+                        emitSource(MutableLiveData<User>().apply {
+                            value = result.data
+                        }.map { CustomResult.success(it) })
+                    }
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(result.message))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }
@@ -72,7 +91,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.message))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }

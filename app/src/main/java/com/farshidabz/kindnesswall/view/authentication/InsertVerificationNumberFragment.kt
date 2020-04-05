@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,7 +116,8 @@ class InsertVerificationNumberFragment : BaseFragment() {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
                         UserInfoPref.bearerToken = it.data?.token?.token ?: ""
-                        UserInfoPref.id = it.data?.token?.userID ?: 0
+                        UserInfoPref.id = it.data?.token?.id ?: 0
+                        UserInfoPref.userId = it.data?.token?.userID ?: 0
                         getUserProfile()
                     }
                     CustomResult.Status.LOADING -> {
@@ -139,6 +141,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
                     showProgressDialog()
                 }
                 CustomResult.Status.ERROR -> {
+                    Log.e(">>>>>", it.message.toString())
                     showToastMessage("")
                 }
             }

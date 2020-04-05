@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="userInfo"
+            type="com.farshidabz.kindnesswall.data.local.UserInfoPref" />
+
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,6 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
+                app:srcAvatarImage="@{userInfo.image}"
                 app:srcCompat="@drawable/ic_profile_placeholder_gary"
                 tools:ignore="ContentDescription" />
 
@@ -56,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:text="@{userInfo.name.length() == 0 ? @string/user_name_place_holder : userInfo.name}"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="@+id/userImageView"
@@ -68,11 +78,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:text="@string/show_profile"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userNameText"
-                tools:text="مریم رضایی نایب" />
+                app:layout_constraintTop_toBottomOf="@id/userNameText" />
 
             <View
                 android:id="@+id/divider"

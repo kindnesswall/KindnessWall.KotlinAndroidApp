@@ -69,6 +69,7 @@ fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->
                 if (addAuthHeader) {
                     it.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
                 }
+                it.addHeader("Content-Type", "application/json")
             }
             .build()
     )

@@ -10,6 +10,7 @@ import com.farshidabz.kindnesswall.view.citychooser.CityChooserViewModel
 import com.farshidabz.kindnesswall.view.gallery.GalleryViewModel
 import com.farshidabz.kindnesswall.view.giftdetail.GiftDetailViewModel
 import com.farshidabz.kindnesswall.view.main.MainViewModel
+import com.farshidabz.kindnesswall.view.profile.MyProfileViewModel
 import com.farshidabz.kindnesswall.view.profile.blocklist.BlockListViewModel
 import com.farshidabz.kindnesswall.view.profile.bookmarks.BookmarksViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -39,4 +40,5 @@ val viewModelModule = module {
     viewModel { BookmarksViewModel(get()) }
     viewModel { BlockListViewModel() }
     viewModel { CharityViewModel(get()) }
+    viewModel { MyProfileViewModel(get(), get()) }
 }

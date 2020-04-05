@@ -3,6 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="userInfo"
+            type="com.farshidabz.kindnesswall.data.local.UserInfoPref" />
+
+        <variable
+            name="viewModel"
+            type="com.farshidabz.kindnesswall.view.profile.MyProfileViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,7 +21,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
             <RelativeLayout
                 android:id="@+id/toolbarRelativeLayout"
@@ -65,11 +77,11 @@
                 android:id="@+id/userImageView"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
-                app:srcCompat="@drawable/ic_profile_placeholder_gary"
+                app:srcAvatarImage="@{userInfo.image}"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -77,8 +89,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:text="@{userInfo.name.length() == 0 ? @string/user_name_place_holder : userInfo.name}"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/userImageView"
                 app:layout_constraintStart_toStartOf="@+id/userImageView"
                 app:layout_constraintTop_toBottomOf="@+id/userImageView"
@@ -215,8 +229,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:hint="@string/user_name_place_holder"
                     android:maxLength="20"
                     android:maxLines="1"
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onNameTextChanged(text)}"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:singleLine="true"
                     android:textColor="@color/secondaryTextColor"
                     android:textSize="15sp"

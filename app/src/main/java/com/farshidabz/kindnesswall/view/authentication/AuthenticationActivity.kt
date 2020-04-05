@@ -1,6 +1,7 @@
 package com.farshidabz.kindnesswall.view.authentication
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -19,7 +20,7 @@ class AuthenticationActivity : BaseActivity(), AuthenticationInteractor {
     companion object {
         @JvmStatic
         fun start(context: Context) {
-
+            context.startActivity(Intent(context, AuthenticationActivity::class.java))
         }
     }
 

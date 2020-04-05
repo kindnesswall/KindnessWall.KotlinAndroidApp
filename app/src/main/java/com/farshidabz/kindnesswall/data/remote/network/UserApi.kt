@@ -21,21 +21,21 @@ import retrofit2.http.Path
  */
 
 interface UserApi {
-    @POST("profile/2")
-    fun getUserProfile(): Response<User>
+    @GET("profile/{userId}")
+    suspend fun getUserProfile(@Path("userId") userId: Long): Response<User>
 
     @POST("profile")
-    fun updateUserProfile(@Body updateProfileRequestModel: UpdateProfileRequestBaseModel): Response<Any>
+    suspend fun updateUserProfile(@Body updateProfileRequestModel: UpdateProfileRequestBaseModel): Response<Any>
 
     @POST("gifts/userReceived/{userId}")
-    fun getUserReceivedGifts(@Path("userId") userId: Long): Response<List<GiftModel>>
+    suspend fun getUserReceivedGifts(@Path("userId") userId: Long): Response<List<GiftModel>>
 
     @POST("gifts/userDonated/{userId}")
-    fun getUserDonatedGifts(@Path("userId") userId: Long): Response<List<GiftModel>>
+    suspend fun getUserDonatedGifts(@Path("userId") userId: Long): Response<List<GiftModel>>
 
     @POST("gifts/userRegistered/{userId}")
-    fun getUserRegisteredGifts(@Path("userId") userId: Long): Response<List<GiftModel>>
+    suspend fun getUserRegisteredGifts(@Path("userId") userId: Long): Response<List<GiftModel>>
 
     @GET("profile/{userId}")
-    fun getOtherUserProfile(@Path("userId") userId: Long): Response<User>
+    suspend fun getOtherUserProfile(@Path("userId") userId: Long): Response<User>
 }

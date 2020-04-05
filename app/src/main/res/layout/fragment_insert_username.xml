@@ -45,11 +45,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@null"
-            android:maxLength="4"
+            android:imeOptions="actionDone"
+            android:maxLength="20"
+            android:maxLines="1"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"
+            android:singleLine="true"
             android:textColor="@color/primaryTextColor"
             android:textSize="14sp" />
 

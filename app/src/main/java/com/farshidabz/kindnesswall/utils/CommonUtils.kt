@@ -122,8 +122,8 @@ fun isNextPageAvailable(selfPageUrl: String? = "", nextPageUrl: String? = ""): B
 }
 
 fun wrapInBearer(token: String): String {
-    return if (token.isNotEmpty() && !token.toLowerCase().startsWith("bearer"))
-        "bearer $token"
+    return if (token.isNotEmpty() && !token.startsWith("Bearer"))
+        "Bearer $token"
     else
         token
 }

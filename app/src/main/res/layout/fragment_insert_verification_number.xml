@@ -32,10 +32,13 @@
             android:gravity="center"
             android:inputType="numberDecimal"
             android:maxLength="5"
+            android:maxLines="1"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
+            android:imeOptions="actionDone"
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"
+            android:singleLine="true"
             android:textColor="@color/primaryTextColor"
             android:textSize="14sp" />
 
@@ -95,13 +98,13 @@
             android:layout_marginTop="2dp"
             android:layout_marginEnd="28dp"
             android:gravity="center"
-            android:visibility="gone"
             android:paddingStart="48dp"
             android:paddingEnd="48dp"
             android:text="@string/send_again"
             android:textColor="@color/secondaryTextColor"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/sendVersificationTextView" />
 
         <TextView

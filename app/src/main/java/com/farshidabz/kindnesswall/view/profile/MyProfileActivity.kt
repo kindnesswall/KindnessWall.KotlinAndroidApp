@@ -19,6 +19,7 @@ import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.ActivityMyProfileBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
+import com.farshidabz.kindnesswall.utils.imageloader.circleCropTransform
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,6 +41,10 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_profile)
 
         configureViews(savedInstanceState)
+
+        binding.userInfo = UserInfoPref
+        binding.viewModel = viewModel
+
         getGiftList()
 
         viewModel.newImageUrlLiveData.observe(this) {
@@ -170,7 +175,12 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
     private fun showEditInfoLayout() {
         binding.userNameEditText.setText(UserInfoPref.name)
-        loadImage(UserInfoPref.image, binding.userNewImageView)
+        loadImage(
+            UserInfoPref.image,
+            binding.userNewImageView,
+            placeHolderId = R.drawable.ic_profile_placeholder_gary,
+            options = circleCropTransform()
+        )
 
         binding.editProfileContainer.visibility = View.VISIBLE
         binding.editImageView.visibility = View.VISIBLE
@@ -187,11 +197,15 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
                 }
 
                 CustomResult.Status.SUCCESS -> {
-                    loadImage(viewModel.newImageUrlLiveData.value?.address, binding.userImageView)
+                    loadImage(
+                        viewModel.newImageUrlLiveData.value?.address,
+                        binding.userImageView,
+                        placeHolderId = R.drawable.ic_profile_placeholder_gary,
+                        options = circleCropTransform()
+                    )
                     binding.userNameText.text = viewModel.newUserName
 
                     binding.editProfileContainer.visibility = View.GONE
-                    binding.editImageView.visibility = View.GONE
 
                     dismissProgressDialog()
                 }

@@ -9,21 +9,21 @@ class GiftDetailViewModel : ViewModel() {
 
     var giftModel: GiftModel? = null
 
-    public var giftViewListener: GiftViewListener? = null
+    var giftViewListener: GiftViewListener? = null
 
-    public fun onBackButtonClicked() {
+    fun onBackButtonClicked() {
         giftViewListener?.onBackButtonClicked()
     }
 
-    public fun onRequestClicked() {
+    fun onRequestClicked() {
         giftViewListener?.onRequestClicked()
     }
 
-    public fun onShareClicked() {
+    fun onShareClicked() {
         giftViewListener?.onShareClicked()
     }
 
-    public fun onBookmarkClicked() {
+    fun onBookmarkClicked() {
         giftViewListener?.onBookmarkClicked()
     }
 }

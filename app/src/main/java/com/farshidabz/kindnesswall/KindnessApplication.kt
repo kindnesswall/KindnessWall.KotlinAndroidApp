@@ -1,6 +1,10 @@
 package com.farshidabz.kindnesswall
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import androidx.core.os.ConfigurationCompat
 import com.chibatching.kotpref.Kotpref
 import com.farshidabz.kindnesswall.data.local.AppPref
@@ -8,6 +12,7 @@ import com.farshidabz.kindnesswall.di.dataBaseModule
 import com.farshidabz.kindnesswall.di.networkModule
 import com.farshidabz.kindnesswall.di.repositoryModule
 import com.farshidabz.kindnesswall.di.viewModelModule
+import net.gotev.uploadservice.UploadServiceConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -26,6 +31,22 @@ import java.util.*
  */
 
 class KindnessApplication : Application() {
+    companion object {
+        const val uploadFileNotificationChannelID = "uploadChannel"
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val channel = NotificationChannel(
+                uploadFileNotificationChannelID,
+                "upload notification Channel",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -36,7 +57,13 @@ class KindnessApplication : Application() {
             androidContext(this@KindnessApplication)
             modules(listOf(repositoryModule, networkModule, viewModelModule, dataBaseModule))
         }
+        createNotificationChannel()
 
+        UploadServiceConfig.initialize(
+            context = this,
+            defaultNotificationChannel = uploadFileNotificationChannelID,
+            debug = BuildConfig.DEBUG
+        )
         changeLocale()
     }
 

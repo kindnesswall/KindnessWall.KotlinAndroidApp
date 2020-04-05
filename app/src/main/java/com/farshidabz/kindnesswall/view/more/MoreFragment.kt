@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.farshidabz.kindnesswall.BaseFragment
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.databinding.FragmentMoreBinding
+import com.farshidabz.kindnesswall.view.profile.MyProfileActivity
 
 
 /**
@@ -32,10 +34,12 @@ class MoreFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun configureViews() {
+        binding.profileTextView.setOnClickListener { context?.let { MyProfileActivity.start(it) } }
     }
 
-    override fun configureViews() {
+    override fun onResume() {
+        super.onResume()
+        binding.userInfo = UserInfoPref
     }
 }

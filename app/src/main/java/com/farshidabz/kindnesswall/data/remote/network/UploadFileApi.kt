@@ -9,7 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 
-public interface UploadFileApi {
+interface UploadFileApi {
     @Multipart
     @FormUrlEncoded
     @POST("image/upload")

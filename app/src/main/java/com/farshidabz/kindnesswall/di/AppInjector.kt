@@ -26,9 +26,10 @@ private val chatApi: ChatApi = baseRetrofit.create(ChatApi::class.java)
 private val userApi: UserApi = baseRetrofit.create(UserApi::class.java)
 private val charityApi: CharityApi = baseRetrofit.create(CharityApi::class.java)
 private val catalogApi: CatalogApi = baseRetrofit.create(CatalogApi::class.java)
+private val fileUploadFileApi: UploadFileApi = baseRetrofit.create(UploadFileApi::class.java)
 
 val dataBaseModule = module {
-    single { AppDatabase(androidContext())}
+    single { AppDatabase(androidContext()) }
 }
 
 val networkModule = module {
@@ -38,6 +39,7 @@ val networkModule = module {
     single { userApi }
     single { charityApi }
     single { catalogApi }
+    single { fileUploadFileApi }
 }
 
 //val remoteConfigModule = module {

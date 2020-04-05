@@ -11,6 +11,7 @@ import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions.circleCropTransform
+import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
 
 
@@ -55,6 +56,18 @@ fun loadImageFromList(view: ImageView, imageList: List<String>?) {
     }
 
     loadImage(imageUrl, view)
+}
+
+@BindingAdapter("srcAvatarImage")
+fun loadAvatarImage(view: ImageView, imageUrl: String?) {
+    imageUrl?.let {
+        loadImage(
+            imageUrl,
+            view,
+            options = circleCropTransform(),
+            placeHolderId = R.drawable.ic_profile_placeholder_gary
+        )
+    }
 }
 
 @BindingAdapter("srcCircleUrl")

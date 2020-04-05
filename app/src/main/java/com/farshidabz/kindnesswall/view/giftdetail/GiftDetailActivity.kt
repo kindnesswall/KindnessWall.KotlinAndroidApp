@@ -6,9 +6,11 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.farshidabz.kindnesswall.BaseActivity
 import com.farshidabz.kindnesswall.R
+import com.farshidabz.kindnesswall.data.local.UserInfoPref
 import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.databinding.ActivityGiftDetailBinding
 import com.farshidabz.kindnesswall.utils.shareString
+import com.farshidabz.kindnesswall.view.authentication.AuthenticationActivity
 import com.farshidabz.kindnesswall.view.gallery.GalleryActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -80,7 +82,11 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     }
 
     override fun onRequestClicked() {
-
+        if(UserInfoPref.bearerToken.isEmpty()){
+            AuthenticationActivity.start(this)
+        } else {
+            // todo open chat page
+        }
     }
 
     override fun onShareClicked() {
