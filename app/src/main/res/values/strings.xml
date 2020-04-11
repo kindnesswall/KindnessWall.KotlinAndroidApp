@@ -76,6 +76,7 @@
     <string name="filters">فیلترها</string>
     <string name="remove_filters">حذف فیلترها</string>
 
+    <string name="choose">انتخاب</string>
     <string name="gift_from_me">هدیه هایی که از طرف من…</string>
     <string name="registered">ثبت شده</string>
     <string name="filter_profile_donate">پذیرفته شده</string>
@@ -89,5 +90,15 @@
     <string name="show_profile">نمایش پروفایل</string>
 
     <string name="user_name_place_holder">نام کاربری</string>
+    <string name="conversations">گفتگو‌ها</string>
+    <string name="submit_gift">ثبت هدیه</string>
+    <string name="gift_title">عنوان هدیه</string>
+    <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید</string>
+    <string name="submit_gift_dexcription_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید</string>
+    <string name="price_range">حدود قیمت</string>
+    <string name="price_range_hint">_ _ _ , _ _ _ ریال</string>
+    <string name="gift_image">عکس هدیه</string>
+    <string name="choose_category">انتخاب دسته بندی</string>
+    <string name="submit">ثبت</string>
 
 </resources>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/userImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="16dp"
+            app:srcCompat="@drawable/ic_profile_placeholder_gary" />
+
+        <TextView
+            android:id="@+id/userNameTextView"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@id/userImageView"
+            app:layout_constraintTop_toTopOf="@id/userImageView"
+            tools:text="فرشید اباذری" />
+
+        <ImageView
+            android:id="@+id/lastMessageStatusImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="14dp"
+            android:maxHeight="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/lastMessageTextView"
+            app:layout_constraintStart_toStartOf="@+id/userNameTextView"
+            app:layout_constraintTop_toTopOf="@+id/lastMessageTextView"
+            app:srcCompat="@drawable/ic_double_tick_green" />
+
+        <TextView
+            android:id="@+id/lastMessageTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="@string/imagepicker_msg_no_write_external_storage_camera_permission"
+            app:layout_constraintEnd_toStartOf="@+id/messageTimeTextView"
+            app:layout_constraintStart_toEndOf="@id/lastMessageStatusImageView"
+            app:layout_constraintTop_toBottomOf="@id/userNameTextView" />
+
+        <TextView
+            android:id="@+id/messageTimeTextView"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="۳ روز قبل" />
+
+        <RelativeLayout
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_accent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/messageTimeTextView">
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                tools:text="9" />
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

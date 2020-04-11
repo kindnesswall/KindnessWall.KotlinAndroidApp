@@ -30,7 +30,6 @@ class MainActivity : BaseActivity() {
 
     private val navHomeController: NavController by lazy { findNavController(R.id.homeTab) }
     private val navCharityController: NavController by lazy { findNavController(R.id.charityTab) }
-    private val navAddProductController: NavController by lazy { findNavController(R.id.addProductTab) }
     private val navConversationController: NavController by lazy { findNavController(R.id.conversationTab) }
     private val navMoreController: NavController by lazy { findNavController(R.id.moreTab) }
 
@@ -136,7 +135,6 @@ class MainActivity : BaseActivity() {
 
                 binding.homeTabContainer.visibility = View.VISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.addProductTabContainer.visibility = View.INVISIBLE
                 binding.conversationTabContainer.visibility = View.INVISIBLE
                 binding.moreTabContainer.visibility = View.INVISIBLE
             }
@@ -147,22 +145,12 @@ class MainActivity : BaseActivity() {
 
                 binding.charityTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
-                binding.addProductTabContainer.visibility = View.INVISIBLE
                 binding.conversationTabContainer.visibility = View.INVISIBLE
                 binding.moreTabContainer.visibility = View.INVISIBLE
             }
 
             R.id.navigation_add_product -> {
-//                if (currentController == navRequestsController)
-//                    sendBroadcast(Intent(RequestsFragment.ACTION_REQUESTS))
-
-                currentController = navAddProductController
-
-                binding.addProductTabContainer.visibility = View.VISIBLE
-                binding.homeTabContainer.visibility = View.INVISIBLE
-                binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.conversationTabContainer.visibility = View.INVISIBLE
-                binding.moreTabContainer.visibility = View.INVISIBLE
+                //todo start submit gift activity
             }
 
             R.id.navigation_conversation -> {
@@ -172,7 +160,6 @@ class MainActivity : BaseActivity() {
                 binding.conversationTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.addProductTabContainer.visibility = View.INVISIBLE
                 binding.moreTabContainer.visibility = View.INVISIBLE
             }
 
@@ -185,7 +172,6 @@ class MainActivity : BaseActivity() {
                 binding.moreTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.addProductTabContainer.visibility = View.INVISIBLE
                 binding.conversationTabContainer.visibility = View.INVISIBLE
             }
         }

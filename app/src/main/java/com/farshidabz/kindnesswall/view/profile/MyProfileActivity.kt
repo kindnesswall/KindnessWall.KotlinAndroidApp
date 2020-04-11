@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -19,10 +18,16 @@ import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.databinding.ActivityMyProfileBinding
 import com.farshidabz.kindnesswall.utils.OnItemClickListener
+import com.farshidabz.kindnesswall.utils.imageloader.GlideApp
 import com.farshidabz.kindnesswall.utils.imageloader.circleCropTransform
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
-import com.github.dhaval2404.imagepicker.ImagePicker
+import com.farshidabz.kindnesswall.utils.startSingleModeImagePicker
+import com.nguyenhoanglam.imagepicker.model.Config
+import com.nguyenhoanglam.imagepicker.model.Image
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.File
+import java.util.*
+
 
 class MyProfileActivity : BaseActivity(), OnItemClickListener {
     lateinit var binding: ActivityMyProfileBinding
@@ -57,9 +62,18 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
         binding.backImageView.setOnClickListener { onBackPressed() }
         binding.editImageView.setOnClickListener { showEditInfoLayout() }
 
-        binding.cancelChangesTextView.setOnClickListener { revertAllChanges() }
+        binding.cancelChangesTextView.setOnClickListener {
+            revertAllChanges()
+            binding.editProfileContainer.visibility = View.GONE
+        }
 
         binding.saveChangesTextView.setOnClickListener {
+            if (viewModel.selectedImageFile == null && viewModel.newUserName.isEmpty()) {
+                revertAllChanges()
+                binding.editProfileContainer.visibility = View.GONE
+                return@setOnClickListener
+            }
+
             if (viewModel.selectedImageFile != null) {
                 showProgressDialog()
                 viewModel.uploadImage(context = this, lifecycleOwner = this)
@@ -96,30 +110,7 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
     }
 
     private fun pickImage() {
-        ImagePicker.with(this)
-            .crop(1f, 1f)
-            .compress(1024)
-            .maxResultSize(1080, 1080)
-            .start { resultCode, data ->
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        data?.let {
-                            it.data?.let { uri -> binding.userNewImageView.setImageURI(uri) }
-
-                            viewModel.selectedImageFile = ImagePicker.getFile(it)
-                            viewModel.selectedImagePath = ImagePicker.getFilePath(it).toString()
-                        }
-                    }
-
-                    ImagePicker.RESULT_ERROR -> {
-                        Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
-                        Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+        startSingleModeImagePicker(this)
     }
 
     private fun initRecyclerView() {
@@ -220,5 +211,21 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
     override fun onItemClicked(position: Int, obj: Any?) {
         UserGiftDetailActivity.start(this, obj as GiftModel)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == Config.RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
+            data.getParcelableArrayListExtra<Image>(Config.EXTRA_IMAGES)?.let {
+                val images: ArrayList<Image> = it
+                val path = images[0].path
+
+                GlideApp.with(this).load(path).circleCrop().into(binding.userNewImageView)
+
+                viewModel.selectedImagePath = path
+                viewModel.selectedImageFile = File(path)
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

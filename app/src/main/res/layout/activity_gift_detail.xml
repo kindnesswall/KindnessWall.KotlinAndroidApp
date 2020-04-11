@@ -128,14 +128,13 @@
 
                 <TextView
                     android:id="@+id/categoryTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:text="@{item.categoryTitle}"
-                    app:layout_constraintBottom_toBottomOf="@+id/categoryText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/categoryText"
                     app:layout_constraintTop_toTopOf="@id/categoryText" />
@@ -145,19 +144,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/vazir_bold"
                     android:text="@string/neighborhood"
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/categoryText" />
+                    app:layout_constraintTop_toBottomOf="@+id/categoryTextView" />
 
                 <TextView
                     android:id="@+id/neighborhoodTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@{item.cityName}"
-                    app:layout_constraintBottom_toBottomOf="@+id/neighborhoodText"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/categoryTextView"
                     app:layout_constraintTop_toTopOf="@id/neighborhoodText" />
 
@@ -182,10 +183,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/secondaryDivider" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@{item.description}"
-                    app:layout_constraintBottom_toBottomOf="@+id/descriptionText"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/categoryTextView"
                     app:layout_constraintTop_toTopOf="@+id/descriptionText" />
 
