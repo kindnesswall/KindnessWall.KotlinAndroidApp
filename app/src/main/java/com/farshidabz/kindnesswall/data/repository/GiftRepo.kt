@@ -10,7 +10,8 @@ import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.BaseDataSource
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
-import com.farshidabz.kindnesswall.data.remote.network.CatalogApi
+import com.farshidabz.kindnesswall.data.model.requestsmodel.RegisterGiftRequestModel
+import com.farshidabz.kindnesswall.data.remote.network.GiftApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 
@@ -25,9 +26,9 @@ import kotlinx.coroutines.flow.collect
  *
  */
 
-class CatalogRepo(
+class GiftRepo(
     val context: Context,
-    private val catalogApi: CatalogApi,
+    private val giftApi: GiftApi,
     private val appDatabase: AppDatabase
 ) : BaseDataSource() {
 
@@ -42,7 +43,7 @@ class CatalogRepo(
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGiftsFirstPage(GetGiftsRequestBaseBody())
+                giftApi.getGiftsFirstPage(GetGiftsRequestBaseBody())
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -71,7 +72,7 @@ class CatalogRepo(
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
+                giftApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -96,7 +97,7 @@ class CatalogRepo(
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGiftsFirstPage(getGiftsRequestBody)
+                giftApi.getGiftsFirstPage(getGiftsRequestBody)
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -123,7 +124,7 @@ class CatalogRepo(
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
-                catalogApi.getGifts(getGiftsRequestBody.apply { beforeId = lastId })
+                giftApi.getGifts(getGiftsRequestBody.apply { beforeId = lastId })
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -137,6 +138,32 @@ class CatalogRepo(
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                     else -> emit(CustomResult.error(""))
+                }
+            }
+        }
+
+
+    fun registerGift(
+        viewModelScope: CoroutineScope,
+        registerGiftRequestModel: RegisterGiftRequestModel
+    ): LiveData<CustomResult<GiftModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                giftApi.registerGift(registerGiftRequestModel)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.message))
+                        } else {
+                            emitSource(MutableLiveData<GiftModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message))
                 }
             }
         }

@@ -17,6 +17,7 @@ import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.databinding.ActivityMainBinding
 import com.farshidabz.kindnesswall.utils.BottomTabHistory
 import com.farshidabz.kindnesswall.utils.OnClickListener
+import com.farshidabz.kindnesswall.view.addproduct.SubmitGiftActivity
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -150,7 +151,7 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.navigation_add_product -> {
-                //todo start submit gift activity
+                SubmitGiftActivity.start(this)
             }
 
             R.id.navigation_conversation -> {

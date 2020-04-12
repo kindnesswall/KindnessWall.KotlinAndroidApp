@@ -25,7 +25,7 @@ private val generalApi: GeneralApi = baseRetrofit.create(GeneralApi::class.java)
 private val chatApi: ChatApi = baseRetrofit.create(ChatApi::class.java)
 private val userApi: UserApi = baseRetrofit.create(UserApi::class.java)
 private val charityApi: CharityApi = baseRetrofit.create(CharityApi::class.java)
-private val catalogApi: CatalogApi = baseRetrofit.create(CatalogApi::class.java)
+private val GIFT_API: GiftApi = baseRetrofit.create(GiftApi::class.java)
 private val fileUploadFileApi: UploadFileApi = baseRetrofit.create(UploadFileApi::class.java)
 
 val dataBaseModule = module {
@@ -38,7 +38,7 @@ val networkModule = module {
     single { chatApi }
     single { userApi }
     single { charityApi }
-    single { catalogApi }
+    single { GIFT_API }
     single { fileUploadFileApi }
 }
 

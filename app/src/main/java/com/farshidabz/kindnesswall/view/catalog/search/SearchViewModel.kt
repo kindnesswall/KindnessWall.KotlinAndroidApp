@@ -9,9 +9,9 @@ import com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel
 import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.model.FilterModel
 import com.farshidabz.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
-import com.farshidabz.kindnesswall.data.repository.CatalogRepo
+import com.farshidabz.kindnesswall.data.repository.GiftRepo
 
-class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
+class SearchViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     var searchWorld: String? = null
 
     var getGiftsRequestBody = GetGiftsRequestBaseBody()
@@ -31,7 +31,7 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
 
     fun searchFirstPage(): LiveData<CustomResult<List<GiftModel>>> {
         setFilterModel()
-        return catalogRepo.searchForGiftFirstPage(viewModelScope, getGiftsRequestBody)
+        return giftRepo.searchForGiftFirstPage(viewModelScope, getGiftsRequestBody)
     }
 
     private fun setFilterModel() {
@@ -94,7 +94,7 @@ class SearchViewModel(private val catalogRepo: CatalogRepo) : ViewModel() {
 
     fun searchForItemFromServer(): LiveData<CustomResult<List<GiftModel>>> {
         val lastId = searchItems.value?.last()?.id ?: 0
-        return catalogRepo.searchForGifts(viewModelScope, lastId, getGiftsRequestBody)
+        return giftRepo.searchForGifts(viewModelScope, lastId, getGiftsRequestBody)
     }
 
     fun getPrvSearchItems(): ArrayList<String>? {

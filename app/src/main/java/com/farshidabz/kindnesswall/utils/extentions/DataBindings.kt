@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions.circleCropTransform
 import com.farshidabz.kindnesswall.R
 import com.farshidabz.kindnesswall.utils.imageloader.loadImage
+import com.farshidabz.kindnesswall.utils.imageloader.roundCornerTransform
 
 
 /**
@@ -43,9 +44,15 @@ fun bindbackgroundColorWithId(view: View, backgroundColorId: Int) {
 
 @BindingAdapter("srcUrl")
 fun loadImage(view: ImageView, imageUrl: String?) {
-    if (imageUrl == null) return
     loadImage(imageUrl, view)
 }
+
+
+@BindingAdapter("srcRound4DpUrl")
+fun loadRoundImage(view: ImageView, imageUrl: String?) {
+    loadImage(imageUrl, view, options = roundCornerTransform(4.dp(view.context)))
+}
+
 
 @BindingAdapter("loadImageFromList")
 fun loadImageFromList(view: ImageView, imageList: List<String>?) {

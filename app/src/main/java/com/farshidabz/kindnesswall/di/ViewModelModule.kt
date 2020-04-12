@@ -1,5 +1,6 @@
 package com.farshidabz.kindnesswall.di
 
+import com.farshidabz.kindnesswall.view.addproduct.SubmitGiftViewModel
 import com.farshidabz.kindnesswall.view.authentication.AuthenticationViewModel
 import com.farshidabz.kindnesswall.view.catalog.cataloglist.CatalogViewModel
 import com.farshidabz.kindnesswall.view.catalog.search.SearchViewModel
@@ -43,4 +44,5 @@ val viewModelModule = module {
     viewModel { CharityViewModel(get()) }
     viewModel { MyProfileViewModel(get(), get()) }
     viewModel { SplashViewModel(get()) }
+    viewModel { SubmitGiftViewModel(get(), get()) }
 }
