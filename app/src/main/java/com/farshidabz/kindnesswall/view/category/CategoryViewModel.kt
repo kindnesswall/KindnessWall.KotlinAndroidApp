@@ -8,6 +8,8 @@ import com.farshidabz.kindnesswall.data.model.CustomResult
 import com.farshidabz.kindnesswall.data.repository.GeneralRepo
 
 class CategoryViewModel(private val generalRepo: GeneralRepo) : ViewModel() {
+    var multiSelection: Boolean = true
+
     var catgories: ArrayList<CategoryModel> = arrayListOf()
     var prvSelectedCategories: ArrayList<CategoryModel>? = arrayListOf()
 

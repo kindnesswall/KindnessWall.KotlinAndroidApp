@@ -12,12 +12,14 @@ import com.farshidabz.kindnesswall.utils.OnItemClickListener
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryViewHolder>() {
 
+    private var multiSelection: Boolean = true
     lateinit var onClickCallback: OnItemClickListener
 
     private var items = ArrayList<CategoryModel>()
 
-    fun setItems(items: List<CategoryModel>) {
+    fun setItems(items: List<CategoryModel>, multiSelection: Boolean = true) {
         this.items = items as ArrayList<CategoryModel>
+        this.multiSelection = multiSelection
         notifyDataSetChanged()
     }
 

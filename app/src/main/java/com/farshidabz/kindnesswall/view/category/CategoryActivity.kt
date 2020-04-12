@@ -29,10 +29,12 @@ class CategoryActivity : BaseActivity() {
         @JvmStatic
         fun startActivityForResult(
             fragment: Fragment,
+            multiSelection: Boolean = true,
             prvSelectedCategories: ArrayList<CategoryModel>? = null
         ) {
             val intent = Intent(fragment.activity, CategoryActivity::class.java)
             intent.putExtra("prvSelectedCategories", prvSelectedCategories)
+            intent.putExtra("multiSelection", multiSelection)
             fragment.startActivityForResult(intent, CATEGORY_CHOOSER_REQUEST_CODE)
             fragment.activity?.overridePendingTransition(R.anim.slide_up_activity, R.anim.stay)
         }
@@ -40,10 +42,12 @@ class CategoryActivity : BaseActivity() {
         @JvmStatic
         fun startActivityForResult(
             activity: AppCompatActivity,
+            multiSelection: Boolean = true,
             prvSelectedCategories: ArrayList<CategoryModel>? = null
         ) {
             val intent = Intent(activity, CategoryActivity::class.java)
             intent.putExtra("prvSelectedCategories", prvSelectedCategories)
+            intent.putExtra("multiSelection", multiSelection)
             activity.startActivityForResult(intent, CATEGORY_CHOOSER_REQUEST_CODE)
             activity.overridePendingTransition(R.anim.slide_up_activity, R.anim.stay)
         }
@@ -55,6 +59,9 @@ class CategoryActivity : BaseActivity() {
 
         viewModel.prvSelectedCategories =
             intent?.getSerializableExtra("prvSelectedCategories") as ArrayList<CategoryModel>?
+
+        viewModel.multiSelection =
+            intent?.getBooleanExtra("multiSelection", true) ?: true
 
         configureViews(savedInstanceState)
         getCategories()
@@ -74,8 +81,16 @@ class CategoryActivity : BaseActivity() {
         binding.categoryRecyclerView.adapter = adapter.apply {
             onClickCallback = object : OnItemClickListener {
                 override fun onItemClicked(position: Int, obj: Any?) {
-                    viewModel.catgories[position].isSelected =
-                        !viewModel.catgories[position].isSelected
+                    if (!viewModel.multiSelection) {
+                        for (item in viewModel.catgories) {
+                            item.isSelected = false
+                        }
+
+                        viewModel.catgories[position].isSelected = true
+                    } else {
+                        viewModel.catgories[position].isSelected =
+                            !viewModel.catgories[position].isSelected
+                    }
 
                     (binding.categoryRecyclerView.adapter as CategoryAdapter).notifyDataSetChanged()
                 }
@@ -130,7 +145,10 @@ class CategoryActivity : BaseActivity() {
             viewModel.catgories.clear()
 
             viewModel.catgories.addAll(it as ArrayList<CategoryModel>)
-            (binding.categoryRecyclerView.adapter as CategoryAdapter).setItems(viewModel.catgories)
+            (binding.categoryRecyclerView.adapter as CategoryAdapter).setItems(
+                viewModel.catgories,
+                viewModel.multiSelection
+            )
         }
     }
 

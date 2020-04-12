@@ -73,7 +73,7 @@ class SubmitGiftActivity : BaseActivity() {
         binding.addNewPhotoContainer.setOnClickListener { pickImage() }
 
         binding.chooseCategoryTextView.setOnClickListener {
-            CategoryActivity.startActivityForResult(this)
+            CategoryActivity.startActivityForResult(this, false)
         }
 
         binding.chooseCityTextView.setOnClickListener {
