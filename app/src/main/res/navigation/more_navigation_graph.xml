@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/moreFragment"
-        android:name="com.farshidabz.kindnesswall.view.more.MoreFragment"
+        android:name="ir.kindnesswall.view.main.more.MoreFragment"
         android:label="MoreFragment" />
 </navigation>

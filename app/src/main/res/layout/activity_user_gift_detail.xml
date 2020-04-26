@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.farshidabz.kindnesswall.data.local.dao.catalog.GiftModel" />
+            type="ir.kindnesswall.data.local.dao.catalog.GiftModel" />
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.giftdetail.GiftDetailViewModel" />
+            type="ir.kindnesswall.view.giftdetail.GiftDetailViewModel" />
     </data>
 
     <LinearLayout
@@ -33,7 +33,7 @@
                 android:background="@color/white"
                 tools:context=".view.giftdetail.GiftDetailActivity">
 
-                <com.farshidabz.kindnesswall.utils.widgets.photoslider.PhotoSlider
+                <ir.kindnesswall.utils.widgets.photoslider.PhotoSlider
                     android:id="@+id/photoSlider"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
@@ -227,6 +227,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <Button
+            android:id="@+id/requestButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"

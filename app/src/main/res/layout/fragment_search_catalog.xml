@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.catalog.search.SearchViewModel" />
+            type="ir.kindnesswall.view.main.catalog.search.SearchViewModel" />
 
     </data>
 
@@ -111,21 +111,23 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/search_transparent_background" />
+                android:background="@color/search_transparent_background"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp" />
 
-            <com.farshidabz.kindnesswall.utils.widgets.MaxHeightRecyclerView
+            <ir.kindnesswall.utils.widgets.MaxHeightRecyclerView
                 android:id="@+id/prvSearchListRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:maxHeight="280dp"
-                app:maxHeight="280dp"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="280dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:maxHeight="280dp"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_prv_search" />
 

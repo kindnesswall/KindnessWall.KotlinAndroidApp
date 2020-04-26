@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.farshidabz.kindnesswall.data.model.OnBoardingModel" />
+            type="ir.kindnesswall.data.model.OnBoardingModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

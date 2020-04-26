@@ -7,15 +7,15 @@
 
         <variable
             name="item"
-            type="com.farshidabz.kindnesswall.data.local.dao.charity.CharityModel" />
+            type="ir.kindnesswall.data.local.dao.charity.CharityModel" />
 
         <variable
             name="otherUser"
-            type="com.farshidabz.kindnesswall.data.model.user.User" />
+            type="ir.kindnesswall.data.model.user.User" />
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.charity.charitydetail.CharityViewModel" />
+            type="ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

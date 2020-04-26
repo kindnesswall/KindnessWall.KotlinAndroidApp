@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.gallery.GalleryViewModel" />
+            type="ir.kindnesswall.view.gallery.GalleryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <com.farshidabz.kindnesswall.utils.widgets.photoslider.PhotoSlider
+        <ir.kindnesswall.utils.widgets.photoslider.PhotoSlider
             android:id="@+id/photoSlider"
             android:layout_width="match_parent"
             android:layout_height="0dp"

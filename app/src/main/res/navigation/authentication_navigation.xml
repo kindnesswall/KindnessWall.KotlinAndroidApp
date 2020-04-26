@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/insertPhoneNumberFragment"
-        android:name="com.farshidabz.kindnesswall.view.authentication.InsertPhoneNumberFragment"
+        android:name="ir.kindnesswall.view.authentication.InsertPhoneNumberFragment"
         android:label="InsertPhoneNumberFragment"
         tools:layout="@layout/fragment_insert_phone_number">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/insertVerificationNumberFragment"
-        android:name="com.farshidabz.kindnesswall.view.authentication.InsertVerificationNumberFragment"
+        android:name="ir.kindnesswall.view.authentication.InsertVerificationNumberFragment"
         android:label="InsertVerificationNumberFragment"
         tools:layout="@layout/fragment_insert_verification_number">
 
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/insertUserNameFragment"
-        android:name="com.farshidabz.kindnesswall.view.authentication.InsertUserNameFragment"
+        android:name="ir.kindnesswall.view.authentication.InsertUserNameFragment"
         android:label="InsertUserNameFragment"
         tools:layout="@layout/fragment_insert_username" />
 

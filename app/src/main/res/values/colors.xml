@@ -30,4 +30,5 @@
     <color name="onBoardingFourthColor">#6A6AEC</color>
     <color name="onBoardingFifthColor">#D859D2</color>
 
+    <color name="disableButtonColor">#a1a1a1</color>
 </resources>

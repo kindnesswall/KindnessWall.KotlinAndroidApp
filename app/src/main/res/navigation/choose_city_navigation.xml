@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/chooseProvinceFragment"
-        android:name="com.farshidabz.kindnesswall.view.citychooser.ChooseProvinceFragment"
+        android:name="ir.kindnesswall.view.citychooser.ChooseProvinceFragment"
         android:label="fragment_choose_province"
         tools:layout="@layout/fragment_choose_province">
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/chooseCityFragment"
-        android:name="com.farshidabz.kindnesswall.view.citychooser.ChooseCityFragment"
+        android:name="ir.kindnesswall.view.citychooser.ChooseCityFragment"
         android:label="fragment_choose_city"
         tools:layout="@layout/fragment_choose_city">
 
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseRegionFragment"
-        android:name="com.farshidabz.kindnesswall.view.citychooser.ChooseRegionFragment"
+        android:name="ir.kindnesswall.view.citychooser.ChooseRegionFragment"
         android:label="fragment_choose_region"
         tools:layout="@layout/fragment_choose_region" >
         <argument

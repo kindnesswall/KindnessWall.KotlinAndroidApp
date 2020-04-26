@@ -7,11 +7,11 @@
 
         <variable
             name="userInfo"
-            type="com.farshidabz.kindnesswall.data.local.UserInfoPref" />
+            type="ir.kindnesswall.data.local.UserInfoPref" />
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.profile.MyProfileViewModel" />
+            type="ir.kindnesswall.view.profile.MyProfileViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

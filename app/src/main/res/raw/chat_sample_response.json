@@ -1,0 +1,117 @@
+{
+  "textMessages": [
+    {
+      "text": "سلام",
+      "chatId": 1,
+      "receiverId": 2,
+      "id": 12,
+      "senderId": 1,
+      "ack": true,
+      "createdAt": "2020-03-01T17:39:34Z"
+    },
+    {
+      "text": "چه خبر؟",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 11,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-03-01T17:37:29Z"
+    },
+    {
+      "text": "خوبی؟",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 10,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-03-01T17:36:48Z"
+    },
+    {
+      "text": "سلام",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 9,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-03-01T17:36:34Z"
+    },
+    {
+      "text": "Hi 2",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 8,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-02-14T12:31:35Z"
+    },
+    {
+      "text": "Hi",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 7,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-02-14T12:31:20Z"
+    },
+    {
+      "text": "Hello 2",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 6,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-02-10T17:23:56Z"
+    },
+    {
+      "text": "Hello",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 5,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2020-02-10T16:53:52Z"
+    },
+    {
+      "text": "Actually I am working in a charity and we need a computer there. I will contact soon. Could I have your phone number?",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 4,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2019-11-01T22:12:40Z"
+    },
+    {
+      "text": "This gift is only for charities. You must be a charity’s administers and provide a document to show that.",
+      "chatId": 1,
+      "receiverId": 2,
+      "id": 3,
+      "senderId": 1,
+      "ack": true,
+      "createdAt": "2019-11-01T21:43:55Z"
+    },
+    {
+      "text": "Hello, I need your gift. How can I receive it?",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 2,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2019-11-01T21:39:32Z"
+    },
+    {
+      "text": "Request of gift 'one computer for a charity '",
+      "chatId": 1,
+      "receiverId": 1,
+      "id": 1,
+      "senderId": 2,
+      "ack": true,
+      "createdAt": "2019-11-01T21:38:44Z"
+    }
+  ],
+  "chat": {
+    "chatId": 1,
+    "contactId": 1,
+    "userId": 2
+  }
+}

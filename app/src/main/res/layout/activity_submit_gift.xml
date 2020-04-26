@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.farshidabz.kindnesswall.view.addproduct.SubmitGiftViewModel" />
+            type="ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

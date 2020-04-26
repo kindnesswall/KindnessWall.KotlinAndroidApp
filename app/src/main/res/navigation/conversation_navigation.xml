@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/conversationFragment"
-        android:name="com.farshidabz.kindnesswall.view.conversation.ConversationFragment"
+        android:name="ir.kindnesswall.view.main.conversation.ConversationFragment"
         android:label="ConversationFragment" />
 </navigation>

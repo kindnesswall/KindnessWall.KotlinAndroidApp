@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/catalogFragment"
-        android:name="com.farshidabz.kindnesswall.view.catalog.cataloglist.CatalogFragment"
+        android:name="ir.kindnesswall.view.main.catalog.cataloglist.CatalogFragment"
         android:label="CatalogFragment">
         <action
             android:id="@+id/action_catalogFragment_to_searchFragment"
@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.farshidabz.kindnesswall.view.catalog.search.SearchFragment"
+        android:name="ir.kindnesswall.view.main.catalog.search.SearchFragment"
         android:label="SearchFragment" />
 </navigation>

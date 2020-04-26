@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.farshidabz.kindnesswall">
+    package="ir.kindnesswall">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".view.addproduct.SubmitGiftActivity"></activity>
+
+        <activity android:name=".view.main.more.aboutus.AboutUsActivity" />
+        <activity android:name=".view.main.conversation.chat.ChatActivity" />
+        <activity android:name=".view.main.addproduct.SubmitGiftActivity" />
+        <activity android:name=".view.profile.blocklist.BlockListActivity" />
+        <activity android:name=".view.profile.bookmarks.BookmarksActivity" />
+        <activity android:name=".view.profile.UserGiftDetailActivity" />
+        <activity android:name=".view.profile.MyProfileActivity" />
+        <activity android:name=".view.filter.FilterActivity" />
+        <activity android:name=".view.category.CategoryActivity" />
+        <activity android:name=".view.main.charity.charitydetail.CharityDetailActivity" />
+        <activity android:name=".view.giftdetail.GiftDetailActivity" />
+        <activity android:name=".view.gallery.GalleryActivity" />
+        <activity android:name=".view.citychooser.CityChooserActivity" />
+        <activity android:name=".view.authentication.AuthenticationActivity" />
+        <activity android:name=".view.main.MainActivity" />
+        <activity android:name=".view.onbording.OnBoardingActivity" />
+
         <activity android:name=".view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,19 +43,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.profile.blocklist.BlockListActivity" />
-        <activity android:name=".view.profile.bookmarks.BookmarksActivity" />
-        <activity android:name=".view.profile.UserGiftDetailActivity" />
-        <activity android:name=".view.profile.MyProfileActivity" />
-        <activity android:name=".view.filter.FilterActivity" />
-        <activity android:name=".view.category.CategoryActivity" />
-        <activity android:name=".view.charity.charitydetail.CharityDetailActivity" />
-        <activity android:name=".view.giftdetail.GiftDetailActivity" />
-        <activity android:name=".view.gallery.GalleryActivity" />
-        <activity android:name=".view.citychooser.CityChooserActivity" />
-        <activity android:name=".view.authentication.AuthenticationActivity" />
-        <activity android:name=".view.main.MainActivity" />
-        <activity android:name=".view.onbording.OnBoardingActivity" />
+
+        <receiver
+            android:name=".view.main.conversation.chat.ChatBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="CHAT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.KindnessWallFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

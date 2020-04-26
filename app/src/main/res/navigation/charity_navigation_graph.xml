@@ -5,6 +5,6 @@
     app:startDestination="@id/charityFragment">
     <fragment
         android:id="@+id/charityFragment"
-        android:name="com.farshidabz.kindnesswall.view.charity.CharityFragment"
+        android:name="ir.kindnesswall.view.main.charity.CharityFragment"
         android:label="CharityFragment" />
 </navigation>

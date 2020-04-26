@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.farshidabz.kindnesswall.data.model.CityModel" />
+            type="ir.kindnesswall.data.model.CityModel" />
     </data>
 
     <LinearLayout

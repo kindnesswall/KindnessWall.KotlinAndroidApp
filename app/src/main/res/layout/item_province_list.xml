@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.farshidabz.kindnesswall.data.local.dao.province.ProvinceModel" />
+            type="ir.kindnesswall.data.local.dao.province.ProvinceModel" />
     </data>
 
     <LinearLayout
