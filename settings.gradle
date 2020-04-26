@@ -1,2 +1,2 @@
-include ':app', ':timeago'
+include ':app'
 rootProject.name='KidnessWall'
