@@ -208,6 +208,12 @@ class ChatActivity : BaseActivity() {
 
         viewModel.chatList?.addAll(chatMessageModel.textMessages!!)
         viewModel.chatList?.let { adapter.setData(it) }
+
+        if (viewModel.chatList.isNullOrEmpty()) {
+            binding.noChatTextView.visibility = View.VISIBLE
+        } else {
+            binding.noChatTextView.visibility = View.GONE
+        }
     }
 //
 //    private fun shouldAddHeader(transactionModel: MutableMap.MutableEntry<Date, List<TextMessageModel>>): Boolean {

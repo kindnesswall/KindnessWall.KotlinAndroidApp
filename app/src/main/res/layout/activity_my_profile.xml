@@ -194,6 +194,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
                 tools:listitem="@layout/item_profile_gifts" />
 
+            <TextView
+                android:id="@+id/emptyPageTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
+                tools:text="شما هدیه ای ثبت شده ای ندارید" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/editProfileContainer"
                 android:layout_width="match_parent"

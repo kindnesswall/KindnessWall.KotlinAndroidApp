@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentInsertVerificationNumberBinding
@@ -86,7 +87,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
                     showProgressDialog()
                 }
                 CustomResult.Status.ERROR -> {
-                    showToastMessage(it.message.toString())
+//                    showToastMessage(it.message.toString())
                 }
             }
         }
@@ -135,8 +136,12 @@ class InsertVerificationNumberFragment : BaseFragment() {
             when (it.status) {
                 CustomResult.Status.SUCCESS -> {
                     dismissProgressDialog()
-                    viewModel.registerUserFirebaseToken()
-                    authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+                    viewModel.registerUserFirebaseToken().observe(viewLifecycleOwner) { result ->
+                        if (result.status == CustomResult.Status.ERROR) {
+                            AppPref.shouldUpdatedFireBaseToken = true
+                        }
+                        authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+                    }
                 }
                 CustomResult.Status.LOADING -> {
                     showProgressDialog()

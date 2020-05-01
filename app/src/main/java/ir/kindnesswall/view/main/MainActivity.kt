@@ -12,14 +12,16 @@ import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.utils.BottomTabHistory
 import ir.kindnesswall.utils.OnClickListener
+import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -39,7 +41,6 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-        @JvmStatic
         fun start(context: Context?, defaultTab: Int = R.id.navigation_home) {
             context?.let {
                 val intent = Intent(it, MainActivity::class.java)
@@ -56,10 +57,10 @@ class MainActivity : BaseActivity() {
         outState.putSerializable("TAB_HISTORY", tabHistory)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        savedInstanceState?.let {
+        savedInstanceState.let {
             tabHistory = it.getSerializable("TAB_HISTORY") as BottomTabHistory
             switchTab(binding.mainBottomNavigationView.selectedItemId, false)
         }
@@ -68,7 +69,7 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.sendRegisterFirebaseToken()
+//        viewModel.sendRegisterFirebaseToken()
     }
 
     override fun supportNavigateUpTo(upIntent: Intent) {
@@ -133,11 +134,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun switchTab(tabId: Int, addToHistory: Boolean = true): Boolean {
+        var addTabToHistory = addToHistory
+
         when (tabId) {
             R.id.navigation_home -> {
-//                if (currentController == navIncomeController)
-//                    sendBroadcast(Intent(HomeFragment.ACTION_HOME))
-
                 currentController = navHomeController
 
                 binding.homeTabContainer.visibility = View.VISIBLE
@@ -147,7 +147,6 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.navigation_charity -> {
-
                 currentController = navCharityController
 
                 binding.charityTabContainer.visibility = View.VISIBLE
@@ -157,23 +156,42 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.navigation_add_product -> {
-                SubmitGiftActivity.start(this)
+                addTabToHistory = false
+                if (UserInfoPref.bearerToken.isEmpty()) {
+                    showPromptDialog(
+                        getString(R.string.login),
+                        getString(R.string.login_to_submit_order),
+                        getString(R.string.enter),
+                        getString(R.string.close),
+                        onPositiveClickCallback = {
+                            AuthenticationActivity.start(this)
+                        })
+                } else {
+                    SubmitGiftActivity.start(this)
+                }
             }
 
             R.id.navigation_conversation -> {
+                if (!UserInfoPref.bearerToken.isEmpty()) {
+                    currentController = navConversationController
 
-                currentController = navConversationController
-
-                binding.conversationTabContainer.visibility = View.VISIBLE
-                binding.homeTabContainer.visibility = View.INVISIBLE
-                binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.moreTabContainer.visibility = View.INVISIBLE
+                    binding.conversationTabContainer.visibility = View.VISIBLE
+                    binding.homeTabContainer.visibility = View.INVISIBLE
+                    binding.charityTabContainer.visibility = View.INVISIBLE
+                    binding.moreTabContainer.visibility = View.INVISIBLE
+                } else {
+                    showPromptDialog(
+                        getString(R.string.login),
+                        getString(R.string.login_to_show_conversations),
+                        getString(R.string.enter),
+                        getString(R.string.close),
+                        onPositiveClickCallback = {
+                            AuthenticationActivity.start(this)
+                        })
+                }
             }
 
             R.id.navigation_more -> {
-//                if (currentController == navProfileController)
-//                    sendBroadcast(Intent(ProfileFragment.ACTION_PROFILE))
-
                 currentController = navMoreController
 
                 binding.moreTabContainer.visibility = View.VISIBLE
@@ -182,7 +200,8 @@ class MainActivity : BaseActivity() {
                 binding.conversationTabContainer.visibility = View.INVISIBLE
             }
         }
-        if (addToHistory) {
+
+        if (addTabToHistory) {
             tabHistory.push(tabId)
         }
 

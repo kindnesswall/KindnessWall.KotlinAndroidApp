@@ -220,7 +220,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             getResultWithExponentialBackoffStrategy {
                 userApi.registerFirebaseToken(
-                    PushRegisterRequestModel(UserInfoPref.fireBaseToken, UserInfoPref.fireBaseToken)
+                    PushRegisterRequestModel(UserInfoPref.fireBaseToken)
                 )
             }.collect { result ->
                 when (result.status) {

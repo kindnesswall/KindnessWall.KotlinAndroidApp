@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.nguyenhoanglam.imagepicker.model.Config
+import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.annotation.Filter
@@ -22,8 +24,6 @@ import ir.kindnesswall.utils.imageloader.GlideApp
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
 import ir.kindnesswall.utils.startSingleModeImagePicker
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.model.Image
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.util.*
@@ -130,6 +130,7 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
             CustomResult.Status.SUCCESS -> {
                 dismissProgressDialog()
                 showList(it.data)
+                checkEmptyState()
             }
 
             CustomResult.Status.LOADING -> {
@@ -139,13 +140,34 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
             CustomResult.Status.ERROR -> {
                 dismissProgressDialog()
                 showToastMessage("")
+                checkEmptyState()
             }
         }
     }
 
     private fun showList(data: List<GiftModel>?) {
+        (binding.userActivityList.adapter as UserGiftsAdapter).submitList(null)
+
         if (!data.isNullOrEmpty()) {
+            binding.emptyPageTextView.visibility = View.GONE
             (binding.userActivityList.adapter as UserGiftsAdapter).submitList(data)
+        }
+    }
+
+    private fun checkEmptyState() {
+        if ((binding.userActivityList.adapter as UserGiftsAdapter).itemCount == 0) {
+            binding.emptyPageTextView.visibility = View.VISIBLE
+
+            when (viewModel.currentFilter) {
+                Filter.DONATED -> binding.emptyPageTextView.text =
+                    getString(R.string.donated_gift_empty_message)
+
+                Filter.RECEIVED -> binding.emptyPageTextView.text =
+                    getString(R.string.received_gift_empty_message)
+
+                Filter.REGISTERED -> binding.emptyPageTextView.text =
+                    getString(R.string.registered_gift_empty_message)
+            }
         }
     }
 

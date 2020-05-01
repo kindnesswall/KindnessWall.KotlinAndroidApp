@@ -30,7 +30,6 @@ class SubmitGiftActivity : BaseActivity() {
     private lateinit var adapter: SelectedImagesAdapter
 
     companion object {
-        @JvmStatic
         fun start(context: Context) {
             context.startActivity(Intent(context, SubmitGiftActivity::class.java))
         }

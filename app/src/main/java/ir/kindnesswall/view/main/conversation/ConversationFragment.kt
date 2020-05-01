@@ -9,6 +9,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.ConversationModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentConversationBinding
@@ -65,7 +66,10 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
                 }
 
                 CustomResult.Status.ERROR -> {
-                    showToastMessage(it.message.toString())
+                    if (UserInfoPref.bearerToken.isEmpty()) {
+                        binding.conversationEmptyPage.visibility = View.VISIBLE
+                    }
+//                    showToastMessage(it.message.toString())
                 }
             }
         }
@@ -74,6 +78,10 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
     private fun showList(data: List<ConversationModel>?) {
         if (!data.isNullOrEmpty()) {
             (binding.itemsListRecyclerView.adapter as ConversationListAdapter).submitList(data)
+        }
+
+        if ((binding.itemsListRecyclerView.adapter as ConversationListAdapter).itemCount == 0) {
+            binding.conversationEmptyPage.visibility = View.VISIBLE
         }
     }
 

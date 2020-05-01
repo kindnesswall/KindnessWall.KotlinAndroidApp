@@ -38,18 +38,11 @@
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:background="@drawable/shadow_top_to_down"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemsListRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@color/white"
             android:clipToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="16dp"
@@ -60,5 +53,48 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
             tools:listitem="@layout/item_conversations" />
 
+        <LinearLayout
+            android:id="@+id/conversationEmptyPage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="56dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="256dp"
+                android:src="@drawable/chats_place_holder" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_conversation" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/submit_request_for_chat"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@drawable/shadow_top_to_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
+        
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

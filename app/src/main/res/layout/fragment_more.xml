@@ -9,6 +9,8 @@
             name="userInfo"
             type="ir.kindnesswall.data.local.UserInfoPref" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -53,12 +55,14 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginTop="12dp"
+                android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
                 app:srcAvatarImage="@{userInfo.image}"
                 app:srcCompat="@drawable/ic_profile_placeholder_gary"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/userNameText"
@@ -68,10 +72,12 @@
                 android:text="@{userInfo.name.length() == 0 ? @string/user_name_place_holder : userInfo.name}"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="15sp"
+                android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="@+id/userImageView"
                 app:layout_constraintStart_toStartOf="@+id/userImageView"
                 app:layout_constraintTop_toBottomOf="@+id/userImageView"
-                tools:text="مریم رضایی نایب" />
+                tools:text="مریم رضایی نایب"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/profileTextView"
@@ -81,8 +87,10 @@
                 android:text="@string/show_profile"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="15sp"
+                android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userNameText" />
+                app:layout_constraintTop_toBottomOf="@id/userNameText"
+                tools:visibility="gone" />
 
             <View
                 android:id="@+id/divider"
@@ -90,7 +98,9 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/divider"
-                app:layout_constraintTop_toBottomOf="@+id/profileTextView" />
+                android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
+                app:layout_constraintTop_toBottomOf="@+id/profileTextView"
+                tools:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,7 +165,9 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                    android:paddingEnd="16dp"
+                    android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
+                    tools:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -219,7 +231,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/logOut"
+                    android:id="@+id/logInLogOut"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
@@ -238,7 +250,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@string/logout" />
+                        android:text="@{userInfo.bearerToken.length() == 0 ? @string/login : @string/logout}" />
 
                 </LinearLayout>
 

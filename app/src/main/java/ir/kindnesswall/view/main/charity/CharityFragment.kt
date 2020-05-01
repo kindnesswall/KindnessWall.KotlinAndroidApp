@@ -107,7 +107,6 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
-                Log.e(">>>>>>", it.message.toString())
                 showToastMessage("")
             }
         }

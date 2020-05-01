@@ -27,12 +27,12 @@ class MyProfileViewModel(
         return when (currentFilter) {
             Filter.REGISTERED -> userRepo.getUserRegisteredGifts(
                 viewModelScope,
-                UserInfoPref.userId
+                UserInfoPref.id
             )
 
-            Filter.DONATED -> userRepo.getUserDonatedGifts(viewModelScope, UserInfoPref.userId)
-            Filter.RECEIVED -> userRepo.getUserReceivedGifts(viewModelScope, UserInfoPref.userId)
-            else -> userRepo.getUserReceivedGifts(viewModelScope, UserInfoPref.userId)
+            Filter.DONATED -> userRepo.getUserDonatedGifts(viewModelScope, UserInfoPref.id)
+            Filter.RECEIVED -> userRepo.getUserReceivedGifts(viewModelScope, UserInfoPref.id)
+            else -> userRepo.getUserReceivedGifts(viewModelScope, UserInfoPref.id)
         }
     }
 

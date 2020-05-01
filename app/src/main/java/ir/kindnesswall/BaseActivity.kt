@@ -8,8 +8,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.utils.LocaleHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import org.koin.android.ext.android.inject
 
 
 /**
@@ -25,7 +31,7 @@ import ir.kindnesswall.utils.LocaleHelper
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
-
+    private val userRepo: UserRepo by inject()
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(
@@ -45,6 +51,13 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (AppPref.shouldUpdatedFireBaseToken)
+            userRepo.registerFirebaseToken(lifecycleScope)
     }
 
     abstract fun configureViews(savedInstanceState: Bundle?)
@@ -138,7 +151,7 @@ abstract class BaseActivity : AppCompatActivity() {
         promptDialog?.dismiss()
         promptDialog = null
     }
-    
+
     fun showProgressDialog() {
 
     }

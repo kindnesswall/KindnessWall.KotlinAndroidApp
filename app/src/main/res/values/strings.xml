@@ -52,6 +52,7 @@
     <string name="about">معرفی دیوار مهربانی</string>
     <string name="contact_us">ارتباط با ما</string>
     <string name="logout">خروج از حساب کاربری</string>
+    <string name="login">ورود به حساب کاربری</string>
     <string name="category">دسته بندی</string>
     <string name="neighborhood">محل</string>
     <string name="description">توضیحات</string>
@@ -79,7 +80,7 @@
     <string name="choose">انتخاب</string>
     <string name="gift_from_me">هدیه هایی که از طرف من…</string>
     <string name="registered">ثبت شده</string>
-    <string name="filter_profile_donate">پذیرفته شده</string>
+    <string name="filter_profile_donate">اهدا شده</string>
     <string name="filter_profile_received">دریافت شده</string>
     <string name="save">ذخیره</string>
     <string name="cancel">لغو</string>
@@ -93,7 +94,7 @@
     <string name="conversations">گفتگو‌ها</string>
     <string name="submit_gift">ثبت هدیه</string>
     <string name="gift_title">عنوان هدیه</string>
-    <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید</string>
+    <string name="submit_gift_title_message">ارزش ریالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد.</string>
     <string name="submit_gift_dexcription_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید</string>
     <string name="price_range">حدود قیمت</string>
     <string name="price_range_hint">_ _ _ , _ _ _ ریال</string>
@@ -112,5 +113,13 @@
     <string name="no">خیر</string>
 
     <string name="logout_message">آیا میخواهید از حساب کاربری خود خارج شوید؟</string>
+    <string name="login_to_submit_order">برای ثبت آگهی وارد حساب کاربری خود شوید</string>
+    <string name="login_to_show_conversations">برای نمایش گفتگوها وارد حساب کاربری خود شوید</string>
+    <string name="enter">ورود</string>
+    <string name="no_conversation">گفتگویی وجود ندارد</string>
+    <string name="submit_request_for_chat">برای اینجاد گفتگو ابتدا درخواستی برای یک هدیه ثبت کنید</string>
+    <string name="received_gift_empty_message">شما هدیه ای دریافت نکرده اید</string>
+    <string name="donated_gift_empty_message">از طرف شما هدیه ای اهدا نشده است</string>
+    <string name="registered_gift_empty_message">شما هدیه ثبت شده ای ندارید</string>
 
 </resources>

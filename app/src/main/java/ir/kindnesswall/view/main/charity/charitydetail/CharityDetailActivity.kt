@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
@@ -58,15 +59,30 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         binding.lifecycleOwner = this
         binding.item = viewModel.charityModel
 
+        viewModel.charityViewListener = this
+
+        initBottomSheet()
+    }
+
+    private fun initBottomSheet() {
         binding.informationBottomSheet.item = viewModel.charityModel
         binding.informationBottomSheet.viewModel = viewModel
 
-        viewModel.charityViewListener = this
+        val sheetBehavior =
+            BottomSheetBehavior.from(binding.informationBottomSheet.charityContentBottomSheet)
 
         if (UserInfoPref.bearerToken.isNotEmpty() && UserInfoPref.isCharity) {
             binding.informationBottomSheet.startChatButton.visibility = View.VISIBLE
         } else {
             binding.informationBottomSheet.startChatButton.visibility = View.VISIBLE
+        }
+
+        binding.informationBottomSheet.toolbar.setOnClickListener {
+            if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
         }
     }
 
