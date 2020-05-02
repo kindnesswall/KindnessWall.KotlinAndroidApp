@@ -158,14 +158,7 @@ class MainActivity : BaseActivity() {
             R.id.navigation_add_product -> {
                 addTabToHistory = false
                 if (UserInfoPref.bearerToken.isEmpty()) {
-                    showPromptDialog(
-                        getString(R.string.login),
-                        getString(R.string.login_to_submit_order),
-                        getString(R.string.enter),
-                        getString(R.string.close),
-                        onPositiveClickCallback = {
-                            AuthenticationActivity.start(this)
-                        })
+                    AuthenticationActivity.start(this)
                 } else {
                     SubmitGiftActivity.start(this)
                 }
@@ -180,14 +173,7 @@ class MainActivity : BaseActivity() {
                     binding.charityTabContainer.visibility = View.INVISIBLE
                     binding.moreTabContainer.visibility = View.INVISIBLE
                 } else {
-                    showPromptDialog(
-                        getString(R.string.login),
-                        getString(R.string.login_to_show_conversations),
-                        getString(R.string.enter),
-                        getString(R.string.close),
-                        onPositiveClickCallback = {
-                            AuthenticationActivity.start(this)
-                        })
+                    AuthenticationActivity.start(this)
                 }
             }
 

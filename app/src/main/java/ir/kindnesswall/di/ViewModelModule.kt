@@ -46,7 +46,7 @@ val viewModelModule = module {
     viewModel { CharityViewModel(get()) }
     viewModel { MyProfileViewModel(get(), get()) }
     viewModel { SplashViewModel(get()) }
-    viewModel { SubmitGiftViewModel(get(), get()) }
+    viewModel { SubmitGiftViewModel(get(), get(), get()) }
     viewModel { ConversationsViewModel(get()) }
     viewModel { ChatViewModel(get()) }
 }

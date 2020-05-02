@@ -10,7 +10,7 @@ import ir.kindnesswall.databinding.ItemSelectedImagesBinding
 class SelectedImagesAdapter : RecyclerView.Adapter<SelectedImagesViewHolder>() {
     private var items = ArrayList<String>()
 
-    public var onClickCallback: ((Int, String) -> Unit)? = null
+    var onClickCallback: ((Int, String) -> Unit)? = null
 
     override fun getItemId(position: Int): Long {
         return items[position].hashCode().toLong()
@@ -19,6 +19,11 @@ class SelectedImagesAdapter : RecyclerView.Adapter<SelectedImagesViewHolder>() {
     fun setItems(items: List<String>) {
         this.items.clear()
         this.items.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun clear() {
+        this.items.clear()
         notifyDataSetChanged()
     }
 

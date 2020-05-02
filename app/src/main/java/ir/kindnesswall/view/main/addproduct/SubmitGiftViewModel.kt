@@ -2,25 +2,35 @@ package ir.kindnesswall.view.main.addproduct
 
 import android.content.Context
 import androidx.lifecycle.*
+import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
-import ir.kindnesswall.data.model.requestsmodel.RegisterGiftRequestModel
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.GiftRepo
+import kotlinx.coroutines.launch
 
 class SubmitGiftViewModel(
     private val fileUploadRepo: FileUploadRepo,
-    private val giftRepo: GiftRepo
+    private val giftRepo: GiftRepo,
+    private val appDatabase: AppDatabase
 ) : ViewModel() {
     var title = MutableLiveData<String>()
     var description = MutableLiveData<String>()
     var price = MutableLiveData<String>()
 
+    var backupDataLiveData = MutableLiveData<RegisterGiftRequestModel>()
+
     var categoryId = MutableLiveData<Int>()
+    var categoryName = MutableLiveData<String>()
 
     var provinceId = MutableLiveData<Int>()
+    var provinceName = MutableLiveData<String>()
+
     var cityId = MutableLiveData<Int>()
+    var cityName = MutableLiveData<String>()
 
     var isNew = true
 
@@ -59,5 +69,50 @@ class SubmitGiftViewModel(
 
     fun uploadImages(context: Context, lifecycleOwner: LifecycleOwner) {
         fileUploadRepo.uploadFile(context, lifecycleOwner, imagesToUpload[0], uploadImagesLiveData)
+    }
+
+    fun backupData(callback: (Boolean) -> Unit) {
+        val registerGiftRequestModel = RegisterGiftRequestModel()
+        registerGiftRequestModel.title = title.value ?: ""
+        registerGiftRequestModel.description = description.value ?: ""
+        registerGiftRequestModel.giftImages.addAll(selectedImages)
+        registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
+        registerGiftRequestModel.categoryName = categoryName.value ?: ""
+        registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
+        registerGiftRequestModel.provinceName = provinceName.value ?: ""
+        registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
+        registerGiftRequestModel.cityName = cityName.value ?: ""
+        registerGiftRequestModel.countryId = AppPref.countryId
+        registerGiftRequestModel.isNew = isNew
+
+        registerGiftRequestModel.price =
+            if (price.value.isNullOrEmpty()) 0 else price.value!!.toInt()
+
+        viewModelScope.launch {
+            appDatabase.registerGiftRequestDao().insert(registerGiftRequestModel)
+            callback.invoke(true)
+        }
+    }
+
+    fun getBackUpData(): MutableLiveData<RegisterGiftRequestModel> {
+        backupDataLiveData.value = appDatabase.registerGiftRequestDao().getItem()
+        return backupDataLiveData
+    }
+
+    fun removeBackupData() {
+        appDatabase.registerGiftRequestDao().delete()
+    }
+
+    fun clearData() {
+        appDatabase.registerGiftRequestDao().delete()
+
+        selectedImages.clear()
+        imagesToUpload.clear()
+        uploadedImagesAddress.clear()
+
+        categoryId.value = 0
+        provinceId.value = 0
+        cityId.value = 0
+        isNew = true
     }
 }

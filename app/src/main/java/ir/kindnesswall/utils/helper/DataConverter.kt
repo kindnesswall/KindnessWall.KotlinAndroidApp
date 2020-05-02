@@ -36,4 +36,24 @@ class DataConverter {
         val type = object : TypeToken<List<String>>() {}.type
         return Gson().toJson(data, type)
     }
+
+    @TypeConverter
+    fun toImageArrayList(data: String?): ArrayList<String> {
+        if (data == null) {
+            return arrayListOf()
+        }
+
+        val type = object : TypeToken<ArrayList<String>>() {}.type
+        return Gson().fromJson(data, type)
+    }
+
+    @TypeConverter
+    fun fromImagesArrayList(data: ArrayList<String>?): String {
+        if (data == null) {
+            return ""
+        }
+
+        val type = object : TypeToken<ArrayList<String>>() {}.type
+        return Gson().toJson(data, type)
+    }
 }

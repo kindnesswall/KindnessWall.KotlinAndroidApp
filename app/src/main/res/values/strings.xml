@@ -94,8 +94,9 @@
     <string name="conversations">گفتگو‌ها</string>
     <string name="submit_gift">ثبت هدیه</string>
     <string name="gift_title">عنوان هدیه</string>
-    <string name="submit_gift_title_message">ارزش ریالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد.</string>
-    <string name="submit_gift_dexcription_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید</string>
+    <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید.</string>
+    <string name="submit_gift_price_message">ارزش ریالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد.</string>
+    <string name="submit_gift_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید</string>
     <string name="price_range">حدود قیمت</string>
     <string name="price_range_hint">_ _ _ , _ _ _ ریال</string>
     <string name="gift_image">عکس هدیه</string>
@@ -121,5 +122,6 @@
     <string name="received_gift_empty_message">شما هدیه ای دریافت نکرده اید</string>
     <string name="donated_gift_empty_message">از طرف شما هدیه ای اهدا نشده است</string>
     <string name="registered_gift_empty_message">شما هدیه ثبت شده ای ندارید</string>
+    <string name="clear">پاک کردن</string>
 
 </resources>

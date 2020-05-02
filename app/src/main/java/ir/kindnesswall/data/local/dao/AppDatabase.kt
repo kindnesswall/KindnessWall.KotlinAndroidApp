@@ -10,12 +10,22 @@ import ir.kindnesswall.data.local.dao.charity.CharityDao
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.local.dao.province.ProvinceDao
 import ir.kindnesswall.data.local.dao.province.ProvinceModel
+import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestDao
+import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 
-@Database(entities = [ProvinceModel::class, CharityModel::class, GiftModel::class], version = 1)
+@Database(
+    entities = [
+        ProvinceModel::class,
+        CharityModel::class,
+        GiftModel::class,
+        RegisterGiftRequestModel::class],
+    version = 1
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun provinceDao(): ProvinceDao
     abstract fun catalogDao(): CatalogDao
     abstract fun charityDao(): CharityDao
+    abstract fun registerGiftRequestDao(): RegisterGiftRequestDao
 
     companion object {
         @Volatile

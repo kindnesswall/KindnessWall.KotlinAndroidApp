@@ -7,10 +7,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
-import ir.kindnesswall.data.model.requestsmodel.RegisterGiftRequestModel
 import ir.kindnesswall.data.remote.network.GiftApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
