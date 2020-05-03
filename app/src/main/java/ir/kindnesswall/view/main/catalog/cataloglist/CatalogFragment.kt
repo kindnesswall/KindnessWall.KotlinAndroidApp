@@ -60,7 +60,18 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
                 .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
         }
 
+        binding.pullToRefreshLayout.setOnRefreshListener {
+            binding.pullToRefreshLayout.isRefreshing = true
+            refreshList()
+        }
+
         initRecyclerView()
+    }
+
+    private fun refreshList() {
+        viewModel.catalogItems.clear()
+        showList()
+        getGiftsFirstPage()
     }
 
     private fun initRecyclerView() {
@@ -94,7 +105,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun getGiftsFirstPage() {
-        viewModel.catalogItems.observe(viewLifecycleOwner) {
+        viewModel.getCatalogItemsFirstPage().observe(viewLifecycleOwner) {
             onCatalogItemsReceived(it)
         }
     }
@@ -106,8 +117,12 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.SUCCESS -> {
+                binding.pullToRefreshLayout.isRefreshing = false
                 dismissProgressDialog()
-                showList(it.data)
+                it.data?.let { data ->
+                    viewModel.catalogItems.addAll(data)
+                    showList()
+                }
             }
 
             CustomResult.Status.ERROR -> {
@@ -117,10 +132,8 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
-    private fun showList(data: List<GiftModel>?) {
-        if (!data.isNullOrEmpty()) {
-            (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(data)
-        }
+    private fun showList() {
+        (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(viewModel.catalogItems)
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
