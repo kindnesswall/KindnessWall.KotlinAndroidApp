@@ -10,12 +10,14 @@ import ir.kindnesswall.data.repository.GiftRepo
 class CatalogViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     private var lastId = 0L
 
-    val catalogItems: LiveData<CustomResult<List<GiftModel>>> by lazy {
-        giftRepo.getGiftsFirstPage(viewModelScope)
+    val catalogItems = ArrayList<GiftModel>()
+
+    fun getCatalogItemsFirstPage(): LiveData<CustomResult<List<GiftModel>>> {
+        return giftRepo.getGiftsFirstPage(viewModelScope)
     }
 
     fun getCatalogItemsFromServer(): LiveData<CustomResult<List<GiftModel>>> {
-        lastId = catalogItems.value?.data?.last()?.id ?: 0
+        lastId = catalogItems.last().id
         return giftRepo.getGifts(viewModelScope, lastId)
     }
 }

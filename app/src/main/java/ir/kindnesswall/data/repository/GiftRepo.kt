@@ -36,12 +36,7 @@ class GiftRepo(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
-
             emit(CustomResult.loading())
-
-            emitSource(fetchFromDb())
-
             getResultWithExponentialBackoffStrategy {
                 giftApi.getGiftsFirstPage(GetGiftsRequestBaseBody())
             }.collect { result ->
@@ -50,8 +45,9 @@ class GiftRepo(
                         if (result.data == null) {
                             emit(CustomResult.error(result.message.toString()))
                         } else {
-                            appDatabase.catalogDao().insert(result.data)
-                            emitSource(fetchFromDb())
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
