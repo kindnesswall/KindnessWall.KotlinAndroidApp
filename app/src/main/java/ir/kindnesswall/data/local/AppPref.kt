@@ -20,6 +20,8 @@ object AppPref : KotprefModel() {
 
     var currentLocale by stringPref("fa")
     var isAppInForeground by booleanPref(false)
+    var isInChatPage by booleanPref(false)
+
     var countryId by intPref(103)
 
     private var recentSearch by stringPref("")

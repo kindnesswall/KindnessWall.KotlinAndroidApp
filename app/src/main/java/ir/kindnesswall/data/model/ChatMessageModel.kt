@@ -1,8 +1,7 @@
 package ir.kindnesswall.data.model
 
-import android.os.Parcelable
 import ir.kindnesswall.utils.extentions.getHourAndMinute
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 import java.util.*
 
 open class TextMessageBaseModel
@@ -14,8 +13,7 @@ class ChatMessageModel {
 
 data class TextMessageHeaderModel(var date: String = "") : TextMessageBaseModel()
 
-@Parcelize
-class TextMessageModel : TextMessageBaseModel(), Parcelable {
+class TextMessageModel : TextMessageBaseModel(), Serializable {
     var text: String? = null
     var chatId = 0
     var receiverId: Long = 0

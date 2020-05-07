@@ -8,6 +8,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import ir.kindnesswall.R
 import ir.kindnesswall.factory.ActionModelFactory
 
@@ -17,12 +18,13 @@ object NotificationHandler {
         context: Context,
         title: String?,
         content: String?,
-        url: String?
+        url: String?,
+        model: Any?
     ) {
         var pIntent: PendingIntent? = null
 
         if (!url.isNullOrEmpty()) {
-            val intent = ActionModelFactory.getActionIntent(context, url)
+            val intent = ActionModelFactory.getActionIntent(context, url, model)
             pIntent =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         }
@@ -38,7 +40,8 @@ object NotificationHandler {
         builder.setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_SOUND)
             .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_notification_small)
+            .setColor(ContextCompat.getColor(context, R.color.notification_small_color))
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
             .setContentTitle(title)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))

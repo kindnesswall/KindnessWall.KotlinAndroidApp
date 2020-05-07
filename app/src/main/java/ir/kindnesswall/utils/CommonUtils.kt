@@ -20,8 +20,11 @@ import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.dp
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.iid.FirebaseInstanceId
 import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
+import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.local.UserInfoPref
 import java.io.*
 
 

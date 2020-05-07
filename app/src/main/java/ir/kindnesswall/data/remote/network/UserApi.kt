@@ -5,6 +5,7 @@ import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.PushRegisterRequestModel
 import ir.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
 import ir.kindnesswall.data.model.user.User
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -60,5 +61,5 @@ interface UserApi {
     suspend fun getOtherUserProfile(@Path("userId") userId: Long): Response<User>
 
     @POST("push/register")
-    suspend fun registerFirebaseToken(@Body pushRegisterRequestModel: PushRegisterRequestModel): Response<Any>
+    fun registerFirebaseToken(@Body pushRegisterRequestModel: PushRegisterRequestModel): Call<Any>
 }

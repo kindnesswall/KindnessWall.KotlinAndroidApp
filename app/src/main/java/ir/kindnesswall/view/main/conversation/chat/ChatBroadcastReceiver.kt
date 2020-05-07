@@ -8,6 +8,7 @@ import ir.kindnesswall.data.model.TextMessageModel
 class ChatBroadcastReceiver(val listener: (TextMessageModel) -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        intent?.getParcelableExtra<TextMessageModel>("TextMessage")?.let { listener.invoke(it) }
+        val model = intent?.getSerializableExtra("textMessageModel") as TextMessageModel
+        model?.let { listener.invoke(it) }
     }
 }

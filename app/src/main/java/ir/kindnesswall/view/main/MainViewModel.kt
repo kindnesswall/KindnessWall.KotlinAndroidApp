@@ -20,10 +20,4 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewModel() {
     var defaultTab: Int = 0
-
-    fun sendRegisterFirebaseToken() {
-        if (AppPref.shouldUpdatedFireBaseToken) {
-            userRepo.registerFirebaseToken(viewModelScope)
-        }
-    }
 }

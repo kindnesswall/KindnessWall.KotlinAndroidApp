@@ -48,8 +48,4 @@ class AuthenticationViewModel(private val authRepo: AuthRepo, private val userRe
     fun updateUserProfile(userName: String, image: String): LiveData<CustomResult<Any>> {
         return userRepo.updateUserProfile(viewModelScope, userName, image)
     }
-
-    fun registerUserFirebaseToken(): LiveData<CustomResult<Boolean>> {
-        return userRepo.registerFirebaseToken(viewModelScope)
-    }
 }

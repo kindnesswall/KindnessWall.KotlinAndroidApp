@@ -9,6 +9,7 @@ import androidx.core.os.ConfigurationCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.chibatching.kotpref.Kotpref
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
@@ -62,6 +63,7 @@ class KindnessApplication : Application(), LifecycleObserver {
             modules(listOf(repositoryModule, networkModule, viewModelModule, dataBaseModule))
         }
 
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 //        UserInfoPref.bearerToken = "PS18esgYfp22XbaODp+PNQ=="
 
         createNotificationChannel()

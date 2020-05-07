@@ -8,8 +8,10 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.model.ChatMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.TextMessageBaseModel
@@ -33,10 +35,8 @@ class ChatActivity : BaseActivity() {
     companion object {
         fun start(context: Context, chatId: Long) {
             context.startActivity(
-                Intent(
-                    context,
-                    ChatActivity::class.java
-                ).apply { putExtra("chatId", chatId) })
+                Intent(context, ChatActivity::class.java).putExtra("chatId", chatId)
+            )
         }
     }
 
@@ -55,8 +55,12 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun initBroadcastReceiver() {
-        chatBroadcastReceiver = ChatBroadcastReceiver {
+        chatBroadcastReceiver = ChatBroadcastReceiver { message ->
+            viewModel.chatList?.add(0, message)
+            viewModel.chatList?.let { adapter.setData(it) }
+            viewModel.sendAckMessage(message.id)
 
+            checkEmptyPage()
         }
 
         val filter = IntentFilter("CHAT")
@@ -117,6 +121,12 @@ class ChatActivity : BaseActivity() {
     private fun initRecyclerView() {
         binding.itemsListRecyclerView.adapter = getAdapter()
 
+        val animator = binding.itemsListRecyclerView.itemAnimator
+
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+
         (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout = true
         (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd = false
 
@@ -166,6 +176,8 @@ class ChatActivity : BaseActivity() {
             adapter = ChatAdapter(viewModel)
         }
 
+        adapter.setHasStableIds(true)
+
         return adapter
     }
 
@@ -209,39 +221,56 @@ class ChatActivity : BaseActivity() {
         viewModel.chatList?.addAll(chatMessageModel.textMessages!!)
         viewModel.chatList?.let { adapter.setData(it) }
 
+        checkEmptyPage()
+    }
+
+    private fun checkEmptyPage() {
         if (viewModel.chatList.isNullOrEmpty()) {
             binding.noChatTextView.visibility = View.VISIBLE
         } else {
             binding.noChatTextView.visibility = View.GONE
         }
     }
-//
-//    private fun shouldAddHeader(transactionModel: MutableMap.MutableEntry<Date, List<TextMessageModel>>): Boolean {
-//        if (adapter.itemCount == 0) {
-//            return true
-//        }
-//
-//        val currentDayCalendar = Calendar.getInstance().apply {
-//            timeInMillis = transactionModel.key.time
-//        }
-//
-//        val prvDayCalendar = Calendar.getInstance().apply {
-//            timeInMillis =
-//                viewModel.transactionList[viewModel.transactionList.lastIndex].createdAt?.time ?: 0
-//        }
-//
-//        val day = currentDayCalendar[Calendar.DAY_OF_YEAR]
-//        val targetDay = prvDayCalendar[Calendar.DAY_OF_YEAR]
-//
-//        if (day == targetDay) {
-//            return false
-//        }
-//
-//        return true
-//    }
+
+/*
+    private fun shouldAddHeader(transactionModel: MutableMap.MutableEntry<Date, List<TextMessageModel>>): Boolean {
+        if (adapter.itemCount == 0) {
+            return true
+        }
+
+        val currentDayCalendar = Calendar.getInstance().apply {
+            timeInMillis = transactionModel.key.time
+        }
+
+        val prvDayCalendar = Calendar.getInstance().apply {
+            timeInMillis =
+                viewModel.transactionList[viewModel.transactionList.lastIndex].createdAt?.time ?: 0
+        }
+
+        val day = currentDayCalendar[Calendar.DAY_OF_YEAR]
+        val targetDay = prvDayCalendar[Calendar.DAY_OF_YEAR]
+
+        if (day == targetDay) {
+            return false
+        }
+
+        return true
+    }
+*/
+
+    override fun onResume() {
+        super.onResume()
+        AppPref.isInChatPage = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        AppPref.isInChatPage = false
+    }
 
     override fun onDestroy() {
         super.onDestroy()
+        AppPref.isInChatPage = false
         unregisterReceiver(chatBroadcastReceiver)
     }
 }

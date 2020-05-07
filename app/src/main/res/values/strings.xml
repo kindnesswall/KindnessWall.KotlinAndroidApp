@@ -123,5 +123,6 @@
     <string name="donated_gift_empty_message">از طرف شما هدیه ای اهدا نشده است</string>
     <string name="registered_gift_empty_message">شما هدیه ثبت شده ای ندارید</string>
     <string name="clear">پاک کردن</string>
+    <string name="new_message">پیغام جدید</string>
 
 </resources>

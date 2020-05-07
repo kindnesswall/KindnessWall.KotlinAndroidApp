@@ -92,7 +92,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
     override fun onStartChatClicked() {
         // todo get chat id
-        ChatActivity.start(this, 1)
+        ChatActivity.start(this, 3)
     }
 
     override fun onShareClicked() {

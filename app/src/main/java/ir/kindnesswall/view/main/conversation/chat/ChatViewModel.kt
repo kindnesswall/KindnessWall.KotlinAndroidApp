@@ -13,11 +13,11 @@ class ChatViewModel(private val chatRepo: ChatRepo) : ViewModel() {
     var lastId = 0L
     var chatId = 0L
 
-    fun getChats() = /*if (chatList.isNullOrEmpty()) {*/
+    fun getChats() = if (chatList.isNullOrEmpty()) {
         chatRepo.getChatsFirstPage(viewModelScope, chatId)
-//    } else {
-//        chatRepo.getChats(viewModelScope, lastId, chatId)
-//    }
+    } else {
+        chatRepo.getChats(viewModelScope, lastId, chatId)
+    }
 
     fun onMessageTextChanged(text: CharSequence) {
         messageTextLiveData.value = text.toString()

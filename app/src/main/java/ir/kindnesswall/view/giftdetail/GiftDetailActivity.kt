@@ -46,7 +46,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         if (UserInfoPref.bearerToken.isEmpty() or UserInfoPref.isCharity) {
             binding.requestButton.visibility = View.VISIBLE
         } else {
-            binding.requestButton.visibility = View.GONE
+            binding.requestButton.visibility = View.VISIBLE
         }
     }
 
@@ -104,7 +104,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             AuthenticationActivity.start(this)
         } else {
             // todo get chatId
-            ChatActivity.start(this, 1)
+            ChatActivity.start(this, 3)
         }
     }
 

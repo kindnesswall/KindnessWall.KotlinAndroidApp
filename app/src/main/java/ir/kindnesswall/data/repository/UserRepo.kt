@@ -16,6 +16,9 @@ import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.data.remote.network.UserApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -216,27 +219,16 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
         return null
     }
 
-    fun registerFirebaseToken(viewModelScope: CoroutineScope): LiveData<CustomResult<Boolean>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            getResultWithExponentialBackoffStrategy {
-                userApi.registerFirebaseToken(
-                    PushRegisterRequestModel(UserInfoPref.fireBaseToken)
-                )
-            }.collect { result ->
-                when (result.status) {
-                    CustomResult.Status.SUCCESS -> {
-                        AppPref.shouldUpdatedFireBaseToken = false
-
-                        emitSource(MutableLiveData<Boolean>().apply { value = true }
-                            .map { CustomResult.success(it) })
-                    }
-
-                    CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
-                    }
-
-                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+    fun registerFirebaseToken() {
+        userApi.registerFirebaseToken(PushRegisterRequestModel(UserInfoPref.fireBaseToken))
+            .enqueue(object : Callback<Any> {
+                override fun onFailure(call: Call<Any>, t: Throwable) {
+                    AppPref.shouldUpdatedFireBaseToken = true
                 }
-            }
-        }
+
+                override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                    AppPref.shouldUpdatedFireBaseToken = false
+                }
+            })
+    }
 }

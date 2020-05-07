@@ -8,13 +8,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.utils.LocaleHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import org.koin.android.ext.android.inject
 
 
@@ -56,8 +54,23 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (AppPref.shouldUpdatedFireBaseToken)
-            userRepo.registerFirebaseToken(lifecycleScope)
+        if (UserInfoPref.bearerToken.isNotEmpty()) {
+            if (UserInfoPref.fireBaseToken.isEmpty()) {
+                FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
+                    if (result.isSuccessful) {
+                        val token = result.result?.token.toString()
+                        if (token.isNotEmpty()) {
+                            UserInfoPref.fireBaseToken = token
+                            userRepo.registerFirebaseToken()
+                        }
+                    }
+                }
+            }
+        }
+
+        if (AppPref.shouldUpdatedFireBaseToken) {
+            userRepo.registerFirebaseToken()
+        }
     }
 
     abstract fun configureViews(savedInstanceState: Bundle?)
