@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.model.ChatMessageModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.TextMessageBaseModel
-import ir.kindnesswall.data.model.TextMessageModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import ir.kindnesswall.utils.imageloader.circleCropTransform
+import ir.kindnesswall.utils.imageloader.loadImage
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -33,9 +32,10 @@ class ChatActivity : BaseActivity() {
     private lateinit var chatBroadcastReceiver: ChatBroadcastReceiver
 
     companion object {
-        fun start(context: Context, chatId: Long) {
+        fun start(context: Context, requestGiftModel: RequestGiftModel) {
             context.startActivity(
-                Intent(context, ChatActivity::class.java).putExtra("chatId", chatId)
+                Intent(context, ChatActivity::class.java)
+                    .putExtra("requestGiftModel", requestGiftModel)
             )
         }
     }
@@ -47,11 +47,41 @@ class ChatActivity : BaseActivity() {
 
         configureViews(savedInstanceState)
 
-        viewModel.chatId = intent.getLongExtra("chatId", 0)
+        viewModel.requestGiftModel =
+            intent.getSerializableExtra("requestGiftModel") as RequestGiftModel
+
+        if (viewModel.requestGiftModel == null) {
+            finish()
+            return
+        }
 
         initBroadcastReceiver()
 
+        getUserProfile()
         getChats()
+    }
+
+    private fun getUserProfile() {
+        viewModel.getUserProfile().observe(this) {
+            when (it.status) {
+                CustomResult.Status.SUCCESS -> {
+                    it.data?.let { user ->
+                        loadImage(
+                            user.image,
+                            binding.userImageView,
+                            placeHolderId = R.drawable.ic_profile_place_holder_white,
+                            options = circleCropTransform()
+                        )
+
+                        binding.userNameTextView.text = user.name
+                        viewModel.receiverUser = user
+                    }
+                }
+                CustomResult.Status.ERROR -> {
+                    finish()
+                }
+            }
+        }
     }
 
     private fun initBroadcastReceiver() {
@@ -94,7 +124,28 @@ class ChatActivity : BaseActivity() {
         binding.userNameTextView.setOnClickListener { }
 
         binding.sendImageView.setOnClickListener {
-            if (!viewModel.messageTextLiveData.value.isNullOrEmpty()) viewModel.sendMessage()
+            if (!viewModel.messageTextLiveData.value.isNullOrEmpty()) {
+                viewModel.sendMessage().observe(this) { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            result.data?.let { data ->
+                                binding.messageEditText.setText("")
+                                viewModel.chatList?.add(0, data)
+                                viewModel.chatList?.let { adapter.setData(it) }
+                                checkEmptyPage()
+                            }
+                        }
+
+                        CustomResult.Status.LOADING -> {
+
+                        }
+
+                        CustomResult.Status.ERROR -> {
+                            showToastMessage(getString(R.string.error_sending_message))
+                        }
+                    }
+                }
+            }
         }
 
         binding.giftImageView.setOnClickListener { showGiftOptionsMenu() }
@@ -106,15 +157,19 @@ class ChatActivity : BaseActivity() {
 
     private fun unblockUser() {
         viewModel.unblockUser().observe(this) {
-            binding.blockUserImageView.visibility = View.VISIBLE
-            binding.unblockButton.visibility = View.GONE
+            if (it.status == CustomResult.Status.SUCCESS) {
+                binding.blockUserImageView.visibility = View.VISIBLE
+                binding.unblockButton.visibility = View.GONE
+            }
         }
     }
 
     private fun blockUser() {
         viewModel.blockUser().observe(this) {
-            binding.blockUserImageView.visibility = View.GONE
-            binding.unblockButton.visibility = View.VISIBLE
+            if (it.status == CustomResult.Status.SUCCESS) {
+                binding.blockUserImageView.visibility = View.GONE
+                binding.unblockButton.visibility = View.VISIBLE
+            }
         }
     }
 

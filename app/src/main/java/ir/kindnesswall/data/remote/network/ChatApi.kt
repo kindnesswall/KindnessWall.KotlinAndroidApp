@@ -28,11 +28,11 @@ interface ChatApi {
     @POST("chat/send")
     suspend fun sendMessage(@Body sendChatMessageRequestModel: SendChatMessageRequestModel): Response<TextMessageModel>
 
-    @PUT("chat/block/{chatId}")
-    suspend fun blockChat(@Path("chatId") id: Long): Response<Any>
+    @PUT("chat/block/{userId}")
+    suspend fun blockChat(@Path("userId") id: Long): Response<Any>
 
-    @PUT("chat/unblock/{chatId}")
-    suspend fun unblockChat(@Path("chatId") id: Long): Response<Any>
+    @PUT("chat/unblock/{userId}")
+    suspend fun unblockChat(@Path("userId") id: Long): Response<Any>
 
     @POST("chat/ack")
     suspend fun sendActMessage(@Body chatMessageAckRequestModel: ChatMessageAckRequestModel): Response<Any>

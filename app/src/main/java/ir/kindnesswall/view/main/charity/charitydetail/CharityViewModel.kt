@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.RequestGiftModel
 import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.data.repository.GiftRepo
 import ir.kindnesswall.data.repository.UserRepo
 
-class CharityViewModel(private val userRepo: UserRepo) : ViewModel() {
+class CharityViewModel(private val userRepo: UserRepo, private val giftRepo: GiftRepo) : ViewModel() {
     var charityModel: CharityModel? = null
 
     var charityViewListener: CharityViewListener? = null

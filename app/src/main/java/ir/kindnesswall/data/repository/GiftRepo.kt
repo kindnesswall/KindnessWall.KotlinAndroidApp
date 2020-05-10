@@ -10,6 +10,7 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.RequestGiftModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.remote.network.GiftApi
 import kotlinx.coroutines.CoroutineScope
@@ -138,7 +139,6 @@ class GiftRepo(
             }
         }
 
-
     fun registerGift(
         viewModelScope: CoroutineScope,
         registerGiftRequestModel: RegisterGiftRequestModel
@@ -154,6 +154,31 @@ class GiftRepo(
                             emit(CustomResult.error(result.message))
                         } else {
                             emitSource(MutableLiveData<GiftModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message))
+                }
+            }
+        }
+
+    fun requestGift(
+        viewModelScope: CoroutineScope,
+        giftId: Long
+    ): LiveData<CustomResult<RequestGiftModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                giftApi.requestGift(giftId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.message))
+                        } else {
+                            emitSource(MutableLiveData<RequestGiftModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }

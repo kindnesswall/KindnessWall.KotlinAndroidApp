@@ -105,9 +105,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
         emit(CustomResult.loading())
 
         getResultWithExponentialBackoffStrategy {
-            chatApi.sendMessage(
-                SendChatMessageRequestModel(chatId, message)
-            )
+            chatApi.sendMessage(SendChatMessageRequestModel(chatId, message))
         }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
@@ -127,11 +125,11 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
 
     fun blockChat(
         viewModelScope: CoroutineScope,
-        chatId: Long
+        userId: Long
     ): LiveData<CustomResult<Any>> = liveData(viewModelScope.coroutineContext, 0) {
         emit(CustomResult.loading())
 
-        getResultWithExponentialBackoffStrategy { chatApi.blockChat(chatId) }.collect { result ->
+        getResultWithExponentialBackoffStrategy { chatApi.blockChat(userId) }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
                     if (result.data == null) {
@@ -148,11 +146,11 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
 
     fun unblockChat(
         viewModelScope: CoroutineScope,
-        chatId: Long
+        userId: Long
     ): LiveData<CustomResult<Any>> = liveData(viewModelScope.coroutineContext, 0) {
         emit(CustomResult.loading())
 
-        getResultWithExponentialBackoffStrategy { chatApi.unblockChat(chatId) }.collect { result ->
+        getResultWithExponentialBackoffStrategy { chatApi.unblockChat(userId) }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
                     if (result.data == null) {

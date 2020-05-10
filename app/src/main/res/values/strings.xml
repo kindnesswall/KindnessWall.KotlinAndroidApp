@@ -124,5 +124,6 @@
     <string name="registered_gift_empty_message">شما هدیه ثبت شده ای ندارید</string>
     <string name="clear">پاک کردن</string>
     <string name="new_message">پیغام جدید</string>
+    <string name="error_sending_message">خطا در ارسال پیام</string>
 
 </resources>

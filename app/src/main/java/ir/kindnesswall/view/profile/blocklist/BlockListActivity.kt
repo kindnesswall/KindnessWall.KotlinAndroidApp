@@ -51,7 +51,7 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
     }
 
     private fun getBlockedUsers() {
-//        viewModel.bookmarkList?.observe(this) {
+//        viewModel.getBlockList?.observe(this) {
 //            when (it.status) {
 //                CustomResult.Status.LOADING -> {
 //                }
