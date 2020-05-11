@@ -24,6 +24,7 @@ import ir.kindnesswall.utils.imageloader.GlideApp
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
 import ir.kindnesswall.utils.startSingleModeImagePicker
+import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.util.*
@@ -228,11 +229,16 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
     private fun revertAllChanges() {
         binding.userNameEditText.setText(UserInfoPref.name)
-        loadImage(UserInfoPref.image, binding.userImageView)
+        loadImage(
+            UserInfoPref.image,
+            binding.userNewImageView,
+            placeHolderId = R.drawable.ic_profile_placeholder_gary,
+            options = circleCropTransform()
+        )
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
-        UserGiftDetailActivity.start(this, obj as GiftModel)
+        GiftDetailActivity.start(this, obj as GiftModel, true)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

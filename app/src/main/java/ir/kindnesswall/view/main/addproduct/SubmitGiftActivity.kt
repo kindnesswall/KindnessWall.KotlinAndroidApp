@@ -159,6 +159,7 @@ class SubmitGiftActivity : BaseActivity() {
                     showToastMessage("")
                 }
                 CustomResult.Status.SUCCESS -> {
+                    showToastMessage(getString(R.string.gift_submitted_successfully))
                     dismissProgressDialog()
                     it.data?.let { gift ->
                         viewModel.removeBackupData()

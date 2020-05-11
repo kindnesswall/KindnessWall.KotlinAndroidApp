@@ -66,8 +66,6 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
             getResultWithExponentialBackoffStrategy { userApi.getUserProfile(userId) }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
-                        UserInfoPref.setUser(result.data)
-
                         emitSource(MutableLiveData<User>().apply {
                             value = result.data
                         }.map { CustomResult.success(it) })

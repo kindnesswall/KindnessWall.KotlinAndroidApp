@@ -117,6 +117,42 @@
                     app:layout_constraintTop_toBottomOf="@+id/giftTimeTextView" />
 
                 <TextView
+                    android:id="@+id/situationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/vazir_bold"
+                    android:text="@string/situation"
+                    android:textColor="@color/secondaryTextColor"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/firstDivider" />
+
+                <TextView
+                    android:id="@+id/situationTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/situationText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/categoryText"
+                    app:layout_constraintTop_toTopOf="@id/situationText" />
+
+                <View
+                    android:id="@+id/secondDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/divider"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@+id/situationText" />
+
+                <TextView
                     android:id="@+id/categoryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,7 +162,7 @@
                     android:text="@string/category"
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/firstDivider" />
+                    app:layout_constraintTop_toBottomOf="@id/secondDivider" />
 
                 <TextView
                     android:id="@+id/categoryTextView"

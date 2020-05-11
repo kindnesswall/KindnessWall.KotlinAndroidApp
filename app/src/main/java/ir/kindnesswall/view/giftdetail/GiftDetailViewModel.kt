@@ -10,6 +10,7 @@ import ir.kindnesswall.data.repository.GiftRepo
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
 
+    var isMyGift: Boolean = false
     var selectedImageIndex: Int = 0
 
     var giftModel: GiftModel? = null

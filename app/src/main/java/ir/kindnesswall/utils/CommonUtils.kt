@@ -15,16 +15,13 @@ import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.nguyenhoanglam.imagepicker.model.Config
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.dp
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.iid.FirebaseInstanceId
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
-import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.local.UserInfoPref
 import java.io.*
 
 
@@ -238,10 +235,9 @@ fun startSingleModeImagePicker(activity: BaseActivity) {
         .setFolderMode(true)
         .setShowCamera(true)
         .setDoneTitle(activity.getString(R.string.choose))
-        .setSavePath("ImagePicker")
+        .setDirectoryName("ImagePicker")
         .setAlwaysShowDoneButton(true)
         .setRequestCode(Config.RC_PICK_IMAGES)
-        .setKeepScreenOn(true)
         .start()
 }
 
@@ -258,9 +254,18 @@ fun startMultiSelectingImagePicker(activity: BaseActivity) {
         .setFolderMode(true)
         .setShowCamera(true)
         .setDoneTitle(activity.getString(R.string.choose))
-        .setSavePath("ImagePicker")
+        .setDirectoryName("ImagePicker")
         .setAlwaysShowDoneButton(true)
         .setRequestCode(Config.RC_PICK_IMAGES)
-        .setKeepScreenOn(true)
         .start()
+}
+
+fun isAppAvailable(context: Context, appName: String?): Boolean {
+    val pm = context.packageManager
+    return try {
+        pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: Exception) {
+        false
+    }
 }

@@ -89,6 +89,7 @@
     <string name="rejected">رد شده</string>
     <string name="accepted">پذیرفته شده</string>
     <string name="show_profile">نمایش پروفایل</string>
+    <string name="my_profile">پروفایل من</string>
 
     <string name="user_name_place_holder">نام کاربری</string>
     <string name="conversations">گفتگو‌ها</string>
@@ -118,12 +119,16 @@
     <string name="login_to_show_conversations">برای نمایش گفتگوها وارد حساب کاربری خود شوید</string>
     <string name="enter">ورود</string>
     <string name="no_conversation">گفتگویی وجود ندارد</string>
-    <string name="submit_request_for_chat">برای اینجاد گفتگو ابتدا درخواستی برای یک هدیه ثبت کنید</string>
+    <string name="submit_request_for_chat">برای ایجاد گفتگو ابتدا درخواستی برای یک هدیه ثبت کنید</string>
     <string name="received_gift_empty_message">شما هدیه ای دریافت نکرده اید</string>
     <string name="donated_gift_empty_message">از طرف شما هدیه ای اهدا نشده است</string>
     <string name="registered_gift_empty_message">شما هدیه ثبت شده ای ندارید</string>
     <string name="clear">پاک کردن</string>
     <string name="new_message">پیغام جدید</string>
     <string name="error_sending_message">خطا در ارسال پیام</string>
+    <string name="pros_and_cons">انتقادات و پیشنهادات</string>
+    <string name="report_bug">گزارش خطا</string>
+    <string name="install_telegram">برای ارتباط با پشتیبانی ابتدا تلگرام را نصب کنید</string>
+    <string name="gift_submitted_successfully">هدیه با موفقیت ثبت شد و منتظر تایید نهایی است</string>
 
 </resources>

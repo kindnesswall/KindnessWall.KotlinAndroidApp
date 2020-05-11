@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
@@ -26,9 +27,10 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
     companion object {
         @JvmStatic
-        fun start(context: Context, giftModel: GiftModel) {
+        fun start(context: Context, giftModel: GiftModel, isMyGift: Boolean = false) {
             context.startActivity(Intent(context, GiftDetailActivity::class.java).apply {
                 putExtra("giftModel", giftModel)
+                putExtra("isMyGift", isMyGift)
             })
         }
     }
@@ -37,8 +39,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gift_detail)
+        viewModel.isMyGift = intent?.getBooleanExtra("isMyGift", false) ?: false
 
-        configureViewModel()
+        viewModel.giftModel = intent?.getSerializableExtra("giftModel") as GiftModel
+        if (viewModel.giftModel == null) {
+            finish()
+        }
+
         configureViews(savedInstanceState)
     }
 
@@ -49,14 +56,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             binding.requestButton.visibility = View.VISIBLE
         } else {
             binding.requestButton.visibility = View.VISIBLE
-        }
-    }
-
-    private fun configureViewModel() {
-        viewModel.giftModel = intent?.getSerializableExtra("giftModel") as GiftModel
-
-        if (viewModel.giftModel == null) {
-            finish()
         }
     }
 
@@ -72,6 +71,17 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         }
 
         setupPhotoSlider()
+
+        if (viewModel.isMyGift) {
+            binding.situationTextView.visibility = View.VISIBLE
+            binding.situationText.visibility = View.VISIBLE
+            binding.secondDivider.visibility = View.VISIBLE
+            setSituationText()
+        } else {
+            binding.situationTextView.visibility = View.GONE
+            binding.situationText.visibility = View.GONE
+            binding.secondDivider.visibility = View.GONE
+        }
     }
 
     private fun setupPhotoSlider() {
@@ -87,6 +97,32 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 })
             .show(viewModel.giftModel?.giftImages)
 
+    }
+
+    private fun setSituationText() {
+        binding.situationTextView.text = ""
+        viewModel.giftModel?.let {
+            when {
+                it.isRejected -> {
+                    binding.situationTextView.text = getString(R.string.rejected)
+                    binding.situationTextView.setTextColor(
+                        ContextCompat.getColor(this, R.color.rejectTextColor)
+                    )
+                }
+                it.isReviewed -> {
+                    binding.situationTextView.text = getString(R.string.accepted)
+                    binding.situationTextView.setTextColor(
+                        ContextCompat.getColor(this, R.color.colorPrimary)
+                    )
+                }
+                else -> {
+                    binding.situationTextView.text = getString(R.string.registered)
+                    binding.situationTextView.setTextColor(
+                        ContextCompat.getColor(this, R.color.colorPrimary)
+                    )
+                }
+            }
+        }
     }
 
     private fun gotoGalleryActivity() {
@@ -105,6 +141,10 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         if (UserInfoPref.bearerToken.isEmpty()) {
             AuthenticationActivity.start(this)
         } else {
+            if (viewModel.isMyGift) {
+                return
+            }
+
             viewModel.requestGift().observe(this) {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {

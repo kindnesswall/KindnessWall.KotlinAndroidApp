@@ -46,6 +46,6 @@ class ChatViewModel(private val chatRepo: ChatRepo, private val userRepo: UserRe
     fun sendAckMessage(id: Long) = chatRepo.sendActMessage(viewModelScope, id)
 
     fun getUserProfile(): LiveData<CustomResult<User>> {
-        return userRepo.getUserProfile(viewModelScope, requestGiftModel?.userId ?: 0)
+        return userRepo.getUserProfile(viewModelScope, requestGiftModel?.contactId ?: 0)
     }
 }

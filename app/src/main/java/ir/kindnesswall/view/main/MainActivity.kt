@@ -68,8 +68,6 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-
-//        viewModel.sendRegisterFirebaseToken()
     }
 
     override fun supportNavigateUpTo(upIntent: Intent) {
