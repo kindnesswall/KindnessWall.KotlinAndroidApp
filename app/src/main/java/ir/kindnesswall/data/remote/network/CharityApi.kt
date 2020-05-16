@@ -3,6 +3,7 @@ package ir.kindnesswall.data.remote.network
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -15,8 +16,11 @@ import retrofit2.http.GET
 
 interface CharityApi {
     @GET("charity/list")
-    suspend fun getGifts(): Response<List<CharityModel>>
+    suspend fun getCharities(): Response<List<CharityModel>>
 
     @GET("charity/list")
     suspend fun getGiftsFirstPage(): Response<List<CharityModel>>
+
+    @GET("charity/user/{id}")
+    suspend fun getCharity(@Path("id") id: Long): Response<CharityModel>
 }

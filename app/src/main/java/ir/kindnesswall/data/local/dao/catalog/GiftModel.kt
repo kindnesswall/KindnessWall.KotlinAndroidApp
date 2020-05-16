@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.local.dao.catalog
 
 import android.content.Context
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -9,11 +10,12 @@ import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.toSimpleSlashFormat
 import ir.kindnesswall.utils.helper.DataConverter
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Entity(tableName = "catalog_table")
 @TypeConverters(DataConverter::class)
+@Parcelize
 data class GiftModel(
     @PrimaryKey(autoGenerate = false)
     var id: Long = 0,
@@ -36,7 +38,7 @@ data class GiftModel(
     var categoryTitle: String? = null,
     var provinceName: String? = null,
     var cityName: String? = null
-) : Serializable {
+) : Parcelable {
     fun getAdsTime(): String {
         val messages = TimeAgoMessages.Builder().withLocale(Locale("fa")).build()
 

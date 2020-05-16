@@ -5,12 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestGiftModel
+import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.data.repository.ChatRepo
 import ir.kindnesswall.data.repository.GiftRepo
 import ir.kindnesswall.data.repository.UserRepo
 
-class CharityViewModel(private val userRepo: UserRepo, private val giftRepo: GiftRepo) : ViewModel() {
+class CharityViewModel(
+    private val userRepo: UserRepo,
+    private val giftRepo: GiftRepo,
+    private val chatRepo: ChatRepo
+) :
+    ViewModel() {
     var charityModel: CharityModel? = null
 
     var charityViewListener: CharityViewListener? = null
@@ -53,4 +59,8 @@ class CharityViewModel(private val userRepo: UserRepo, private val giftRepo: Gif
 
     fun getUserInformation(): LiveData<CustomResult<User>> =
         userRepo.getOtherUsersProfile(viewModelScope, charityModel?.userId)
+
+    fun getChatId(): LiveData<CustomResult<RequestChatModel>> {
+        return chatRepo.getChatId(viewModelScope, charityModel?.userId ?: 0)
+    }
 }

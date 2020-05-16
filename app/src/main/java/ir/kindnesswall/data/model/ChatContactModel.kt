@@ -2,7 +2,7 @@ package ir.kindnesswall.data.model
 
 import ir.kindnesswall.data.model.user.User
 
-data class ConversationModel(
+data class ChatContactModel(
     var blockStatus: BlockStatus? = null,
     var chat: ChatModel? = null,
     var contactProfile: User? = null,

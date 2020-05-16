@@ -10,7 +10,8 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestGiftModel
+import ir.kindnesswall.data.model.RequestChatModel
+import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.remote.network.GiftApi
 import kotlinx.coroutines.CoroutineScope
@@ -167,7 +168,7 @@ class GiftRepo(
     fun requestGift(
         viewModelScope: CoroutineScope,
         giftId: Long
-    ): LiveData<CustomResult<RequestGiftModel>> =
+    ): LiveData<CustomResult<RequestChatModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
@@ -178,13 +179,62 @@ class GiftRepo(
                         if (result.data == null) {
                             emit(CustomResult.error(result.message))
                         } else {
-                            emitSource(MutableLiveData<RequestGiftModel>().apply {
+                            emitSource(MutableLiveData<RequestChatModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                     else -> emit(CustomResult.error(result.message))
+                }
+            }
+        }
+
+    fun getToDonateGifts(
+        viewModelScope: CoroutineScope,
+        userId: Long
+    ): LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                giftApi.getToDonateGifts(userId, GetGiftsRequestBaseBody().apply {
+                    beforeId = null
+                    count = null
+                    countryId = null
+                })
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.message.toString()))
+                        } else {
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
+                }
+            }
+        }
+
+    fun donateGift(
+        viewModelScope: CoroutineScope,
+        giftId: Long,
+        userToDonateId: Long
+    ): LiveData<CustomResult<Any?>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                giftApi.donateGift(DonateGiftRequestModel(giftId, userToDonateId))
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emit(CustomResult.success(result.data))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
                 }
             }
         }

@@ -42,11 +42,11 @@ val viewModelModule = module {
     viewModel { GalleryViewModel() }
     viewModel { CharityListViewModel(get()) }
     viewModel { BookmarksViewModel(get()) }
-    viewModel { BlockListViewModel(get()) }
-    viewModel { CharityViewModel(get(), get()) }
+    viewModel { BlockListViewModel(get(), get()) }
+    viewModel { CharityViewModel(get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { SubmitGiftViewModel(get(), get(), get()) }
     viewModel { ConversationsViewModel(get()) }
-    viewModel { ChatViewModel(get(), get()) }
+    viewModel { ChatViewModel(get(), get(), get(), get()) }
 }

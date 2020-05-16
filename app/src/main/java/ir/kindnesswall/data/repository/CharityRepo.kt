@@ -2,6 +2,7 @@ package ir.kindnesswall.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.AppDatabase
@@ -65,7 +66,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatab
             emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
-                charityApi.getGifts()
+                charityApi.getCharities()
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -80,5 +81,29 @@ class CharityRepo(val context: Context, var charityApi: CharityApi, var appDatab
                     else -> emit(CustomResult.error(result.message.toString()))
                 }
             }
+        }
+
+    fun getCharity(viewModelScope: CoroutineScope, charityId: Long):
+            LiveData<CustomResult<CharityModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { charityApi.getCharity(charityId) }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(result.message.toString()))
+                            } else {
+                                emitSource(MutableLiveData<CharityModel>().apply {
+                                    value = result.data
+                                }
+                                    .map { CustomResult.success(it) })
+                            }
+                        }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(result.message.toString()))
+                    }
+                }
         }
 }

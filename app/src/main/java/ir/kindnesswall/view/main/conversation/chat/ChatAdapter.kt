@@ -106,6 +106,7 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
                     item.ack = true
                 }
             }
+
             is ChatDateViewHolder -> {
                 holder.binding.item = item as TextMessageHeaderModel
             }

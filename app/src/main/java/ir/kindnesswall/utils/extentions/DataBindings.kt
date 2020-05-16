@@ -67,14 +67,12 @@ fun loadImageFromList(view: ImageView, imageList: List<String>?) {
 
 @BindingAdapter("srcAvatarImage")
 fun loadAvatarImage(view: ImageView, imageUrl: String?) {
-    imageUrl?.let {
-        loadImage(
-            imageUrl,
-            view,
-            options = circleCropTransform(),
-            placeHolderId = R.drawable.ic_profile_placeholder_gary
-        )
-    }
+    loadImage(
+        imageUrl,
+        view,
+        options = circleCropTransform(),
+        placeHolderId = R.drawable.ic_profile_placeholder_gary
+    )
 }
 
 @BindingAdapter("srcCircleUrl")

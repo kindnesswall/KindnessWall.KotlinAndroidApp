@@ -1,7 +1,8 @@
 package ir.kindnesswall.data.remote.network
 
+import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.ChatMessageModel
-import ir.kindnesswall.data.model.ConversationModel
+import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel
@@ -20,7 +21,7 @@ import retrofit2.http.*
 
 interface ChatApi {
     @GET("chat/contacts")
-    suspend fun getConversations(): Response<List<ConversationModel>>
+    suspend fun getConversations(): Response<List<ChatContactModel>>
 
     @POST("chat/messages")
     suspend fun getChats(@Body chatsRequestModel: GetChatsRequestModel): Response<ChatMessageModel>
@@ -36,4 +37,10 @@ interface ChatApi {
 
     @POST("chat/ack")
     suspend fun sendActMessage(@Body chatMessageAckRequestModel: ChatMessageAckRequestModel): Response<Any>
+
+    @GET("chat/start/{charityId}")
+    suspend fun getChatId(@Path("charityId") id: Long): Response<RequestChatModel>
+
+    @GET("chat/contacts/block")
+    suspend fun getBlockedUsers(): Response<List<ChatContactModel>>
 }

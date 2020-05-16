@@ -13,6 +13,8 @@ class ChatMessageModel {
 
 data class TextMessageHeaderModel(var date: String = "") : TextMessageBaseModel()
 
+data class TextMessageDonateModel(var date: String = "") : TextMessageBaseModel()
+
 class TextMessageModel : TextMessageBaseModel(), Serializable {
     var text: String? = null
     var chatId = 0

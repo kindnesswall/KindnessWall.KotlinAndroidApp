@@ -12,6 +12,7 @@ import ir.kindnesswall.data.model.requestsmodel.SendChatMessageRequestModel
 import ir.kindnesswall.data.remote.network.ChatApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 /**
@@ -28,7 +29,7 @@ import kotlinx.coroutines.flow.collect
 class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSource() {
     fun getConversationList(
         viewModelScope: CoroutineScope
-    ): LiveData<CustomResult<List<ConversationModel>>> =
+    ): LiveData<CustomResult<List<ChatContactModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { chatApi.getConversations() }.collect { result ->
@@ -37,7 +38,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         if (result.data == null) {
                             emit(CustomResult.error(result.message.toString()))
                         } else {
-                            emitSource(MutableLiveData<List<ConversationModel>>().apply {
+                            emitSource(MutableLiveData<List<ChatContactModel>>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }
@@ -123,57 +124,46 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
         }
     }
 
-    fun blockChat(
-        viewModelScope: CoroutineScope,
-        userId: Long
-    ): LiveData<CustomResult<Any>> = liveData(viewModelScope.coroutineContext, 0) {
-        emit(CustomResult.loading())
+    fun blockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> =
+        liveData(viewModelScope.coroutineContext, 0) {
+            emit(CustomResult.loading())
 
-        getResultWithExponentialBackoffStrategy { chatApi.blockChat(userId) }.collect { result ->
-            when (result.status) {
-                CustomResult.Status.SUCCESS -> {
-                    if (result.data == null) {
-                        emit(CustomResult.error(result.message.toString()))
-                    } else {
+            getResultWithExponentialBackoffStrategy { chatApi.blockChat(chatId) }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))
                     }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
                 }
-                CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                else -> emit(CustomResult.error(result.message.toString()))
             }
         }
-    }
 
-    fun unblockChat(
-        viewModelScope: CoroutineScope,
-        userId: Long
-    ): LiveData<CustomResult<Any>> = liveData(viewModelScope.coroutineContext, 0) {
-        emit(CustomResult.loading())
+    fun unblockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> =
+        liveData(viewModelScope.coroutineContext, 0) {
+            emit(CustomResult.loading())
 
-        getResultWithExponentialBackoffStrategy { chatApi.unblockChat(userId) }.collect { result ->
-            when (result.status) {
-                CustomResult.Status.SUCCESS -> {
-                    if (result.data == null) {
-                        emit(CustomResult.error(result.message.toString()))
-                    } else {
+            getResultWithExponentialBackoffStrategy { chatApi.unblockChat(chatId) }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))
                     }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
                 }
-                CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                else -> emit(CustomResult.error(result.message.toString()))
             }
         }
-    }
 
-    fun sendActMessage(viewModelScope: CoroutineScope, id: Long): LiveData<CustomResult<Boolean>> =
+    fun getBlockedUsers(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             getResultWithExponentialBackoffStrategy {
-                chatApi.sendActMessage(ChatMessageAckRequestModel(id))
+                chatApi.getBlockedUsers()
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
-                        emitSource(MutableLiveData<Boolean>().apply { value = true }
-                            .map { CustomResult.success(it) })
+                        emitSource(MutableLiveData<List<ChatContactModel>>().apply {
+                            value = result.data
+                        }.map { CustomResult.success(it) })
                     }
 
                     CustomResult.Status.ERROR -> {
@@ -181,6 +171,37 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                     }
 
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                }
+            }
+        }
+
+    fun sendActMessage(viewModelScope: CoroutineScope, id: Long) {
+        viewModelScope.launch {
+            chatApi.sendActMessage(ChatMessageAckRequestModel(id))
+        }
+    }
+
+    fun getChatId(
+        viewModelScope: CoroutineScope,
+        charityId: Long
+    ): LiveData<CustomResult<RequestChatModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                chatApi.getChatId(charityId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.message))
+                        } else {
+                            emitSource(MutableLiveData<RequestChatModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message))
                 }
             }
         }

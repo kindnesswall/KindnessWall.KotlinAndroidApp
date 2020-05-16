@@ -4,28 +4,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestGiftModel
+import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.data.model.TextMessageBaseModel
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.data.repository.CharityRepo
 import ir.kindnesswall.data.repository.ChatRepo
+import ir.kindnesswall.data.repository.GiftRepo
 import ir.kindnesswall.data.repository.UserRepo
 
-class ChatViewModel(private val chatRepo: ChatRepo, private val userRepo: UserRepo) : ViewModel() {
-    lateinit var receiverUser: User
+class ChatViewModel(
+    private val chatRepo: ChatRepo,
+    private val userRepo: UserRepo,
+    private val giftRepo: GiftRepo,
+    private val charityRepo: CharityRepo
+) : ViewModel() {
+    var isCharity: Boolean = false
+
+    var receiverUserId: Long = 0
 
     var chatList: ArrayList<TextMessageBaseModel>? = arrayListOf()
     var messageTextLiveData = MutableLiveData<String>()
 
+    var toDonateList = arrayListOf<GiftModel>()
+
     var lastId = 0L
 
-    var requestGiftModel: RequestGiftModel? = null
+    var requestChatModel: RequestChatModel? = null
 
     fun getChats() = if (chatList.isNullOrEmpty()) {
-        chatRepo.getChatsFirstPage(viewModelScope, requestGiftModel?.chatId ?: 0)
+        chatRepo.getChatsFirstPage(viewModelScope, requestChatModel?.chatId ?: 0)
     } else {
-        chatRepo.getChats(viewModelScope, lastId, requestGiftModel?.chatId ?: 0)
+        chatRepo.getChats(viewModelScope, lastId, requestChatModel?.chatId ?: 0)
     }
 
     fun onMessageTextChanged(text: CharSequence) {
@@ -35,17 +48,30 @@ class ChatViewModel(private val chatRepo: ChatRepo, private val userRepo: UserRe
     fun sendMessage(): LiveData<CustomResult<TextMessageModel>> {
         return chatRepo.sendMessage(
             viewModelScope,
-            requestGiftModel?.chatId ?: 0,
+            requestChatModel?.chatId ?: 0,
             messageTextLiveData.value!!
         )
     }
 
-    fun blockUser() = chatRepo.blockChat(viewModelScope, receiverUser.id)
-    fun unblockUser() = chatRepo.unblockChat(viewModelScope, receiverUser.id)
+    fun blockUser() = chatRepo.blockChat(viewModelScope, requestChatModel?.chatId ?: 0)
+    fun unblockUser() = chatRepo.unblockChat(viewModelScope, requestChatModel?.chatId ?: 0)
 
-    fun sendAckMessage(id: Long) = chatRepo.sendActMessage(viewModelScope, id)
+    fun sendAckMessage(id: Long) {
+        chatRepo.sendActMessage(viewModelScope, id)
+    }
 
     fun getUserProfile(): LiveData<CustomResult<User>> {
-        return userRepo.getUserProfile(viewModelScope, requestGiftModel?.contactId ?: 0)
+        return userRepo.getUserProfile(viewModelScope, requestChatModel?.contactId ?: 0)
     }
+
+    fun getCharityProfile(): LiveData<CustomResult<CharityModel>> {
+        return charityRepo.getCharity(viewModelScope, requestChatModel?.contactId ?: 0)
+    }
+
+    fun getToDonateGifts(): LiveData<CustomResult<List<GiftModel>>> {
+        return giftRepo.getToDonateGifts(viewModelScope, requestChatModel?.contactId ?: 0)
+    }
+
+    fun donateGift(item: GiftModel) =
+        giftRepo.donateGift(viewModelScope, item.id, requestChatModel?.contactId ?: 0)
 }

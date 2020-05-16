@@ -145,6 +145,9 @@ class SubmitGiftActivity : BaseActivity() {
         binding.giftDescEditText.setText("")
         binding.giftPriceEditText.setText("")
 
+        binding.chooseCityTextView.text = getString(R.string.choose_category)
+        binding.chooseCityTextView.text = getString(R.string.choose_city)
+
         adapter.clear()
 
         viewModel.clearData()

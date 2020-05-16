@@ -22,6 +22,7 @@ import ir.kindnesswall.utils.BottomTabHistory
 import ir.kindnesswall.utils.OnClickListener
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
+import ir.kindnesswall.view.main.conversation.ConversationFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -68,6 +69,25 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        updatePagesList()
+    }
+
+    private fun updatePagesList() {
+        getConversationFragment()?.getConversations()
+    }
+
+    private fun getConversationFragment(): ConversationFragment? {
+        val favoriteFragmentNavHost =
+            supportFragmentManager.findFragmentById(R.id.conversationTab)
+        favoriteFragmentNavHost?.childFragmentManager?.fragments?.filterNotNull()?.find {
+            if (it is ConversationFragment) {
+                return it
+            }
+            true
+        }
+
+        return null
     }
 
     override fun supportNavigateUpTo(upIntent: Intent) {

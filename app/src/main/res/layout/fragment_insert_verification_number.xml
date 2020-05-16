@@ -30,12 +30,12 @@
             android:layout_marginTop="8dp"
             android:background="@null"
             android:gravity="center"
+            android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:maxLength="5"
             android:maxLines="1"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
-            android:imeOptions="actionDone"
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"
             android:singleLine="true"
@@ -70,7 +70,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/phone_number_is_wrong"
+            android:text="@string/verify_code_error"
             android:textColor="@color/red"
             android:visibility="gone" />
 

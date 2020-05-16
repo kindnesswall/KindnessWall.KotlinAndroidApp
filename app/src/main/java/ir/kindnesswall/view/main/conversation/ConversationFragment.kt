@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.ConversationModel
+import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.databinding.FragmentConversationBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -42,22 +45,22 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        getConversations()
-    }
-
     override fun configureViews() {
         binding.itemsListRecyclerView.apply {
             adapter = ConversationListAdapter(this@ConversationFragment)
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+            val animator = itemAnimator
+
+            if (animator is SimpleItemAnimator) {
+                animator.supportsChangeAnimations = false
+            }
         }
     }
 
-    private fun getConversations() {
-        viewModel.conversationsList.observe(viewLifecycleOwner) {
+    fun getConversations() {
+        viewModel.getConversationsList().observe(viewLifecycleOwner) {
             when (it.status) {
                 CustomResult.Status.LOADING -> {
                 }
@@ -69,23 +72,32 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
                     if (UserInfoPref.bearerToken.isEmpty()) {
                         binding.conversationEmptyPage.visibility = View.VISIBLE
                     }
-//                    showToastMessage(it.message.toString())
                 }
             }
         }
     }
 
-    private fun showList(data: List<ConversationModel>?) {
+    private fun showList(data: List<ChatContactModel>?) {
         if (!data.isNullOrEmpty()) {
             (binding.itemsListRecyclerView.adapter as ConversationListAdapter).submitList(data)
         }
 
         if ((binding.itemsListRecyclerView.adapter as ConversationListAdapter).itemCount == 0) {
             binding.conversationEmptyPage.visibility = View.VISIBLE
+        } else {
+            binding.conversationEmptyPage.visibility = View.GONE
         }
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
-
+        context?.let {
+            ChatActivity.start(it, RequestChatModel().apply {
+                with(obj as ChatContactModel) {
+                    chatId = this.chat?.chatId?.toLong() ?: 0
+                    contactId = this.chat?.contactId?.toLong() ?: 0
+                    userId = this.chat?.userId?.toLong() ?: 0
+                }
+            })
+        }
     }
 }

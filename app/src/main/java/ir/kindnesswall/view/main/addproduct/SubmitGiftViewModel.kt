@@ -111,8 +111,11 @@ class SubmitGiftViewModel(
         uploadedImagesAddress.clear()
 
         categoryId.value = 0
+        categoryName.value = ""
         provinceId.value = 0
+        provinceName.value = ""
         cityId.value = 0
+        cityName.value = ""
         isNew = true
     }
 }

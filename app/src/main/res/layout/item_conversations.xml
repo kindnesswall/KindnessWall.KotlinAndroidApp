@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="ir.kindnesswall.data.model.ConversationModel" />
+            type="ir.kindnesswall.data.model.ChatContactModel" />
 
         <variable
             name="clickListener"
@@ -48,8 +48,8 @@
             tools:text="فرشید اباذری" />
 
         <RelativeLayout
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/circle_accent"
             android:visibility="@{item.notificationCount == 0 ? View.GONE : View.VISIBLE}"

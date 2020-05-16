@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ir.kindnesswall.data.model.ConversationModel
+import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.databinding.ItemConversationsBinding
 import ir.kindnesswall.utils.OnItemClickListener
 
 class ConversationListAdapter(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<ConversationModel, ConversationViewHolder>(ConversationDiffUtil()) {
+    ListAdapter<ChatContactModel, ConversationViewHolder>(ConversationDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder =
         ConversationViewHolder(
@@ -28,7 +28,7 @@ class ConversationListAdapter(private val onItemClickListener: OnItemClickListen
             )
         }
 
-    private fun createOnClickListener(position: Int, item: ConversationModel) =
+    private fun createOnClickListener(position: Int, item: ChatContactModel) =
         View.OnClickListener {
             onItemClickListener.onItemClicked(position, item)
         }
@@ -37,7 +37,7 @@ class ConversationListAdapter(private val onItemClickListener: OnItemClickListen
 
 class ConversationViewHolder(val binding: ItemConversationsBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: ConversationModel, listener: View.OnClickListener) =
+    fun bind(item: ChatContactModel, listener: View.OnClickListener) =
         with(binding) {
             this.item = item
             clickListener = listener
@@ -46,13 +46,13 @@ class ConversationViewHolder(val binding: ItemConversationsBinding) :
 }
 
 
-private class ConversationDiffUtil : DiffUtil.ItemCallback<ConversationModel>() {
-    override fun areItemsTheSame(oldItem: ConversationModel, newItem: ConversationModel): Boolean =
+private class ConversationDiffUtil : DiffUtil.ItemCallback<ChatContactModel>() {
+    override fun areItemsTheSame(oldItem: ChatContactModel, newItem: ChatContactModel): Boolean =
         oldItem.chat?.chatId == newItem.chat?.chatId
 
     override fun areContentsTheSame(
-        oldItem: ConversationModel,
-        newItem: ConversationModel
+        oldItem: ChatContactModel,
+        newItem: ChatContactModel
     ): Boolean =
         oldItem == newItem
 }

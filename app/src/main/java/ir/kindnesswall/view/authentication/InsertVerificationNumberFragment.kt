@@ -60,6 +60,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
         }
 
         binding.verificationCodeEditText.doOnTextChanged { text, _, _, _ ->
+            binding.errorPhoneNumberTextView.visibility = View.GONE
             when {
                 text.isNullOrEmpty() -> binding.sendVersificationTextView.isEnabled = false
                 text.length < 5 -> binding.sendVersificationTextView.isEnabled = false
@@ -126,7 +127,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
                         showProgressDialog()
                     }
                     CustomResult.Status.ERROR -> {
-                        showToastMessage("")
+                        binding.errorPhoneNumberTextView.visibility = View.VISIBLE
                     }
                 }
             }

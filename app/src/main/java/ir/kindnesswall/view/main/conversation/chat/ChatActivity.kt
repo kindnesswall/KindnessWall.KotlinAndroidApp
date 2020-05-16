@@ -17,6 +17,7 @@ import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
+import ir.kindnesswall.view.main.conversation.chat.todonategifts.ToDonateGiftsBottomSheet
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -32,10 +33,15 @@ class ChatActivity : BaseActivity() {
     private lateinit var chatBroadcastReceiver: ChatBroadcastReceiver
 
     companion object {
-        fun start(context: Context, requestGiftModel: RequestGiftModel) {
+        fun start(
+            context: Context,
+            requestChatModel: RequestChatModel,
+            isCharity: Boolean = false
+        ) {
             context.startActivity(
                 Intent(context, ChatActivity::class.java)
-                    .putExtra("requestGiftModel", requestGiftModel)
+                    .putExtra("requestGiftModel", requestChatModel)
+                    .putExtra("isCharity", isCharity)
             )
         }
     }
@@ -47,10 +53,12 @@ class ChatActivity : BaseActivity() {
 
         configureViews(savedInstanceState)
 
-        viewModel.requestGiftModel =
-            intent.getSerializableExtra("requestGiftModel") as RequestGiftModel
+        viewModel.requestChatModel =
+            intent.getSerializableExtra("requestGiftModel") as RequestChatModel
 
-        if (viewModel.requestGiftModel == null) {
+        viewModel.isCharity = intent.getBooleanExtra("isCharity", false) ?: false
+
+        if (viewModel.requestChatModel == null) {
             finish()
             return
         }
@@ -59,60 +67,7 @@ class ChatActivity : BaseActivity() {
 
         getUserProfile()
         getChats()
-    }
-
-    private fun getUserProfile() {
-        viewModel.getUserProfile().observe(this) {
-            when (it.status) {
-                CustomResult.Status.SUCCESS -> {
-                    it.data?.let { user ->
-                        loadImage(
-                            user.image,
-                            binding.userImageView,
-                            placeHolderId = R.drawable.ic_profile_place_holder_white,
-                            options = circleCropTransform()
-                        )
-
-                        binding.userNameTextView.text = user.name
-                        viewModel.receiverUser = user
-                    }
-                }
-                CustomResult.Status.ERROR -> {
-                    finish()
-                }
-            }
-        }
-    }
-
-    private fun initBroadcastReceiver() {
-        chatBroadcastReceiver = ChatBroadcastReceiver { message ->
-            viewModel.chatList?.add(0, message)
-            viewModel.chatList?.let { adapter.setData(it) }
-            viewModel.sendAckMessage(message.id)
-
-            checkEmptyPage()
-        }
-
-        val filter = IntentFilter("CHAT")
-        registerReceiver(chatBroadcastReceiver, filter)
-    }
-
-    private fun getChats() {
-        viewModel.getChats().observe(this) {
-            when (it.status) {
-                CustomResult.Status.LOADING -> {
-                }
-
-                CustomResult.Status.SUCCESS -> {
-                    endlessRecyclerViewScrollListener.isLoading = false
-                    showList(it.data)
-                }
-
-                CustomResult.Status.ERROR -> {
-                    endlessRecyclerViewScrollListener.isLoading = false
-                }
-            }
-        }
+        getToDonateGifts()
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
@@ -153,6 +108,101 @@ class ChatActivity : BaseActivity() {
         binding.unblockButton.setOnClickListener { unblockUser() }
 
         initRecyclerView()
+    }
+
+    private fun getToDonateGifts() {
+        viewModel.getToDonateGifts().observe(this) {
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                }
+                CustomResult.Status.ERROR -> {
+                }
+                CustomResult.Status.SUCCESS -> {
+                    if (it.data.isNullOrEmpty()) {
+                        return@observe
+                    }
+
+                    viewModel.toDonateList.addAll(it.data)
+                }
+            }
+        }
+    }
+
+    private fun getUserProfile() {
+        if (viewModel.isCharity) {
+            viewModel.getCharityProfile().observe(this) {
+                when (it.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        it.data?.let { user ->
+                            loadImage(
+                                user.imageUrl,
+                                binding.userImageView,
+                                placeHolderId = R.drawable.ic_profile_place_holder_white,
+                                options = circleCropTransform()
+                            )
+
+                            binding.userNameTextView.text = user.name
+                            viewModel.receiverUserId = user.userId
+                        }
+                    }
+                    CustomResult.Status.ERROR -> {
+                        finish()
+                    }
+                }
+            }
+        } else {
+            viewModel.getUserProfile().observe(this) {
+                when (it.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        it.data?.let { user ->
+                            loadImage(
+                                user.image,
+                                binding.userImageView,
+                                placeHolderId = R.drawable.ic_profile_place_holder_white,
+                                options = circleCropTransform()
+                            )
+
+                            binding.userNameTextView.text = user.name
+                            viewModel.receiverUserId = user.id
+                        }
+                    }
+                    CustomResult.Status.ERROR -> {
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initBroadcastReceiver() {
+        chatBroadcastReceiver = ChatBroadcastReceiver { message ->
+            viewModel.chatList?.add(0, message)
+            viewModel.chatList?.let { adapter.setData(it) }
+            viewModel.sendAckMessage(message.id)
+
+            checkEmptyPage()
+        }
+
+        val filter = IntentFilter("CHAT")
+        registerReceiver(chatBroadcastReceiver, filter)
+    }
+
+    private fun getChats() {
+        viewModel.getChats().observe(this) {
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                }
+
+                CustomResult.Status.SUCCESS -> {
+                    endlessRecyclerViewScrollListener.isLoading = false
+                    showList(it.data)
+                }
+
+                CustomResult.Status.ERROR -> {
+                    endlessRecyclerViewScrollListener.isLoading = false
+                }
+            }
+        }
     }
 
     private fun unblockUser() {
@@ -237,7 +287,28 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun showGiftOptionsMenu() {
+        if (viewModel.toDonateList.isNullOrEmpty()) {
+            showToastMessage(getString(R.string.no_gift_to_donate))
+            return
+        }
 
+        ToDonateGiftsBottomSheet.newInstance(viewModel.toDonateList).setOnItemClickListener {
+            viewModel.donateGift(it).observe(this) {
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                        showProgressDialog()
+                    }
+
+                    CustomResult.Status.ERROR -> {
+                        showToastMessage(getString(R.string.error_in_donate))
+                    }
+
+                    CustomResult.Status.LOADING -> {
+                        showToastMessage(getString(R.string.gift_donated))
+                    }
+                }
+            }
+        }
     }
 
     private fun showList(chatMessageModel: ChatMessageModel?) {
@@ -252,27 +323,6 @@ class ChatActivity : BaseActivity() {
         val items = arrayListOf<TextMessageBaseModel>()
         val textMessages: List<TextMessageModel>? = chatMessageModel.textMessages
 
-        /** todo add header here
-        //                for (textMessage in chatMessageModel.textMessages!!) {
-        //                    textMessage.createdAt = textMessage.createdAt?.getJustDate()
-        //                }
-        //                try {
-        //                    val groups = LinkedHashMap<Date, List<TextMessageModel>>()
-        //                    groups.putAll(transactions.groupBy { item -> item.createdAt ?: Date() })
-        //
-        //                    for (transactionModel in groups) {
-        //                        if (shouldAddHeader(transactionModel)) {
-        //                            items.add(TransactionHeaderModel(transactionModel.key.toDayofMonth_MonthName_year()))
-        //                        }
-        //
-        //                        for (transaction in transactionModel.value) {
-        //                            items.add(TransactionItemModel(transaction))
-        //                        }
-        //                    }
-        //                } catch (exception: Exception) {
-        //                }
-         */
-
         viewModel.chatList?.addAll(chatMessageModel.textMessages!!)
         viewModel.chatList?.let { adapter.setData(it) }
 
@@ -286,32 +336,6 @@ class ChatActivity : BaseActivity() {
             binding.noChatTextView.visibility = View.GONE
         }
     }
-
-/*
-    private fun shouldAddHeader(transactionModel: MutableMap.MutableEntry<Date, List<TextMessageModel>>): Boolean {
-        if (adapter.itemCount == 0) {
-            return true
-        }
-
-        val currentDayCalendar = Calendar.getInstance().apply {
-            timeInMillis = transactionModel.key.time
-        }
-
-        val prvDayCalendar = Calendar.getInstance().apply {
-            timeInMillis =
-                viewModel.transactionList[viewModel.transactionList.lastIndex].createdAt?.time ?: 0
-        }
-
-        val day = currentDayCalendar[Calendar.DAY_OF_YEAR]
-        val targetDay = prvDayCalendar[Calendar.DAY_OF_YEAR]
-
-        if (day == targetDay) {
-            return false
-        }
-
-        return true
-    }
-*/
 
     override fun onResume() {
         super.onResume()
