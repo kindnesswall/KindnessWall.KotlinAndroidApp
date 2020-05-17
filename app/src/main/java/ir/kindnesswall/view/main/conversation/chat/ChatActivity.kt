@@ -54,14 +54,16 @@ class ChatActivity : BaseActivity() {
         configureViews(savedInstanceState)
 
         viewModel.requestChatModel =
-            intent.getSerializableExtra("requestGiftModel") as RequestChatModel
+            intent.getSerializableExtra("requestGiftModel") as? RequestChatModel
 
-        viewModel.isCharity = intent.getBooleanExtra("isCharity", false) ?: false
+        viewModel.isCharity = intent.getBooleanExtra("isCharity", false)
 
         if (viewModel.requestChatModel == null) {
             finish()
             return
         }
+
+        AppPref.currentChatSessionId = viewModel.requestChatModel?.chatId ?: -1
 
         initBroadcastReceiver()
 
@@ -176,9 +178,13 @@ class ChatActivity : BaseActivity() {
 
     private fun initBroadcastReceiver() {
         chatBroadcastReceiver = ChatBroadcastReceiver { message ->
+            if (message.chatId.toLong() != viewModel.requestChatModel?.chatId) {
+                return@ChatBroadcastReceiver
+            }
+
             viewModel.chatList?.add(0, message)
             viewModel.chatList?.let { adapter.setData(it) }
-            viewModel.sendAckMessage(message.id)
+            viewModel.sendAckMessage(message.id, message.chatId.toLong())
 
             checkEmptyPage()
         }
@@ -292,23 +298,14 @@ class ChatActivity : BaseActivity() {
             return
         }
 
-        ToDonateGiftsBottomSheet.newInstance(viewModel.toDonateList).setOnItemClickListener {
-            viewModel.donateGift(it).observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        showProgressDialog()
-                    }
+        ToDonateGiftsBottomSheet.newInstance(
+            viewModel.toDonateList,
+            viewModel.requestChatModel?.contactId ?: 0
+        ).apply {
+            setOnItemClickListener {
 
-                    CustomResult.Status.ERROR -> {
-                        showToastMessage(getString(R.string.error_in_donate))
-                    }
-
-                    CustomResult.Status.LOADING -> {
-                        showToastMessage(getString(R.string.gift_donated))
-                    }
-                }
             }
-        }
+        }.show(supportFragmentManager, "donate")
     }
 
     private fun showList(chatMessageModel: ChatMessageModel?) {
@@ -340,16 +337,20 @@ class ChatActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         AppPref.isInChatPage = true
+
+        AppPref.currentChatSessionId = viewModel.requestChatModel?.chatId ?: -1
     }
 
     override fun onStop() {
         super.onStop()
+        AppPref.currentChatSessionId = -1
         AppPref.isInChatPage = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
         AppPref.isInChatPage = false
+        AppPref.currentChatSessionId = -1
         unregisterReceiver(chatBroadcastReceiver)
     }
 }

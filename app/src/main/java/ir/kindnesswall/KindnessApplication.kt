@@ -12,7 +12,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.chibatching.kotpref.Kotpref
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.di.dataBaseModule
 import ir.kindnesswall.di.networkModule
 import ir.kindnesswall.di.repositoryModule
@@ -38,6 +38,37 @@ import java.util.*
 class KindnessApplication : Application(), LifecycleObserver {
     companion object {
         const val uploadFileNotificationChannelID = "uploadChannel"
+        lateinit var instance: KindnessApplication
+    }
+
+    init {
+        instance = this
+    }
+
+    private var contactListMap = mutableMapOf<Long, ChatContactModel>()
+
+    override fun onCreate() {
+        super.onCreate()
+
+        Kotpref.init(this)
+
+        startKoin {
+            androidLogger()
+            androidContext(this@KindnessApplication)
+            modules(listOf(repositoryModule, networkModule, viewModelModule, dataBaseModule))
+        }
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+
+        createNotificationChannel()
+
+        UploadServiceConfig.initialize(
+            context = this,
+            defaultNotificationChannel = uploadFileNotificationChannelID,
+            debug = BuildConfig.DEBUG
+        )
+
+        changeLocale()
     }
 
     private fun createNotificationChannel() {
@@ -52,28 +83,19 @@ class KindnessApplication : Application(), LifecycleObserver {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
+    fun setContactList(contactList: List<ChatContactModel>) {
+        contactListMap.clear()
+        contactListMap = contactList.map { it.chat?.chatId!! to it }.toMap().toMutableMap()
+    }
 
-        Kotpref.init(this)
+    fun updateContactList(chatContactModel: ChatContactModel) {
+        contactListMap[chatContactModel.chat?.chatId!!] = chatContactModel
+    }
 
-        startKoin {
-            androidLogger()
-            androidContext(this@KindnessApplication)
-            modules(listOf(repositoryModule, networkModule, viewModelModule, dataBaseModule))
-        }
+    fun getContact(chatId: Long) = contactListMap[chatId]
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-//        UserInfoPref.bearerToken = "PS18esgYfp22XbaODp+PNQ=="
-
-        createNotificationChannel()
-
-        UploadServiceConfig.initialize(
-            context = this,
-            defaultNotificationChannel = uploadFileNotificationChannelID,
-            debug = BuildConfig.DEBUG
-        )
-        changeLocale()
+    fun getContactList(): List<ChatContactModel> {
+        return contactListMap.values.toList()
     }
 
     private fun changeLocale() {

@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.utils.BottomTabHistory
@@ -71,10 +72,13 @@ class MainActivity : BaseActivity() {
         super.onResume()
 
         updatePagesList()
+
+        AppPref.isInChatPage = false
+        AppPref.currentChatSessionId = -1
     }
 
     private fun updatePagesList() {
-        getConversationFragment()?.getConversations()
+        getConversationFragment()?.loadData()
     }
 
     private fun getConversationFragment(): ConversationFragment? {

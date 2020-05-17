@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.BottomSheetGiftsToDonateBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
 
@@ -16,13 +20,17 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomSheetGiftsToDonateBinding
 
-    private var giftsList: ArrayList<GiftModel>? = ArrayList()
+    val viewModel: DonateGiftViewModel by viewModel()
 
     companion object {
-        fun newInstance(giftsList: ArrayList<GiftModel>): ToDonateGiftsBottomSheet {
+        fun newInstance(
+            giftsList: ArrayList<GiftModel>,
+            contactId: Long
+        ): ToDonateGiftsBottomSheet {
             return ToDonateGiftsBottomSheet().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList("gifts", giftsList)
+                    putLong("contactId", contactId)
                 }
             }
         }
@@ -50,21 +58,43 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        giftsList = arguments?.getParcelableArrayList("gifts")
+        viewModel.giftsList = arguments?.getParcelableArrayList("gifts")
+        viewModel.contactId = arguments?.getLong("contactId", 0) ?: 0
 
-        if (giftsList.isNullOrEmpty()) {
+        if (viewModel.giftsList.isNullOrEmpty()) {
             dismiss()
             return
         }
 
         val adapter = ToDonateListAdapter()
         adapter.setOnItemClickListener {
-            listener.invoke(it)
-            dismiss()
+            viewModel.donateGift(it).observe(viewLifecycleOwner) { result ->
+                when (result.status) {
+                    CustomResult.Status.LOADING -> {
+                        // todo show loading
+                    }
+
+                    CustomResult.Status.ERROR -> {
+                        showToastMessage(getString(R.string.error_in_donate))
+                    }
+
+                    CustomResult.Status.SUCCESS -> {
+                        showToastMessage(getString(R.string.gift_donated))
+                        listener.invoke(it)
+                        dismiss()
+                    }
+                }
+            }
         }
 
-        binding.toDonatesList.adapter = ToDonateListAdapter()
+        binding.toDonatesList.adapter = adapter
 
-        adapter.setItems(giftsList!!)
+        adapter.setItems(viewModel.giftsList!!)
+    }
+
+    fun showToastMessage(message: String) {
+        if (message.isNotEmpty()) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
     }
 }

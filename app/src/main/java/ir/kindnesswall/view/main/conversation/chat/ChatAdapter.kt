@@ -102,7 +102,7 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
             is OthersChatsViewHolder -> {
                 holder.binding.item = item as TextMessageModel
                 if (!item.ack) {
-                    viewModel.sendAckMessage(item.id)
+                    viewModel.sendAckMessage(item.id, item.chatId.toLong())
                     item.ack = true
                 }
             }

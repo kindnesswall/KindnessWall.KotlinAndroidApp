@@ -3,15 +3,22 @@ package ir.kindnesswall.view.main.conversation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.databinding.ItemConversationsBinding
 import ir.kindnesswall.utils.OnItemClickListener
 
 class ConversationListAdapter(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<ChatContactModel, ConversationViewHolder>(ConversationDiffUtil()) {
+    RecyclerView.Adapter<ConversationViewHolder>() {
+
+    private var items = listOf<ChatContactModel>()
+
+    fun submitList(items: List<ChatContactModel>) {
+        this.items = items
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder =
         ConversationViewHolder(
@@ -20,20 +27,21 @@ class ConversationListAdapter(private val onItemClickListener: OnItemClickListen
             )
         )
 
-    override fun onBindViewHolder(holder: ConversationViewHolder, position: Int) =
-        with(getItem(position)) {
+    override fun onBindViewHolder(holder: ConversationViewHolder, position: Int) {
+        val item = items[position]
+        with(item) {
             holder.bind(
                 this,
-                createOnClickListener(position, getItem(position))
+                createOnClickListener(position, item)
             )
         }
+    }
 
     private fun createOnClickListener(position: Int, item: ChatContactModel) =
         View.OnClickListener {
             onItemClickListener.onItemClicked(position, item)
         }
 }
-
 
 class ConversationViewHolder(val binding: ItemConversationsBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -43,16 +51,4 @@ class ConversationViewHolder(val binding: ItemConversationsBinding) :
             clickListener = listener
             executePendingBindings()
         }
-}
-
-
-private class ConversationDiffUtil : DiffUtil.ItemCallback<ChatContactModel>() {
-    override fun areItemsTheSame(oldItem: ChatContactModel, newItem: ChatContactModel): Boolean =
-        oldItem.chat?.chatId == newItem.chat?.chatId
-
-    override fun areContentsTheSame(
-        oldItem: ChatContactModel,
-        newItem: ChatContactModel
-    ): Boolean =
-        oldItem == newItem
 }

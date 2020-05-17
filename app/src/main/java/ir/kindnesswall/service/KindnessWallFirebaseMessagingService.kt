@@ -4,6 +4,7 @@ import android.content.Intent
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
@@ -39,13 +40,37 @@ class KindnessWallFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
 
-        if (AppPref.isAppInForeground && AppPref.isInChatPage && model != null && model is TextMessageModel) {
-            val intent = Intent()
-            intent.action = "CHAT"
-            intent.putExtra("textMessageModel", model as TextMessageModel)
-            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-            sendBroadcast(intent)
-            return
+        if (AppPref.isAppInForeground &&
+            model != null &&
+            model is TextMessageModel
+        ) {
+            if (AppPref.isInChatPage && (model as TextMessageModel).chatId == AppPref.currentChatSessionId) {
+                val intent = Intent()
+                intent.action = "CHAT"
+                intent.putExtra("textMessageModel", model as TextMessageModel)
+                intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+                sendBroadcast(intent)
+                return
+            } else {
+                val contact =
+                    KindnessApplication.instance.getContact((model as TextMessageModel).chatId)
+
+                if (contact == null) {
+                    val intent = Intent()
+                    intent.action = "NEW_CONTACT_LIST"
+                    intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+                    sendBroadcast(intent)
+
+                } else {
+                    contact.notificationCount++
+                    KindnessApplication.instance.updateContactList(contact)
+
+                    val intent = Intent()
+                    intent.action = "UPDATE_CONTACT_LIST"
+                    intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+                    sendBroadcast(intent)
+                }
+            }
         }
 
         NotificationHandler.sendNotificationViaDeepLink(this, title, message, uri, model)

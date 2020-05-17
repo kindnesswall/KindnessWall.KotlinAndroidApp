@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
@@ -56,8 +57,19 @@ class ChatViewModel(
     fun blockUser() = chatRepo.blockChat(viewModelScope, requestChatModel?.chatId ?: 0)
     fun unblockUser() = chatRepo.unblockChat(viewModelScope, requestChatModel?.chatId ?: 0)
 
-    fun sendAckMessage(id: Long) {
-        chatRepo.sendActMessage(viewModelScope, id)
+    fun sendAckMessage(messageId: Long, chatId: Long) {
+        val contact = KindnessApplication.instance.getContact(chatId)
+
+        contact?.let {
+            it.notificationCount = it.notificationCount - 1
+            if (it.notificationCount < 0) {
+                it.notificationCount = 0
+            }
+
+            KindnessApplication.instance.updateContactList(it)
+        }
+
+        chatRepo.sendActMessage(viewModelScope, messageId)
     }
 
     fun getUserProfile(): LiveData<CustomResult<User>> {
@@ -71,7 +83,4 @@ class ChatViewModel(
     fun getToDonateGifts(): LiveData<CustomResult<List<GiftModel>>> {
         return giftRepo.getToDonateGifts(viewModelScope, requestChatModel?.contactId ?: 0)
     }
-
-    fun donateGift(item: GiftModel) =
-        giftRepo.donateGift(viewModelScope, item.id, requestChatModel?.contactId ?: 0)
 }

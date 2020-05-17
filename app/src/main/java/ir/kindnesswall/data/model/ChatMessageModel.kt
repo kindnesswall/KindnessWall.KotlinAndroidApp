@@ -17,7 +17,7 @@ data class TextMessageDonateModel(var date: String = "") : TextMessageBaseModel(
 
 class TextMessageModel : TextMessageBaseModel(), Serializable {
     var text: String? = null
-    var chatId = 0
+    var chatId: Long = 0
     var receiverId: Long = 0
     var id: Long = 0
     var senderId: Long = 0
