@@ -15,7 +15,6 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.databinding.FragmentConversationBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
@@ -140,13 +139,12 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
 
     override fun onItemClicked(position: Int, obj: Any?) {
         context?.let {
-            ChatActivity.start(it, RequestChatModel().apply {
-                with(obj as ChatContactModel) {
-                    chatId = this.chat?.chatId?.toLong() ?: 0
-                    contactId = this.chat?.contactId?.toLong() ?: 0
-                    userId = this.chat?.userId?.toLong() ?: 0
-                }
-            })
+            ChatActivity.start(
+                it,
+                obj as ChatContactModel,
+                obj.contactProfile?.isCharity ?: false,
+                false
+            )
         }
     }
 }

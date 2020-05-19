@@ -99,7 +99,10 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
                         it.data?.let { data ->
-                            ChatActivity.start(this, data, true)
+                            ChatActivity.start(this, data,
+                                isCharity = true,
+                                isStartFromNotification = false
+                            )
                         }
                     }
                 }

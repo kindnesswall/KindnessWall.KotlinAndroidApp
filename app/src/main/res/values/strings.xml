@@ -139,5 +139,6 @@
 
     <string name="blocked_count">%s کاربر بلاک شده اند</string>
     <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
+    <string name="no_gift_to_show">هدیه ای یافت نشد</string>
 
 </resources>

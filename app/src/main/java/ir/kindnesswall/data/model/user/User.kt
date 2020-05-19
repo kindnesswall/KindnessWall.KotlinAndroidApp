@@ -2,6 +2,7 @@ package ir.kindnesswall.data.model.user
 
 import android.content.Context
 import ir.kindnesswall.R
+import java.io.Serializable
 
 data class User(
     var id: Long = 0,
@@ -10,7 +11,7 @@ data class User(
     var image: String? = null,
     var isCharity: Boolean? = false,
     var charityName: String? = null
-) {
+) : Serializable {
     fun getTitle(context: Context): String {
         if (name.isNullOrEmpty()) {
             return if (isCharity == true) {

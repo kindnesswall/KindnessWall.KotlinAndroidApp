@@ -1,7 +1,6 @@
 package ir.kindnesswall.view.main.catalog.cataloglist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,11 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        getGiftsFirstPage()
+        if (viewModel.catalogItems.isNullOrEmpty()) {
+            getGiftsFirstPage()
+        } else {
+            showList()
+        }
     }
 
     override fun configureViews() {
@@ -126,7 +129,6 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
-                Log.e(">>>>>", it.message.toString())
                 showToastMessage("")
             }
         }

@@ -46,9 +46,11 @@ class MainActivity : BaseActivity() {
         fun start(context: Context?, defaultTab: Int = R.id.navigation_home) {
             context?.let {
                 val intent = Intent(it, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                intent.putExtra("defaultTab", defaultTab)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra("defaultTab", defaultTab)
+
                 it.startActivity(intent)
             }
         }

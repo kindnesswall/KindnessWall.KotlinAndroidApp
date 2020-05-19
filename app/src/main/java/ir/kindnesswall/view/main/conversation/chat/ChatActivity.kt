@@ -10,6 +10,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.model.*
@@ -17,6 +18,7 @@ import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
+import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.ToDonateGiftsBottomSheet
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -36,12 +38,30 @@ class ChatActivity : BaseActivity() {
         fun start(
             context: Context,
             requestChatModel: RequestChatModel,
-            isCharity: Boolean = false
+            isCharity: Boolean = false,
+            isStartFromNotification: Boolean
         ) {
             context.startActivity(
                 Intent(context, ChatActivity::class.java)
-                    .putExtra("requestGiftModel", requestChatModel)
+                    .putExtra("isStartFromNotification", isStartFromNotification)
+                    .putExtra("requestChatModel", requestChatModel)
                     .putExtra("isCharity", isCharity)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        }
+
+        fun start(
+            context: Context,
+            chatContactModel: ChatContactModel,
+            isCharity: Boolean,
+            isStartFromNotification: Boolean
+        ) {
+            context.startActivity(
+                Intent(context, ChatActivity::class.java)
+                    .putExtra("isStartFromNotification", isStartFromNotification)
+                    .putExtra("chatContactModel", chatContactModel)
+                    .putExtra("isCharity", isCharity)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             )
         }
     }
@@ -53,21 +73,35 @@ class ChatActivity : BaseActivity() {
 
         configureViews(savedInstanceState)
 
+        viewModel.isStartFromNotification = intent.getBooleanExtra("isStartFromNotification", false)
+
+        viewModel.chatContactModel =
+            intent.getSerializableExtra("chatContactModel") as? ChatContactModel
+
         viewModel.requestChatModel =
-            intent.getSerializableExtra("requestGiftModel") as? RequestChatModel
+            intent.getSerializableExtra("requestChatModel") as? RequestChatModel
 
         viewModel.isCharity = intent.getBooleanExtra("isCharity", false)
 
-        if (viewModel.requestChatModel == null) {
+        if (viewModel.requestChatModel == null && viewModel.chatContactModel == null) {
             finish()
             return
         }
 
-        AppPref.currentChatSessionId = viewModel.requestChatModel?.chatId ?: -1
+        viewModel.setSessionId()
 
         initBroadcastReceiver()
 
-        getUserProfile()
+        if (viewModel.requestChatModel != null && viewModel.chatContactModel == null) {
+            getUserProfile()
+        } else {
+            showUserData(
+                viewModel.chatContactModel?.contactProfile?.image,
+                viewModel.chatContactModel?.contactProfile?.name
+            )
+        }
+
+        checkBlockState()
         getChats()
         getToDonateGifts()
     }
@@ -112,6 +146,67 @@ class ChatActivity : BaseActivity() {
         initRecyclerView()
     }
 
+    private fun initBroadcastReceiver() {
+        chatBroadcastReceiver = ChatBroadcastReceiver { message ->
+            if (message.chatId != viewModel.chatId) {
+                return@ChatBroadcastReceiver
+            }
+
+            viewModel.chatList?.add(0, message)
+            viewModel.chatList?.let { adapter.setData(it) }
+            viewModel.sendAckMessage(message.id, message.chatId)
+
+            checkEmptyPage()
+        }
+
+        val filter = IntentFilter("CHAT")
+        registerReceiver(chatBroadcastReceiver, filter)
+    }
+
+    private fun initRecyclerView() {
+        binding.itemsListRecyclerView.adapter = getAdapter()
+
+        val animator = binding.itemsListRecyclerView.itemAnimator
+
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+
+        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout = true
+        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd = false
+
+        setRecyclerViewPagination(binding.itemsListRecyclerView.layoutManager as LinearLayoutManager)
+    }
+
+    private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {
+        endlessRecyclerViewScrollListener =
+            object : EndlessRecyclerViewScrollListener(layoutManager) {
+                override fun onLoadMore() {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                    viewModel.gatherLastId()
+                    getChats()
+                }
+
+                override fun onScrolled(position: Int) {
+                }
+            }
+
+        endlessRecyclerViewScrollListener.PAGE_SIZE = 10
+        endlessRecyclerViewScrollListener.VISIBLE_THRESHOLD = 5
+
+        binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
+    }
+
+    private fun getAdapter(): ChatAdapter {
+        if (!::adapter.isInitialized) {
+            adapter = ChatAdapter(viewModel)
+        }
+
+        adapter.setHasStableIds(true)
+
+        return adapter
+    }
+
     private fun getToDonateGifts() {
         viewModel.getToDonateGifts().observe(this) {
             when (it.status) {
@@ -135,20 +230,17 @@ class ChatActivity : BaseActivity() {
             viewModel.getCharityProfile().observe(this) {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
-                        it.data?.let { user ->
-                            loadImage(
-                                user.imageUrl,
-                                binding.userImageView,
-                                placeHolderId = R.drawable.ic_profile_place_holder_white,
-                                options = circleCropTransform()
-                            )
-
-                            binding.userNameTextView.text = user.name
-                            viewModel.receiverUserId = user.userId
-                        }
+                        showUserData(it.data?.imageUrl, it.data?.name)
                     }
                     CustomResult.Status.ERROR -> {
-                        finish()
+                        if (viewModel.triedToFetchCharityAndUserProfile) {
+                            finish()
+                            return@observe
+                        }
+
+                        viewModel.triedToFetchCharityAndUserProfile = true
+                        viewModel.isCharity = false
+                        getUserProfile()
                     }
                 }
             }
@@ -156,41 +248,32 @@ class ChatActivity : BaseActivity() {
             viewModel.getUserProfile().observe(this) {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
-                        it.data?.let { user ->
-                            loadImage(
-                                user.image,
-                                binding.userImageView,
-                                placeHolderId = R.drawable.ic_profile_place_holder_white,
-                                options = circleCropTransform()
-                            )
-
-                            binding.userNameTextView.text = user.name
-                            viewModel.receiverUserId = user.id
-                        }
+                        showUserData(it.data?.image, it.data?.name)
                     }
                     CustomResult.Status.ERROR -> {
-                        finish()
+                        if (viewModel.triedToFetchCharityAndUserProfile) {
+                            finish()
+                            return@observe
+                        }
+
+                        viewModel.triedToFetchCharityAndUserProfile = true
+                        viewModel.isCharity = true
+                        getUserProfile()
                     }
                 }
             }
         }
     }
 
-    private fun initBroadcastReceiver() {
-        chatBroadcastReceiver = ChatBroadcastReceiver { message ->
-            if (message.chatId.toLong() != viewModel.requestChatModel?.chatId) {
-                return@ChatBroadcastReceiver
-            }
+    private fun showUserData(imageUrl: String?, name: String?) {
+        loadImage(
+            imageUrl,
+            binding.userImageView,
+            placeHolderId = R.drawable.ic_profile_place_holder_white,
+            options = circleCropTransform()
+        )
 
-            viewModel.chatList?.add(0, message)
-            viewModel.chatList?.let { adapter.setData(it) }
-            viewModel.sendAckMessage(message.id, message.chatId.toLong())
-
-            checkEmptyPage()
-        }
-
-        val filter = IntentFilter("CHAT")
-        registerReceiver(chatBroadcastReceiver, filter)
+        binding.userNameTextView.text = name
     }
 
     private fun getChats() {
@@ -211,103 +294,6 @@ class ChatActivity : BaseActivity() {
         }
     }
 
-    private fun unblockUser() {
-        viewModel.unblockUser().observe(this) {
-            if (it.status == CustomResult.Status.SUCCESS) {
-                binding.blockUserImageView.visibility = View.VISIBLE
-                binding.unblockButton.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun blockUser() {
-        viewModel.blockUser().observe(this) {
-            if (it.status == CustomResult.Status.SUCCESS) {
-                binding.blockUserImageView.visibility = View.GONE
-                binding.unblockButton.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun initRecyclerView() {
-        binding.itemsListRecyclerView.adapter = getAdapter()
-
-        val animator = binding.itemsListRecyclerView.itemAnimator
-
-        if (animator is SimpleItemAnimator) {
-            animator.supportsChangeAnimations = false
-        }
-
-        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout = true
-        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd = false
-
-        setRecyclerViewPagination(binding.itemsListRecyclerView.layoutManager as LinearLayoutManager)
-    }
-
-    private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {
-        endlessRecyclerViewScrollListener =
-            object : EndlessRecyclerViewScrollListener(layoutManager) {
-                override fun onLoadMore() {
-                    endlessRecyclerViewScrollListener.isLoading = true
-                    gatherLastId()
-                    getChats()
-                }
-
-                override fun onScrolled(position: Int) {
-                }
-            }
-
-        endlessRecyclerViewScrollListener.PAGE_SIZE = 10
-        endlessRecyclerViewScrollListener.VISIBLE_THRESHOLD = 5
-
-        binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
-    }
-
-    private fun gatherLastId() {
-        if (viewModel.chatList == null) {
-            viewModel.lastId = 0
-            return
-        }
-
-        val lastItem = viewModel.chatList!!.last()
-        if (lastItem is TextMessageModel) {
-            viewModel.lastId = lastItem.id
-        } else {
-            for (i in viewModel.chatList!!.lastIndex downTo 0) {
-                val item = viewModel.chatList!![i]
-                if (item is TextMessageModel) {
-                    viewModel.lastId = item.id
-                }
-            }
-        }
-    }
-
-    private fun getAdapter(): ChatAdapter {
-        if (!::adapter.isInitialized) {
-            adapter = ChatAdapter(viewModel)
-        }
-
-        adapter.setHasStableIds(true)
-
-        return adapter
-    }
-
-    private fun showGiftOptionsMenu() {
-        if (viewModel.toDonateList.isNullOrEmpty()) {
-            showToastMessage(getString(R.string.no_gift_to_donate))
-            return
-        }
-
-        ToDonateGiftsBottomSheet.newInstance(
-            viewModel.toDonateList,
-            viewModel.requestChatModel?.contactId ?: 0
-        ).apply {
-            setOnItemClickListener {
-
-            }
-        }.show(supportFragmentManager, "donate")
-    }
-
     private fun showList(chatMessageModel: ChatMessageModel?) {
         if (chatMessageModel == null) {
             return
@@ -326,6 +312,20 @@ class ChatActivity : BaseActivity() {
         checkEmptyPage()
     }
 
+    private fun showGiftOptionsMenu() {
+        if (viewModel.toDonateList.isNullOrEmpty()) {
+            showToastMessage(getString(R.string.no_gift_to_donate))
+            return
+        }
+
+        ToDonateGiftsBottomSheet.newInstance(viewModel.toDonateList, viewModel.receiverUserId)
+            .apply {
+                setOnItemClickListener {
+
+                }
+            }.show(supportFragmentManager, "donate")
+    }
+
     private fun checkEmptyPage() {
         if (viewModel.chatList.isNullOrEmpty()) {
             binding.noChatTextView.visibility = View.VISIBLE
@@ -334,11 +334,72 @@ class ChatActivity : BaseActivity() {
         }
     }
 
+    private fun unblockUser() {
+        viewModel.unblockUser().observe(this) {
+            if (it.status == CustomResult.Status.SUCCESS) {
+                showOrHideBlockState(false)
+            }
+        }
+    }
+
+    private fun blockUser() {
+        viewModel.blockUser().observe(this) {
+            if (it.status == CustomResult.Status.SUCCESS) {
+                showOrHideBlockState(true)
+            }
+        }
+    }
+
+    private fun showOrHideBlockState(show: Boolean) {
+        if (show) {
+            binding.blockUserImageView.visibility = View.GONE
+            binding.unblockButton.visibility = View.VISIBLE
+        } else {
+            binding.blockUserImageView.visibility = View.VISIBLE
+            binding.unblockButton.visibility = View.GONE
+        }
+    }
+
+    private fun checkBlockState() {
+        val contact = KindnessApplication.instance.getContact(viewModel.chatId)
+        if (contact == null) {
+            if (viewModel.isStartFromNotification) {
+
+                if (viewModel.isContactListFetched) return
+
+                viewModel.getConversationsList().observe(this) {
+                    if (it.status == CustomResult.Status.SUCCESS) {
+                        viewModel.isContactListFetched = true
+                        checkBlockState()
+                    }
+                }
+            } else {
+                showOrHideBlockState(false)
+            }
+
+        } else {
+            if (contact.blockStatus.contactIsBlocked or contact.blockStatus.userIsBlocked) {
+                showOrHideBlockState(true)
+            } else {
+                showOrHideBlockState(false)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.isStartFromNotification) {
+            MainActivity.start(this)
+            finish()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        AppPref.isInChatPage = true
 
-        AppPref.currentChatSessionId = viewModel.requestChatModel?.chatId ?: -1
+        AppPref.isInChatPage = true
+        viewModel.setSessionId()
     }
 
     override fun onStop() {

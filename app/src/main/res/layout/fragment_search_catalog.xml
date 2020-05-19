@@ -74,9 +74,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/searchYourWordTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/search_your_word"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+
+        <TextView
+            android:id="@+id/emptyStateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_gift_to_show"
             android:textColor="@color/secondaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

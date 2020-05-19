@@ -68,7 +68,7 @@ class FilterActivity : BaseActivity() {
         binding.doneImageView.setOnClickListener { returnResult(true) }
 
         binding.selectCategoryContainer.setOnClickListener {
-            CategoryActivity.startActivityForResult(this)
+            CategoryActivity.startActivityForResult(this, true, categoryModels)
         }
 
         binding.selectCityContainer.setOnClickListener {

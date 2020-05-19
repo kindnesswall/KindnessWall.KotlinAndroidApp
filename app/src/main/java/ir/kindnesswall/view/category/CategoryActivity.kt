@@ -134,9 +134,12 @@ class CategoryActivity : BaseActivity() {
         data?.let {
             viewModel.prvSelectedCategories?.let { prvSelected ->
                 if (prvSelected.size > 0) {
-                    for (item in data) {
-                        for (selectedCat in prvSelected) {
-                            item.isSelected = item.id == selectedCat.id
+                    for (selectedCat in prvSelected) {
+                        for (item in data) {
+                            if (item.id == selectedCat.id) {
+                                item.isSelected = true
+                            }
+                            continue
                         }
                     }
                 }

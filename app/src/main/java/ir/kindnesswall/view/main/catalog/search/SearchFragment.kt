@@ -194,8 +194,14 @@ class SearchFragment : BaseFragment() {
 
     private fun showList(data: List<GiftModel>?) {
         if (!data.isNullOrEmpty()) {
+            binding.searchYourWordTextView.visibility = View.GONE
+            binding.emptyStateTextView.visibility = View.GONE
             binding.itemsListRecyclerView.visibility = View.VISIBLE
             (binding.itemsListRecyclerView.adapter as SearchAdapter).setItems(data as ArrayList<GiftModel>)
+        } else {
+            binding.searchYourWordTextView.visibility = View.GONE
+            binding.itemsListRecyclerView.visibility = View.GONE
+            binding.emptyStateTextView.visibility = View.VISIBLE
         }
     }
 

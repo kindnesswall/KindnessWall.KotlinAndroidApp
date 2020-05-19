@@ -238,7 +238,7 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
-        GiftDetailActivity.start(this, obj as GiftModel, true)
+        GiftDetailActivity.start(this, obj as GiftModel)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

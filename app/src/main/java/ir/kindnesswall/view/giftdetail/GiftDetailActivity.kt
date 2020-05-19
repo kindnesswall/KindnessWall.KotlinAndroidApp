@@ -26,11 +26,9 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     val viewModel: GiftDetailViewModel by viewModel()
 
     companion object {
-        @JvmStatic
-        fun start(context: Context, giftModel: GiftModel, isMyGift: Boolean = false) {
+        fun start(context: Context, giftModel: GiftModel) {
             context.startActivity(Intent(context, GiftDetailActivity::class.java).apply {
                 putExtra("giftModel", giftModel)
-                putExtra("isMyGift", isMyGift)
             })
         }
     }
@@ -39,12 +37,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gift_detail)
-        viewModel.isMyGift = intent?.getBooleanExtra("isMyGift", false) ?: false
 
         viewModel.giftModel = intent?.getParcelableExtra("giftModel") as GiftModel
         if (viewModel.giftModel == null) {
             finish()
         }
+
+        viewModel.isMyGift = viewModel.giftModel?.userId == UserInfoPref.userId
 
         configureViews(savedInstanceState)
     }
@@ -52,10 +51,14 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     override fun onResume() {
         super.onResume()
 
-        if (UserInfoPref.bearerToken.isEmpty() or UserInfoPref.isCharity) {
+        checkRequestButtonVisibility()
+    }
+
+    private fun checkRequestButtonVisibility() {
+        if ((UserInfoPref.bearerToken.isEmpty() or UserInfoPref.isCharity) && !viewModel.isMyGift) {
             binding.requestButton.visibility = View.VISIBLE
         } else {
-            binding.requestButton.visibility = View.VISIBLE
+            binding.requestButton.visibility = View.GONE
         }
     }
 
@@ -64,11 +67,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         binding.item = viewModel.giftModel
         binding.viewModel = viewModel
 
-        if (UserInfoPref.bearerToken.isEmpty() or UserInfoPref.isCharity) {
-            binding.requestButton.visibility = View.VISIBLE
-        } else {
-            binding.requestButton.visibility = View.GONE
-        }
+        checkRequestButtonVisibility()
 
         setupPhotoSlider()
 
@@ -149,7 +148,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
                         it.data?.let { data ->
-                            ChatActivity.start(this, data)
+                            ChatActivity.start(this, data, false, isStartFromNotification = false)
                         }
                     }
                 }

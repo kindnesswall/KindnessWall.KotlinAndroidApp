@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel
@@ -38,6 +39,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         if (result.data == null) {
                             emit(CustomResult.error(result.message.toString()))
                         } else {
+                            KindnessApplication.instance.setContactList(result.data)
                             emitSource(MutableLiveData<List<ChatContactModel>>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
