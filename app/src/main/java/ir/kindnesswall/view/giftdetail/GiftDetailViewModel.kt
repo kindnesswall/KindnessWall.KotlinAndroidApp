@@ -21,6 +21,10 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         giftViewListener?.onBackButtonClicked()
     }
 
+    fun onEditButtonClicked() {
+        giftViewListener?.onEditButtonClicked()
+    }
+
     fun onRequestClicked() {
         giftViewListener?.onRequestClicked()
     }

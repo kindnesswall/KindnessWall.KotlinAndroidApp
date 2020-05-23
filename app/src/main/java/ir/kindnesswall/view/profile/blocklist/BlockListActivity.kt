@@ -86,7 +86,24 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
 
         binding.blockedUsersRecyclerView.adapter = BlockListAdapter(object : OnItemClickListener {
             override fun onItemClicked(position: Int, obj: Any?) {
+                showPromptDialog(
+                    getString(R.string.unblock),
+                    getString(
+                        R.string.unblock_user_question,
+                        (obj as ChatContactModel).contactProfile?.name
+                    ), onPositiveClickCallback = {
+                        viewModel.unblockUser(obj.chat?.chatId ?: 0)
+                            .observe(this@BlockListActivity) {
+                                if (it.status == CustomResult.Status.SUCCESS) {
+                                    viewModel.blockedUsers.removeAt(position)
+                                    (binding.blockedUsersRecyclerView.adapter as BlockListAdapter)
+                                        .submitList(viewModel.blockedUsers)
 
+                                    checkEmptyPage()
+                                }
+                            }
+                    }
+                )
             }
         })
 

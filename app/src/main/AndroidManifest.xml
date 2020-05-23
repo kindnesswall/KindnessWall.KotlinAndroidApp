@@ -25,7 +25,6 @@
         <activity android:name=".view.main.addproduct.SubmitGiftActivity" />
         <activity android:name=".view.profile.blocklist.BlockListActivity" />
         <activity android:name=".view.profile.bookmarks.BookmarksActivity" />
-        <activity android:name=".view.profile.UserGiftDetailActivity" />
         <activity android:name=".view.profile.MyProfileActivity" />
         <activity android:name=".view.filter.FilterActivity" />
         <activity android:name=".view.category.CategoryActivity" />

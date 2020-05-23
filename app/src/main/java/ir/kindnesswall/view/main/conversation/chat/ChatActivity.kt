@@ -337,6 +337,10 @@ class ChatActivity : BaseActivity() {
     private fun unblockUser() {
         viewModel.unblockUser().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
+                KindnessApplication.instance.getContact(viewModel.chatId)?.blockStatus?.let { it ->
+                    it.contactIsBlocked = false
+                    it.userIsBlocked = false
+                }
                 showOrHideBlockState(false)
             }
         }
@@ -345,6 +349,10 @@ class ChatActivity : BaseActivity() {
     private fun blockUser() {
         viewModel.blockUser().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
+                KindnessApplication.instance.getContact(viewModel.chatId)?.blockStatus?.let { it ->
+                    it.contactIsBlocked = true
+                    it.userIsBlocked = true
+                }
                 showOrHideBlockState(true)
             }
         }

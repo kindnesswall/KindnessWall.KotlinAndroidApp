@@ -55,6 +55,17 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_arrow_back_white" />
 
+                <ImageView
+                    android:id="@+id/editGiftImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="8dp"
+                    android:onClick="@{() -> viewModel.onEditButtonClicked()}"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_edit_white" />
+
                 <TextView
                     android:id="@+id/titleTextView"
                     android:layout_width="0dp"

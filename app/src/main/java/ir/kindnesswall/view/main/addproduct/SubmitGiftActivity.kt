@@ -11,6 +11,7 @@ import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CityModel
 import ir.kindnesswall.data.model.CustomResult
@@ -30,8 +31,13 @@ class SubmitGiftActivity : BaseActivity() {
     private lateinit var adapter: SelectedImagesAdapter
 
     companion object {
-        fun start(context: Context) {
-            context.startActivity(Intent(context, SubmitGiftActivity::class.java))
+        fun start(context: Context, giftModel: GiftModel? = null) {
+            context.startActivity(
+                Intent(
+                    context,
+                    SubmitGiftActivity::class.java
+                ).putExtra("giftModel", giftModel)
+            )
         }
     }
 
@@ -40,52 +46,19 @@ class SubmitGiftActivity : BaseActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_submit_gift)
 
+        viewModel.editableGiftModel = intent?.getParcelableExtra("giftModel")
+
+        if (viewModel.editableGiftModel != null) {
+            viewModel.isNew = false
+        }
+
         configureViews(savedInstanceState)
         configureViewModel()
 
-        getDraftedModel()
-    }
-
-    private fun getDraftedModel() {
-        viewModel.getBackUpData().observe(this) { model ->
-            model?.let {
-                binding.giftTitleEditText.setText(it.title)
-                binding.giftDescEditText.setText(it.description)
-
-                if (it.price > 0) {
-                    binding.giftPriceEditText.setText(it.price.toString())
-                }
-
-                if (it.categoryName.isNotEmpty()) {
-                    binding.chooseCategoryTextView.text = it.categoryName
-                }
-
-                if (it.cityName.isEmpty() && it.provinceName.isNotEmpty()) {
-                    binding.chooseCityTextView.text = it.provinceName
-                } else if (it.cityName.isNotEmpty()) {
-                    binding.chooseCityTextView.text = it.cityName
-                }
-
-                viewModel.categoryId.value = it.categoryId
-                viewModel.provinceName.value = it.provinceName
-                viewModel.provinceId.value = it.provinceId
-                viewModel.cityId.value = it.cityId
-                viewModel.cityName.value = it.cityName
-                viewModel.isNew = it.isNew
-
-                viewModel.selectedImages.addAll(it.giftImages)
-                viewModel.imagesToUpload.addAll(it.giftImages)
-
-                if (viewModel.selectedImages.isNotEmpty()) {
-                    showImages()
-                }
-            }
-        }
-    }
-
-    override fun onBackPressed() {
-        viewModel.backupData {
-            super.onBackPressed()
+        if (viewModel.isNew) {
+            getDraftedModel()
+        } else {
+            fillWithEditableGift()
         }
     }
 
@@ -133,11 +106,108 @@ class SubmitGiftActivity : BaseActivity() {
             CityChooserActivity.startActivityForResult(this, true)
         }
 
-        binding.submitButton.setOnClickListener { viewModel.uploadImages(this, this) }
+        binding.submitButton.setOnClickListener {
+            if (viewModel.editableGiftModel == null && viewModel.isNew) {
+                showProgressDialog()
+                viewModel.uploadImages(this, this)
+            } else {
+                registerGift()
+            }
+        }
 
         initRecyclerView()
 
         binding.clearAll.setOnClickListener { clearAll() }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.isNew) {
+            viewModel.backupData {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun fillWithEditableGift() {
+        viewModel.editableGiftModel?.let {
+            viewModel.isNew = false
+            binding.giftTitleEditText.setText(it.title)
+            viewModel.title.value = it.title
+
+            binding.giftDescEditText.setText(it.description)
+            viewModel.description.value = it.description
+
+            if (it.price != null && it.price!! > 0f) {
+                binding.giftPriceEditText.setText(it.price.toString())
+                viewModel.price.value = it.price.toString()
+            }
+
+            if (!it.categoryTitle.isNullOrEmpty()) {
+                binding.chooseCategoryTextView.text = it.categoryTitle
+                viewModel.categoryName.value = it.categoryTitle
+            }
+
+            if (it.cityName.isNullOrEmpty() && !it.provinceName.isNullOrEmpty()) {
+                binding.chooseCityTextView.text = it.provinceName
+            } else if (!it.cityName.isNullOrEmpty()) {
+                binding.chooseCityTextView.text = it.cityName
+            }
+
+            viewModel.categoryId.value = it.categoryId
+            viewModel.provinceName.value = it.provinceName
+            viewModel.provinceId.value = it.provinceId
+            viewModel.cityId.value = it.cityId
+            viewModel.cityName.value = it.cityName
+            viewModel.isNew = false
+
+            if (!it.giftImages.isNullOrEmpty()) {
+                viewModel.uploadedImagesAddress.addAll(it.giftImages!!)
+                viewModel.imagesToShow.addAll(it.giftImages!!)
+            }
+
+            if (viewModel.imagesToShow.isNotEmpty()) {
+                showImages()
+            }
+        }
+    }
+
+    private fun getDraftedModel() {
+        viewModel.getBackUpData().observe(this) { model ->
+            model?.let {
+                binding.giftTitleEditText.setText(it.title)
+                binding.giftDescEditText.setText(it.description)
+
+                if (it.price > 0) {
+                    binding.giftPriceEditText.setText(it.price.toString())
+                }
+
+                if (it.categoryName.isNotEmpty()) {
+                    binding.chooseCategoryTextView.text = it.categoryName
+                }
+
+                if (it.cityName.isEmpty() && it.provinceName.isNotEmpty()) {
+                    binding.chooseCityTextView.text = it.provinceName
+                } else if (it.cityName.isNotEmpty()) {
+                    binding.chooseCityTextView.text = it.cityName
+                }
+
+                viewModel.categoryId.value = it.categoryId
+                viewModel.provinceName.value = it.provinceName
+                viewModel.provinceId.value = it.provinceId
+                viewModel.cityId.value = it.cityId
+                viewModel.cityName.value = it.cityName
+                viewModel.isNew = it.isNew
+
+                viewModel.imagesToShow.addAll(it.giftImages)
+                viewModel.imagesToUpload.addAll(it.giftImages)
+
+                if (viewModel.imagesToShow.isNotEmpty()) {
+                    showImages()
+                }
+            }
+        }
     }
 
     private fun clearAll() {
@@ -181,8 +251,13 @@ class SubmitGiftActivity : BaseActivity() {
     private fun initRecyclerView() {
         adapter = SelectedImagesAdapter().apply {
             onClickCallback = { position, url ->
-                viewModel.selectedImages.removeAt(position)
-                viewModel.imagesToUpload.removeAt(position)
+                if (viewModel.editableGiftModel == null && viewModel.isNew) {
+                    viewModel.imagesToShow.removeAt(position)
+                    viewModel.imagesToUpload.removeAt(position)
+                } else {
+                    viewModel.uploadedImagesAddress.removeAt(position)
+                    viewModel.imagesToShow.removeAt(position)
+                }
                 showImages()
             }
         }
@@ -200,7 +275,7 @@ class SubmitGiftActivity : BaseActivity() {
 
     private fun showImages() {
         if (::adapter.isInitialized) {
-            adapter.setItems(viewModel.selectedImages)
+            adapter.setItems(viewModel.imagesToShow)
         }
 
         checkSubmitButtonEnabling()
@@ -213,13 +288,13 @@ class SubmitGiftActivity : BaseActivity() {
                     viewModel.price.value.isNullOrEmpty() or
                     ((viewModel.provinceId.value ?: 0 <= 0) and (viewModel.cityId.value ?: 0 <= 0)) or
                     (viewModel.categoryId.value ?: 0 <= 0) or
-                    viewModel.selectedImages.isEmpty())
+                    viewModel.imagesToShow.isEmpty())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Config.RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
             data.getParcelableArrayListExtra<Image>(Config.EXTRA_IMAGES)?.let {
-                viewModel.selectedImages.addAll(it.map { image -> image.path })
+                viewModel.imagesToShow.addAll(it.map { image -> image.path })
                 viewModel.imagesToUpload.addAll(it.map { image -> image.path })
                 showImages()
             }

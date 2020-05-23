@@ -30,7 +30,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="13dp"
                 android:layout_height="7dp"
                 android:layout_gravity="bottom"
@@ -40,14 +39,13 @@
                 tools:src="@drawable/ic_double_tick_green" />
 
             <TextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:textSize="10sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
                 android:layout_marginBottom="2dp"
                 android:gravity="bottom"
                 android:text="@{item.getTime()}"
-                android:textSize="9sp"
                 tools:ignore="SmallSp"
                 tools:text="14:17" />
 

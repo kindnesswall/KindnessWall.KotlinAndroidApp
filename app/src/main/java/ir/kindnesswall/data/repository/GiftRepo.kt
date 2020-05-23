@@ -165,6 +165,32 @@ class GiftRepo(
             }
         }
 
+    fun updateGift(
+        viewModelScope: CoroutineScope,
+        registerGiftRequestModel: RegisterGiftRequestModel
+    ): LiveData<CustomResult<GiftModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                giftApi.updateGift(registerGiftRequestModel)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.message))
+                        } else {
+                            emitSource(MutableLiveData<GiftModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message))
+                }
+            }
+        }
+
+
     fun requestGift(
         viewModelScope: CoroutineScope,
         giftId: Long

@@ -19,4 +19,6 @@ class BlockListViewModel @Inject constructor(
     fun getBlockList(): LiveData<CustomResult<List<ChatContactModel>>> {
         return chatRepo.getBlockedUsers(viewModelScope)
     }
+
+    fun unblockUser(chatId: Long) = chatRepo.unblockChat(viewModelScope, chatId)
 }

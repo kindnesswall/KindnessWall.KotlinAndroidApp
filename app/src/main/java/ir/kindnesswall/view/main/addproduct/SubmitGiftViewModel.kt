@@ -34,12 +34,14 @@ class SubmitGiftViewModel(
 
     var isNew = true
 
-    var selectedImages = arrayListOf<String>()
+    var imagesToShow = arrayListOf<String>()
     var imagesToUpload = arrayListOf<String>()
 
     var uploadedImagesAddress = arrayListOf<String>()
 
     var uploadImagesLiveData = MutableLiveData<UploadImageResponse>()
+
+    var editableGiftModel: GiftModel? = null
 
     fun onTitleTextChange(text: CharSequence) {
         title.value = text.toString()
@@ -57,14 +59,19 @@ class SubmitGiftViewModel(
         val registerGiftRequestModel = RegisterGiftRequestModel()
         registerGiftRequestModel.title = title.value ?: ""
         registerGiftRequestModel.description = description.value ?: ""
-        registerGiftRequestModel.price = price.value?.toInt() ?: 0
+        registerGiftRequestModel.price = price.value?.toDouble()?.toInt() ?: 0
         registerGiftRequestModel.giftImages.addAll(uploadedImagesAddress)
         registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
         registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
         registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
         registerGiftRequestModel.isNew = isNew
 
-        return giftRepo.registerGift(viewModelScope, registerGiftRequestModel)
+        return if (isNew) {
+            giftRepo.registerGift(viewModelScope, registerGiftRequestModel)
+        } else {
+            registerGiftRequestModel.id = editableGiftModel!!.id.toInt()
+            giftRepo.updateGift(viewModelScope, registerGiftRequestModel)
+        }
     }
 
     fun uploadImages(context: Context, lifecycleOwner: LifecycleOwner) {
@@ -75,7 +82,7 @@ class SubmitGiftViewModel(
         val registerGiftRequestModel = RegisterGiftRequestModel()
         registerGiftRequestModel.title = title.value ?: ""
         registerGiftRequestModel.description = description.value ?: ""
-        registerGiftRequestModel.giftImages.addAll(selectedImages)
+        registerGiftRequestModel.giftImages.addAll(imagesToShow)
         registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
         registerGiftRequestModel.categoryName = categoryName.value ?: ""
         registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
@@ -106,7 +113,7 @@ class SubmitGiftViewModel(
     fun clearData() {
         appDatabase.registerGiftRequestDao().delete()
 
-        selectedImages.clear()
+        imagesToShow.clear()
         imagesToUpload.clear()
         uploadedImagesAddress.clear()
 

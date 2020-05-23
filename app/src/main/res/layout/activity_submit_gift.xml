@@ -102,7 +102,7 @@
                     android:singleLine="true" />
 
                 <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/submit_gift_title_message" />
@@ -123,10 +123,10 @@
                     android:onTextChanged="@{(text, start, before, count) -> viewModel.onDescriptionTextChange(text)}" />
 
                 <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/submit_gift_description_message" />
+                    android:text="@string/submit_gift_description_message"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,7 +146,7 @@
                     android:onTextChanged="@{(text, start, before, count) -> viewModel.onPriceTextChange(text)}" />
 
                 <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/submit_gift_price_message" />

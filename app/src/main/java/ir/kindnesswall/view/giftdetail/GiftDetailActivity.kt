@@ -16,6 +16,7 @@ import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.gallery.GalleryActivity
+import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -75,11 +76,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             binding.situationTextView.visibility = View.VISIBLE
             binding.situationText.visibility = View.VISIBLE
             binding.secondDivider.visibility = View.VISIBLE
+            binding.editGiftImageView.visibility = View.VISIBLE
             setSituationText()
         } else {
             binding.situationTextView.visibility = View.GONE
             binding.situationText.visibility = View.GONE
             binding.secondDivider.visibility = View.GONE
+            binding.editGiftImageView.visibility = View.GONE
         }
     }
 
@@ -134,6 +137,10 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
     override fun onBackButtonClicked() {
         onBackPressed()
+    }
+
+    override fun onEditButtonClicked() {
+        SubmitGiftActivity.start(this, viewModel.giftModel)
     }
 
     override fun onRequestClicked() {
