@@ -121,6 +121,8 @@ class InsertVerificationNumberFragment : BaseFragment() {
                         UserInfoPref.bearerToken = it.data?.token?.token ?: ""
                         UserInfoPref.id = it.data?.token?.id ?: 0
                         UserInfoPref.userId = it.data?.token?.userID ?: 0
+                        UserInfoPref.isAdmin = it.data?.isAdmin ?: false
+                        UserInfoPref.isCharity = it.data?.isCharity ?: false
                         getUserProfile()
                     }
                     CustomResult.Status.LOADING -> {

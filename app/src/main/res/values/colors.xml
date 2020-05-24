@@ -33,4 +33,7 @@
     <color name="onBoardingFifthColor">#D859D2</color>
 
     <color name="disableButtonColor">#a1a1a1</color>
+
+    <color name="situation_yellow_color">#BBAB5B</color>
+
 </resources>

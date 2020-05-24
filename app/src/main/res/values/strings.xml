@@ -12,7 +12,7 @@
     <string name="toast__something_is_wrong">Something went wrong, please try again later</string>
     <string name="no_internet__body">It seems you don\'t have active internet connection. Please try to connect to the internet</string>
     <string name="kindness_wall">دیوار مهربانی</string>
-    <string name="register_for_get_and_send_gifts">برای دریافت و ارسال هدایا لطفا ثبت نام کنید</string>
+    <string name="register_for_get_and_send_gifts">برای اهدا هدیه از طرف خیرین و یا دریافت هدیه توسط خیریه‌ها نیاز به ثبت نام/ ورود با شماره تلفن است</string>
     <string name="phone_number">شماره تلفن</string>
     <string name="_98">98+</string>
     <string name="phone_number_hint">9xx-xxx-xxxx</string>
@@ -86,7 +86,7 @@
     <string name="cancel">لغو</string>
     <string name="profile">پروفایل</string>
     <string name="situation">وضعیت</string>
-    <string name="rejected">رد شده</string>
+    <string name="rejected">رد شده \n %s</string>
     <string name="accepted">پذیرفته شده</string>
     <string name="show_profile">نمایش پروفایل</string>
     <string name="my_profile">پروفایل من</string>
@@ -95,11 +95,11 @@
     <string name="conversations">گفتگو‌ها</string>
     <string name="submit_gift">ثبت هدیه</string>
     <string name="gift_title">عنوان هدیه</string>
-    <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید.</string>
-    <string name="submit_gift_price_message">ارزش ریالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد.</string>
-    <string name="submit_gift_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید</string>
+    <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید. (حداقل ۵ حرف)</string>
+    <string name="submit_gift_price_message">ارزش ریالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
+    <string name="submit_gift_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید. (حداقل ۵ حرف)</string>
     <string name="price_range">حدود قیمت</string>
-    <string name="price_range_hint">_ _ _ , _ _ _ ریال</string>
+    <string name="price_range_hint">_ _ _ , _ _ _ تومان</string>
     <string name="gift_image">عکس هدیه</string>
     <string name="choose_category">انتخاب دسته بندی</string>
     <string name="submit">ثبت</string>
@@ -129,7 +129,10 @@
     <string name="pros_and_cons">انتقادات و پیشنهادات</string>
     <string name="report_bug">گزارش خطا</string>
     <string name="install_telegram">برای ارتباط با پشتیبانی ابتدا تلگرام را نصب کنید</string>
-    <string name="gift_submitted_successfully">هدیه با موفقیت ثبت شد و منتظر تایید نهایی است</string>
+    <string name="gift_submitted_successfully">هدیه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
+شما میتوانید از صفحه پروفایل به هدیه های ثبت شده خود دسترسی داشته باشید
+</string>
+
     <string name="verify_code_error">کد وارد شده صحیح نمی باشد.</string>
     <string name="which_gift_to_donate">کدام هدیه را اهدا می کنید؟</string>
     <string name="no_gift_to_donate">برای اهدا، هدیه ای ثبت نکرده اید.</string>
@@ -141,5 +144,12 @@
     <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
     <string name="no_gift_to_show">هدیه ای یافت نشد</string>
     <string name="unblock_user_question">کاربر %s رفع بلاک شود؟</string>
+    <string name="request_for_users_error_message">به علت کرونا در حال حاضر تنها امکان درخواست توسط خیریه ها وجود دارد</string>
+    <string name="ok">باشه</string>
+
+    <string name="situation_in_review_queue">در صف بررسی</string>
+    <string name="situation_confirm">تایید شده</string>
+    <string name="deleted">حذف شده</string>
+    <string name="gift_received">دریافت شده</string>
 
 </resources>

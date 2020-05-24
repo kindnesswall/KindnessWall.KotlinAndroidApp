@@ -63,7 +63,14 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
         updateContactListBroadcastReceiver = ConversationBroadcastReceiver {
             refreshList()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        registerBroadcastReceiver()
+    }
+
+    private fun registerBroadcastReceiver() {
         val newListFilter = IntentFilter("NEW_CONTACT_LIST")
         val updateListFilter = IntentFilter("UPDATE_CONTACT_LIST")
 
@@ -72,6 +79,7 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
             it.registerReceiver(updateContactListBroadcastReceiver, updateListFilter)
         }
     }
+
 
     override fun configureViews() {
         binding.itemsListRecyclerView.apply {
@@ -145,6 +153,15 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
                 obj.contactProfile?.isCharity ?: false,
                 false
             )
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        context?.let {
+            it.unregisterReceiver(newContactListBroadcastReceiver)
+            it.unregisterReceiver(updateContactListBroadcastReceiver)
         }
     }
 }

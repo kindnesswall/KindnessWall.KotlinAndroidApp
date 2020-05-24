@@ -49,26 +49,10 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         configureViews(savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        checkRequestButtonVisibility()
-    }
-
-    private fun checkRequestButtonVisibility() {
-        if ((UserInfoPref.bearerToken.isEmpty() or UserInfoPref.isCharity) && !viewModel.isMyGift) {
-            binding.requestButton.visibility = View.VISIBLE
-        } else {
-            binding.requestButton.visibility = View.GONE
-        }
-    }
-
     override fun configureViews(savedInstanceState: Bundle?) {
         viewModel.giftViewListener = this
         binding.item = viewModel.giftModel
         binding.viewModel = viewModel
-
-        checkRequestButtonVisibility()
 
         setupPhotoSlider()
 
@@ -83,6 +67,24 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             binding.situationText.visibility = View.GONE
             binding.secondDivider.visibility = View.GONE
             binding.editGiftImageView.visibility = View.GONE
+        }
+
+        viewModel.giftModel?.let {
+            if (it.isDeleted && UserInfoPref.isAdmin) {
+                binding.situationTextView.text = getString(R.string.deleted)
+                binding.situationTextView.setTextColor(
+                    ContextCompat.getColor(this, R.color.rejectTextColor)
+                )
+            } else if (it.donatedToUserId == UserInfoPref.userId.toInt()) {
+                binding.situationTextView.visibility = View.VISIBLE
+                binding.situationText.visibility = View.VISIBLE
+                binding.secondDivider.visibility = View.VISIBLE
+
+                binding.situationTextView.text = getString(R.string.gift_received)
+                binding.situationTextView.setTextColor(
+                    ContextCompat.getColor(this, R.color.colorPrimary)
+                )
+            }
         }
     }
 
@@ -104,25 +106,39 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     private fun setSituationText() {
         binding.situationTextView.text = ""
         viewModel.giftModel?.let {
-            when {
-                it.isRejected -> {
-                    binding.situationTextView.text = getString(R.string.rejected)
-                    binding.situationTextView.setTextColor(
-                        ContextCompat.getColor(this, R.color.rejectTextColor)
-                    )
-                }
-                it.isReviewed -> {
-                    binding.situationTextView.text = getString(R.string.accepted)
-                    binding.situationTextView.setTextColor(
-                        ContextCompat.getColor(this, R.color.colorPrimary)
-                    )
-                }
-                else -> {
-                    binding.situationTextView.text = getString(R.string.registered)
-                    binding.situationTextView.setTextColor(
-                        ContextCompat.getColor(this, R.color.colorPrimary)
-                    )
-                }
+            if (!it.isReviewed) {
+                binding.situationTextView.text = getString(R.string.situation_in_review_queue)
+                binding.situationTextView.setTextColor(
+                    ContextCompat.getColor(this, R.color.situation_yellow_color)
+                )
+
+                return
+            }
+
+            if (it.isReviewed && !it.isRejected && it.donatedToUserId != null && it.donatedToUserId!! > 0) {
+                binding.situationTextView.text = getString(R.string.filter_profile_donate)
+                binding.situationTextView.setTextColor(
+                    ContextCompat.getColor(this, R.color.colorPrimary)
+                )
+
+                return
+            }
+
+            if (it.isReviewed && it.isRejected) {
+                binding.situationTextView.text =
+                    getString(R.string.rejected, it.rejectReason.toString())
+                binding.situationTextView.setTextColor(
+                    ContextCompat.getColor(this, R.color.rejectTextColor)
+                )
+
+                return
+            }
+
+            if (!it.isRejected) {
+                binding.situationTextView.text = getString(R.string.situation_confirm)
+                binding.situationTextView.setTextColor(
+                    ContextCompat.getColor(this, R.color.colorPrimary)
+                )
             }
         }
     }
@@ -148,6 +164,16 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             AuthenticationActivity.start(this)
         } else {
             if (viewModel.isMyGift) {
+                return
+            }
+
+            if (!UserInfoPref.isCharity && !UserInfoPref.isAdmin) {
+                showPromptDialog(
+                    messageToShow = getString(R.string.request_for_users_error_message),
+                    positiveButtonText = getString(R.string.ok),
+                    showNegativeButton = false
+                )
+
                 return
             }
 

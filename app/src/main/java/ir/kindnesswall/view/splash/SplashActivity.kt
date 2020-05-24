@@ -66,7 +66,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun gotoNextActivity() {
-        if (AppPref.isOnBoardingShown) {
+        if (AppPref.isOnBoardingShown or UserInfoPref.bearerToken.isNotEmpty()) {
             if (viewModel.requestChatModel != null && viewModel.isStartFromNotification) {
                 ChatActivity.start(
                     this, viewModel.requestChatModel!!,

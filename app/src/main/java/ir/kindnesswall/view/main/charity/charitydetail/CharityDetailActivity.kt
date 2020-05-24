@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -72,12 +71,6 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         val sheetBehavior =
             BottomSheetBehavior.from(binding.informationBottomSheet.charityContentBottomSheet)
 
-        if (UserInfoPref.bearerToken.isNotEmpty() && UserInfoPref.isCharity) {
-            binding.informationBottomSheet.startChatButton.visibility = View.VISIBLE
-        } else {
-            binding.informationBottomSheet.startChatButton.visibility = View.VISIBLE
-        }
-
         binding.informationBottomSheet.toolbar.setOnClickListener {
             if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -95,11 +88,26 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         if (UserInfoPref.bearerToken.isEmpty()) {
             AuthenticationActivity.start(this)
         } else {
+
+            if (!UserInfoPref.isCharity && !UserInfoPref.isAdmin) {
+                showPromptDialog(
+                    messageToShow = getString(R.string.request_for_users_error_message),
+                    positiveButtonText = getString(R.string.ok),
+                    showNegativeButton = false
+                )
+                return
+            }
+
+            if (viewModel.charityModel?.userId == UserInfoPref.userId) {
+                return
+            }
+
             viewModel.getChatId().observe(this) {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
                         it.data?.let { data ->
-                            ChatActivity.start(this, data,
+                            ChatActivity.start(
+                                this, data,
                                 isCharity = true,
                                 isStartFromNotification = false
                             )

@@ -21,10 +21,12 @@ object UserInfoPref : KotprefModel() {
     var userId by longPref(0)
 
     var name by stringPref("")
+    var charityName by stringPref("")
     var phoneNumber by stringPref("")
     var image by stringPref("")
 
     var isCharity by booleanPref(false)
+    var isAdmin by booleanPref(false)
 
     var bearerToken by stringPref("")
 
@@ -36,9 +38,23 @@ object UserInfoPref : KotprefModel() {
         id = user.id
 
         name = user.name ?: ""
+        charityName = user.charityName ?: ""
+
         phoneNumber = user.phoneNumber ?: ""
         image = user.image ?: ""
-
-        isCharity = user.isCharity ?: false
     }
+
+    fun getPersianPhoneNumber() =
+        phoneNumber.replace("0", "۰")
+            .replace("1", "۱")
+            .replace("2", "۲")
+            .replace("3", "۳")
+            .replace("4", "۴")
+            .replace("5", "۵")
+            .replace("6", "۶")
+            .replace("7", "۷")
+            .replace("8", "۸")
+            .replace("9", "۹")
+
+    fun getUser() = User(userId, name, phoneNumber, image, isCharity, isAdmin, charityName)
 }

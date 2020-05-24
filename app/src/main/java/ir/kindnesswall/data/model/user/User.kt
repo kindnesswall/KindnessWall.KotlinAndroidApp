@@ -10,6 +10,7 @@ data class User(
     var phoneNumber: String? = null,
     var image: String? = null,
     var isCharity: Boolean? = false,
+    var isAdmin: Boolean? = false,
     var charityName: String? = null
 ) : Serializable {
     fun getTitle(context: Context): String {

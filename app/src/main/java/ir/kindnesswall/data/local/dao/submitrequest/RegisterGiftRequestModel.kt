@@ -14,12 +14,12 @@ data class RegisterGiftRequestModel(
     var description: String = "",
     var price: Int = 0,
     var categoryId: Int = 1,
-    var categoryName: String = "",
+    var categoryName: String? = "",
     var isNew: Boolean = true,
     var provinceId: Int = 0,
-    var provinceName: String = "",
+    var provinceName: String? = "",
     var cityId: Int = 0,
-    var cityName: String = "",
+    var cityName: String? = "",
     var countryId: Int = 103,
     var giftImages: ArrayList<String> = arrayListOf()
 )

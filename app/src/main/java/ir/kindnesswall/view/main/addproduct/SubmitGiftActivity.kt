@@ -183,13 +183,13 @@ class SubmitGiftActivity : BaseActivity() {
                     binding.giftPriceEditText.setText(it.price.toString())
                 }
 
-                if (it.categoryName.isNotEmpty()) {
+                if (!it.categoryName.isNullOrEmpty()) {
                     binding.chooseCategoryTextView.text = it.categoryName
                 }
 
-                if (it.cityName.isEmpty() && it.provinceName.isNotEmpty()) {
+                if (!it.cityName.isNullOrEmpty() && !it.provinceName.isNullOrEmpty()) {
                     binding.chooseCityTextView.text = it.provinceName
-                } else if (it.cityName.isNotEmpty()) {
+                } else if (!it.cityName.isNullOrEmpty()) {
                     binding.chooseCityTextView.text = it.cityName
                 }
 
@@ -215,7 +215,7 @@ class SubmitGiftActivity : BaseActivity() {
         binding.giftDescEditText.setText("")
         binding.giftPriceEditText.setText("")
 
-        binding.chooseCityTextView.text = getString(R.string.choose_category)
+        binding.chooseCategoryTextView.text = getString(R.string.choose_category)
         binding.chooseCityTextView.text = getString(R.string.choose_city)
 
         adapter.clear()
@@ -232,13 +232,19 @@ class SubmitGiftActivity : BaseActivity() {
                     showToastMessage("")
                 }
                 CustomResult.Status.SUCCESS -> {
-                    showToastMessage(getString(R.string.gift_submitted_successfully))
                     dismissProgressDialog()
-                    it.data?.let { gift ->
-                        viewModel.removeBackupData()
-                        GiftDetailActivity.start(this, gift)
-                        finish()
-                    }
+                    showPromptDialog(
+                        messageToShow = getString(R.string.gift_submitted_successfully),
+                        showNegativeButton = false,
+                        positiveButtonText = getString(R.string.ok),
+                        onPositiveClickCallback = { response ->
+                            it.data?.let { gift ->
+                                viewModel.removeBackupData()
+                                GiftDetailActivity.start(this, gift)
+                                finish()
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -283,12 +289,13 @@ class SubmitGiftActivity : BaseActivity() {
 
     private fun checkSubmitButtonEnabling() {
         binding.submitButton.isEnabled =
-            !(viewModel.description.value.isNullOrEmpty() or
-                    viewModel.title.value.isNullOrEmpty() or
-                    viewModel.price.value.isNullOrEmpty() or
-                    ((viewModel.provinceId.value ?: 0 <= 0) and (viewModel.cityId.value ?: 0 <= 0)) or
-                    (viewModel.categoryId.value ?: 0 <= 0) or
-                    viewModel.imagesToShow.isEmpty())
+            (!viewModel.description.value.isNullOrEmpty() && viewModel.description.value!!.length >= 5) &&
+                    (!viewModel.title.value.isNullOrEmpty() && viewModel.title.value!!.length >= 5) &&
+                    (!viewModel.price.value.isNullOrEmpty() && viewModel.price.value!!.toFloat() >= 1000) &&
+                    (viewModel.provinceId.value ?: 0 > 0) &&
+                    (viewModel.cityId.value ?: 0 > 0) &&
+                    (viewModel.categoryId.value ?: 0 > 0) &&
+                    viewModel.imagesToShow.isNotEmpty()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

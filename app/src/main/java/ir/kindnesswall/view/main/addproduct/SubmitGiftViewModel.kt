@@ -64,6 +64,9 @@ class SubmitGiftViewModel(
         registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
         registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
         registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
+        registerGiftRequestModel.categoryName = null
+        registerGiftRequestModel.provinceName = null
+        registerGiftRequestModel.cityName = null
         registerGiftRequestModel.isNew = isNew
 
         return if (isNew) {
