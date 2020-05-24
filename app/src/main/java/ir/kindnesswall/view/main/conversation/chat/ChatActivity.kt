@@ -104,6 +104,12 @@ class ChatActivity : BaseActivity() {
         checkBlockState()
         getChats()
         getToDonateGifts()
+
+        viewModel.refreshToDonateList.observe(this) {
+            if (it) {
+                getToDonateGifts()
+            }
+        }
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
@@ -219,6 +225,7 @@ class ChatActivity : BaseActivity() {
                         return@observe
                     }
 
+                    viewModel.toDonateList.clear()
                     viewModel.toDonateList.addAll(it.data)
                 }
             }
@@ -321,7 +328,7 @@ class ChatActivity : BaseActivity() {
         ToDonateGiftsBottomSheet.newInstance(viewModel.toDonateList, viewModel.receiverUserId)
             .apply {
                 setOnItemClickListener {
-
+                    this@ChatActivity.viewModel.refreshToDonateList.value = it
                 }
             }.show(supportFragmentManager, "donate")
     }

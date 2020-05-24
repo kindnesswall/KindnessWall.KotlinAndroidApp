@@ -21,6 +21,7 @@ class ChatViewModel(
     private val giftRepo: GiftRepo,
     private val charityRepo: CharityRepo
 ) : ViewModel() {
+    val refreshToDonateList = MutableLiveData<Boolean>()
     var isContactListFetched: Boolean = false
     var isStartFromNotification: Boolean = false
     var chatContactModel: ChatContactModel? = null
