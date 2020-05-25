@@ -158,11 +158,13 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
 
     implementation "com.github.marlonlom:timeago:4.0.3"
-//    implementation project(path: ':timeago')
 
     def uploadServiceVersion = "4.3.0"
     implementation "net.gotev:uploadservice:$uploadServiceVersion"
 
     //image picker
     implementation 'com.github.nguyenhoanglam:ImagePicker:1.4.0'
+
+    //recycler view swipe detector
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 }

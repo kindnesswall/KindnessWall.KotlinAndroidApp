@@ -123,4 +123,26 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                     }
                 }
         }
+
+    fun getVersion(viewModelScope: CoroutineScope): LiveData<CustomResult<UpdateModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { generalApi.getVersion() }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(""))
+                            } else {
+                                emitSource(MutableLiveData<UpdateModel>().apply {
+                                    value = result.data
+                                }.map { CustomResult.success(it) })
+                            }
+                        }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(""))
+                    }
+                }
+        }
 }

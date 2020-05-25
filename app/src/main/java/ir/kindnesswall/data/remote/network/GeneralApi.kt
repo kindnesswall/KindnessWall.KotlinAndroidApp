@@ -5,6 +5,7 @@ import ir.kindnesswall.data.local.dao.province.ProvinceModel
 import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CityModel
 import ir.kindnesswall.data.model.RegionModel
+import ir.kindnesswall.data.model.UpdateModel
 import ir.kindnesswall.data.model.requestsmodel.RequestBaseModel
 import retrofit2.Response
 import retrofit2.http.Body
@@ -31,6 +32,9 @@ interface GeneralApi {
 
     @GET("regions/{cityId}")
     suspend fun getRegions(@Path("cityId") id: Int): Response<List<RegionModel>>
+
+    @GET("application/android/version")
+    suspend fun getVersion(): Response<UpdateModel>
 
     @POST("categories")
     suspend fun getAllCategories(@Body requestBaseModel: RequestBaseModel = RequestBaseModel()): Response<List<CategoryModel>>

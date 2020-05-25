@@ -264,4 +264,58 @@ class GiftRepo(
                 }
             }
         }
+
+    fun getReviewGiftsFirstPage(
+        viewModelScope: CoroutineScope
+    ): LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                giftApi.getReviewGiftsFirstPage(GetGiftsRequestBaseBody())
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.message.toString()))
+                        } else {
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
+                }
+            }
+        }
+
+    fun getReviewGifts(
+        viewModelScope: CoroutineScope,
+        lastId: Long
+    ): LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
+
+            emit(CustomResult.loading())
+
+            emitSource(fetchFromDb())
+
+            getResultWithExponentialBackoffStrategy {
+                giftApi.getReviewGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(""))
+                        } else {
+                            appDatabase.catalogDao().insert(result.data)
+                            emitSource(fetchFromDb())
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(""))
+                }
+            }
+        }
+
 }

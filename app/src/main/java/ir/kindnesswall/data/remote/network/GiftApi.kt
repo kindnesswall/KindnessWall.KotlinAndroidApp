@@ -44,4 +44,11 @@ interface GiftApi {
 
     @GET("gifts/request/{id}")
     suspend fun requestGift(@Path("id") id: Long): Response<RequestChatModel>
+
+    @POST("gifts/review")
+    suspend fun getReviewGifts(@Body getGiftsRequestBody: GetGiftsRequestBaseBody): Response<List<GiftModel>>
+
+    @POST("gifts/review")
+    suspend fun getReviewGiftsFirstPage(@Body getGiftsRequestBody: GetGiftsRequestBaseBody): Response<List<GiftModel>>
+
 }

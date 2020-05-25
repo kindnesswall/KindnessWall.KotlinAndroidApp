@@ -13,6 +13,7 @@ import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.utils.LocaleHelper
+import ir.kindnesswall.utils.widgets.GetInputDialog
 import org.koin.android.ext.android.inject
 
 
@@ -163,6 +164,27 @@ abstract class BaseActivity : AppCompatActivity() {
     fun dismissPromptDialog() {
         promptDialog?.dismiss()
         promptDialog = null
+    }
+
+    fun showGetInputDialog(
+        arguments: Bundle?,
+        approveListener: ((String) -> Unit)? = null,
+        cancelListener: (() -> Unit)? = null
+    ) {
+        val dialog = GetInputDialog()
+        supportFragmentManager.let {
+            val prev = it.findFragmentByTag("getInputDialog")
+            if (prev != null) {
+                it.beginTransaction()
+                    .remove(prev)
+                    .addToBackStack(null)
+            }
+            dialog.arguments = arguments
+            dialog.onApproveListener = approveListener
+            dialog.onRefuseListener = cancelListener
+
+            dialog.show(it, "questionDialog")
+        }
     }
 
     fun showProgressDialog() {

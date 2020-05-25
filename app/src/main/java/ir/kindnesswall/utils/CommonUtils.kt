@@ -131,18 +131,18 @@ fun wrapInBearer(token: String): String {
         token
 }
 
-fun gotoGooglePlayStore(context: Context) {
+fun gotoPlayStore(context: Context) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse("market://details?id=${context.packageName}")
     startActivity(context, intent, null)
 }
 
 fun rateToApp(context: Context) {
-    gotoGooglePlayStore(context)
+    gotoPlayStore(context)
 }
 
 fun updateApp(context: Context) {
-    gotoGooglePlayStore(context)
+    gotoPlayStore(context)
 }
 
 fun isLocationPermissionGranted(context: Context?): Boolean {

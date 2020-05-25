@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import ir.kindnesswall.BaseActivity
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
@@ -95,6 +96,11 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
                         viewModel.unblockUser(obj.chat?.chatId ?: 0)
                             .observe(this@BlockListActivity) {
                                 if (it.status == CustomResult.Status.SUCCESS) {
+                                    KindnessApplication.instance.getContact(obj.chat?.chatId!!)?.blockStatus?.let { it ->
+                                        it.contactIsBlocked = true
+                                        it.userIsBlocked = true
+                                    }
+
                                     viewModel.blockedUsers.removeAt(position)
                                     (binding.blockedUsersRecyclerView.adapter as BlockListAdapter)
                                         .submitList(viewModel.blockedUsers)

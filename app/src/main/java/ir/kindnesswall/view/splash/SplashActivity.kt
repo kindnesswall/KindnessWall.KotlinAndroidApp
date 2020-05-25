@@ -1,7 +1,6 @@
 package ir.kindnesswall.view.splash
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
@@ -18,8 +17,6 @@ class SplashActivity : BaseActivity() {
 
     private val viewModel: SplashViewModel by viewModel()
 
-    private var handler: Handler? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -32,15 +29,13 @@ class SplashActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        handler = Handler()
-        handler?.postDelayed({ getUserProfile() }, 2000)
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        handler?.removeCallbacksAndMessages(null)
-        handler = null
+        viewModel.getVersion().observe(this) {
+            if (it.status == CustomResult.Status.SUCCESS) {
+                //todo check force update
+                // if there is an update -> goto update activity else get user profile
+                getUserProfile()
+            }
+        }
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {

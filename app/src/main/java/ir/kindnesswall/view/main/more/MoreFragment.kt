@@ -17,6 +17,7 @@ import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
 import ir.kindnesswall.view.profile.MyProfileActivity
 import ir.kindnesswall.view.profile.blocklist.BlockListActivity
+import ir.kindnesswall.view.reviewgift.ReviewGiftsActivity
 
 
 /**
@@ -45,6 +46,7 @@ class MoreFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.myProfileContainer.setOnClickListener { context?.let { MyProfileActivity.start(it) } }
+        binding.reviewGiftsContainer.setOnClickListener { context?.let { ReviewGiftsActivity.start(it) } }
         binding.aboutUs.setOnClickListener { context?.let { AboutUsActivity.start(it) } }
         binding.blockedUsers.setOnClickListener { context?.let { BlockListActivity.start(it) } }
 
