@@ -9,10 +9,18 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.TextMessageModel
+import ir.kindnesswall.data.repository.ChatRepo
+import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.utils.NotificationHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 
 class KindnessWallFirebaseMessagingService : FirebaseMessagingService() {
+    private val chatRepo: ChatRepo by inject()
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         var title: String? = ""
         var message: String? = ""
@@ -40,10 +48,7 @@ class KindnessWallFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
 
-        if (AppPref.isAppInForeground &&
-            model != null &&
-            model is TextMessageModel
-        ) {
+        if (AppPref.isAppInForeground && model != null && model is TextMessageModel) {
             if (AppPref.isInChatPage && (model as TextMessageModel).chatId == AppPref.currentChatSessionId) {
                 val intent = Intent()
                 intent.action = "CHAT"
@@ -56,15 +61,22 @@ class KindnessWallFirebaseMessagingService : FirebaseMessagingService() {
                     KindnessApplication.instance.getContact((model as TextMessageModel).chatId)
 
                 if (contact == null) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val contactList = chatRepo.getConversationList()
+                        if(contactList.isNullOrEmpty()){
+                            return@launch
+                        }
+
+                        KindnessApplication.instance.setContactList(contactList)
+                    }
+
                     val intent = Intent()
                     intent.action = "NEW_CONTACT_LIST"
                     intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
                     sendBroadcast(intent)
-
                 } else {
                     contact.notificationCount++
                     KindnessApplication.instance.updateContactList(contact)
-
                     val intent = Intent()
                     intent.action = "UPDATE_CONTACT_LIST"
                     intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)

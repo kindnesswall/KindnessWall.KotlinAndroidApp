@@ -33,7 +33,7 @@ data class GiftModel(
     var isNew: Boolean = false,
     var isReviewed: Boolean = false,
     var provinceId: Int = 0,
-    var donatedToUserId: Int? = null,
+    var donatedToUserId: Long? = null,
     var giftImages: List<String>? = null,
     var price: Float? = null,
     var isDeleted: Boolean = false,

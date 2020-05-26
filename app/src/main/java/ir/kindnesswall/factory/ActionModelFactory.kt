@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.model.RequestChatModel
+import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.splash.SplashActivity
@@ -21,7 +21,7 @@ object ActionModelFactory {
         when (url.authority) {
             "chat" -> {
                 if (AppPref.isAppInForeground) {
-                    var requestChatModel = RequestChatModel()
+                    var requestChatModel = ChatModel()
                     requestChatModel.chatId = (model as TextMessageModel).chatId
                     requestChatModel.contactId = model.senderId
                     requestChatModel.userId = model.senderId
@@ -35,7 +35,7 @@ object ActionModelFactory {
                         KindnessApplication.instance.getContact((model as TextMessageModel).chatId)
 
                     return if (contact == null) {
-                        var requestChatModel = RequestChatModel()
+                        var requestChatModel = ChatModel()
                         requestChatModel.chatId = (model as TextMessageModel).chatId
                         requestChatModel.contactId = (model as TextMessageModel).senderId
                         requestChatModel.userId = (model as TextMessageModel).senderId

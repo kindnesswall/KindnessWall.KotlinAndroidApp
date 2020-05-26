@@ -6,8 +6,8 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.onbording.OnBoardingActivity
@@ -23,19 +23,21 @@ class SplashActivity : BaseActivity() {
 
         viewModel.isStartFromNotification = intent.getBooleanExtra("isStartFromNotification", false)
         viewModel.requestChatModel =
-            intent.getSerializableExtra("requestChatModel") as? RequestChatModel
+            intent.getSerializableExtra("requestChatModel") as? ChatModel
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel.getVersion().observe(this) {
-            if (it.status == CustomResult.Status.SUCCESS) {
-                //todo check force update
-                // if there is an update -> goto update activity else get user profile
-                getUserProfile()
-            }
-        }
+        getUserProfile()
+
+//        viewModel.getVersion().observe(this) {
+//            if (it.status == CustomResult.Status.SUCCESS) {
+//                todo check force update
+//                 if there is an update -> goto update activity else get user profile
+//                getUserProfile()
+//            }
+//        }
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
@@ -50,7 +52,7 @@ class SplashActivity : BaseActivity() {
                     CustomResult.Status.SUCCESS -> gotoNextActivity()
 
                     CustomResult.Status.ERROR -> {
-                        showToastMessage("")
+                        gotoNextActivity()
                     }
 
                     CustomResult.Status.LOADING -> {

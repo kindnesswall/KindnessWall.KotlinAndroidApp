@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestChatModel
 import ir.kindnesswall.data.repository.GiftRepo
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
+
+    var isReceivedGift: Boolean = false
 
     var isMyGift: Boolean = false
     var selectedImageIndex: Int = 0
@@ -37,7 +39,22 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         giftViewListener?.onBookmarkClicked()
     }
 
-    fun requestGift(): LiveData<CustomResult<RequestChatModel>> {
+    fun onAcceptGiftClicked() {
+        giftViewListener?.onAcceptGiftClicked()
+    }
+
+    fun onRejectGiftClicked() {
+        giftViewListener?.onRejectGiftClicked()
+    }
+
+    fun requestGift(): LiveData<CustomResult<ChatModel>> {
         return giftRepo.requestGift(viewModelScope, giftModel?.id ?: 0)
     }
+
+    fun rejectGift(giftId: Long, reason: String) =
+        giftRepo.rejectGift(viewModelScope, giftId, reason)
+
+    fun acceptGift(giftId: Long) = giftRepo.acceptGift(viewModelScope, giftId)
+
+    fun getRequestStatus() = giftRepo.getGiftRequestStatus(viewModelScope, giftModel!!.id)
 }

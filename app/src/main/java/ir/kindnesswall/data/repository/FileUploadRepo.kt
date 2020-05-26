@@ -4,13 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.remote.network.UploadFileApi
 import ir.kindnesswall.utils.wrapInBearer
-import com.google.gson.Gson
 import net.gotev.uploadservice.data.UploadInfo
 import net.gotev.uploadservice.network.ServerResponse
 import net.gotev.uploadservice.observer.request.RequestObserverDelegate
@@ -19,7 +19,7 @@ import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 
 class FileUploadRepo(val context: Context, private val uploadFileApi: UploadFileApi) :
     BaseDataSource() {
-    
+
     fun uploadFile(
         context: Context,
         lifecycleOwner: LifecycleOwner,
@@ -43,7 +43,7 @@ class FileUploadRepo(val context: Context, private val uploadFileApi: UploadFile
 
             override fun onError(context: Context, uploadInfo: UploadInfo, exception: Throwable) {
                 Log.e("LIFECYCLE", "Error " + exception.message)
-                data.value = UploadImageResponse("")
+                data.value = UploadImageResponse("").apply { isFailed = true }
             }
 
             override fun onProgress(context: Context, uploadInfo: UploadInfo) {
@@ -61,7 +61,7 @@ class FileUploadRepo(val context: Context, private val uploadFileApi: UploadFile
                 data.value = Gson().fromJson<UploadImageResponse>(
                     serverResponse.bodyString,
                     UploadImageResponse::class.java
-                )
+                ).apply { isFailed = false }
             }
         })
     }

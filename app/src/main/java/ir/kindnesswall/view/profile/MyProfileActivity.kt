@@ -55,6 +55,12 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
         viewModel.newImageUrlLiveData.observe(this) {
             dismissProgressDialog()
+
+            if (it.isFailed) {
+                showToastMessage(getString(R.string.please_try_again))
+                return@observe
+            }
+
             saveChanges()
         }
     }
@@ -134,9 +140,7 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
                 checkEmptyState()
             }
 
-            CustomResult.Status.LOADING -> {
-                showProgressDialog()
-            }
+            CustomResult.Status.LOADING -> { }
 
             CustomResult.Status.ERROR -> {
                 dismissProgressDialog()

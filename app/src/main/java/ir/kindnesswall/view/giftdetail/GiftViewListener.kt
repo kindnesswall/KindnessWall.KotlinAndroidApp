@@ -6,4 +6,6 @@ interface GiftViewListener {
     fun onRequestClicked()
     fun onShareClicked()
     fun onBookmarkClicked()
+    fun onAcceptGiftClicked()
+    fun onRejectGiftClicked()
 }

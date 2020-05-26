@@ -37,9 +37,9 @@ class ChatActivity : BaseActivity() {
     companion object {
         fun start(
             context: Context,
-            requestChatModel: RequestChatModel,
+            requestChatModel: ChatModel,
             isCharity: Boolean = false,
-            isStartFromNotification: Boolean
+            isStartFromNotification: Boolean = false
         ) {
             context.startActivity(
                 Intent(context, ChatActivity::class.java)
@@ -54,7 +54,7 @@ class ChatActivity : BaseActivity() {
             context: Context,
             chatContactModel: ChatContactModel,
             isCharity: Boolean,
-            isStartFromNotification: Boolean
+            isStartFromNotification: Boolean = false
         ) {
             context.startActivity(
                 Intent(context, ChatActivity::class.java)
@@ -79,7 +79,7 @@ class ChatActivity : BaseActivity() {
             intent.getSerializableExtra("chatContactModel") as? ChatContactModel
 
         viewModel.requestChatModel =
-            intent.getSerializableExtra("requestChatModel") as? RequestChatModel
+            intent.getSerializableExtra("requestChatModel") as? ChatModel
 
         viewModel.isCharity = intent.getBooleanExtra("isCharity", false)
 

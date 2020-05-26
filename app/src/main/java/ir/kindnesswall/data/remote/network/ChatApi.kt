@@ -2,7 +2,7 @@ package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.ChatMessageModel
-import ir.kindnesswall.data.model.RequestChatModel
+import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel
@@ -39,7 +39,7 @@ interface ChatApi {
     suspend fun sendActMessage(@Body chatMessageAckRequestModel: ChatMessageAckRequestModel): Response<Any>
 
     @GET("chat/start/{charityId}")
-    suspend fun getChatId(@Path("charityId") id: Long): Response<RequestChatModel>
+    suspend fun getChatId(@Path("charityId") id: Long): Response<ChatModel>
 
     @GET("chat/contacts/block")
     suspend fun getBlockedUsers(): Response<List<ChatContactModel>>

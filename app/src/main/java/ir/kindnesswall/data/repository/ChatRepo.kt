@@ -51,6 +51,19 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
             }
         }
 
+    suspend fun getConversationList(): List<ChatContactModel>? {
+        return try {
+            val response = chatApi.getConversations()
+            if (response.isSuccessful && response.body() != null) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     fun getChats(
         viewModelScope: CoroutineScope,
         lastId: Long,
@@ -186,7 +199,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
     fun getChatId(
         viewModelScope: CoroutineScope,
         charityId: Long
-    ): LiveData<CustomResult<RequestChatModel>> =
+    ): LiveData<CustomResult<ChatModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
@@ -197,7 +210,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         if (result.data == null) {
                             emit(CustomResult.error(result.message))
                         } else {
-                            emitSource(MutableLiveData<RequestChatModel>().apply {
+                            emitSource(MutableLiveData<ChatModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }

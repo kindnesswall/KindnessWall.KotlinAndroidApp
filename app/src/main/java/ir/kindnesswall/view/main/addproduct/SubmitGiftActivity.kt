@@ -72,6 +72,12 @@ class SubmitGiftActivity : BaseActivity() {
         viewModel.cityId.observe(this) { checkSubmitButtonEnabling() }
 
         viewModel.uploadImagesLiveData.observe(this) {
+            if (it.isFailed) {
+                dismissProgressDialog()
+                showToastMessage(getString(R.string.please_try_again))
+                return@observe
+            }
+
             viewModel.uploadedImagesAddress.add(it.address)
             viewModel.imagesToUpload.removeAt(0)
             if (viewModel.imagesToUpload.isEmpty()) {

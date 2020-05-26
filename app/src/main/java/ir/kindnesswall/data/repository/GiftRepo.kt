@@ -9,10 +9,12 @@ import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.RequestChatModel
+import ir.kindnesswall.data.model.GiftRequestStatusModel
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
+import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
 import ir.kindnesswall.data.remote.network.GiftApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -172,7 +174,7 @@ class GiftRepo(
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
-                giftApi.updateGift(registerGiftRequestModel)
+                giftApi.updateGift(registerGiftRequestModel.id.toLong(), registerGiftRequestModel)
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -190,11 +192,10 @@ class GiftRepo(
             }
         }
 
-
     fun requestGift(
         viewModelScope: CoroutineScope,
         giftId: Long
-    ): LiveData<CustomResult<RequestChatModel>> =
+    ): LiveData<CustomResult<ChatModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
@@ -205,7 +206,7 @@ class GiftRepo(
                         if (result.data == null) {
                             emit(CustomResult.error(result.message))
                         } else {
-                            emitSource(MutableLiveData<RequestChatModel>().apply {
+                            emitSource(MutableLiveData<ChatModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }
@@ -294,11 +295,7 @@ class GiftRepo(
         lastId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
-
             emit(CustomResult.loading())
-
-            emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
                 giftApi.getReviewGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
@@ -308,8 +305,9 @@ class GiftRepo(
                         if (result.data == null) {
                             emit(CustomResult.error(""))
                         } else {
-                            appDatabase.catalogDao().insert(result.data)
-                            emitSource(fetchFromDb())
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -318,4 +316,66 @@ class GiftRepo(
             }
         }
 
+    fun rejectGift(
+        viewModelScope: CoroutineScope,
+        giftId: Long,
+        rejectReason: String
+    ): LiveData<CustomResult<Any?>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy {
+                giftApi.rejectGift(giftId, RejectGiftRequestModel(rejectReason))
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emit(CustomResult.success(result.data))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
+                }
+            }
+        }
+
+    fun acceptGift(
+        viewModelScope: CoroutineScope,
+        giftId: Long
+    ): LiveData<CustomResult<Any?>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy {
+                giftApi.acceptGift(giftId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emit(CustomResult.success(result.data))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
+                }
+            }
+        }
+
+    fun getGiftRequestStatus(
+        viewModelScope: CoroutineScope,
+        giftId: Long
+    ): LiveData<CustomResult<GiftRequestStatusModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy {
+                giftApi.getGiftRequestStatus(giftId)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<GiftRequestStatusModel>().apply {
+                            value = result.data
+                        }.map { CustomResult.success(it) })
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.message.toString()))
+                }
+            }
+        }
 }

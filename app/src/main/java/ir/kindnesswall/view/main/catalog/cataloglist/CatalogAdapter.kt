@@ -50,5 +50,5 @@ private class CatalogDiffUtil : DiffUtil.ItemCallback<GiftModel>() {
         oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: GiftModel, newItem: GiftModel): Boolean =
-        oldItem == newItem
+        oldItem.id == newItem.id
 }

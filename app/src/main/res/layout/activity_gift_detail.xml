@@ -146,10 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
+                    android:singleLine="false"
                     android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/situationText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/categoryText"
                     app:layout_constraintTop_toTopOf="@id/situationText" />
@@ -161,7 +159,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@color/divider"
                     android:visibility="visible"
-                    app:layout_constraintTop_toBottomOf="@+id/situationText" />
+                    app:layout_constraintTop_toBottomOf="@+id/situationTextView" />
 
                 <TextView
                     android:id="@+id/categoryText"
@@ -255,6 +253,39 @@
             android:onClick="@{() -> viewModel.onRequestClicked()}"
             android:text="@string/request"
             android:textColor="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/reviewGiftsContainer"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/acceptButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/primary_round_selector_4dp"
+                android:fontFamily="@font/vazir_bold"
+                android:onClick="@{() -> viewModel.onAcceptGiftClicked()}"
+                android:text="@string/accept_gift"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/rejectButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/primary_round_selector_4dp"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/vazir_bold"
+                android:onClick="@{() -> viewModel.onRejectGiftClicked()}"
+                android:text="@string/reject_gift"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

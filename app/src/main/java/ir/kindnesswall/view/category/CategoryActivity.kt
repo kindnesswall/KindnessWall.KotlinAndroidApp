@@ -115,11 +115,13 @@ class CategoryActivity : BaseActivity() {
     private fun getCategories() {
         viewModel.getCategories().observe(this) {
             when (it.status) {
-                CustomResult.Status.LOADING -> showProgressDialog()
+                CustomResult.Status.LOADING -> showProgressDialog(
+                    cancelable = true,
+                    canceledOnTouchOutside = true
+                )
 
                 CustomResult.Status.ERROR -> {
                     dismissProgressDialog()
-                    showProgressDialog()
                 }
 
                 CustomResult.Status.SUCCESS -> {

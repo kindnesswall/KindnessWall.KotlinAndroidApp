@@ -1,9 +1,11 @@
 package ir.kindnesswall.view.giftdetail
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -27,10 +29,17 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     val viewModel: GiftDetailViewModel by viewModel()
 
     companion object {
+        const val GIFT_REVIEW_REQUEST_CODE = 185
         fun start(context: Context, giftModel: GiftModel) {
             context.startActivity(Intent(context, GiftDetailActivity::class.java).apply {
                 putExtra("giftModel", giftModel)
             })
+        }
+
+        fun startActivityForResult(activity: AppCompatActivity, giftModel: GiftModel) {
+            val intent = Intent(activity, GiftDetailActivity::class.java)
+            intent.putExtra("giftModel", giftModel)
+            activity.startActivityForResult(intent, GIFT_REVIEW_REQUEST_CODE)
         }
     }
 
@@ -54,6 +63,11 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         binding.item = viewModel.giftModel
         binding.viewModel = viewModel
 
+        if (UserInfoPref.isAdmin && !viewModel.giftModel!!.isReviewed) {
+            binding.reviewGiftsContainer.visibility = View.VISIBLE
+            binding.requestButton.visibility = View.GONE
+        }
+
         setupPhotoSlider()
 
         if (viewModel.isMyGift) {
@@ -61,7 +75,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             binding.situationText.visibility = View.VISIBLE
             binding.secondDivider.visibility = View.VISIBLE
             binding.editGiftImageView.visibility = View.VISIBLE
-            setSituationText()
         } else {
             binding.situationTextView.visibility = View.GONE
             binding.situationText.visibility = View.GONE
@@ -69,13 +82,25 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             binding.editGiftImageView.visibility = View.GONE
         }
 
+        if (viewModel.isMyGift || UserInfoPref.isAdmin) {
+            setSituationText()
+            setSituationTextIfIsAdmin()
+        }
+
+        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId) {
+            viewModel.isReceivedGift = true
+            binding.requestButton.text = getString(R.string.talk_with_donator)
+        }
+    }
+
+    private fun setSituationTextIfIsAdmin() {
         viewModel.giftModel?.let {
             if (it.isDeleted && UserInfoPref.isAdmin) {
                 binding.situationTextView.text = getString(R.string.deleted)
                 binding.situationTextView.setTextColor(
                     ContextCompat.getColor(this, R.color.rejectTextColor)
                 )
-            } else if (it.donatedToUserId == UserInfoPref.userId.toInt()) {
+            } else if (it.donatedToUserId == UserInfoPref.userId) {
                 binding.situationTextView.visibility = View.VISIBLE
                 binding.situationText.visibility = View.VISIBLE
                 binding.secondDivider.visibility = View.VISIBLE
@@ -157,6 +182,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
     override fun onEditButtonClicked() {
         SubmitGiftActivity.start(this, viewModel.giftModel)
+        finish()
     }
 
     override fun onRequestClicked() {
@@ -177,11 +203,19 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 return
             }
 
-            viewModel.requestGift().observe(this) {
-                when (it.status) {
-                    CustomResult.Status.SUCCESS -> {
-                        it.data?.let { data ->
-                            ChatActivity.start(this, data, false, isStartFromNotification = false)
+            if (viewModel.isReceivedGift) {
+                viewModel.getRequestStatus().observe(this) {
+                    if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
+                        ChatActivity.start(this, it.data.chat, false)
+                    }
+                }
+            } else {
+                viewModel.requestGift().observe(this) {
+                    when (it.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            it.data?.let { data ->
+                                ChatActivity.start(this, data, false)
+                            }
                         }
                     }
                 }
@@ -195,5 +229,62 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
     override fun onBookmarkClicked() {
 
+    }
+
+    override fun onAcceptGiftClicked() {
+        viewModel.acceptGift(viewModel.giftModel!!.id)
+            .observe(this) { result ->
+                if (result.status == CustomResult.Status.SUCCESS) {
+                    viewModel.giftModel!!.isReviewed = true
+                    viewModel.giftModel!!.isRejected = false
+
+                    binding.reviewGiftsContainer.visibility = View.GONE
+                    binding.requestButton.visibility = View.VISIBLE
+
+                    setSituationText()
+                    setSituationTextIfIsAdmin()
+                    returnResult(true)
+                } else if (result.status == CustomResult.Status.ERROR) {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
+            }
+    }
+
+    override fun onRejectGiftClicked() {
+        showGetInputDialog(Bundle().apply {
+            putString("title", getString(R.string.Please_write_reason))
+            putString("hint", getString(R.string.reason_of_reject))
+        }, approveListener = {
+            viewModel.rejectGift(viewModel.giftModel!!.id, it)
+                .observe(this) { result ->
+                    if (result.status == CustomResult.Status.SUCCESS) {
+                        viewModel.giftModel!!.isReviewed = true
+                        viewModel.giftModel!!.isRejected = true
+
+                        binding.reviewGiftsContainer.visibility = View.GONE
+                        binding.requestButton.visibility = View.VISIBLE
+
+                        setSituationText()
+                        setSituationTextIfIsAdmin()
+
+                        returnResult(true)
+                    } else if (result.status == CustomResult.Status.ERROR) {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
+                }
+        })
+    }
+
+    private fun returnResult(result: Boolean) {
+        val returnIntent = Intent()
+        returnIntent.putExtra("isReviews", result)
+
+        if (result) {
+            setResult(Activity.RESULT_OK, returnIntent)
+        } else {
+            setResult(Activity.RESULT_CANCELED, null)
+        }
+
+        finish()
     }
 }

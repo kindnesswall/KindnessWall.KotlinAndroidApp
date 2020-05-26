@@ -15,7 +15,6 @@ import com.google.gson.reflect.TypeToken
  *
  */
 object AppPref : KotprefModel() {
-
     var shouldUpdatedFireBaseToken by booleanPref(false)
 
     var currentLocale by stringPref("fa")

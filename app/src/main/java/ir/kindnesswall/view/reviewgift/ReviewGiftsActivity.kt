@@ -1,10 +1,11 @@
 package ir.kindnesswall.view.reviewgift
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -81,19 +82,29 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
 
         swipeController = SwipeController(this, object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-                Log.e(">>>>>>", "on right side clicked $position")
-                viewModel.reviewItem.removeAt(position)
-                (binding.itemsListRecyclerView.adapter as CatalogAdapter).notifyItemRemoved(position)
+                viewModel.acceptGift(viewModel.reviewItem[position].id)
+                    .observe(this@ReviewGiftsActivity) { result ->
+                        if (result.status == CustomResult.Status.SUCCESS) {
+                            removeReviewedItem(position)
+                        } else if (result.status == CustomResult.Status.ERROR) {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
+                    }
             }
 
             override fun onLeftClicked(position: Int) {
-                Log.e(">>>>>>", "on left side clicked $position")
                 showGetInputDialog(Bundle().apply {
                     putString("title", getString(R.string.Please_write_reason))
                     putString("hint", getString(R.string.reason_of_reject))
                 }, approveListener = {
-                    viewModel.reviewItem.removeAt(position)
-                    (binding.itemsListRecyclerView.adapter as CatalogAdapter).notifyItemRemoved(position)
+                    viewModel.rejectGift(viewModel.reviewItem[position].id, it)
+                        .observe(this@ReviewGiftsActivity) { result ->
+                            if (result.status == CustomResult.Status.SUCCESS) {
+                                removeReviewedItem(position)
+                            } else if (result.status == CustomResult.Status.ERROR) {
+                                showToastMessage(getString(R.string.please_try_again))
+                            }
+                        }
                 })
             }
         })
@@ -153,12 +164,24 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
                 it.data?.let { data ->
                     viewModel.reviewItem.addAll(data)
                     showList()
+                    checkEmptyState()
                 }
             }
 
             CustomResult.Status.ERROR -> {
-                showToastMessage("")
+                dismissProgressDialog()
+                showToastMessage(getString(R.string.please_try_again))
             }
+        }
+    }
+
+    private fun checkEmptyState() {
+        if (viewModel.reviewItem.isEmpty()) {
+            binding.emptyStateTextView.visibility = View.VISIBLE
+            binding.pullToRefreshLayout.visibility = View.GONE
+        } else {
+            binding.emptyStateTextView.visibility = View.GONE
+            binding.pullToRefreshLayout.visibility = View.VISIBLE
         }
     }
 
@@ -167,6 +190,29 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
-        GiftDetailActivity.start(this, obj as GiftModel)
+        viewModel.clickedItemPosition = position
+        GiftDetailActivity.startActivityForResult(this, obj as GiftModel)
+    }
+
+    private fun removeReviewedItem(position: Int) {
+        viewModel.reviewItem.removeAt(position)
+        (binding.itemsListRecyclerView.adapter as CatalogAdapter)
+            .notifyItemRemoved(position)
+        checkEmptyState()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GiftDetailActivity.GIFT_REVIEW_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val isReviews = data?.getBooleanExtra("isReviews", false) ?: false
+
+                if (isReviews) {
+                    removeReviewedItem(viewModel.clickedItemPosition)
+                    viewModel.clickedItemPosition = -1
+                }
+            }
+        }
     }
 }

@@ -40,7 +40,7 @@ class ChatViewModel(
 
     var lastId = 0L
 
-    var requestChatModel: RequestChatModel? = null
+    var requestChatModel: ChatModel? = null
 
     fun getChats() = if (chatList.isNullOrEmpty()) {
         chatRepo.getChatsFirstPage(viewModelScope, chatId)

@@ -161,5 +161,9 @@
     <string name="accept_gift">" تایید هدیه"</string>
     <string name="reason_of_reject">دلیل رد هدیه</string>
     <string name="Please_write_reason">لطفا دلیل رد هدیه را بنویسید</string>
+    <string name="please_try_again">مشکلی پیش آمده، لطفا دوباره تلاش کنید</string>
+    <string name="review_gifts_empty_state">هدیه ای برای بررسی وجود ندارد</string>
+    <string name="loading">لطفا شکیبا باشید…</string>
+    <string name="talk_with_donator">گفتگو با اهدا کننده</string>
 
 </resources>

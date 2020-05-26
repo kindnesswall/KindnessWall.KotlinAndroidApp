@@ -5,14 +5,21 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.utils.LocaleHelper
+import ir.kindnesswall.utils.extentions.dp
 import ir.kindnesswall.utils.widgets.GetInputDialog
 import org.koin.android.ext.android.inject
 
@@ -187,11 +194,52 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showProgressDialog() {
+    private var progressDialog: AlertDialog? = null
+    fun showProgressDialog(
+        messageToShow: String? = "لطفا شکیبا باشید…",
+        title: String = "",
+        confirmButtonText: String = "",
+        cancelButtonText: String = "",
+        showCancelButton: Boolean = false,
+        cancelable: Boolean = false,
+        canceledOnTouchOutside: Boolean = false,
+        onConfirmClickCallback: (() -> Unit)? = null,
+        onCancelClickCallback: (() -> Unit)? = null,
+        onDismissCallback: (() -> Unit)? = null
+    ) {
+        val progressContainerLinearLayout: RelativeLayout =
+            layoutInflater.inflate(R.layout.dialog_progressbar, null) as RelativeLayout
+        val progressBar = progressContainerLinearLayout.findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.isIndeterminate = true
 
+        val tvText =
+            progressContainerLinearLayout.findViewById<AppCompatTextView>(R.id.progressTextView)
+
+        tvText.text = messageToShow
+        tvText.setTextColor(ContextCompat.getColor(applicationContext, R.color.secondaryTextColor))
+
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(true)
+        builder.setView(progressContainerLinearLayout)
+
+        if (progressDialog == null) {
+            progressDialog = builder.create()
+            progressDialog?.setCanceledOnTouchOutside(canceledOnTouchOutside)
+            progressDialog?.setCancelable(cancelable)
+            progressDialog?.show()
+            val window = progressDialog?.window
+            if (window != null) {
+                val layoutParams = WindowManager.LayoutParams()
+                layoutParams.copyFrom(progressDialog?.window?.attributes)
+                layoutParams.width = 250.dp(this)
+                layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
+                progressDialog?.window?.attributes = layoutParams
+            }
+        }
     }
 
     fun dismissProgressDialog() {
-
+        progressDialog?.dismiss()
+        progressDialog = null
     }
 }

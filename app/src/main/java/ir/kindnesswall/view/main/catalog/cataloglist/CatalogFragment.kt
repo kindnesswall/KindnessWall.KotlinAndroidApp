@@ -116,7 +116,6 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
     private fun onCatalogItemsReceived(it: CustomResult<List<GiftModel>>) {
         when (it.status) {
             CustomResult.Status.LOADING -> {
-                showProgressDialog()
             }
 
             CustomResult.Status.SUCCESS -> {

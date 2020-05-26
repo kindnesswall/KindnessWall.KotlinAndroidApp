@@ -8,6 +8,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.GiftRepo
 
 class ReviewGiftsViewModel(private val giftRepo: GiftRepo) : ViewModel() {
+    var clickedItemPosition: Int = -1
     private var lastId = 0L
 
     val reviewItem = ArrayList<GiftModel>()
@@ -20,4 +21,9 @@ class ReviewGiftsViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         lastId = reviewItem.last().id
         return giftRepo.getReviewGifts(viewModelScope, lastId)
     }
+
+    fun rejectGift(giftId: Long, reason: String) =
+        giftRepo.rejectGift(viewModelScope, giftId, reason)
+
+    fun acceptGift(giftId: Long) = giftRepo.acceptGift(viewModelScope, giftId)
 }
