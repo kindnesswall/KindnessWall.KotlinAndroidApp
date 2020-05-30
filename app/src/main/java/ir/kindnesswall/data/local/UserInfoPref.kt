@@ -36,6 +36,7 @@ object UserInfoPref : KotprefModel() {
         }
 
         id = user.id
+        userId = user.id
 
         name = user.name ?: ""
         charityName = user.charityName ?: ""

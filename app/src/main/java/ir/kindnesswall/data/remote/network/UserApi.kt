@@ -48,6 +48,24 @@ interface UserApi {
             }
     ): Response<List<GiftModel>>
 
+    @POST("gifts/accept/{giftId}")
+    suspend fun getUserAcceptedGifts(
+        @Path("giftId") userId: Long,
+        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+            GetGiftsRequestBaseBody().apply {
+                count = Int.MAX_VALUE
+            }
+    ): Response<List<GiftModel>>
+
+    @POST("gifts/userDonated/{giftId}")
+    suspend fun getUserRejectedGifts(
+        @Path("giftId") userId: Long,
+        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+            GetGiftsRequestBaseBody().apply {
+                count = Int.MAX_VALUE
+            }
+    ): Response<List<GiftModel>>
+
     @POST("gifts/userRegistered/{userId}")
     suspend fun getUserRegisteredGifts(
         @Path("userId") userId: Long,

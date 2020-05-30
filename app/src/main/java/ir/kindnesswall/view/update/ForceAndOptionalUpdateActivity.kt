@@ -21,7 +21,7 @@ class ForceAndOptionalUpdateActivity : AppCompatActivity() {
     var updateLink = ""
 
     companion object {
-        fun start(context: Context, isForceUpdate: Boolean, updateLink: String) {
+        fun start(context: Context, isForceUpdate: Boolean, updateLink: String = "") {
             context.startActivity(
                 Intent(
                     context,
@@ -40,6 +40,7 @@ class ForceAndOptionalUpdateActivity : AppCompatActivity() {
         updateLink = intent.getStringExtra("updateLink")
 
         binding.isForeUpdate = isForceUpdate
+        binding.lifecycleOwner = this
 
         binding.closeImageView.setOnClickListener { gotoNextActivity() }
         binding.updateButton.setOnClickListener { updateApp(this) }

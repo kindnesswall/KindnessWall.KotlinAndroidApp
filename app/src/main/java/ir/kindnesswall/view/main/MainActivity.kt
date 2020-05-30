@@ -19,7 +19,6 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
-import ir.kindnesswall.utils.BottomTabHistory
 import ir.kindnesswall.utils.OnClickListener
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
@@ -31,7 +30,6 @@ class MainActivity : BaseActivity() {
     private val viewModel by viewModel<MainViewModel>()
 
     private var currentController: NavController? = null
-    private var tabHistory = BottomTabHistory().apply { push(R.id.navigation_home) }
 
     private val navHomeController: NavController by lazy { findNavController(R.id.homeTab) }
     private val navCharityController: NavController by lazy { findNavController(R.id.charityTab) }
@@ -56,18 +54,36 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable("TAB_HISTORY", tabHistory)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        readIntent()
+        configureViews(savedInstanceState)
     }
+
+    private fun readIntent() {
+        viewModel.defaultTab = intent.getIntExtra("defaultTab", R.id.navigation_home)
+    }
+
+    override fun configureViews(savedInstanceState: Bundle?) {
+        fixBottomNavigationBug()
+        selectDefaultTab()
+
+        binding.mainBottomNavigationView
+            .setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        binding.mainBottomNavigationView.itemIconTintList = null
+
+        if (savedInstanceState == null) {
+            currentController = navHomeController
+        }
+    }
+
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-
-        savedInstanceState.let {
-            tabHistory = it.getSerializable("TAB_HISTORY") as BottomTabHistory
-            switchTab(binding.mainBottomNavigationView.selectedItemId, false)
-        }
+        switchTab(binding.mainBottomNavigationView.selectedItemId)
     }
 
     override fun onResume() {
@@ -103,44 +119,15 @@ class MainActivity : BaseActivity() {
     override fun onBackPressed() {
         currentController?.let {
             if (it.popBackStack().not()) {
-                if (tabHistory.size > 1) {
-                    val tabId = tabHistory.popPrevious()
-                    if (tabHistory.size == 1 && tabId != R.id.navigation_home)
-                        tabHistory.push(R.id.navigation_home, false)
-                    switchTab(tabId, false)
-                    binding.mainBottomNavigationView.menu.findItem(tabId)?.isChecked = true
+                if (currentController != navHomeController) {
+                    switchTab(R.id.navigation_home)
+                    binding.mainBottomNavigationView.menu.findItem(R.id.navigation_home)?.isChecked =
+                        true
                 } else {
-                    tabHistory.clear()
                     return finish()
                 }
             }
         } ?: run { finish() }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        readIntent()
-        configureViews(savedInstanceState)
-    }
-
-    private fun readIntent() {
-        viewModel.defaultTab = intent.getIntExtra("defaultTab", R.id.navigation_home)
-    }
-
-    override fun configureViews(savedInstanceState: Bundle?) {
-        fixBottomNavigationBug()
-        selectDefaultTab()
-        binding.mainBottomNavigationView.setOnNavigationItemSelectedListener(
-            mOnNavigationItemSelectedListener
-        )
-
-        binding.mainBottomNavigationView.itemIconTintList = null
-
-        if (savedInstanceState == null) {
-            currentController = navHomeController
-        }
     }
 
     private fun fixBottomNavigationBug() {
@@ -152,14 +139,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun selectDefaultTab() {
-        tabHistory.push(viewModel.defaultTab)
-        switchTab(viewModel.defaultTab, false)
+        switchTab(viewModel.defaultTab)
         binding.mainBottomNavigationView.menu.findItem(viewModel.defaultTab)?.isChecked = true
     }
 
-    private fun switchTab(tabId: Int, addToHistory: Boolean = true): Boolean {
-        var addTabToHistory = addToHistory
-
+    private fun switchTab(tabId: Int): Boolean {
         when (tabId) {
             R.id.navigation_home -> {
                 currentController = navHomeController
@@ -180,7 +164,6 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.navigation_add_product -> {
-                addTabToHistory = false
                 if (UserInfoPref.bearerToken.isEmpty()) {
                     AuthenticationActivity.start(this)
                 } else {
@@ -209,10 +192,6 @@ class MainActivity : BaseActivity() {
                 binding.charityTabContainer.visibility = View.INVISIBLE
                 binding.conversationTabContainer.visibility = View.INVISIBLE
             }
-        }
-
-        if (addTabToHistory) {
-            tabHistory.push(tabId)
         }
 
         return true

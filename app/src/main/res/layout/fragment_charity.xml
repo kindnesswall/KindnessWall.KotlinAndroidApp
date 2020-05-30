@@ -48,19 +48,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemsListRecyclerView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
-            tools:listitem="@layout/item_charity" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemsListRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_charity" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

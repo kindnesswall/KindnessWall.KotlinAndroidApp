@@ -229,4 +229,64 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                 }
             })
     }
+
+    fun getUserAcceptedGifts(
+        viewModelScope: CoroutineScope,
+        userId: Long
+    ): LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            if (userId == null) {
+                emit(CustomResult.error(""))
+                return@liveData
+            }
+
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { userApi.getUserReceivedGifts(userId) }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+
+                        CustomResult.Status.ERROR -> {
+                            emit(CustomResult.error(""))
+                        }
+
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    }
+                }
+        }
+
+    fun getUserRejectedGifts(
+        viewModelScope: CoroutineScope,
+        userId: Long
+    ): LiveData<CustomResult<List<GiftModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            if (userId == null) {
+                emit(CustomResult.error(""))
+                return@liveData
+            }
+
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { userApi.getUserReceivedGifts(userId) }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            emitSource(MutableLiveData<List<GiftModel>>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+
+                        CustomResult.Status.ERROR -> {
+                            emit(CustomResult.error(""))
+                        }
+
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    }
+                }
+        }
 }

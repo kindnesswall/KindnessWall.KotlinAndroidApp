@@ -151,7 +151,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
             if (it.isReviewed && it.isRejected) {
                 binding.situationTextView.text =
-                    getString(R.string.rejected, it.rejectReason.toString())
+                    getString(R.string.rejected_place_holder, it.rejectReason.toString())
                 binding.situationTextView.setTextColor(
                     ContextCompat.getColor(this, R.color.rejectTextColor)
                 )

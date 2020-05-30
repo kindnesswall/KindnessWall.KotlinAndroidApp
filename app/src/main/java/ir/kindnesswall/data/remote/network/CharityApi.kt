@@ -18,9 +18,6 @@ interface CharityApi {
     @GET("charity/list")
     suspend fun getCharities(): Response<List<CharityModel>>
 
-    @GET("charity/list")
-    suspend fun getGiftsFirstPage(): Response<List<CharityModel>>
-
     @GET("charity/user/{id}")
     suspend fun getCharity(@Path("id") id: Long): Response<CharityModel>
 }

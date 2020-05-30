@@ -79,6 +79,7 @@
 
     <string name="choose">انتخاب</string>
     <string name="gift_from_me">هدیه هایی که از طرف من…</string>
+    <string name="gift_from_user">هدیه هایی که از این کاربر:</string>
     <string name="registered">ثبت شده</string>
     <string name="filter_profile_donate">اهدا شده</string>
     <string name="filter_profile_received">دریافت شده</string>
@@ -86,7 +87,8 @@
     <string name="cancel">لغو</string>
     <string name="profile">پروفایل</string>
     <string name="situation">وضعیت</string>
-    <string name="rejected">رد شده \n %s</string>
+    <string name="rejected_place_holder">رد شده \n %s</string>
+    <string name="rejected">رد شده</string>
     <string name="accepted">پذیرفته شده</string>
     <string name="show_profile">نمایش پروفایل</string>
     <string name="my_profile">پروفایل من</string>
@@ -108,7 +110,7 @@
     <string name="start_chat">شروع گفتگو</string>
     <string name="about_us">معرفی دیوار مهربانی</string>
 
-    <string name="about_us_message_part_1">دیوار مهربانی ، ایده ای برای کمک به نیازمندان در ایران تبدیل به موضوع مورد بحث سایت های خبری انگلیسی زبان شد. سایتهایی نظیر ‏Lonely Planet‏ و ‏France24‎‏ خبری را درباره این رفتار مردمی مردم ایران اختصاص داده اند و تصاویری در ‏این ارتباط منتشر کردند تا بار دیگر مهربانی مردم ایران زبانزد خاص و عام شود</string>
+    <string name="about_us_message_part_1">دیوار مهربانی ، ایده‌ای برای کمک به نیازمندان در ایران تبدیل به موضوع مورد بحث سایت های خبری انگلیسی زبان شد. سایتهایی نظیر ‏Lonely Planet‏ و ‏France24‎‏ خبری را درباره این رفتار مردمی مردم ایران اختصاص داده اند و تصاویری در ‏این ارتباط منتشر کردند تا بار دیگر مهربانی مردم ایران زبانزد خاص و عام شود</string>
     <string name="about_us_message_part_2">فقیر و غنی از دیوار مهربانی بهره ببرند</string>
     <string name="about_us_message_part_3">هنگام شنیدن نام دیوار مهربانی اولین چیزی که به ذهنمان خطور می کند کمک به افراد نیازمند است اما اینگونه نیست دیوار مهربانی متعلق به همه ی مردم است این دیوار الزاما فقط برای کمک به فقرا نیست داراترین فرد نیز می تواند ضمن کمک به دیوار مهربانی از وسایل آن استفاده کند وسایلی که فقط لباس نیست. دیگر دارا و ندار بودن مطرح نیست همه ی آدم ها می توانند از این دیوار مهربانی بهره ببرند و به راحتی نیازهای خود را در دیوار جستجو کنند و از آن استفاده نمایند.  افراد غنی به آسانی می توانند وسایلی را که نیاز دارند در کمترین زمان جستجو کنند و از آن استفاده نمایند.</string>
     <string name="yes">بله</string>
@@ -120,9 +122,20 @@
     <string name="enter">ورود</string>
     <string name="no_conversation">گفتگویی وجود ندارد</string>
     <string name="submit_request_for_chat">برای ایجاد گفتگو ابتدا درخواستی برای یک هدیه ثبت کنید</string>
-    <string name="received_gift_empty_message">شما هدیه ای دریافت نکرده اید</string>
-    <string name="donated_gift_empty_message">از طرف شما هدیه ای اهدا نشده است</string>
-    <string name="registered_gift_empty_message">شما هدیه ثبت شده ای ندارید</string>
+
+    <string name="received_gift_empty_message">شما هدیه‌ای دریافت نکرده اید</string>
+    <string name="received_gift_others_empty_message">این کاربر هدیه‌ای دریافت نکرده است</string>
+
+    <string name="donated_gift_empty_message">از طرف شما هدیه‌ای اهدا نشده است</string>
+    <string name="donated_gift_others_empty_message">این کاربر هدیه اهدا نشده ندارد</string>
+
+    <string name="registered_gift_empty_message">شما هدیه ثبت شده‌ای ندارید</string>
+    <string name="registered_gift_others_empty_message">این کاربر هدیه ثبت شده‌ای ندارد</string>
+
+    <string name="accepted_gift_others_empty_message">این کاربر هدیه پذیرفته شده‌ای ندارد</string>
+
+    <string name="rejected_gift_others_empty_message">این کاربر هدیه رد شده‌ای ندارد</string>
+
     <string name="clear">پاک کردن</string>
     <string name="new_message">پیغام جدید</string>
     <string name="error_sending_message">خطا در ارسال پیام</string>
@@ -135,14 +148,14 @@
 
     <string name="verify_code_error">کد وارد شده صحیح نمی باشد.</string>
     <string name="which_gift_to_donate">کدام هدیه را اهدا می کنید؟</string>
-    <string name="no_gift_to_donate">برای اهدا، هدیه ای ثبت نکرده اید.</string>
+    <string name="no_gift_to_donate">برای اهدا، هدیه‌ای ثبت نکرده اید.</string>
     <string name="error_in_donate">خطا در اهدا هدیه، لطفا دوباره تلاش کنید</string>
     <string name="gift_donated">هدیه با موفقیت اهدا شد</string>
     <string name="no_block_user">هیچ کاربری بلاک نشده است</string>
 
     <string name="blocked_count">%s کاربر بلاک شده اند</string>
     <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
-    <string name="no_gift_to_show">هدیه ای یافت نشد</string>
+    <string name="no_gift_to_show">هدیه‌ای یافت نشد</string>
     <string name="unblock_user_question">کاربر %s رفع بلاک شود؟</string>
     <string name="request_for_users_error_message">به علت کرونا در حال حاضر تنها امکان درخواست توسط خیریه ها وجود دارد</string>
     <string name="ok">باشه</string>
@@ -162,7 +175,7 @@
     <string name="reason_of_reject">دلیل رد هدیه</string>
     <string name="Please_write_reason">لطفا دلیل رد هدیه را بنویسید</string>
     <string name="please_try_again">مشکلی پیش آمده، لطفا دوباره تلاش کنید</string>
-    <string name="review_gifts_empty_state">هدیه ای برای بررسی وجود ندارد</string>
+    <string name="review_gifts_empty_state">هدیه‌ای برای بررسی وجود ندارد</string>
     <string name="loading">لطفا شکیبا باشید…</string>
     <string name="talk_with_donator">گفتگو با اهدا کننده</string>
 

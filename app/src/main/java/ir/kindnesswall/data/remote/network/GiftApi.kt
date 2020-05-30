@@ -26,9 +26,6 @@ interface GiftApi {
     @POST("gifts")
     suspend fun getGifts(@Body getGiftsRequestBody: GetGiftsRequestBaseBody): Response<List<GiftModel>>
 
-    @POST("gifts")
-    suspend fun getGiftsFirstPage(@Body getGiftsRequestBody: GetGiftsRequestBaseBody): Response<List<GiftModel>>
-
     @POST("gifts/register")
     suspend fun registerGift(@Body registerGiftRequestModel: RegisterGiftRequestModel): Response<GiftModel>
 

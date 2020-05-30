@@ -87,9 +87,7 @@ class SearchFragment : BaseFragment() {
         viewModel.searchItems.value?.clear()
         binding.itemsListRecyclerView.adapter?.notifyDataSetChanged()
 
-        viewModel.searchFirstPage().observe(viewLifecycleOwner) {
-            onCatalogItemsReceived(it)
-        }
+        getGifts()
     }
 
     private fun searchByFilter() {
@@ -105,9 +103,7 @@ class SearchFragment : BaseFragment() {
             return
         }
 
-        viewModel.searchFirstPage().observe(viewLifecycleOwner) {
-            onCatalogItemsReceived(it)
-        }
+        getGifts()
     }
 
     private fun initPrvSearchRecyclerView() {
@@ -150,7 +146,7 @@ class SearchFragment : BaseFragment() {
             object : EndlessRecyclerViewScrollListener(layoutManager) {
                 override fun onLoadMore() {
                     endlessRecyclerViewScrollListener.isLoading = true
-                    loadNextPage()
+                    getGifts()
                 }
 
                 override fun onScrolled(position: Int) {
@@ -160,7 +156,7 @@ class SearchFragment : BaseFragment() {
         binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
-    private fun loadNextPage() {
+    private fun getGifts() {
         viewModel.searchForItemFromServer().observe(viewLifecycleOwner) {
             onCatalogItemsReceived(it)
         }

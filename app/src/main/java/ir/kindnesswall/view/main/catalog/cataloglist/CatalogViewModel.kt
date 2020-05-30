@@ -8,16 +8,16 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.GiftRepo
 
 class CatalogViewModel(private val giftRepo: GiftRepo) : ViewModel() {
-    private var lastId = 0L
+    private var lastId = Long.MAX_VALUE
 
     val catalogItems = ArrayList<GiftModel>()
-
-    fun getCatalogItemsFirstPage(): LiveData<CustomResult<List<GiftModel>>> {
-        return giftRepo.getGiftsFirstPage(viewModelScope)
-    }
-
+    
     fun getCatalogItemsFromServer(): LiveData<CustomResult<List<GiftModel>>> {
-        lastId = catalogItems.last().id
+        lastId = if (catalogItems.isNullOrEmpty()) {
+            Long.MAX_VALUE
+        } else {
+            catalogItems.last().id
+        }
         return giftRepo.getGifts(viewModelScope, lastId)
     }
 }

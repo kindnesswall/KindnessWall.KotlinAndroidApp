@@ -20,6 +20,7 @@ import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.ToDonateGiftsBottomSheet
+import ir.kindnesswall.view.profile.UserProfileActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -112,13 +113,18 @@ class ChatActivity : BaseActivity() {
         }
     }
 
+    private fun gotoUserProfile() {
+        UserProfileActivity.start(this, viewModel.chatContactModel?.contactProfile!!)
+    }
+
     override fun configureViews(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         binding.backImageView.setOnClickListener { onBackPressed() }
-        binding.userImageView.setOnClickListener { }
-        binding.userNameTextView.setOnClickListener { }
+
+        binding.userImageView.setOnClickListener { gotoUserProfile() }
+        binding.userNameTextView.setOnClickListener { gotoUserProfile() }
 
         binding.sendImageView.setOnClickListener {
             if (!viewModel.messageTextLiveData.value.isNullOrEmpty()) {

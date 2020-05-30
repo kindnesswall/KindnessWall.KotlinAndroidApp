@@ -3,6 +3,7 @@ package ir.kindnesswall.view.profile
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -18,6 +19,7 @@ import ir.kindnesswall.annotation.Filter
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityMyProfileBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.imageloader.GlideApp
@@ -30,15 +32,17 @@ import java.io.File
 import java.util.*
 
 
-class MyProfileActivity : BaseActivity(), OnItemClickListener {
+class UserProfileActivity : BaseActivity(), OnItemClickListener {
     lateinit var binding: ActivityMyProfileBinding
 
     private val viewModel: MyProfileViewModel by viewModel()
 
     companion object {
         @JvmStatic
-        fun start(context: Context) {
-            context.startActivity(Intent(context, MyProfileActivity::class.java))
+        fun start(context: Context, user: User) {
+            context.startActivity(
+                Intent(context, UserProfileActivity::class.java).putExtra("user", user)
+            )
         }
     }
 
@@ -48,8 +52,13 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
         configureViews(savedInstanceState)
 
-        binding.userInfo = UserInfoPref
+        viewModel.user = intent.getSerializableExtra("user") as User
+
+        binding.myProfileInfo = UserInfoPref
+        binding.user = viewModel.user
         binding.viewModel = viewModel
+
+        binding.lifecycleOwner = this
 
         getGiftList()
 
@@ -68,6 +77,8 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
     override fun configureViews(savedInstanceState: Bundle?) {
         binding.backImageView.setOnClickListener { onBackPressed() }
         binding.editImageView.setOnClickListener { showEditInfoLayout() }
+
+        binding.userPhoneNumberText.setOnClickListener { callUser() }
 
         binding.cancelChangesTextView.setOnClickListener {
             revertAllChanges()
@@ -113,7 +124,34 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
             getGiftList()
         }
 
+        binding.acceptedFilter.setOnClickListener {
+            deselectAllFilters()
+            selectFilter(binding.acceptedFilter)
+            viewModel.currentFilter = Filter.ACCEPTED
+            getGiftList()
+        }
+
+        binding.rejectedFilter.setOnClickListener {
+            deselectAllFilters()
+            selectFilter(binding.rejectedFilter)
+            viewModel.currentFilter = Filter.REJECTED
+            getGiftList()
+        }
+
         initRecyclerView()
+    }
+
+    private fun callUser() {
+        if (viewModel.user.id == UserInfoPref.id) {
+            return
+        }
+
+        val intent = Intent(
+            Intent.ACTION_DIAL,
+            Uri.fromParts("tel", viewModel.user?.phoneNumber ?: "", null)
+        )
+
+        startActivity(intent)
     }
 
     private fun pickImage() {
@@ -122,7 +160,7 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
 
     private fun initRecyclerView() {
         binding.userActivityList.apply {
-            adapter = UserGiftsAdapter(this@MyProfileActivity)
+            adapter = UserGiftsAdapter(this@UserProfileActivity)
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
@@ -140,7 +178,8 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
                 checkEmptyState()
             }
 
-            CustomResult.Status.LOADING -> { }
+            CustomResult.Status.LOADING -> {
+            }
 
             CustomResult.Status.ERROR -> {
                 dismissProgressDialog()
@@ -164,14 +203,55 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
             binding.emptyPageTextView.visibility = View.VISIBLE
 
             when (viewModel.currentFilter) {
-                Filter.DONATED -> binding.emptyPageTextView.text =
-                    getString(R.string.donated_gift_empty_message)
+                Filter.DONATED -> {
+                    if (viewModel.user.id == UserInfoPref.id) {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.donated_gift_empty_message)
+                    } else {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.donated_gift_others_empty_message)
+                    }
+                }
 
-                Filter.RECEIVED -> binding.emptyPageTextView.text =
-                    getString(R.string.received_gift_empty_message)
+                Filter.RECEIVED -> {
+                    if (viewModel.user.id == UserInfoPref.id) {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.received_gift_empty_message)
+                    } else {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.received_gift_others_empty_message)
+                    }
+                }
 
-                Filter.REGISTERED -> binding.emptyPageTextView.text =
-                    getString(R.string.registered_gift_empty_message)
+                Filter.REGISTERED -> {
+                    if (viewModel.user.id == UserInfoPref.id) {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.registered_gift_empty_message)
+                    } else {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.registered_gift_others_empty_message)
+                    }
+                }
+
+                Filter.ACCEPTED -> {
+                    if (viewModel.user.id == UserInfoPref.id) {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.registered_gift_empty_message)
+                    } else {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.accepted_gift_others_empty_message)
+                    }
+                }
+
+                Filter.REJECTED -> {
+                    if (viewModel.user.id == UserInfoPref.id) {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.registered_gift_empty_message)
+                    } else {
+                        binding.emptyPageTextView.text =
+                            getString(R.string.rejected_gift_others_empty_message)
+                    }
+                }
             }
         }
     }
@@ -185,10 +265,14 @@ class MyProfileActivity : BaseActivity(), OnItemClickListener {
         binding.registeredFilter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
         binding.donatedFilter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
         binding.receivedFilter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        binding.acceptedFilter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        binding.rejectedFilter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
 
         binding.registeredFilter.setBackgroundResource(R.drawable.profile_filter_stroke)
         binding.donatedFilter.setBackgroundResource(R.drawable.profile_filter_stroke)
         binding.receivedFilter.setBackgroundResource(R.drawable.profile_filter_stroke)
+        binding.acceptedFilter.setBackgroundResource(R.drawable.profile_filter_stroke)
+        binding.rejectedFilter.setBackgroundResource(R.drawable.profile_filter_stroke)
     }
 
     private fun showEditInfoLayout() {

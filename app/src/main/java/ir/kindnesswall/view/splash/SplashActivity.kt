@@ -3,6 +3,7 @@ package ir.kindnesswall.view.splash
 import android.os.Bundle
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
+import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
@@ -11,6 +12,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.onbording.OnBoardingActivity
+import ir.kindnesswall.view.update.ForceAndOptionalUpdateActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SplashActivity : BaseActivity() {
@@ -30,33 +32,34 @@ class SplashActivity : BaseActivity() {
         super.onResume()
 
         getUserProfile()
-
-//        viewModel.getVersion().observe(this) {
-//            if (it.status == CustomResult.Status.SUCCESS) {
-//                todo check force update
-//                 if there is an update -> goto update activity else get user profile
-//                getUserProfile()
-//            }
-//        }
     }
 
-    override fun configureViews(savedInstanceState: Bundle?) {
+    private fun checkUpdate() {
+        viewModel.getVersion().observe(this) {
+            if (it.status == CustomResult.Status.SUCCESS) {
+                it.data?.let { data ->
+                    if (BuildConfig.VERSION_CODE < data.minVersion) {
+                        ForceAndOptionalUpdateActivity.start(this, true)
+                    } else if (BuildConfig.VERSION_CODE >= data.minVersion &&
+                        BuildConfig.VERSION_CODE < data.currentVersion
+                    ) {
+                        ForceAndOptionalUpdateActivity.start(this, false)
+                    } else {
+                        gotoNextActivity()
+                    }
+                }
+            }
+        }
     }
 
     private fun getUserProfile() {
-        if (UserInfoPref.bearerToken.isEmpty()) {
-            gotoNextActivity()
-        } else {
-            viewModel.getUserProfile().observe(this@SplashActivity) {
-                when (it.status) {
-                    CustomResult.Status.SUCCESS -> gotoNextActivity()
+        viewModel.getUserProfile().observe(this@SplashActivity) {
+            when (it.status) {
+                CustomResult.Status.SUCCESS -> checkUpdate()
 
-                    CustomResult.Status.ERROR -> {
-                        gotoNextActivity()
-                    }
+                CustomResult.Status.ERROR -> checkUpdate()
 
-                    CustomResult.Status.LOADING -> {
-                    }
+                CustomResult.Status.LOADING -> {
                 }
             }
         }

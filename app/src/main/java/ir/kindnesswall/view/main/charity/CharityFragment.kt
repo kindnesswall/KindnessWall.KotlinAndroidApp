@@ -1,21 +1,18 @@
 package ir.kindnesswall.view.main.charity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentCharityBinding
 import ir.kindnesswall.utils.OnItemClickListener
-import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.view.main.charity.charitydetail.CharityDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -36,8 +33,6 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
 
     private val viewModel: CharityListViewModel by viewModel()
 
-    private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,49 +45,42 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        getCharityFirstPage()
+        if (viewModel.charityItems.isNullOrEmpty()) {
+            getCharities()
+        } else {
+            showList()
+        }
     }
 
     override fun configureViews() {
         binding.addImageView.setOnClickListener {
         }
 
+        binding.pullToRefreshLayout.setOnRefreshListener {
+            binding.pullToRefreshLayout.isRefreshing = true
+            refreshList()
+        }
+
         initRecyclerView()
+    }
+
+    private fun refreshList() {
+        viewModel.charityItems.clear()
+        showList()
+        getCharities()
+    }
+
+    private fun getCharities() {
+        viewModel.getCharityItemsFromServer().observe(viewLifecycleOwner) {
+            onItemsReceived(it)
+        }
     }
 
     private fun initRecyclerView() {
         binding.itemsListRecyclerView.apply {
             adapter = CharityAdapter(this@CharityFragment)
             setHasFixedSize(true)
-            setRecyclerViewPagination(this.layoutManager as LinearLayoutManager)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
-    }
-
-    private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {
-        endlessRecyclerViewScrollListener =
-            object : EndlessRecyclerViewScrollListener(layoutManager) {
-                override fun onLoadMore() {
-                    endlessRecyclerViewScrollListener.isLoading = true
-                    loadNextPage()
-                }
-
-                override fun onScrolled(position: Int) {
-                }
-            }
-
-        binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
-    }
-
-    private fun loadNextPage() {
-        viewModel.getCharityItemsFromServer().observe(viewLifecycleOwner) {
-            onItemsReceived(it)
-        }
-    }
-
-    private fun getCharityFirstPage() {
-        viewModel.charityItems.observe(viewLifecycleOwner) {
-            onItemsReceived(it)
         }
     }
 
@@ -103,7 +91,11 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.SUCCESS -> {
-                showList(it.data)
+                binding.pullToRefreshLayout.isRefreshing = false
+                it.data?.let { data ->
+                    viewModel.charityItems.addAll(data)
+                    showList()
+                }
             }
 
             CustomResult.Status.ERROR -> {
@@ -112,10 +104,9 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
-    private fun showList(data: List<CharityModel>?) {
-        if (!data.isNullOrEmpty()) {
-            (binding.itemsListRecyclerView.adapter as CharityAdapter).submitList(data)
-        }
+    private fun showList() {
+        (binding.itemsListRecyclerView.adapter as CharityAdapter).submitList(viewModel.charityItems)
+        (binding.itemsListRecyclerView.adapter as CharityAdapter).notifyDataSetChanged()
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {

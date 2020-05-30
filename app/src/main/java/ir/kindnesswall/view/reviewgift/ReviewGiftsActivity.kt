@@ -60,6 +60,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
         binding.backImageView.setOnClickListener { onBackPressed() }
 
         binding.pullToRefreshLayout.setOnRefreshListener {
+            endlessRecyclerViewScrollListener.isLoading = false
             binding.pullToRefreshLayout.isRefreshing = true
             refreshList()
         }
@@ -159,6 +160,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
             }
 
             CustomResult.Status.SUCCESS -> {
+                endlessRecyclerViewScrollListener.isLoading = false
                 binding.pullToRefreshLayout.isRefreshing = false
                 dismissProgressDialog()
                 it.data?.let { data ->
@@ -169,6 +171,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
+                endlessRecyclerViewScrollListener.isLoading = false
                 dismissProgressDialog()
                 showToastMessage(getString(R.string.please_try_again))
             }
@@ -187,6 +190,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
 
     private fun showList() {
         (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(viewModel.reviewItem)
+        (binding.itemsListRecyclerView.adapter as CatalogAdapter).notifyDataSetChanged()
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {

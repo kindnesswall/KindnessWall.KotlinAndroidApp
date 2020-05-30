@@ -19,14 +19,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".view.reviewgift.ReviewGiftsActivity"></activity>
+        <activity android:name=".view.profile.otherusersprofile.OtherUserActivity"></activity>
+        <activity android:name=".view.reviewgift.ReviewGiftsActivity" />
         <activity android:name=".view.update.ForceAndOptionalUpdateActivity" />
         <activity android:name=".view.main.more.aboutus.AboutUsActivity" />
         <activity android:name=".view.main.conversation.chat.ChatActivity" />
         <activity android:name=".view.main.addproduct.SubmitGiftActivity" />
         <activity android:name=".view.profile.blocklist.BlockListActivity" />
         <activity android:name=".view.profile.bookmarks.BookmarksActivity" />
-        <activity android:name=".view.profile.MyProfileActivity" />
+        <activity android:name=".view.profile.UserProfileActivity" />
         <activity android:name=".view.filter.FilterActivity" />
         <activity android:name=".view.category.CategoryActivity" />
         <activity android:name=".view.main.charity.charitydetail.CharityDetailActivity" />

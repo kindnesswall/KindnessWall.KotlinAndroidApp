@@ -5,306 +5,368 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="userInfo"
+            name="myProfileInfo"
             type="ir.kindnesswall.data.local.UserInfoPref" />
+
+        <variable
+            name="user"
+            type="ir.kindnesswall.data.model.user.User" />
 
         <variable
             name="viewModel"
             type="ir.kindnesswall.view.profile.MyProfileViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:background="@color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
-
-            <RelativeLayout
-                android:id="@+id/toolbarRelativeLayout"
-                android:layout_width="0dp"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/backImageView"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_arrow_back_white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="8dp"
-                    android:layout_toEndOf="@+id/backImageView"
-                    android:fontFamily="@font/vazir"
-                    android:text="@string/profile"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:ignore="RelativeOverlap" />
-
-                <ImageView
-                    android:id="@+id/editImageView"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_edit_white"
-                    tools:ignore="ContentDescription" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
+        <RelativeLayout
+            android:id="@+id/toolbarRelativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/userImageView"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
-                app:srcAvatarImage="@{userInfo.image}"
+                android:id="@+id/backImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_arrow_back_white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:layout_toEndOf="@+id/backImageView"
+                android:fontFamily="@font/vazir"
+                android:text="@string/profile"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/editImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:visibility="@{user.id == myProfileInfo.id ? View.VISIBLE : View.GONE}"
+                app:srcCompat="@drawable/ic_edit_white"
                 tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/userNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{userInfo.name.length() == 0 ? @string/user_name_place_holder : userInfo.name}"
-                android:textColor="@color/secondaryTextColor"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/userImageView"
-                app:layout_constraintStart_toStartOf="@+id/userImageView"
-                app:layout_constraintTop_toBottomOf="@+id/userImageView"
-                tools:text="مریم رضایی نایب" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/userPhoneNumberText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{userInfo.getPersianPhoneNumber()}"
-                android:textColor="@color/secondaryTextColor"
-                android:textDirection="ltr"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/userNameText"
-                app:layout_constraintStart_toStartOf="@+id/userNameText"
-                app:layout_constraintTop_toBottomOf="@+id/userNameText"
-                tools:text="09121231212" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
 
-            <LinearLayout
-                android:id="@+id/profileFilterContainer"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:paddingTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/userPhoneNumberText">
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/userImageView"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcAvatarImage="@{user.image}"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/profileTextView"
+                    android:id="@+id/userNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="@string/gift_from_me"
+                    android:layout_marginTop="8dp"
+                    android:text="@{user.name.length() == 0 ? @string/user_name_place_holder : user.name}"
                     android:textColor="@color/secondaryTextColor"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userNameText" />
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/userImageView"
+                    app:layout_constraintStart_toStartOf="@+id/userImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/userImageView"
+                    tools:text="مریم رضایی نایب" />
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                <TextView
+                    android:id="@+id/userPhoneNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/profileTextView">
+                    android:text="@{user.phoneNumber}"
+                    android:textColor="@color/secondaryTextColor"
+                    android:textDirection="ltr"
+                    android:textSize="14sp"
+                    android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : myProfileInfo.isCharity ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="@+id/userNameText"
+                    app:layout_constraintStart_toStartOf="@+id/userNameText"
+                    app:layout_constraintTop_toBottomOf="@+id/userNameText"
+                    tools:text="09121231212" />
+
+                <LinearLayout
+                    android:id="@+id/profileFilterContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/userPhoneNumberText">
+
+                    <TextView
+                        android:id="@+id/profileTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{user.id == myProfileInfo.id ? @string/gift_from_me : @string/gift_from_user}"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/userNameText"
+                        tools:text="@string/gift_from_me" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:clipToPadding="false"
+                        android:fillViewport="true"
+                        android:paddingStart="12dp"
+                        android:scrollbarSize="1dp"
+                        android:paddingEnd="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/profileTextView">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <!-- my profile, admin, user, charity => visible in all cases -->
+                            <TextView
+                                android:id="@+id/registeredFilter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:background="@drawable/selected_profile_filter"
+                                android:gravity="center"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:singleLine="true"
+                                android:text="@string/registered"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+
+                            <!-- admin -->
+                            <TextView
+                                android:id="@+id/acceptedFilter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/profile_filter_stroke"
+                                android:gravity="center"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:singleLine="true"
+                                android:text="@string/accepted"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="13sp"
+                                android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : View.GONE}" />
+
+                            <!-- admin -->
+                            <TextView
+                                android:id="@+id/rejectedFilter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/profile_filter_stroke"
+                                android:gravity="center"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:singleLine="true"
+                                android:text="@string/rejected"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="13sp"
+                                android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : View.GONE}" />
+
+                            <!-- my profile, admin -->
+                            <TextView
+                                android:id="@+id/donatedFilter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="12dp"
+                                android:background="@drawable/profile_filter_stroke"
+                                android:gravity="center"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:singleLine="true"
+                                android:text="@string/filter_profile_donate"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="13sp"
+                                android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : myProfileInfo.id == user.id ? View.VISIBLE : View.GONE}" />
+
+                            <!-- my profile, admin, user, charity => visible in all cases -->
+                                <TextView
+                                android:id="@+id/receivedFilter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/profile_filter_stroke"
+                                android:gravity="center"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:singleLine="true"
+                                android:text="@string/filter_profile_received"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/userActivityList"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
+                    tools:listitem="@layout/item_profile_gifts" />
+
+                <TextView
+                    android:id="@+id/emptyPageTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
+                    tools:text="شما هدیه ای ثبت شده ای ندارید" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/editProfileContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/userActivityList"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/userNewImageView"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_profile_placeholder_gary"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/addNewPhotoImageView"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/userNewImageView"
+                        app:layout_constraintStart_toStartOf="@+id/userNewImageView"
+                        app:srcCompat="@drawable/ic_add_circle_gray" />
+
+                    <EditText
+                        android:id="@+id/userNameEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/user_name_place_holder"
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onNameTextChanged(text)}"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:singleLine="true"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/userNewImageView"
+                        tools:text="مریم رضایی نایب" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/userNameEditText">
 
                         <TextView
-                            android:id="@+id/registeredFilter"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/saveChangesTextView"
+                            android:layout_width="54dp"
                             android:layout_height="32dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="12dp"
                             android:background="@drawable/selected_profile_filter"
+                            android:fontFamily="@font/vazir_bold"
                             android:gravity="center"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:singleLine="true"
-                            android:text="@string/registered"
+                            android:text="@string/save"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
 
                         <TextView
-                            android:id="@+id/donatedFilter"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/cancelChangesTextView"
+                            android:layout_width="54dp"
                             android:layout_height="32dp"
-                            android:layout_gravity="center"
                             android:layout_marginStart="12dp"
                             android:background="@drawable/profile_filter_stroke"
+                            android:fontFamily="@font/vazir_bold"
                             android:gravity="center"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:singleLine="true"
-                            android:text="@string/filter_profile_donate"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/receivedFilter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="12dp"
-                            android:background="@drawable/profile_filter_stroke"
-                            android:gravity="center"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:singleLine="true"
-                            android:text="@string/filter_profile_received"
+                            android:text="@string/cancel"
                             android:textColor="@color/colorPrimary"
                             android:textSize="13sp" />
 
                     </LinearLayout>
-                </HorizontalScrollView>
 
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userActivityList"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
-                tools:listitem="@layout/item_profile_gifts" />
-
-            <TextView
-                android:id="@+id/emptyPageTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
-                tools:text="شما هدیه ای ثبت شده ای ندارید" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/editProfileContainer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/white"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/userActivityList"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout">
-
-                <ImageView
-                    android:id="@+id/userNewImageView"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_profile_placeholder_gary"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/addNewPhotoImageView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/userNewImageView"
-                    app:layout_constraintStart_toStartOf="@+id/userNewImageView"
-                    app:srcCompat="@drawable/ic_add_circle_gray" />
-
-                <EditText
-                    android:id="@+id/userNameEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="@string/user_name_place_holder"
-                    android:maxLength="20"
-                    android:maxLines="1"
-                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onNameTextChanged(text)}"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:singleLine="true"
-                    android:textColor="@color/secondaryTextColor"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userNewImageView"
-                    tools:text="مریم رضایی نایب" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userNameEditText">
-
-                    <TextView
-                        android:id="@+id/saveChangesTextView"
-                        android:layout_width="54dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/selected_profile_filter"
-                        android:fontFamily="@font/vazir_bold"
-                        android:gravity="center"
-                        android:text="@string/save"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/cancelChangesTextView"
-                        android:layout_width="54dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/profile_filter_stroke"
-                        android:fontFamily="@font/vazir_bold"
-                        android:gravity="center"
-                        android:text="@string/cancel"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

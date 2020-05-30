@@ -30,74 +30,16 @@ import kotlinx.coroutines.flow.collect
  *
  */
 
-class GiftRepo(
-    val context: Context,
-    private val giftApi: GiftApi,
-    private val appDatabase: AppDatabase
-) : BaseDataSource() {
-
-    fun getGiftsFirstPage(
-        viewModelScope: CoroutineScope
-    ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy {
-                giftApi.getGiftsFirstPage(GetGiftsRequestBaseBody())
-            }.collect { result ->
-                when (result.status) {
-                    CustomResult.Status.SUCCESS -> {
-                        if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
-                        } else {
-                            emitSource(MutableLiveData<List<GiftModel>>().apply {
-                                value = result.data
-                            }.map { CustomResult.success(it) })
-                        }
-                    }
-                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
-                }
-            }
-        }
-
+class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSource() {
     fun getGifts(
         viewModelScope: CoroutineScope,
         lastId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            fun fetchFromDb() = appDatabase.catalogDao().getAll().map { CustomResult.success(it) }
-
             emit(CustomResult.loading())
-
-            emitSource(fetchFromDb())
 
             getResultWithExponentialBackoffStrategy {
                 giftApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
-            }.collect { result ->
-                when (result.status) {
-                    CustomResult.Status.SUCCESS -> {
-                        if (result.data == null) {
-                            emit(CustomResult.error(""))
-                        } else {
-                            appDatabase.catalogDao().insert(result.data)
-                            emitSource(fetchFromDb())
-                        }
-                    }
-                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
-                }
-            }
-        }
-
-    fun searchForGiftFirstPage(
-        viewModelScope: CoroutineScope,
-        getGiftsRequestBody: GetGiftsRequestBaseBody
-    ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            emit(CustomResult.loading())
-
-            getResultWithExponentialBackoffStrategy {
-                giftApi.getGiftsFirstPage(getGiftsRequestBody)
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {

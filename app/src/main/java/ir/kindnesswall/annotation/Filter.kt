@@ -14,5 +14,7 @@ annotation class Filter {
         const val RECEIVED = "RECEIVED"
         const val DONATED = "DONATED"
         const val REGISTERED = "REGISTERED"
+        const val ACCEPTED = "ACCEPTED"
+        const val REJECTED = "REJECTED"
     }
 }

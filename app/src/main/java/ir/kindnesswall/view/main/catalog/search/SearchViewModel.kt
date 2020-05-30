@@ -14,8 +14,10 @@ import ir.kindnesswall.data.repository.GiftRepo
 class SearchViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     var searchWorld: String? = null
 
+    var lastId = Long.MAX_VALUE
+
     var getGiftsRequestBody = GetGiftsRequestBaseBody()
-    var filterModel : FilterModel? = FilterModel()
+    var filterModel: FilterModel? = FilterModel()
 
     fun onSearchTextChanged(text: CharSequence) {
         searchWorld = if (text.isEmpty()) {
@@ -28,11 +30,6 @@ class SearchViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     }
 
     val searchItems = MutableLiveData<ArrayList<GiftModel>>()
-
-    fun searchFirstPage(): LiveData<CustomResult<List<GiftModel>>> {
-        setFilterModel()
-        return giftRepo.searchForGiftFirstPage(viewModelScope, getGiftsRequestBody)
-    }
 
     private fun setFilterModel() {
         filterModel?.let {
@@ -93,7 +90,18 @@ class SearchViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     }
 
     fun searchForItemFromServer(): LiveData<CustomResult<List<GiftModel>>> {
-        val lastId = searchItems.value?.last()?.id ?: 0
+        setFilterModel()
+
+        lastId = if (searchItems.value != null) {
+            if (searchItems.value!!.isNotEmpty()) {
+                searchItems.value!!.last().id
+            } else {
+                Long.MAX_VALUE
+            }
+        } else {
+            Long.MAX_VALUE
+        }
+
         return giftRepo.searchForGifts(viewModelScope, lastId, getGiftsRequestBody)
     }
 

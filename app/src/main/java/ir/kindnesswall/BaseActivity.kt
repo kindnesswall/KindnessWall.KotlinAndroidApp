@@ -81,7 +81,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    abstract fun configureViews(savedInstanceState: Bundle?)
+    open fun configureViews(savedInstanceState: Bundle?) {}
 
     fun showToastMessage(message: String) {
         if (message.isNotEmpty()) {

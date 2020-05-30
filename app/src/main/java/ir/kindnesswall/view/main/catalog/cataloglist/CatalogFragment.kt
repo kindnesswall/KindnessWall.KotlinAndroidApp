@@ -51,7 +51,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         super.onActivityCreated(savedInstanceState)
 
         if (viewModel.catalogItems.isNullOrEmpty()) {
-            getGiftsFirstPage()
+            getGifts()
         } else {
             showList()
         }
@@ -64,6 +64,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         }
 
         binding.pullToRefreshLayout.setOnRefreshListener {
+            endlessRecyclerViewScrollListener.isLoading = false
             binding.pullToRefreshLayout.isRefreshing = true
             refreshList()
         }
@@ -74,7 +75,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
     private fun refreshList() {
         viewModel.catalogItems.clear()
         showList()
-        getGiftsFirstPage()
+        getGifts()
     }
 
     private fun initRecyclerView() {
@@ -91,7 +92,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             object : EndlessRecyclerViewScrollListener(layoutManager) {
                 override fun onLoadMore() {
                     endlessRecyclerViewScrollListener.isLoading = true
-                    loadNextPage()
+                    getGifts()
                 }
 
                 override fun onScrolled(position: Int) {
@@ -101,14 +102,8 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
-    private fun loadNextPage() {
+    private fun getGifts() {
         viewModel.getCatalogItemsFromServer().observe(viewLifecycleOwner) {
-            onCatalogItemsReceived(it)
-        }
-    }
-
-    private fun getGiftsFirstPage() {
-        viewModel.getCatalogItemsFirstPage().observe(viewLifecycleOwner) {
             onCatalogItemsReceived(it)
         }
     }
@@ -119,6 +114,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.SUCCESS -> {
+                endlessRecyclerViewScrollListener.isLoading = false
                 binding.pullToRefreshLayout.isRefreshing = false
                 dismissProgressDialog()
                 it.data?.let { data ->
@@ -128,6 +124,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
+                endlessRecyclerViewScrollListener.isLoading = false
                 showToastMessage("")
             }
         }
@@ -135,6 +132,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
     private fun showList() {
         (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(viewModel.catalogItems)
+        (binding.itemsListRecyclerView.adapter as CatalogAdapter).notifyDataSetChanged()
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {
