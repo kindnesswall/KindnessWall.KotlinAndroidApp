@@ -22,13 +22,13 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun onBackButtonClicked() {
         giftViewListener?.onBackButtonClicked()
     }
-
-    fun onEditButtonClicked() {
-        giftViewListener?.onEditButtonClicked()
-    }
-
+    
     fun onRequestClicked() {
-        giftViewListener?.onRequestClicked()
+        if (isMyGift) {
+            giftViewListener?.onEditButtonClicked()
+        } else {
+            giftViewListener?.onRequestClicked()
+        }
     }
 
     fun onShareClicked() {

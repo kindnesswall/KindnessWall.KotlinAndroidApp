@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class EndlessRecyclerViewScrollListener(private var layoutManager: RecyclerView.LayoutManager) :
     RecyclerView.OnScrollListener() {
 
-    var PAGE_SIZE = 2
+    var PAGE_SIZE = 20
     var VISIBLE_THRESHOLD = 10
 
     var isLoading = false

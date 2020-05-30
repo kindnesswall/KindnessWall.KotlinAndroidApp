@@ -50,10 +50,14 @@ class PhotoSlider : RelativeLayout {
         images?.let {
             this.imagesUrl.addAll(it)
 
-            if (imagesUrl.size <= 1) {
-                recyclerPagerIndicator.visibility = View.INVISIBLE
+            if(indicatorVisibility) {
+                if (imagesUrl.size <= 1) {
+                    recyclerPagerIndicator.visibility = View.INVISIBLE
+                } else {
+                    recyclerPagerIndicator.visibility = View.VISIBLE
+                }
             } else {
-                recyclerPagerIndicator.visibility = View.VISIBLE
+                recyclerPagerIndicator.visibility = View.INVISIBLE
             }
         }
 

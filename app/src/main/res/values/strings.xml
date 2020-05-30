@@ -178,5 +178,7 @@
     <string name="review_gifts_empty_state">هدیه‌ای برای بررسی وجود ندارد</string>
     <string name="loading">لطفا شکیبا باشید…</string>
     <string name="talk_with_donator">گفتگو با اهدا کننده</string>
+    <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
+    <string name="edit">ویرایش</string>
 
 </resources>

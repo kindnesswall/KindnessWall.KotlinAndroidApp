@@ -2,7 +2,7 @@ package ir.kindnesswall.data.model.requestsmodel
 
 class GetGiftsRequestBaseBody : RequestBaseModel() {
     var beforeId: Long? = Long.MAX_VALUE
-    var count: Int? = 2
+    var count: Int? = 20
     var categoryIds: ArrayList<Int>? = null
     var provinceId: Int? = null
     var cityId: Int? = null

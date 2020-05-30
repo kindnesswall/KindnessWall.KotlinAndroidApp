@@ -230,6 +230,16 @@ class SubmitGiftActivity : BaseActivity() {
     }
 
     private fun registerGift() {
+        if (viewModel.isNew) {
+            submitGift()
+        } else {
+            showPromptDialog(
+                messageToShow = getString(R.string.edit_gift_warning_message),
+                onPositiveClickCallback = { submitGift() })
+        }
+    }
+
+    private fun submitGift() {
         viewModel.submitGift().observe(this) {
             when (it.status) {
                 CustomResult.Status.LOADING -> showProgressDialog()

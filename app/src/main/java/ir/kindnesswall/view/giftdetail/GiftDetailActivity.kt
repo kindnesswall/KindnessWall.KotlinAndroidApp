@@ -74,12 +74,10 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             binding.situationTextView.visibility = View.VISIBLE
             binding.situationText.visibility = View.VISIBLE
             binding.secondDivider.visibility = View.VISIBLE
-            binding.editGiftImageView.visibility = View.VISIBLE
         } else {
             binding.situationTextView.visibility = View.GONE
             binding.situationText.visibility = View.GONE
             binding.secondDivider.visibility = View.GONE
-            binding.editGiftImageView.visibility = View.GONE
         }
 
         if (viewModel.isMyGift || UserInfoPref.isAdmin) {
@@ -87,9 +85,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             setSituationTextIfIsAdmin()
         }
 
-        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId) {
+        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId && !viewModel.isMyGift) {
             viewModel.isReceivedGift = true
             binding.requestButton.text = getString(R.string.talk_with_donator)
+        } else if (viewModel.isMyGift) {
+            binding.requestButton.text = getString(R.string.edit)
+        } else {
+            binding.requestButton.text = getString(R.string.request)
         }
     }
 

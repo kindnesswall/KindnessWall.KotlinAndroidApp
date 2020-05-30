@@ -140,9 +140,9 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // firebase
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
-    implementation 'com.google.firebase:firebase-analytics:17.3.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta04'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
 
     // Kotpref
     implementation 'com.chibatching.kotpref:kotpref:2.6.0'

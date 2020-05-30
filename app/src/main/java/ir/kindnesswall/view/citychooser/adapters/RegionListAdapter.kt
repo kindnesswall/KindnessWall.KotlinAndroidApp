@@ -25,7 +25,7 @@ class RegionListAdapter : RecyclerView.Adapter<RegionListViewHolder>() {
         return RegionListViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_city_list,
+                R.layout.item_region_list,
                 parent,
                 false
             )
