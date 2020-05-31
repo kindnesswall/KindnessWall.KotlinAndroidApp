@@ -2,6 +2,7 @@ package ir.kindnesswall
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,9 +21,8 @@ import androidx.fragment.app.Fragment
 
 @SuppressLint("Registered")
 abstract class BaseFragment : Fragment() {
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         configureViews()
     }

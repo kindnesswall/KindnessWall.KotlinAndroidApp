@@ -15,6 +15,7 @@ class MyProfileViewModel(
     private val userRepo: UserRepo,
     private val fileUploadRepo: FileUploadRepo
 ) : ViewModel() {
+    var gifts: List<GiftModel>? = arrayListOf()
     lateinit var user: User
     var newUserName: String = ""
     var newImageUrlLiveData = MutableLiveData<UploadImageResponse>()

@@ -66,6 +66,8 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
             return
         }
 
+        binding.closeImageView.setOnClickListener { dismiss() }
+
         val adapter = ToDonateListAdapter()
         adapter.setOnItemClickListener {
             viewModel.donateGift(it).observe(viewLifecycleOwner) { result ->

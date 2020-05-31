@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
@@ -29,7 +31,6 @@ import ir.kindnesswall.utils.startSingleModeImagePicker
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
-import java.util.*
 
 
 class UserProfileActivity : BaseActivity(), OnItemClickListener {
@@ -59,8 +60,6 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         binding.viewModel = viewModel
 
         binding.lifecycleOwner = this
-
-        getGiftList()
 
         viewModel.newImageUrlLiveData.observe(this) {
             dismissProgressDialog()
@@ -141,6 +140,12 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         initRecyclerView()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getGiftList()
+    }
+
     private fun callUser() {
         if (viewModel.user.id == UserInfoPref.id) {
             return
@@ -163,6 +168,12 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
             adapter = UserGiftsAdapter(this@UserProfileActivity)
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+            val animator = itemAnimator
+
+            if (animator is SimpleItemAnimator) {
+                animator.supportsChangeAnimations = false
+            }
         }
     }
 
@@ -174,7 +185,8 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         when (it.status) {
             CustomResult.Status.SUCCESS -> {
                 dismissProgressDialog()
-                showList(it.data)
+                viewModel.gifts = it.data as ArrayList<GiftModel>
+                showList()
                 checkEmptyState()
             }
 
@@ -189,71 +201,74 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         }
     }
 
-    private fun showList(data: List<GiftModel>?) {
-        (binding.userActivityList.adapter as UserGiftsAdapter).submitList(null)
-
-        if (!data.isNullOrEmpty()) {
+    private fun showList() {
+        if (!viewModel.gifts.isNullOrEmpty()) {
             binding.emptyPageTextView.visibility = View.GONE
-            (binding.userActivityList.adapter as UserGiftsAdapter).submitList(data)
         }
+
+        (binding.userActivityList.adapter as UserGiftsAdapter).submitList(viewModel.gifts)
     }
 
     private fun checkEmptyState() {
-        if ((binding.userActivityList.adapter as UserGiftsAdapter).itemCount == 0) {
-            binding.emptyPageTextView.visibility = View.VISIBLE
+        Handler().postDelayed({
+            if (viewModel.gifts.isNullOrEmpty()) {
+                binding.emptyPageTextView.visibility = View.VISIBLE
 
-            when (viewModel.currentFilter) {
-                Filter.DONATED -> {
-                    if (viewModel.user.id == UserInfoPref.id) {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.donated_gift_empty_message)
-                    } else {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.donated_gift_others_empty_message)
+                when (viewModel.currentFilter) {
+                    Filter.DONATED -> {
+                        if (viewModel.user.id == UserInfoPref.id) {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.donated_gift_empty_message)
+                        } else {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.donated_gift_others_empty_message)
+                        }
+                    }
+
+                    Filter.RECEIVED -> {
+                        if (viewModel.user.id == UserInfoPref.id) {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.received_gift_empty_message)
+                        } else {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.received_gift_others_empty_message)
+                        }
+                    }
+
+                    Filter.REGISTERED -> {
+                        if (viewModel.user.id == UserInfoPref.id) {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.registered_gift_empty_message)
+                        } else {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.registered_gift_others_empty_message)
+                        }
+                    }
+
+                    Filter.ACCEPTED -> {
+                        if (viewModel.user.id == UserInfoPref.id) {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.registered_gift_empty_message)
+                        } else {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.accepted_gift_others_empty_message)
+                        }
+                    }
+
+                    Filter.REJECTED -> {
+                        if (viewModel.user.id == UserInfoPref.id) {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.registered_gift_empty_message)
+                        } else {
+                            binding.emptyPageTextView.text =
+                                getString(R.string.rejected_gift_others_empty_message)
+                        }
                     }
                 }
-
-                Filter.RECEIVED -> {
-                    if (viewModel.user.id == UserInfoPref.id) {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.received_gift_empty_message)
-                    } else {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.received_gift_others_empty_message)
-                    }
-                }
-
-                Filter.REGISTERED -> {
-                    if (viewModel.user.id == UserInfoPref.id) {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.registered_gift_empty_message)
-                    } else {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.registered_gift_others_empty_message)
-                    }
-                }
-
-                Filter.ACCEPTED -> {
-                    if (viewModel.user.id == UserInfoPref.id) {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.registered_gift_empty_message)
-                    } else {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.accepted_gift_others_empty_message)
-                    }
-                }
-
-                Filter.REJECTED -> {
-                    if (viewModel.user.id == UserInfoPref.id) {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.registered_gift_empty_message)
-                    } else {
-                        binding.emptyPageTextView.text =
-                            getString(R.string.rejected_gift_others_empty_message)
-                    }
-                }
+            } else {
+                binding.emptyPageTextView.visibility = View.GONE
             }
-        }
+        }, 200)
     }
 
     private fun selectFilter(view: TextView) {

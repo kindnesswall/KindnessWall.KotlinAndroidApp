@@ -171,10 +171,17 @@ class SearchFragment : BaseFragment() {
             CustomResult.Status.SUCCESS -> {
                 hidePrvSearchList()
 
+                if (it.data != null && it.data.size < 20) {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                } else if (it.data == null) {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                }
+
                 if (it.data != null) {
                     if (viewModel.searchItems.value == null) {
                         viewModel.searchItems.value = it.data as ArrayList<GiftModel>?
                     } else {
+                        endlessRecyclerViewScrollListener.isLoading = false
                         viewModel.searchItems.value?.addAll(it.data)
                     }
 
@@ -183,6 +190,7 @@ class SearchFragment : BaseFragment() {
             }
 
             CustomResult.Status.ERROR -> {
+                endlessRecyclerViewScrollListener.isLoading = false
                 showToastMessage("")
             }
         }

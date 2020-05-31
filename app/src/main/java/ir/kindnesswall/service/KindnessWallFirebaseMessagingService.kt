@@ -10,7 +10,6 @@ import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.repository.ChatRepo
-import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.utils.NotificationHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,17 +62,17 @@ class KindnessWallFirebaseMessagingService : FirebaseMessagingService() {
                 if (contact == null) {
                     CoroutineScope(Dispatchers.IO).launch {
                         val contactList = chatRepo.getConversationList()
-                        if(contactList.isNullOrEmpty()){
+                        if (contactList.isNullOrEmpty()) {
                             return@launch
                         }
 
                         KindnessApplication.instance.setContactList(contactList)
-                    }
 
-                    val intent = Intent()
-                    intent.action = "NEW_CONTACT_LIST"
-                    intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-                    sendBroadcast(intent)
+                        val intent = Intent()
+                        intent.action = "NEW_CONTACT_LIST"
+                        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+                        sendBroadcast(intent)
+                    }
                 } else {
                     contact.notificationCount++
                     KindnessApplication.instance.updateContactList(contact)

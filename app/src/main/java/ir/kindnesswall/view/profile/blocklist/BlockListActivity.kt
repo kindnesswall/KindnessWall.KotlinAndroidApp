@@ -7,6 +7,7 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
@@ -16,7 +17,6 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityBlockListBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
-import ir.kindnesswall.view.profile.bookmarks.UserBookmarksAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class BlockListActivity : BaseActivity(), OnItemClickListener {
@@ -45,8 +45,15 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
     }
 
     private fun initRecyclerView() {
-        binding.blockedUsersRecyclerView.adapter = UserBookmarksAdapter(this)
+        val animator = binding.blockedUsersRecyclerView.itemAnimator
 
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+
+        val adapter = BlockListAdapter(this)
+        adapter.setHasStableIds(true)
+        binding.blockedUsersRecyclerView.adapter = adapter
         binding.blockedUsersRecyclerView.setHasFixedSize(true)
         binding.blockedUsersRecyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -97,14 +104,15 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
                             .observe(this@BlockListActivity) {
                                 if (it.status == CustomResult.Status.SUCCESS) {
                                     KindnessApplication.instance.getContact(obj.chat?.chatId!!)?.blockStatus?.let { it ->
-                                        it.contactIsBlocked = true
-                                        it.userIsBlocked = true
+                                        it.contactIsBlocked = false
+                                        it.userIsBlocked = false
                                     }
 
                                     viewModel.blockedUsers.removeAt(position)
                                     (binding.blockedUsersRecyclerView.adapter as BlockListAdapter)
                                         .submitList(viewModel.blockedUsers)
 
+                                    setBlockedUsersCount()
                                     checkEmptyPage()
                                 }
                             }
@@ -114,6 +122,14 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
         })
 
         (binding.blockedUsersRecyclerView.adapter as BlockListAdapter).submitList(data)
+        setBlockedUsersCount()
+    }
+
+    fun setBlockedUsersCount() {
+        if (viewModel.blockedUsers.isNullOrEmpty()) {
+            checkEmptyPage()
+            return
+        }
 
         if (viewModel.blockedUsers.size == 1) {
             binding.blockUsersCount.text =

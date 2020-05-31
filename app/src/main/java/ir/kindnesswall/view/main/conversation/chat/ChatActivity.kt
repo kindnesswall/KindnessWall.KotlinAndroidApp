@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -14,6 +15,7 @@ import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.model.*
+import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.imageloader.circleCropTransform
@@ -89,6 +91,14 @@ class ChatActivity : BaseActivity() {
             return
         }
 
+        if (viewModel.chatContactModel == null) {
+            val contactModel =
+                KindnessApplication.instance.getContact(viewModel.requestChatModel!!.chatId)
+            contactModel?.let {
+                viewModel.chatContactModel = contactModel
+            }
+        }
+
         viewModel.setSessionId()
 
         initBroadcastReceiver()
@@ -136,6 +146,27 @@ class ChatActivity : BaseActivity() {
                                 viewModel.chatList?.add(0, data)
                                 viewModel.chatList?.let { adapter.setData(it) }
                                 checkEmptyPage()
+                            }
+
+                            try {
+                                val contact =
+                                    KindnessApplication.instance.getContact(viewModel.chatId)
+
+                                if (contact == null) {
+                                    KindnessApplication.instance.updateContactList(
+                                        ChatContactModel(
+                                            BlockStatus(),
+                                            viewModel.requestChatModel,
+                                            viewModel.chatContactModel!!.contactProfile,
+                                            0
+                                        )
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e(
+                                    ">>>>>>",
+                                    "update contact model exception ${e.message.toString()}"
+                                )
                             }
                         }
 
@@ -243,6 +274,23 @@ class ChatActivity : BaseActivity() {
             viewModel.getCharityProfile().observe(this) {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
+                        if (viewModel.chatContactModel == null) {
+                            val user = User()
+                            user.charityName = it.data?.name
+                            user.name = it.data?.name
+                            user.isCharity = true
+                            user.id = it.data?.userId!!
+                            user.phoneNumber = it.data.mobileNumber
+                            user.image = it.data.imageUrl
+
+                            viewModel.chatContactModel = ChatContactModel(
+                                BlockStatus(),
+                                viewModel.requestChatModel,
+                                user,
+                                0
+                            )
+                        }
+
                         showUserData(it.data?.imageUrl, it.data?.name)
                     }
                     CustomResult.Status.ERROR -> {
@@ -262,7 +310,15 @@ class ChatActivity : BaseActivity() {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
                         showUserData(it.data?.image, it.data?.name)
+
+                        viewModel.chatContactModel = ChatContactModel(
+                            BlockStatus(),
+                            viewModel.requestChatModel,
+                            it.data,
+                            0
+                        )
                     }
+
                     CustomResult.Status.ERROR -> {
                         if (viewModel.triedToFetchCharityAndUserProfile) {
                             finish()
@@ -296,6 +352,14 @@ class ChatActivity : BaseActivity() {
                 }
 
                 CustomResult.Status.SUCCESS -> {
+                    if (it.data?.textMessages != null && it.data.textMessages!!.size < 50) {
+                        endlessRecyclerViewScrollListener.isLoading = true
+                    } else if (it.data == null) {
+                        endlessRecyclerViewScrollListener.isLoading = true
+                    } else if (it.data.textMessages == null) {
+                        endlessRecyclerViewScrollListener.isLoading = true
+                    }
+
                     endlessRecyclerViewScrollListener.isLoading = false
                     showList(it.data)
                 }

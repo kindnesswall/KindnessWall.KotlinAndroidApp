@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import ir.kindnesswall.BaseFragment
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
@@ -65,6 +66,7 @@ class MoreFragment : BaseFragment() {
                     onPositiveClickCallback = {
                         UserInfoPref.clear()
                         AppPref.clear()
+                        KindnessApplication.instance.clearContactList()
                         activity?.recreate()
                     })
             }

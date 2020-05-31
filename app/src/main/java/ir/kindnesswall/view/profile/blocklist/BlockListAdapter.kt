@@ -1,17 +1,27 @@
 package ir.kindnesswall.view.profile.blocklist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.databinding.ItemBlockedUsersBinding
 import ir.kindnesswall.utils.OnItemClickListener
 
 class BlockListAdapter(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<ChatContactModel, BlockedUsersViewHolder>(ChatContactModelDiffUtil()) {
+    RecyclerView.Adapter<BlockedUsersViewHolder>() {
+
+    private var items: List<ChatContactModel> = arrayListOf()
+
+    fun submitList(items: List<ChatContactModel>) {
+        this.items = items
+        notifyDataSetChanged()
+    }
+
+    override fun getItemId(position: Int): Long {
+        return items[position].contactProfile?.id ?: position.toLong()
+    }
+
+    override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         BlockedUsersViewHolder(
@@ -20,35 +30,16 @@ class BlockListAdapter(private val onItemClickListener: OnItemClickListener) :
             )
         )
 
-    override fun onBindViewHolder(holder: BlockedUsersViewHolder, position: Int) =
-        with(getItem(position)) {
-            holder.bind(
-                this,
-                createOnClickListener(position, getItem(position))
-            )
-        }
+    override fun onBindViewHolder(holder: BlockedUsersViewHolder, position: Int) {
+        val item = items[position]
 
-    private fun createOnClickListener(position: Int, item: ChatContactModel) =
-        View.OnClickListener {
-            onItemClickListener.onItemClicked(position, item)
+        holder.binding.item = item
+
+        holder.binding.moreOptionImageView.setOnClickListener {
+            onItemClickListener.onItemClicked(holder.adapterPosition, item)
         }
+    }
 }
 
 class BlockedUsersViewHolder(val binding: ItemBlockedUsersBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: ChatContactModel, listener: View.OnClickListener) =
-        with(binding) {
-            this.item = item
-            this.moreOptionImageView.setOnClickListener(listener)
-            executePendingBindings()
-        }
-}
-
-
-private class ChatContactModelDiffUtil : DiffUtil.ItemCallback<ChatContactModel>() {
-    override fun areItemsTheSame(oldItem: ChatContactModel, newItem: ChatContactModel): Boolean =
-        oldItem.chat?.contactId == newItem.chat?.contactId
-
-    override fun areContentsTheSame(oldItem: ChatContactModel, newItem: ChatContactModel): Boolean =
-        oldItem.chat?.contactId == newItem.chat?.contactId
-}
+    RecyclerView.ViewHolder(binding.root)

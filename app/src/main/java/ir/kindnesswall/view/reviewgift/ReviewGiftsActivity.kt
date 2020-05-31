@@ -156,13 +156,20 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
     private fun onCatalogItemsReceived(it: CustomResult<List<GiftModel>>) {
         when (it.status) {
             CustomResult.Status.LOADING -> {
-                showProgressDialog()
+//                showProgressDialog()
             }
 
             CustomResult.Status.SUCCESS -> {
                 endlessRecyclerViewScrollListener.isLoading = false
                 binding.pullToRefreshLayout.isRefreshing = false
                 dismissProgressDialog()
+
+                if (it.data != null && it.data.size < 20) {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                } else if (it.data == null) {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                }
+
                 it.data?.let { data ->
                     viewModel.reviewItem.addAll(data)
                     showList()

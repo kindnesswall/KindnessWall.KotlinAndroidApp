@@ -98,6 +98,10 @@ class KindnessApplication : Application(), LifecycleObserver {
         return contactListMap.values.toList()
     }
 
+    fun clearContactList() {
+        contactListMap.clear()
+    }
+
     private fun changeLocale() {
         var currentAppLocaleLanguage = AppPref.currentLocale
 

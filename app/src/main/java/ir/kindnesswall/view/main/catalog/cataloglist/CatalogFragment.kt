@@ -47,8 +47,8 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         if (viewModel.catalogItems.isNullOrEmpty()) {
             getGifts()
@@ -117,6 +117,13 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
                 endlessRecyclerViewScrollListener.isLoading = false
                 binding.pullToRefreshLayout.isRefreshing = false
                 dismissProgressDialog()
+
+                if (it.data != null && it.data.size < 20) {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                } else if (it.data == null) {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                }
+
                 it.data?.let { data ->
                     viewModel.catalogItems.addAll(data)
                     showList()
