@@ -51,7 +51,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(result.message))
+                        emit(CustomResult.error(result.errorMessage))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }
@@ -71,7 +71,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(result.message))
+                        emit(CustomResult.error(result.errorMessage))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }
@@ -98,7 +98,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(result.message))
+                        emit(CustomResult.error(result.errorMessage))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }
@@ -109,7 +109,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
             LiveData<CustomResult<User>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
-                emit(CustomResult.error(""))
+                emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
             }
 
@@ -124,7 +124,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                     }
 
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.errorMessage))
                     }
 
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -136,7 +136,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
             LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
-                emit(CustomResult.error(""))
+                emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
             }
 
@@ -151,7 +151,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                     }
 
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.errorMessage))
                     }
 
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -163,7 +163,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
             LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
-                emit(CustomResult.error(""))
+                emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
             }
 
@@ -178,7 +178,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                     }
 
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.errorMessage))
                     }
 
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -190,7 +190,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
             LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
-                emit(CustomResult.error(""))
+                emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
             }
 
@@ -205,7 +205,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                     }
 
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.errorMessage))
                     }
 
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -236,7 +236,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
-                emit(CustomResult.error(""))
+                emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
             }
 
@@ -252,7 +252,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }
 
                         CustomResult.Status.ERROR -> {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         }
 
                         CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -266,7 +266,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
-                emit(CustomResult.error(""))
+                emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
             }
 
@@ -282,7 +282,7 @@ class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSou
                         }
 
                         CustomResult.Status.ERROR -> {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         }
 
                         CustomResult.Status.LOADING -> emit(CustomResult.loading())

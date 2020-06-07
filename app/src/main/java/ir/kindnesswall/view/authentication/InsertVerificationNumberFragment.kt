@@ -163,7 +163,6 @@ class InsertVerificationNumberFragment : BaseFragment() {
                 }
 
                 CustomResult.Status.ERROR -> {
-                    Log.e(">>>>>", it.message.toString())
                     showToastMessage("")
                 }
             }

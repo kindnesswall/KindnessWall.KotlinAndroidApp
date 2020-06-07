@@ -3,7 +3,7 @@ package ir.kindnesswall.data.model
 data class CustomResult<out T>(
     val status: Status,
     val data: T?,
-    val message: String?,
+    val errorMessage: ErrorMessage?,
     val serverError: Boolean = false
 ) {
 
@@ -13,13 +13,20 @@ data class CustomResult<out T>(
         LOADING
     }
 
+    data class ErrorMessage(
+        var message: String? = null,
+        var code: Int? = -1,
+        var errorBody: String? = null
+    )
+
     companion object {
         fun <T> success(data: T): CustomResult<T> {
             return CustomResult(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(message: String?, data: T? = null, serverError: Boolean = false): CustomResult<T> {
-            return CustomResult(Status.ERROR, data, message, serverError)
+        fun <T> error(errorMessage: ErrorMessage?, data: T? = null, serverError: Boolean = false):
+                CustomResult<T> {
+            return CustomResult(Status.ERROR, data, errorMessage, serverError)
         }
 
         fun <T> loading(data: T? = null): CustomResult<T> {

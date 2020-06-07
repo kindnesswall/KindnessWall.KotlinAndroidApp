@@ -75,7 +75,7 @@ class KindnessWallFirebaseMessagingService : FirebaseMessagingService() {
                     }
                 } else {
                     contact.notificationCount++
-                    KindnessApplication.instance.updateContactList(contact)
+                    KindnessApplication.instance.addOrUpdateContactList(contact)
                     val intent = Intent()
                     intent.action = "UPDATE_CONTACT_LIST"
                     intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)

@@ -208,7 +208,11 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             if (viewModel.isReceivedGift) {
                 viewModel.getRequestStatus().observe(this) {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
-                        ChatActivity.start(this, it.data.chat, false)
+                        ChatActivity.start(
+                            this,
+                            it.data.chat,
+                            it.data.chat.contactProfile?.isCharity ?: false
+                        )
                     }
                 }
             } else {

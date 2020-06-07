@@ -26,10 +26,22 @@ object ActionModelFactory {
                     requestChatModel.contactId = model.senderId
                     requestChatModel.userId = model.senderId
 
+                    var isStartFromNotification =
+                        AppPref.currentChatSessionId != requestChatModel.chatId
+
+                    val contact =
+                        KindnessApplication.instance.getContact((model as TextMessageModel).chatId)
+
+                    var isCharity = true
+
+                    if (contact != null) {
+                        isCharity = contact.contactProfile?.isCharity ?: false
+                    }
+
                     return getIntent(context, ChatActivity::class.java)
-                        .putExtra("isStartFromNotification", false)
+                        .putExtra("isStartFromNotification", isStartFromNotification)
                         .putExtra("requestChatModel", requestChatModel)
-                        .putExtra("isCharity", true)
+                        .putExtra("isCharity", isCharity)
                 } else {
                     val contact =
                         KindnessApplication.instance.getContact((model as TextMessageModel).chatId)

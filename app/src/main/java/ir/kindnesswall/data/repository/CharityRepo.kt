@@ -34,7 +34,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                     when (result.status) {
                         CustomResult.Status.SUCCESS -> {
                             if (result.data == null) {
-                                emit(CustomResult.error(result.message.toString()))
+                                emit(CustomResult.error(result.errorMessage))
                             } else {
                                 emitSource(MutableLiveData<List<CharityModel>>().apply {
                                     value = result.data
@@ -42,7 +42,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                             }
                         }
                         CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                        else -> emit(CustomResult.error(result.message.toString()))
+                        else -> emit(CustomResult.error(result.errorMessage))
                     }
                 }
         }
@@ -57,7 +57,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                     when (result.status) {
                         CustomResult.Status.SUCCESS -> {
                             if (result.data == null) {
-                                emit(CustomResult.error(result.message.toString()))
+                                emit(CustomResult.error(result.errorMessage))
                             } else {
                                 emitSource(MutableLiveData<CharityModel>().apply {
                                     value = result.data
@@ -66,7 +66,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                             }
                         }
                         CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                        else -> emit(CustomResult.error(result.message.toString()))
+                        else -> emit(CustomResult.error(result.errorMessage))
                     }
                 }
         }

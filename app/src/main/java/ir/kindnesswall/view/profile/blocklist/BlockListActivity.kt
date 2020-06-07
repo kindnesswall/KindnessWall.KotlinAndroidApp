@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
@@ -103,9 +104,20 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
                         viewModel.unblockUser(obj.chat?.chatId ?: 0)
                             .observe(this@BlockListActivity) {
                                 if (it.status == CustomResult.Status.SUCCESS) {
-                                    KindnessApplication.instance.getContact(obj.chat?.chatId!!)?.blockStatus?.let { it ->
-                                        it.contactIsBlocked = false
-                                        it.userIsBlocked = false
+
+                                    val contact =
+                                        KindnessApplication.instance.getContact(obj.chat?.chatId!!)
+                                    if (contact != null) {
+                                        contact.blockStatus.contactIsBlocked = false
+                                        if (UserInfoPref.isAdmin) {
+                                            contact.blockStatus.userIsBlocked = false
+                                        }
+                                    } else {
+                                        obj.blockStatus.contactIsBlocked = false
+                                        if (UserInfoPref.isAdmin) {
+                                            obj.blockStatus.userIsBlocked = false
+                                        }
+                                        KindnessApplication.instance.addOrUpdateContactList(obj)
                                     }
 
                                     viewModel.blockedUsers.removeAt(position)

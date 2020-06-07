@@ -21,12 +21,20 @@ abstract class BaseDataSource {
 
             return CustomResult.error(getErrorMessage(response), serverError = true)
         } catch (e: Exception) {
-            return CustomResult.error(e.message ?: e.toString(), serverError = false)
+            return CustomResult.error(
+                CustomResult.ErrorMessage(e.message ?: e.toString()),
+                serverError = false
+            )
         }
     }
 
-    private fun <T> getErrorMessage(response: Response<T>) =
-        "${response.message()} | ${response.errorBody()?.string()}"
+    private fun <T> getErrorMessage(response: Response<T>): CustomResult.ErrorMessage {
+        return CustomResult.ErrorMessage(
+            response.message(),
+            response.code(),
+            response.errorBody()?.string()
+        )
+    }
 
     protected fun <T> getResultWithExponentialBackoffStrategy(
         times: Int = 2,
@@ -46,7 +54,7 @@ abstract class BaseDataSource {
                     break@loop
                 }
                 CustomResult.Status.ERROR -> {
-                    emit(CustomResult.error(response.message, response.data, response.serverError))
+                    emit(CustomResult.error(response.errorMessage, response.data, response.serverError))
                     if (response.serverError) break@loop
                 }
             }

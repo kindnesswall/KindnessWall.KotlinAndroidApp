@@ -37,7 +37,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             KindnessApplication.instance.setContactList(result.data)
                             emitSource(MutableLiveData<List<ChatContactModel>>().apply {
@@ -46,7 +46,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -77,7 +77,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<ChatMessageModel>().apply {
                                 value = result.data
@@ -85,7 +85,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -100,7 +100,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<ChatMessageModel>().apply {
                                 value = result.data
@@ -108,7 +108,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -126,7 +126,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
                     if (result.data == null) {
-                        emit(CustomResult.error(result.message.toString()))
+                        emit(CustomResult.error(result.errorMessage))
                     } else {
                         emitSource(MutableLiveData<TextMessageModel>().apply {
                             value = result.data
@@ -134,7 +134,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                     }
                 }
                 CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                else -> emit(CustomResult.error(result.message.toString()))
+                else -> emit(CustomResult.error(result.errorMessage))
             }
         }
     }
@@ -149,7 +149,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -164,7 +164,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -182,7 +182,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                     }
 
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.errorMessage))
                     }
 
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
@@ -208,7 +208,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<ChatModel>().apply {
                                 value = result.data
@@ -216,7 +216,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
