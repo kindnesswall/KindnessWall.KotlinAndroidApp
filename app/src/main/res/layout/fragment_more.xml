@@ -40,7 +40,6 @@
                     android:text="@string/more_items"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
-
             </RelativeLayout>
 
             <View
@@ -130,6 +129,7 @@
 
                 </LinearLayout>
 
+                <!--TODO Add بررسي خيريه هاي ثبت شده-->
                 <LinearLayout
                     android:id="@+id/reviewGiftsContainer"
                     android:layout_width="match_parent"
@@ -140,7 +140,6 @@
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:visibility="@{userInfo.isAdmin ?  View.VISIBLE : View.GONE}"
                     tools:visibility="visible">
 
                     <ImageView
@@ -158,6 +157,32 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/reviewCharityContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:tint="@color/secondaryTextColor"
+                        app:srcCompat="@drawable/ic_check_and_review" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/check_submitted_Charity"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

@@ -170,6 +170,7 @@
     <string name="force_update_message">نسخه فعلی برنامه دیگر پشتیبانی نمی شود جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
     <string name="optional_update_message">نسخه جدید برای این برنامه آمده است جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
     <string name="check_submitted_gifts">بررسی هدیه های ثبت شده</string>
+    <string name="check_submitted_Charity">بررسی خيريه های ثبت شده</string>
     <string name="reject_gift">رد هدیه</string>
     <string name="accept_gift">" تایید هدیه"</string>
     <string name="reason_of_reject">دلیل رد هدیه</string>

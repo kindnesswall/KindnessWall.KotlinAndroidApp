@@ -20,4 +20,8 @@ interface CharityApi {
 
     @GET("charity/user/{id}")
     suspend fun getCharity(@Path("id") id: Long): Response<CharityModel>
+
+    @GET("charity/myInfo")
+    suspend fun getCharityInfo(@Path("id") id: Long): Response<CharityModel>
+
 }
