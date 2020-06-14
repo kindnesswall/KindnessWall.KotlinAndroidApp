@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,6 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
+    private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
     lateinit var binding: ActivityCharityDetailBinding
 
     private val viewModel: CharityViewModel by viewModel()
@@ -68,7 +70,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         binding.informationBottomSheet.item = viewModel.charityModel
         binding.informationBottomSheet.viewModel = viewModel
 
-        val sheetBehavior =
+        sheetBehavior =
             BottomSheetBehavior.from(binding.informationBottomSheet.charityContentBottomSheet)
 
         binding.informationBottomSheet.toolbar.setOnClickListener {
@@ -77,6 +79,14 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
             } else {
                 sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (sheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        } else {
+            super.onBackPressed()
         }
     }
 

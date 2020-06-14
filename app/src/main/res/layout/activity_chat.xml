@@ -101,6 +101,19 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
             tools:listitem="@layout/item_chat_myself" />
 
+        <TextView
+            android:id="@+id/youAreBlockedContainer"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/onBoardingThirdColor"
+            android:gravity="center"
+            android:maxHeight="128dp"
+            android:minHeight="56dp"
+            android:text="@string/your_are_blocked"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/chatInputContainer" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/chatInputContainer"
             android:layout_width="match_parent"

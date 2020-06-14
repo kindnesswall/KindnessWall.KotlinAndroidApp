@@ -98,6 +98,16 @@ class ChatActivity : BaseActivity() {
             contactModel?.let {
                 viewModel.chatContactModel = contactModel
             }
+        } else {
+            viewModel.requestChatModel = viewModel.chatContactModel!!.chat
+
+            if (viewModel.chatContactModel!!.contactProfile == null) {
+                val contactModel =
+                    KindnessApplication.instance.getContact(viewModel.chatContactModel!!.chat!!.chatId)
+                contactModel?.let {
+                    viewModel.chatContactModel!!.contactProfile = contactModel.contactProfile
+                }
+            }
         }
 
         viewModel.setSessionId()
@@ -107,10 +117,14 @@ class ChatActivity : BaseActivity() {
         if (viewModel.requestChatModel != null && viewModel.chatContactModel == null) {
             getUserProfile()
         } else {
-            showUserData(
-                viewModel.chatContactModel?.contactProfile?.image,
-                viewModel.chatContactModel?.contactProfile?.name
-            )
+            if (viewModel.chatContactModel?.contactProfile == null) {
+                getUserProfile()
+            } else {
+                showUserData(
+                    viewModel.chatContactModel?.contactProfile?.image,
+                    viewModel.chatContactModel?.contactProfile?.name
+                )
+            }
         }
 
         checkBlockState()
@@ -176,7 +190,14 @@ class ChatActivity : BaseActivity() {
                         }
 
                         CustomResult.Status.ERROR -> {
-                            showToastMessage(getString(R.string.error_sending_message))
+                            if (result.errorMessage?.code == 403) {
+                                binding.sendImageView.isEnabled = false
+                                binding.messageEditText.isEnabled = false
+                                binding.giftImageView.isEnabled = false
+                                binding.youAreBlockedContainer.visibility = View.VISIBLE
+                            } else {
+                                showToastMessage(getString(R.string.error_sending_message))
+                            }
                         }
                     }
                 }
@@ -216,8 +237,10 @@ class ChatActivity : BaseActivity() {
             animator.supportsChangeAnimations = false
         }
 
-        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout = true
-        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd = false
+        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout =
+            true
+        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd =
+            false
 
         setRecyclerViewPagination(binding.itemsListRecyclerView.layoutManager as LinearLayoutManager)
     }

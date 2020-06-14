@@ -180,5 +180,6 @@
     <string name="talk_with_donator">گفتگو با اهدا کننده</string>
     <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
     <string name="edit">ویرایش</string>
+    <string name="your_are_blocked">شما توسط این کاربر بلاک شده اید</string>
 
 </resources>
