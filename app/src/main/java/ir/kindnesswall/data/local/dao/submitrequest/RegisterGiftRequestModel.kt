@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import ir.kindnesswall.utils.helper.DataConverter
+import java.math.BigDecimal
 
 @Entity(tableName = "register_gift_request_table")
 @TypeConverters(DataConverter::class)
@@ -12,7 +13,7 @@ data class RegisterGiftRequestModel(
     var id: Int = 1,
     var title: String = "",
     var description: String = "",
-    var price: Int = 0,
+    var price: BigDecimal = BigDecimal.ZERO,
     var categoryId: Int = 1,
     var categoryName: String? = "",
     var isNew: Boolean = true,

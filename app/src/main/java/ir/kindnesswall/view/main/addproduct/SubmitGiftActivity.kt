@@ -56,8 +56,10 @@ class SubmitGiftActivity : BaseActivity() {
         configureViewModel()
 
         if (viewModel.isNew) {
+            binding.titleTextView.text = getString(R.string.submit_gift)
             getDraftedModel()
         } else {
+            binding.titleTextView.text = getString(R.string.edit_gift)
             fillWithEditableGift()
         }
     }
@@ -145,7 +147,7 @@ class SubmitGiftActivity : BaseActivity() {
             binding.giftDescEditText.setText(it.description)
             viewModel.description.value = it.description
 
-            if (it.price != null && it.price!! > 0f) {
+            if (it.price != null && it.price!!.toDouble() > 0) {
                 binding.giftPriceEditText.setText(it.price.toString())
                 viewModel.price.value = it.price.toString()
             }
@@ -185,7 +187,7 @@ class SubmitGiftActivity : BaseActivity() {
                 binding.giftTitleEditText.setText(it.title)
                 binding.giftDescEditText.setText(it.description)
 
-                if (it.price > 0) {
+                if (it.price.toDouble() > 0) {
                     binding.giftPriceEditText.setText(it.price.toString())
                 }
 

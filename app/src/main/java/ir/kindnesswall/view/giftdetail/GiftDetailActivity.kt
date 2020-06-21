@@ -85,9 +85,12 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             setSituationTextIfIsAdmin()
         }
 
-        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId && !viewModel.isMyGift) {
+        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId) {
             viewModel.isReceivedGift = true
             binding.requestButton.text = getString(R.string.talk_with_donator)
+        } else if (viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0) {
+            viewModel.isReceivedGift = true
+            binding.requestButton.text = getString(R.string.talk_with_receiver)
         } else if (viewModel.isMyGift) {
             binding.requestButton.text = getString(R.string.edit)
         } else {

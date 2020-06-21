@@ -95,7 +95,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/chatInputContainer"
+            app:layout_constraintBottom_toTopOf="@+id/youAreBlockedContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
@@ -112,7 +112,8 @@
             android:text="@string/your_are_blocked"
             android:textColor="@color/black"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/chatInputContainer" />
+            app:layout_constraintBottom_toTopOf="@+id/chatInputContainer"
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/chatInputContainer"

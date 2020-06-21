@@ -3,9 +3,11 @@ package ir.kindnesswall.view.profile
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.databinding.ItemProfileGiftsBinding
 import ir.kindnesswall.utils.OnItemClickListener
@@ -40,8 +42,55 @@ class CatalogViewHolder(val binding: ItemProfileGiftsBinding) :
         with(binding) {
             this.item = item
             clickListener = listener
+
+            setSituationText(item)
+
             executePendingBindings()
         }
+
+    private fun setSituationText(item: GiftModel) {
+        item.let {
+            if (!it.isReviewed) {
+                binding.giftStatusFlag.visibility = View.VISIBLE
+                binding.giftStatusFlag.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.giftStatusFlag.context,
+                        R.color.situation_yellow_color
+                    )
+                )
+                return
+            }
+
+            if (it.isReviewed && !it.isRejected && it.donatedToUserId != null && it.donatedToUserId!! > 0) {
+                binding.giftStatusFlag.visibility = View.GONE
+                return
+            }
+
+            if (it.isReviewed && it.isRejected) {
+                binding.giftStatusFlag.visibility = View.VISIBLE
+                binding.giftStatusFlag.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.giftStatusFlag.context,
+                        R.color.red
+                    )
+                )
+                return
+            }
+
+            if (it.isReviewed) {
+                binding.giftStatusFlag.visibility = View.VISIBLE
+                binding.giftStatusFlag.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.giftStatusFlag.context,
+                        R.color.colorPrimary
+                    )
+                )
+                return
+            }
+
+            binding.giftStatusFlag.visibility = View.GONE
+        }
+    }
 }
 
 

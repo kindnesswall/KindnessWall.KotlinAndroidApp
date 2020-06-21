@@ -157,8 +157,8 @@
                         android:clipToPadding="false"
                         android:fillViewport="true"
                         android:paddingStart="12dp"
-                        android:scrollbarSize="1dp"
                         android:paddingEnd="12dp"
+                        android:scrollbarSize="1dp"
                         app:layout_constraintTop_toBottomOf="@+id/profileTextView">
 
                         <LinearLayout
@@ -199,7 +199,7 @@
                                 android:text="@string/accepted"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="13sp"
-                                android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : View.GONE}" />
+                                android:visibility="gone" />
 
                             <!-- admin -->
                             <TextView
@@ -217,7 +217,7 @@
                                 android:text="@string/rejected"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="13sp"
-                                android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : View.GONE}" />
+                                android:visibility="gone" />
 
                             <!-- my profile, admin -->
                             <TextView
@@ -237,7 +237,7 @@
                                 android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : myProfileInfo.id == user.id ? View.VISIBLE : View.GONE}" />
 
                             <!-- my profile, admin, user, charity => visible in all cases -->
-                                <TextView
+                            <TextView
                                 android:id="@+id/receivedFilter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="32dp"

@@ -27,6 +27,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -141,7 +142,7 @@
                     android:id="@+id/giftPriceEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="7"
+                    android:maxLength="15"
                     android:hint="@string/price_range_hint"
                     android:inputType="number"
                     android:onTextChanged="@{(text, start, before, count) -> viewModel.onPriceTextChange(text)}" />

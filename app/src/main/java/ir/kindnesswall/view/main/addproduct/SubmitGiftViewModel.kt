@@ -11,6 +11,7 @@ import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.GiftRepo
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class SubmitGiftViewModel(
     private val fileUploadRepo: FileUploadRepo,
@@ -59,7 +60,7 @@ class SubmitGiftViewModel(
         val registerGiftRequestModel = RegisterGiftRequestModel()
         registerGiftRequestModel.title = title.value ?: ""
         registerGiftRequestModel.description = description.value ?: ""
-        registerGiftRequestModel.price = price.value?.toDouble()?.toInt() ?: 0
+        registerGiftRequestModel.price = price.value?.toBigDecimal() ?: BigDecimal.ZERO
         registerGiftRequestModel.giftImages.addAll(uploadedImagesAddress)
         registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
         registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
@@ -96,7 +97,7 @@ class SubmitGiftViewModel(
         registerGiftRequestModel.isNew = isNew
 
         registerGiftRequestModel.price =
-            if (price.value.isNullOrEmpty()) 0 else price.value!!.toInt()
+            if (price.value.isNullOrEmpty()) BigDecimal.ZERO else price.value!!.toBigDecimal()
 
         viewModelScope.launch {
             appDatabase.registerGiftRequestDao().insert(registerGiftRequestModel)

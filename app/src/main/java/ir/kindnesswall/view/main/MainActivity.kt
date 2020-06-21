@@ -19,7 +19,6 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
-import ir.kindnesswall.utils.OnClickListener
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.ConversationFragment
@@ -35,8 +34,6 @@ class MainActivity : BaseActivity() {
     private val navCharityController: NavController by lazy { findNavController(R.id.charityTab) }
     private val navConversationController: NavController by lazy { findNavController(R.id.conversationTab) }
     private val navMoreController: NavController by lazy { findNavController(R.id.moreTab) }
-
-    private var onTabClickedListener: OnClickListener<Int>? = null
 
     private lateinit var binding: ActivityMainBinding
 
@@ -166,13 +163,15 @@ class MainActivity : BaseActivity() {
             R.id.navigation_add_product -> {
                 if (UserInfoPref.bearerToken.isEmpty()) {
                     AuthenticationActivity.start(this)
+                    return false
                 } else {
                     SubmitGiftActivity.start(this)
+                    return false
                 }
             }
 
             R.id.navigation_conversation -> {
-                if (!UserInfoPref.bearerToken.isEmpty()) {
+                if (UserInfoPref.bearerToken.isNotEmpty()) {
                     currentController = navConversationController
 
                     binding.conversationTabContainer.visibility = View.VISIBLE
@@ -181,6 +180,7 @@ class MainActivity : BaseActivity() {
                     binding.moreTabContainer.visibility = View.INVISIBLE
                 } else {
                     AuthenticationActivity.start(this)
+                    return false
                 }
             }
 
@@ -199,7 +199,6 @@ class MainActivity : BaseActivity() {
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            onTabClickedListener?.onClick(item.itemId)
             return@OnNavigationItemSelectedListener switchTab(item.itemId)
         }
 

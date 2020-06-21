@@ -98,7 +98,7 @@
     <string name="submit_gift">ثبت هدیه</string>
     <string name="gift_title">عنوان هدیه</string>
     <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید. (حداقل ۵ حرف)</string>
-    <string name="submit_gift_price_message">ارزش ریالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
+    <string name="submit_gift_price_message">ارزش مالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
     <string name="submit_gift_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید. (حداقل ۵ حرف)</string>
     <string name="price_range">حدود قیمت</string>
     <string name="price_range_hint">_ _ _ , _ _ _ تومان</string>
@@ -181,5 +181,7 @@
     <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
     <string name="edit">ویرایش</string>
     <string name="your_are_blocked">شما توسط این کاربر بلاک شده اید</string>
+    <string name="edit_gift">ویرایش هدیه</string>
+    <string name="talk_with_receiver">"گفتگو با دریافت کننده"</string>
 
 </resources>

@@ -87,6 +87,8 @@ class CategoryActivity : BaseActivity() {
                         }
 
                         viewModel.catgories[position].isSelected = true
+
+                        binding.doneImageView.performClick()
                     } else {
                         viewModel.catgories[position].isSelected =
                             !viewModel.catgories[position].isSelected

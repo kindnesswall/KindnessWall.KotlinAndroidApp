@@ -1,2 +1,4 @@
 /build
 google-services.json
+/staging/release/app-staging-release.apk
+/staging/release/output.json

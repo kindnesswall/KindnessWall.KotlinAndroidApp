@@ -167,7 +167,6 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         binding.userActivityList.apply {
             adapter = UserGiftsAdapter(this@UserProfileActivity)
             setHasFixedSize(true)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
             val animator = itemAnimator
 

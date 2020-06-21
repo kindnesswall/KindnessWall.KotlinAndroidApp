@@ -4,9 +4,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="item"
             type="ir.kindnesswall.data.model.CategoryModel" />
+
+        <variable
+            name="multiSelection"
+            type="Boolean" />
     </data>
 
     <LinearLayout
@@ -22,7 +28,8 @@
             android:layout_marginStart="16dp"
             android:checked="@{item.isSelected}"
             android:clickable="false"
-            android:focusable="false" />
+            android:focusable="false"
+            android:visibility="@{multiSelection ? View.VISIBLE : View.GONE}" />
 
         <TextView
             android:layout_width="match_parent"
