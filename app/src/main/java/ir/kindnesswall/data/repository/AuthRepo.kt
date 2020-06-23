@@ -40,7 +40,7 @@ class AuthRepo(private val context: Context, private var authApi: AuthApi) : Bas
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(result.message.toString()))
+                        emit(CustomResult.error(result.errorMessage))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }
@@ -62,7 +62,7 @@ class AuthRepo(private val context: Context, private var authApi: AuthApi) : Bas
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(""))
+                        emit(CustomResult.error(result.errorMessage))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }

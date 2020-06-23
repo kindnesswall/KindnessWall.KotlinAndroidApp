@@ -8,10 +8,7 @@ import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
-import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.ChatModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.GiftRequestStatusModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
@@ -44,7 +41,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<GiftModel>>().apply {
                                 value = result.data
@@ -52,7 +49,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -71,7 +68,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<GiftModel>>().apply {
                                 value = result.data
@@ -79,7 +76,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -96,7 +93,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<GiftModel>().apply {
                                 value = result.data
@@ -104,7 +101,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -121,7 +118,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<GiftModel>().apply {
                                 value = result.data
@@ -129,34 +126,31 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
 
-    fun requestGift(
-        viewModelScope: CoroutineScope,
-        giftId: Long
-    ): LiveData<CustomResult<ChatModel>> =
+    fun requestGift(viewModelScope: CoroutineScope, giftId: Long):
+            LiveData<CustomResult<ChatContactModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy {
-                giftApi.requestGift(giftId)
-            }.collect { result ->
-                when (result.status) {
-                    CustomResult.Status.SUCCESS -> {
-                        if (result.data == null) {
-                            emit(CustomResult.error(result.message))
-                        } else {
-                            emitSource(MutableLiveData<ChatModel>().apply {
-                                value = result.data
-                            }.map { CustomResult.success(it) })
+            getResultWithExponentialBackoffStrategy { giftApi.requestGift(giftId) }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(result.errorMessage))
+                            } else {
+                                emitSource(MutableLiveData<ChatContactModel>().apply {
+                                    value = result.data
+                                }.map { CustomResult.success(it) })
+                            }
                         }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(result.errorMessage))
                     }
-                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message))
                 }
-            }
         }
 
     fun getToDonateGifts(
@@ -175,7 +169,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<GiftModel>>().apply {
                                 value = result.data
@@ -183,7 +177,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -203,7 +197,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -219,7 +213,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<GiftModel>>().apply {
                                 value = result.data
@@ -227,7 +221,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -245,7 +239,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<GiftModel>>().apply {
                                 value = result.data
@@ -253,7 +247,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -274,7 +268,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -294,7 +288,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -316,7 +310,7 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }

@@ -40,14 +40,14 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             appDatabase.provinceDao().insert(result.data)
                             emitSource(fetchFromDb())
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -64,7 +64,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<CityModel>>().apply {
                                 value = result.data
@@ -72,7 +72,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -89,7 +89,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<RegionModel>>().apply {
                                 value = result.data
@@ -97,7 +97,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -111,7 +111,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                     when (result.status) {
                         CustomResult.Status.SUCCESS -> {
                             if (result.data == null) {
-                                emit(CustomResult.error(""))
+                                emit(CustomResult.error(result.errorMessage))
                             } else {
                                 emitSource(MutableLiveData<List<CategoryModel>>().apply {
                                     value = result.data
@@ -119,7 +119,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                             }
                         }
                         CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                        else -> emit(CustomResult.error(""))
+                        else -> emit(CustomResult.error(result.errorMessage))
                     }
                 }
         }
@@ -133,7 +133,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                     when (result.status) {
                         CustomResult.Status.SUCCESS -> {
                             if (result.data == null) {
-                                emit(CustomResult.error(""))
+                                emit(CustomResult.error(result.errorMessage))
                             } else {
                                 emitSource(MutableLiveData<UpdateModel>().apply {
                                     value = result.data
@@ -141,7 +141,7 @@ class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatab
                             }
                         }
                         CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                        else -> emit(CustomResult.error(""))
+                        else -> emit(CustomResult.error(result.errorMessage))
                     }
                 }
         }

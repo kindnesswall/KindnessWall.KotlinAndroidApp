@@ -68,7 +68,7 @@ class ChatViewModel(
                 it.notificationCount = 0
             }
 
-            KindnessApplication.instance.updateContactList(it)
+            KindnessApplication.instance.addOrUpdateContactList(it)
         }
 
         chatRepo.sendActMessage(viewModelScope, messageId)

@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isAdmin"
+            type="Boolean" />
+
         <variable
             name="item"
             type="ir.kindnesswall.data.local.dao.catalog.GiftModel" />
@@ -18,6 +24,12 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:onClick="@{clickListener}">
+
+        <View
+            android:id="@+id/giftStatusFlag"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/giftCardView"
@@ -117,6 +129,15 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="RtlHardcoded"
             tools:text="کفش مردانه" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

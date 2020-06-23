@@ -98,7 +98,8 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
     fun loadData() {
         val staticContacts = KindnessApplication.instance.getContactList()
 
-        if (viewModel.conversationsList.isNullOrEmpty() && staticContacts.isNullOrEmpty()) {
+        if (viewModel.conversationsList.isNullOrEmpty() || staticContacts.isNullOrEmpty()) {
+            viewModel.conversationsList.clear()
             getConversations()
         } else {
             refreshList()

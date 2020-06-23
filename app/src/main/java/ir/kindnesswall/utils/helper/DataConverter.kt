@@ -3,10 +3,21 @@ package ir.kindnesswall.utils.helper
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.math.BigDecimal
 import java.util.*
 
 
 class DataConverter {
+    @TypeConverter
+    fun toBigDecimal(string: String?): BigDecimal {
+        return if (string.isNullOrEmpty()) BigDecimal.ZERO else string.toBigDecimal()
+    }
+
+    @TypeConverter
+    fun fromBigDecimal(bigDecimal: BigDecimal): String {
+        return bigDecimal.toString()
+    }
+
     @TypeConverter
     fun toDate(timestamp: Long?): Date {
         return if (timestamp == null) Date() else Date(timestamp)

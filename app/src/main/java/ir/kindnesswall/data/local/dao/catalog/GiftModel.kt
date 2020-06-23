@@ -11,6 +11,7 @@ import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.toSimpleSlashFormat
 import ir.kindnesswall.utils.helper.DataConverter
 import kotlinx.android.parcel.Parcelize
+import java.math.BigDecimal
 import java.util.*
 
 @Entity(tableName = "catalog_table")
@@ -35,7 +36,7 @@ data class GiftModel(
     var provinceId: Int = 0,
     var donatedToUserId: Long? = null,
     var giftImages: List<String>? = null,
-    var price: Float? = null,
+    var price: BigDecimal? = null,
     var isDeleted: Boolean = false,
     var categoryTitle: String? = null,
     var provinceName: String? = null,

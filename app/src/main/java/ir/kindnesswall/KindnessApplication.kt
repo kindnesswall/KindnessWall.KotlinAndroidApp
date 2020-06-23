@@ -88,8 +88,12 @@ class KindnessApplication : Application(), LifecycleObserver {
         contactListMap = contactList.map { it.chat?.chatId!! to it }.toMap().toMutableMap()
     }
 
-    fun updateContactList(chatContactModel: ChatContactModel) {
+    fun addOrUpdateContactList(chatContactModel: ChatContactModel) {
         contactListMap[chatContactModel.chat?.chatId!!] = chatContactModel
+    }
+
+    fun removeContact(chatId: Long){
+        contactListMap.remove(chatId)
     }
 
     fun getContact(chatId: Long) = contactListMap[chatId]

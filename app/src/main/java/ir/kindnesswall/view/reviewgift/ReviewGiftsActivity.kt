@@ -85,10 +85,18 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
             override fun onRightClicked(position: Int) {
                 viewModel.acceptGift(viewModel.reviewItem[position].id)
                     .observe(this@ReviewGiftsActivity) { result ->
-                        if (result.status == CustomResult.Status.SUCCESS) {
-                            removeReviewedItem(position)
-                        } else if (result.status == CustomResult.Status.ERROR) {
-                            showToastMessage(getString(R.string.please_try_again))
+                        when (result.status) {
+                            CustomResult.Status.SUCCESS -> {
+                                dismissProgressDialog()
+                                removeReviewedItem(position)
+                            }
+                            CustomResult.Status.ERROR -> {
+                                dismissProgressDialog()
+                                showToastMessage(getString(R.string.please_try_again))
+                            }
+                            CustomResult.Status.LOADING -> {
+                                showProgressDialog { }
+                            }
                         }
                     }
             }
@@ -100,10 +108,18 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
                 }, approveListener = {
                     viewModel.rejectGift(viewModel.reviewItem[position].id, it)
                         .observe(this@ReviewGiftsActivity) { result ->
-                            if (result.status == CustomResult.Status.SUCCESS) {
-                                removeReviewedItem(position)
-                            } else if (result.status == CustomResult.Status.ERROR) {
-                                showToastMessage(getString(R.string.please_try_again))
+                            when (result.status) {
+                                CustomResult.Status.SUCCESS -> {
+                                    dismissProgressDialog()
+                                    removeReviewedItem(position)
+                                }
+                                CustomResult.Status.ERROR -> {
+                                    dismissProgressDialog()
+                                    showToastMessage(getString(R.string.please_try_again))
+                                }
+                                CustomResult.Status.LOADING -> {
+                                    showProgressDialog { }
+                                }
                             }
                         }
                 })

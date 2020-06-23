@@ -23,7 +23,7 @@
         <activity android:name=".view.reviewgift.ReviewGiftsActivity" />
         <activity android:name=".view.update.ForceAndOptionalUpdateActivity" />
         <activity android:name=".view.main.more.aboutus.AboutUsActivity" />
-        <activity android:name=".view.main.conversation.chat.ChatActivity" android:launchMode="singleTop" />
+        <activity android:name=".view.main.conversation.chat.ChatActivity"/>
         <activity android:name=".view.main.addproduct.SubmitGiftActivity" />
         <activity android:name=".view.profile.blocklist.BlockListActivity" />
         <activity android:name=".view.profile.bookmarks.BookmarksActivity" />
@@ -37,6 +37,7 @@
         <activity android:name=".view.authentication.AuthenticationActivity" />
         <activity android:name=".view.main.MainActivity" />
         <activity android:name=".view.onbording.OnBoardingActivity" />
+
         <activity android:name=".view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,14 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".view.main.conversation.chat.ChatBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="CHAT" />
-            </intent-filter>
-        </receiver>
 
         <service
             android:name=".service.KindnessWallFirebaseMessagingService"

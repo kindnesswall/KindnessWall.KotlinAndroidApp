@@ -85,9 +85,12 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             setSituationTextIfIsAdmin()
         }
 
-        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId && !viewModel.isMyGift) {
+        if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId) {
             viewModel.isReceivedGift = true
             binding.requestButton.text = getString(R.string.talk_with_donator)
+        } else if (viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0) {
+            viewModel.isReceivedGift = true
+            binding.requestButton.text = getString(R.string.talk_with_receiver)
         } else if (viewModel.isMyGift) {
             binding.requestButton.text = getString(R.string.edit)
         } else {
@@ -208,7 +211,11 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             if (viewModel.isReceivedGift) {
                 viewModel.getRequestStatus().observe(this) {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
-                        ChatActivity.start(this, it.data.chat, false)
+                        ChatActivity.start(
+                            this,
+                            it.data.chat,
+                            it.data.chat.contactProfile?.isCharity ?: false
+                        )
                     }
                 }
             } else {

@@ -14,6 +14,7 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityChatBinding
@@ -97,6 +98,16 @@ class ChatActivity : BaseActivity() {
             contactModel?.let {
                 viewModel.chatContactModel = contactModel
             }
+        } else {
+            viewModel.requestChatModel = viewModel.chatContactModel!!.chat
+
+            if (viewModel.chatContactModel!!.contactProfile == null) {
+                val contactModel =
+                    KindnessApplication.instance.getContact(viewModel.chatContactModel!!.chat!!.chatId)
+                contactModel?.let {
+                    viewModel.chatContactModel!!.contactProfile = contactModel.contactProfile
+                }
+            }
         }
 
         viewModel.setSessionId()
@@ -106,10 +117,14 @@ class ChatActivity : BaseActivity() {
         if (viewModel.requestChatModel != null && viewModel.chatContactModel == null) {
             getUserProfile()
         } else {
-            showUserData(
-                viewModel.chatContactModel?.contactProfile?.image,
-                viewModel.chatContactModel?.contactProfile?.name
-            )
+            if (viewModel.chatContactModel?.contactProfile == null) {
+                getUserProfile()
+            } else {
+                showUserData(
+                    viewModel.chatContactModel?.contactProfile?.image,
+                    viewModel.chatContactModel?.contactProfile?.name
+                )
+            }
         }
 
         checkBlockState()
@@ -153,7 +168,7 @@ class ChatActivity : BaseActivity() {
                                     KindnessApplication.instance.getContact(viewModel.chatId)
 
                                 if (contact == null) {
-                                    KindnessApplication.instance.updateContactList(
+                                    KindnessApplication.instance.addOrUpdateContactList(
                                         ChatContactModel(
                                             BlockStatus(),
                                             viewModel.requestChatModel,
@@ -175,7 +190,14 @@ class ChatActivity : BaseActivity() {
                         }
 
                         CustomResult.Status.ERROR -> {
-                            showToastMessage(getString(R.string.error_sending_message))
+                            if (result.errorMessage?.code == 403) {
+                                binding.sendImageView.isEnabled = false
+                                binding.messageEditText.isEnabled = false
+                                binding.giftImageView.isEnabled = false
+                                binding.youAreBlockedContainer.visibility = View.VISIBLE
+                            } else {
+                                showToastMessage(getString(R.string.error_sending_message))
+                            }
                         }
                     }
                 }
@@ -215,8 +237,10 @@ class ChatActivity : BaseActivity() {
             animator.supportsChangeAnimations = false
         }
 
-        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout = true
-        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd = false
+        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout =
+            true
+        (binding.itemsListRecyclerView.layoutManager as? LinearLayoutManager)?.stackFromEnd =
+            false
 
         setRecyclerViewPagination(binding.itemsListRecyclerView.layoutManager as LinearLayoutManager)
     }
@@ -414,10 +438,27 @@ class ChatActivity : BaseActivity() {
     private fun unblockUser() {
         viewModel.unblockUser().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
-                KindnessApplication.instance.getContact(viewModel.chatId)?.blockStatus?.let { it ->
-                    it.contactIsBlocked = false
-                    it.userIsBlocked = false
+
+                val contact = KindnessApplication.instance.getContact(viewModel.chatId)
+                if (contact != null) {
+                    contact.blockStatus.contactIsBlocked = false
+                    if (UserInfoPref.isAdmin) {
+                        contact.blockStatus.userIsBlocked = false
+                    }
+
+                    KindnessApplication.instance.addOrUpdateContactList(contact)
+                } else {
+                    viewModel.chatContactModel?.let { contact ->
+
+                        if (UserInfoPref.isAdmin) {
+                            contact.blockStatus.userIsBlocked = false
+                        }
+
+                        contact.blockStatus.contactIsBlocked = false
+                        KindnessApplication.instance.addOrUpdateContactList(contact)
+                    }
                 }
+
                 showOrHideBlockState(false)
             }
         }
@@ -426,10 +467,17 @@ class ChatActivity : BaseActivity() {
     private fun blockUser() {
         viewModel.blockUser().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
-                KindnessApplication.instance.getContact(viewModel.chatId)?.blockStatus?.let { it ->
-                    it.contactIsBlocked = true
-                    it.userIsBlocked = true
+
+                val contact = KindnessApplication.instance.getContact(viewModel.chatId)
+                if (contact != null) {
+                    contact.blockStatus.contactIsBlocked = true
+                    if (UserInfoPref.isAdmin) {
+                        contact.blockStatus.userIsBlocked = true
+                    }
+
+                    KindnessApplication.instance.removeContact(viewModel.chatId)
                 }
+
                 showOrHideBlockState(true)
             }
         }
@@ -463,7 +511,7 @@ class ChatActivity : BaseActivity() {
             }
 
         } else {
-            if (contact.blockStatus.contactIsBlocked or contact.blockStatus.userIsBlocked) {
+            if (contact.blockStatus.contactIsBlocked /*or contact.blockStatus.userIsBlocked*/) {
                 showOrHideBlockState(true)
             } else {
                 showOrHideBlockState(false)
