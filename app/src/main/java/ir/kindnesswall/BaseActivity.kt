@@ -62,7 +62,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (UserInfoPref.bearerToken.isNotEmpty()) {
+       /* if (UserInfoPref.bearerToken.isNotEmpty()) {
             if (UserInfoPref.fireBaseToken.isEmpty()) {
                 FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
                     if (result.isSuccessful) {
@@ -74,7 +74,7 @@ abstract class BaseActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        }*/
 
         if (AppPref.shouldUpdatedFireBaseToken) {
             userRepo.registerFirebaseToken()

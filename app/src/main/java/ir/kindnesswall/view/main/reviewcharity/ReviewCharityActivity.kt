@@ -16,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityReviewGiftsBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogAdapter
+import ir.kindnesswall.view.main.charity.CharityAdapter
 import ir.kindnesswall.view.reviewgift.SwipeController
 import ir.kindnesswall.view.reviewgift.SwipeControllerActions
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -85,7 +87,7 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
 
         swipeController = SwipeController(this, object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-                viewModel.acceptGift(viewModel.reviewItem[position].id)
+                viewModel.acceptCharity(viewModel.reviewItem[position].id)
                     .observe(this@ReviewCharityActivity) { result ->
                         if (result.status == CustomResult.Status.SUCCESS) {
                             removeReviewedItem(position)
@@ -97,10 +99,10 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
 
             override fun onLeftClicked(position: Int) {
                 showGetInputDialog(Bundle().apply {
-                    putString("title", getString(R.string.Please_write_reason))
-                    putString("hint", getString(R.string.reason_of_reject))
+                    putString("title", getString(R.string.Please_write_reason_for_charity))
+                    putString("hint", getString(R.string.reason_of_reject_for_charity))
                 }, approveListener = {
-                    viewModel.rejectGift(viewModel.reviewItem[position].id, it)
+                    viewModel.rejectCharity(viewModel.reviewItem[position].id, it)
                         .observe(this@ReviewCharityActivity) { result ->
                             if (result.status == CustomResult.Status.SUCCESS) {
                                 removeReviewedItem(position)
@@ -145,7 +147,7 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
 
     private fun loadNextPage() {
         viewModel.getReviewItemsFromServer().observe(this) {
-            onCatalogItemsReceived(it)
+         onCatalogItemsReceived(it)
         }
     }
 
@@ -155,7 +157,7 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
         }
     }
 
-    private fun onCatalogItemsReceived(it: CustomResult<List<GiftModel>>) {
+    private fun onCatalogItemsReceived(it: CustomResult<List<CharityModel>>) {
         when (it.status) {
             CustomResult.Status.LOADING -> {
 //                showProgressDialog()
@@ -198,8 +200,8 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
     }
 
     private fun showList() {
-        (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(viewModel.reviewItem)
-        (binding.itemsListRecyclerView.adapter as CatalogAdapter).notifyDataSetChanged()
+        (binding.itemsListRecyclerView.adapter as CharityAdapter).submitList(viewModel.reviewItem)
+        (binding.itemsListRecyclerView.adapter as CharityAdapter).notifyDataSetChanged()
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {

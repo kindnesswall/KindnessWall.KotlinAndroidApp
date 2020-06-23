@@ -172,11 +172,16 @@
     <string name="check_submitted_gifts">بررسی هدیه های ثبت شده</string>
     <string name="check_submitted_Charity">بررسی خيريه های ثبت شده</string>
     <string name="reject_gift">رد هدیه</string>
+    <string name="reject_charity">رد خيريه</string>
     <string name="accept_gift">" تایید هدیه"</string>
+    <string name="accept_charity">" تایید خيريه"</string>
     <string name="reason_of_reject">دلیل رد هدیه</string>
+    <string name="reason_of_reject_for_charity">دلیل رد خيريه</string>
     <string name="Please_write_reason">لطفا دلیل رد هدیه را بنویسید</string>
+    <string name="Please_write_reason_for_charity">لطفا دلیل رد خيريه را بنویسید</string>
     <string name="please_try_again">مشکلی پیش آمده، لطفا دوباره تلاش کنید</string>
     <string name="review_gifts_empty_state">هدیه‌ای برای بررسی وجود ندارد</string>
+    <string name="review_charity_empty_state">خيريه‌ای برای بررسی وجود ندارد</string>
     <string name="loading">لطفا شکیبا باشید…</string>
     <string name="talk_with_donator">گفتگو با اهدا کننده</string>
     <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>

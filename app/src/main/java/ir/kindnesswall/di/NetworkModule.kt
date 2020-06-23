@@ -1,6 +1,8 @@
 package ir.kindnesswall.di
 
+import com.readystatesoftware.chuck.ChuckInterceptor
 import ir.kindnesswall.BuildConfig
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.utils.wrapInBearer
 import okhttp3.Interceptor
@@ -52,6 +54,7 @@ private fun okHttpClient(addAuthHeader: Boolean) = OkHttpClient.Builder()
             this
         )
     }
+    .addInterceptor(ChuckInterceptor(KindnessApplication.instance.applicationContext))
     .addInterceptor(headersInterceptor(addAuthHeader)).build()
 
 private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit =
@@ -68,6 +71,7 @@ fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->
             .also {
                 if (addAuthHeader) {
                     it.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
+//                    it.addHeader("Authorization", wrapInBearer("QAFLcG8R8/D6jwn7CWxIpg=="))
                 }
                 it.addHeader("Content-Type", "application/json")
             }
