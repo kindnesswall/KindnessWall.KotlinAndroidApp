@@ -31,7 +31,7 @@ import retrofit2.Response
  *
  */
 
-class UserRepo(val context: Context, private val userApi: UserApi) : BaseDataSource() {
+class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(context) {
     fun getUserProfile(viewModelScope: CoroutineScope):
             LiveData<CustomResult<User>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {

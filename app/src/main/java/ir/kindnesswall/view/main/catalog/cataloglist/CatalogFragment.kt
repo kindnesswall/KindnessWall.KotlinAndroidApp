@@ -131,6 +131,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
+                binding.pullToRefreshLayout.isRefreshing = false
                 endlessRecyclerViewScrollListener.isLoading = false
                 showToastMessage("")
             }

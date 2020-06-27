@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="ir.kindnesswall.data.model.TextMessageModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_chat_donation"
+        android:padding="4dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@{item.text}"
+            android:textColor="@color/white"
+            tools:text="کتاب رمان سبز به سارا شمس اهدا شد" />
+
+        <TextView
+            android:id="@+id/donationDate"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tools:text="‍‍۱۱ مهر ۱۳۹۷" />
+
+    </LinearLayout>
+
+</layout>

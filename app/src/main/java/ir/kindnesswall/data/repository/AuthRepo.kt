@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.collect
  *
  */
 
-class AuthRepo(private val context: Context, private var authApi: AuthApi) : BaseDataSource() {
+class AuthRepo(context: Context, private var authApi: AuthApi) : BaseDataSource(context) {
 
     fun registerUser(
         viewModelScope: CoroutineScope,

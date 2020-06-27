@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
  *
  */
 
-class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSource() {
+class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(context) {
     fun getConversationList(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<ChatContactModel>>> =

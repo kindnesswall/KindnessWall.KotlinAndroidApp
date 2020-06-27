@@ -183,5 +183,6 @@
     <string name="your_are_blocked">شما توسط این کاربر بلاک شده اید</string>
     <string name="edit_gift">ویرایش هدیه</string>
     <string name="talk_with_receiver">"گفتگو با دریافت کننده"</string>
+    <string name="set_filter">اعمال فیلتر</string>
 
 </resources>

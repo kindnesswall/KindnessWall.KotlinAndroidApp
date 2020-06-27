@@ -70,19 +70,25 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
         setupPhotoSlider()
 
-        if (viewModel.isMyGift) {
+        if (viewModel.isMyGift || UserInfoPref.isAdmin) {
             binding.situationTextView.visibility = View.VISIBLE
             binding.situationText.visibility = View.VISIBLE
             binding.secondDivider.visibility = View.VISIBLE
+
+            setSituationText()
+            setSituationTextIfIsAdmin()
         } else {
             binding.situationTextView.visibility = View.GONE
             binding.situationText.visibility = View.GONE
             binding.secondDivider.visibility = View.GONE
         }
 
-        if (viewModel.isMyGift || UserInfoPref.isAdmin) {
-            setSituationText()
-            setSituationTextIfIsAdmin()
+        if (!viewModel.isMyGift &&
+            viewModel.giftModel!!.donatedToUserId != null &&
+            viewModel.giftModel!!.donatedToUserId!! > 0 &&
+            viewModel.giftModel!!.donatedToUserId != UserInfoPref.userId
+        ) {
+            binding.requestButton.visibility = View.GONE
         }
 
         if (viewModel.giftModel!!.donatedToUserId == UserInfoPref.userId) {
@@ -194,6 +200,19 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         if (UserInfoPref.bearerToken.isEmpty()) {
             AuthenticationActivity.start(this)
         } else {
+            if (viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0) {
+                viewModel.getRequestStatus().observe(this) {
+                    if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
+                        ChatActivity.start(
+                            this,
+                            it.data.chat,
+                            it.data.chat.contactProfile?.isCharity ?: false
+                        )
+                    }
+                }
+                return
+            }
+
             if (viewModel.isMyGift) {
                 return
             }

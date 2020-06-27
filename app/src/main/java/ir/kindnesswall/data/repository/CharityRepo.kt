@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.collect
  * Useful parameter:
  *
  */
-class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSource() {
+class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource(context) {
 
     fun getCharities(viewModelScope: CoroutineScope): LiveData<CustomResult<List<CharityModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {

@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.collect
  *
  */
 
-class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSource() {
+class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(context) {
     fun getGifts(
         viewModelScope: CoroutineScope,
         lastId: Long

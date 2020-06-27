@@ -23,6 +23,7 @@ class TextMessageModel : TextMessageBaseModel(), Serializable {
     var senderId: Long = 0
     var ack = false
     var createdAt: Date? = null
+    var type: String? = "default"
 
     fun getTime() = createdAt.getHourAndMinute()
 }
