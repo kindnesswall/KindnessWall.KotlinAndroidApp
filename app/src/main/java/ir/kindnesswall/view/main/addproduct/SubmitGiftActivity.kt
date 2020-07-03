@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -65,9 +66,63 @@ class SubmitGiftActivity : BaseActivity() {
     }
 
     private fun configureViewModel() {
-        viewModel.title.observe(this) { checkSubmitButtonEnabling() }
-        viewModel.price.observe(this) { checkSubmitButtonEnabling() }
-        viewModel.description.observe(this) { checkSubmitButtonEnabling() }
+        viewModel.title.observe(this) {
+            checkSubmitButtonEnabling()
+
+            if (it.length < 5) {
+                binding.titleMessageTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.onBoardingFirstColor
+                    )
+                )
+            } else {
+                binding.titleMessageTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.secondaryTextColor
+                    )
+                )
+            }
+        }
+
+        viewModel.price.observe(this) {
+            checkSubmitButtonEnabling()
+            if (it.length < 5) {
+                binding.priceMessageTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.onBoardingFirstColor
+                    )
+                )
+            } else {
+                binding.priceMessageTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.secondaryTextColor
+                    )
+                )
+            }
+        }
+
+        viewModel.description.observe(this) {
+            checkSubmitButtonEnabling()
+            if (it.length < 5) {
+                binding.descriptionMessageTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.onBoardingFirstColor
+                    )
+                )
+            } else {
+                binding.descriptionMessageTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.secondaryTextColor
+                    )
+                )
+            }
+        }
 
         viewModel.categoryId.observe(this) { checkSubmitButtonEnabling() }
         viewModel.provinceId.observe(this) { checkSubmitButtonEnabling() }
@@ -178,12 +233,56 @@ class SubmitGiftActivity : BaseActivity() {
             if (viewModel.imagesToShow.isNotEmpty()) {
                 showImages()
             }
+
+            if (viewModel.categoryId.value == 0) {
+                binding.chooseCategoryTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.onBoardingFirstColor
+                    )
+                )
+
+                binding.chooseCategoryTextView.setBackgroundResource(R.drawable.selected_filter_stroke)
+
+            } else {
+                binding.chooseCategoryTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.colorPrimary
+                    )
+                )
+
+                binding.chooseCategoryTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
+            }
+
+            if (viewModel.cityId.value == 0 && viewModel.provinceId.value == 0) {
+                binding.chooseCityTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.onBoardingFirstColor
+                    )
+                )
+
+                binding.chooseCityTextView.setBackgroundResource(R.drawable.selected_filter_stroke)
+
+            } else {
+                binding.chooseCityTextView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.colorPrimary
+                    )
+                )
+
+                binding.chooseCityTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
+            }
         }
     }
 
     private fun getDraftedModel() {
         viewModel.getBackUpData().observe(this) { model ->
             model?.let {
+                if (it.isEmpty()) return@observe
+
                 binding.giftTitleEditText.setText(it.title)
                 binding.giftDescEditText.setText(it.description)
 
@@ -208,6 +307,48 @@ class SubmitGiftActivity : BaseActivity() {
                 viewModel.cityName.value = it.cityName
                 viewModel.isNew = it.isNew
 
+                if (viewModel.categoryId.value == 0) {
+                    binding.chooseCategoryTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.onBoardingFirstColor
+                        )
+                    )
+
+                    binding.chooseCategoryTextView.setBackgroundResource(R.drawable.selected_filter_stroke)
+
+                } else {
+                    binding.chooseCategoryTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorPrimary
+                        )
+                    )
+
+                    binding.chooseCategoryTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
+                }
+
+                if (viewModel.cityId.value == 0 && viewModel.provinceId.value == 0) {
+                    binding.chooseCityTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.onBoardingFirstColor
+                        )
+                    )
+
+                    binding.chooseCityTextView.setBackgroundResource(R.drawable.selected_filter_stroke)
+
+                } else {
+                    binding.chooseCityTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorPrimary
+                        )
+                    )
+
+                    binding.chooseCityTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
+                }
+
                 viewModel.imagesToShow.addAll(it.giftImages)
                 viewModel.imagesToUpload.addAll(it.giftImages)
 
@@ -222,6 +363,33 @@ class SubmitGiftActivity : BaseActivity() {
         binding.giftTitleEditText.setText("")
         binding.giftDescEditText.setText("")
         binding.giftPriceEditText.setText("")
+
+        binding.titleMessageTextView.setTextColor(
+            ContextCompat.getColor(this, R.color.secondaryTextColor)
+        )
+        binding.priceMessageTextView.setTextColor(
+            ContextCompat.getColor(this, R.color.secondaryTextColor)
+        )
+        binding.descriptionMessageTextView.setTextColor(
+            ContextCompat.getColor(this, R.color.secondaryTextColor)
+        )
+
+        binding.chooseCategoryTextView.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.onBoardingFirstColor
+            )
+        )
+
+        binding.chooseCityTextView.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.onBoardingFirstColor
+            )
+        )
+
+        binding.chooseCategoryTextView.setBackgroundResource(R.drawable.selected_filter_stroke)
+        binding.chooseCityTextView.setBackgroundResource(R.drawable.selected_filter_stroke)
 
         binding.chooseCategoryTextView.text = getString(R.string.choose_category)
         binding.chooseCityTextView.text = getString(R.string.choose_city)
@@ -332,6 +500,14 @@ class SubmitGiftActivity : BaseActivity() {
                         viewModel.provinceId.value = it.id
                         viewModel.provinceName.value = it.name
                         binding.chooseCityTextView.text = it.name
+
+                        binding.chooseCityTextView.setTextColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.colorPrimary
+                            )
+                        )
+                        binding.chooseCityTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
                     }
 
                 } else if (cityModel != null) {
@@ -341,6 +517,14 @@ class SubmitGiftActivity : BaseActivity() {
                         viewModel.cityId.value = it.id
 
                         binding.chooseCityTextView.text = it.name
+
+                        binding.chooseCityTextView.setTextColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.colorPrimary
+                            )
+                        )
+                        binding.chooseCityTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
                     }
                 }
             }
@@ -353,6 +537,14 @@ class SubmitGiftActivity : BaseActivity() {
                     viewModel.categoryId.value = it[0].id
                     viewModel.categoryName.value = it[0].title
                     binding.chooseCategoryTextView.text = it[0].title
+
+                    binding.chooseCategoryTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorPrimary
+                        )
+                    )
+                    binding.chooseCategoryTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
                 }
             }
         }

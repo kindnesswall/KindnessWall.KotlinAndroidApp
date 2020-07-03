@@ -69,6 +69,7 @@ class SubmitGiftViewModel(
         registerGiftRequestModel.provinceName = null
         registerGiftRequestModel.cityName = null
         registerGiftRequestModel.isNew = isNew
+        registerGiftRequestModel.isBackup = null
 
         return if (isNew) {
             giftRepo.registerGift(viewModelScope, registerGiftRequestModel)
@@ -95,6 +96,7 @@ class SubmitGiftViewModel(
         registerGiftRequestModel.cityName = cityName.value ?: ""
         registerGiftRequestModel.countryId = AppPref.countryId
         registerGiftRequestModel.isNew = isNew
+        registerGiftRequestModel.isBackup = true
 
         registerGiftRequestModel.price =
             if (price.value.isNullOrEmpty()) BigDecimal.ZERO else price.value!!.toBigDecimal()

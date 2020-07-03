@@ -16,7 +16,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
 
-    private lateinit var listener: (Boolean) -> Unit
+    private lateinit var listener: (Boolean, GiftModel) -> Unit
 
     private lateinit var binding: BottomSheetGiftsToDonateBinding
 
@@ -36,7 +36,7 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    fun setOnItemClickListener(listener: (Boolean) -> Unit) {
+    fun setOnItemClickListener(listener: (Boolean, GiftModel) -> Unit) {
         this.listener = listener
     }
 
@@ -78,12 +78,11 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
 
                     CustomResult.Status.ERROR -> {
                         showToastMessage(getString(R.string.error_in_donate))
-                        listener.invoke(false)
+                        listener.invoke(false, it)
                     }
 
                     CustomResult.Status.SUCCESS -> {
-                        showToastMessage(getString(R.string.gift_donated))
-                        listener.invoke(true)
+                        listener.invoke(true, it)
                         dismiss()
                     }
                 }

@@ -22,5 +22,17 @@ data class RegisterGiftRequestModel(
     var cityId: Int = 0,
     var cityName: String? = "",
     var countryId: Int = 103,
-    var giftImages: ArrayList<String> = arrayListOf()
-)
+    var giftImages: ArrayList<String> = arrayListOf(),
+    var isBackup: Boolean? = false
+) {
+    fun isEmpty(): Boolean {
+        if (title.isEmpty() && description.isEmpty() && price == BigDecimal.ZERO && categoryId == 0 &&
+            categoryName.isNullOrEmpty() && provinceId == 0 && provinceName.isNullOrEmpty() &&
+            cityId == 0 && cityName.isNullOrEmpty() && giftImages.isEmpty()
+        ) {
+            return true
+        }
+
+        return false
+    }
+}

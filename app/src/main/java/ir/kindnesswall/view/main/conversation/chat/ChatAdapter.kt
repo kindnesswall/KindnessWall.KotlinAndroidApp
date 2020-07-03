@@ -13,6 +13,9 @@ import ir.kindnesswall.databinding.ItemChatDateHeaderBinding
 import ir.kindnesswall.databinding.ItemChatDonationBinding
 import ir.kindnesswall.databinding.ItemChatMyselfBinding
 import ir.kindnesswall.databinding.ItemChatOthersBinding
+import ir.kindnesswall.utils.extentions.persianizeDigitsInString
+import saman.zamani.persiandate.PersianDate
+import saman.zamani.persiandate.PersianDateFormat
 
 class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -118,6 +121,7 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
             is MyChatsViewHolder -> {
                 holder.binding.item = item as TextMessageModel
             }
+
             is OthersChatsViewHolder -> {
                 holder.binding.item = item as TextMessageModel
                 if (!item.ack) {
@@ -125,12 +129,15 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
                     item.ack = true
                 }
             }
+
             is ChatDateViewHolder -> {
                 holder.binding.item = item as TextMessageHeaderModel
             }
 
             is ChatDonationViewHolder -> {
                 holder.binding.item = item as TextMessageModel
+                holder.binding.donationDate.text =
+                    PersianDateFormat("j F Y").format(PersianDate(item.createdAt)).persianizeDigitsInString()
             }
         }
     }

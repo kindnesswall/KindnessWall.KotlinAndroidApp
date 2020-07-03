@@ -116,12 +116,13 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
     fun sendMessage(
         viewModelScope: CoroutineScope,
         chatId: Long,
-        message: String
+        message: String,
+        type: String? = null
     ): LiveData<CustomResult<TextMessageModel>> = liveData(viewModelScope.coroutineContext, 0) {
         emit(CustomResult.loading())
 
         getResultWithExponentialBackoffStrategy {
-            chatApi.sendMessage(SendChatMessageRequestModel(chatId, message))
+            chatApi.sendMessage(SendChatMessageRequestModel(chatId, message, type))
         }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {

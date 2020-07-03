@@ -10,24 +10,29 @@
     </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="64dp"
         android:background="@drawable/bg_chat_donation"
-        android:padding="4dp"
+        android:foregroundGravity="center"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
+            android:gravity="center"
             android:text="@{item.text}"
             android:textColor="@color/white"
             tools:text="کتاب رمان سبز به سارا شمس اهدا شد" />
 
         <TextView
             android:id="@+id/donationDate"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"

@@ -56,6 +56,11 @@ class ChatViewModel(
         return chatRepo.sendMessage(viewModelScope, chatId, messageTextLiveData.value!!)
     }
 
+    fun sendGiftDonatedMessage(message: String): LiveData<CustomResult<TextMessageModel>> {
+
+        return chatRepo.sendMessage(viewModelScope, chatId, message, "giftDonation")
+    }
+
     fun blockUser() = chatRepo.blockChat(viewModelScope, chatId)
     fun unblockUser() = chatRepo.unblockChat(viewModelScope, chatId)
 

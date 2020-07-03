@@ -6,10 +6,18 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import android.widget.Toast.LENGTH_SHORT
+import android.widget.Toast.makeText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.takusemba.spotlight.OnSpotlightListener
+import com.takusemba.spotlight.OnTargetListener
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.Target
+import com.takusemba.spotlight.shape.Circle
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
@@ -136,6 +144,73 @@ class ChatActivity : BaseActivity() {
                 getToDonateGifts()
             }
         }
+
+//        AppPref.isSpotlightShown = false
+//
+//        if (!AppPref.isSpotlightShown) {
+//            AppPref.isSpotlightShown = true
+//
+//            val firstTarget = Target.Builder()
+//                .setAnchor(binding.blockUserImageView)
+//                .setShape(Circle(100f))
+//                .setOverlay(binding.root)
+//                .setOnTargetListener(object : OnTargetListener {
+//                    override fun onStarted() {
+//                        makeText(
+//                            this@ChatActivity,
+//                            "first target is started",
+//                            LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//                    override fun onEnded() {
+//                        makeText(this@ChatActivity, "first target is ended", LENGTH_SHORT).show()
+//                    }
+//                })
+//                .build()
+//
+//            val secondTarget = Target.Builder()
+//                .setAnchor(binding.giftImageView)
+//                .setShape(Circle(100f))
+//                .setOverlay(binding.root)
+//                .setOnTargetListener(object : OnTargetListener {
+//                    override fun onStarted() {
+//                        makeText(
+//                            this@ChatActivity,
+//                            "first target is started",
+//                            LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//                    override fun onEnded() {
+//                        makeText(this@ChatActivity, "first target is ended", LENGTH_SHORT).show()
+//                    }
+//                })
+//                .build()
+//
+//            val spotlight = Spotlight.Builder(this)
+//                .setTargets(firstTarget, secondTarget)
+//                .setBackgroundColor(R.color.spotlightBackground)
+//                .setDuration(1000L)
+//                .setAnimation(DecelerateInterpolator(2f))
+//                .setOnSpotlightListener(object : OnSpotlightListener {
+//                    override fun onStarted() {
+//                        makeText(
+//                            this@ChatActivity,
+//                            "spotlight is started",
+//                            LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//                    override fun onEnded() {
+//                        makeText(this@ChatActivity, "spotlight is ended", LENGTH_SHORT)
+//                            .show()
+//                    }
+//                })
+//                .build()
+//
+//            spotlight.start()
+//        }
     }
 
     private fun gotoUserProfile() {
@@ -421,10 +496,69 @@ class ChatActivity : BaseActivity() {
 
         ToDonateGiftsBottomSheet.newInstance(viewModel.toDonateList, viewModel.receiverUserId)
             .apply {
-                setOnItemClickListener {
-                    this@ChatActivity.viewModel.refreshToDonateList.value = it
+                setOnItemClickListener { result, model ->
+                    this@ChatActivity.viewModel.refreshToDonateList.value = result
+
+                    if (result) {
+                        val message = getString(
+                            R.string.donate_item_chat_text,
+                            model.title,
+                            binding.userNameTextView.text
+                        )
+                        sendDonationMessage(message)
+                    }
                 }
             }.show(supportFragmentManager, "donate")
+    }
+
+    private fun sendDonationMessage(message: String) {
+        viewModel.sendGiftDonatedMessage(message).observe(this) { result ->
+            when (result.status) {
+                CustomResult.Status.SUCCESS -> {
+                    result.data?.let { data ->
+                        viewModel.chatList?.add(0, data)
+                        viewModel.chatList?.let { adapter.setData(it) }
+                        checkEmptyPage()
+                    }
+
+                    try {
+                        val contact =
+                            KindnessApplication.instance.getContact(viewModel.chatId)
+
+                        if (contact == null) {
+                            KindnessApplication.instance.addOrUpdateContactList(
+                                ChatContactModel(
+                                    BlockStatus(),
+                                    viewModel.requestChatModel,
+                                    viewModel.chatContactModel!!.contactProfile,
+                                    0
+                                )
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e(
+                            ">>>>>>",
+                            "update contact model exception ${e.message.toString()}"
+                        )
+                    }
+                }
+
+                CustomResult.Status.LOADING -> {
+
+                }
+
+                CustomResult.Status.ERROR -> {
+                    if (result.errorMessage?.code == 403) {
+                        binding.sendImageView.isEnabled = false
+                        binding.messageEditText.isEnabled = false
+                        binding.giftImageView.isEnabled = false
+                        binding.youAreBlockedContainer.visibility = View.VISIBLE
+                    } else {
+                        showToastMessage(getString(R.string.error_sending_message))
+                    }
+                }
+            }
+        }
     }
 
     private fun checkEmptyPage() {

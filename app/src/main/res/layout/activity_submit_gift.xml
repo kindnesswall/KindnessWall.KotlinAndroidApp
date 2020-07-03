@@ -103,10 +103,11 @@
                     android:singleLine="true" />
 
                 <TextView
-                    android:textSize="11sp"
+                    android:id="@+id/titleMessageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/submit_gift_title_message" />
+                    android:text="@string/submit_gift_title_message"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,6 +125,7 @@
                     android:onTextChanged="@{(text, start, before, count) -> viewModel.onDescriptionTextChange(text)}" />
 
                 <TextView
+                    android:id="@+id/descriptionMessageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/submit_gift_description_message"
@@ -142,16 +144,17 @@
                     android:id="@+id/giftPriceEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="15"
                     android:hint="@string/price_range_hint"
                     android:inputType="number"
+                    android:maxLength="15"
                     android:onTextChanged="@{(text, start, before, count) -> viewModel.onPriceTextChange(text)}" />
 
                 <TextView
-                    android:textSize="11sp"
+                    android:id="@+id/priceMessageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/submit_gift_price_message" />
+                    android:text="@string/submit_gift_price_message"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -213,10 +216,10 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/profile_filter_stroke"
+                        android:background="@drawable/selected_filter_stroke"
                         android:gravity="center"
                         android:text="@string/choose_category"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="#DB4472" />
 
                     <TextView
                         android:id="@+id/chooseCityTextView"
@@ -224,10 +227,10 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/profile_filter_stroke"
+                        android:background="@drawable/selected_filter_stroke"
                         android:gravity="center"
                         android:text="@string/choose_city"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="#DB4472" />
 
                 </LinearLayout>
 
