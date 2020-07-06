@@ -19,6 +19,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
 import ir.kindnesswall.utils.startMultiSelectingImagePicker
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
@@ -88,7 +89,7 @@ class SubmitGiftActivity : BaseActivity() {
 
         viewModel.price.observe(this) {
             checkSubmitButtonEnabling()
-            if (it.length < 5) {
+            if (it.length < 4) {
                 binding.priceMessageTextView.setTextColor(
                     ContextCompat.getColor(
                         this,
@@ -415,7 +416,13 @@ class SubmitGiftActivity : BaseActivity() {
                 CustomResult.Status.LOADING -> showProgressDialog()
                 CustomResult.Status.ERROR -> {
                     dismissProgressDialog()
-                    showToastMessage("")
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            submitGift()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
                 }
                 CustomResult.Status.SUCCESS -> {
                     dismissProgressDialog()

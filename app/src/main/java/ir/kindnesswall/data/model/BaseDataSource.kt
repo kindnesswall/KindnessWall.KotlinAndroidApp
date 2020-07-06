@@ -1,7 +1,6 @@
 package ir.kindnesswall.data.model
 
 import android.content.Context
-import android.widget.Toast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -56,11 +55,13 @@ abstract class BaseDataSource(val context: Context) {
                     break@loop
                 }
                 CustomResult.Status.ERROR -> {
-                    if(response.errorMessage?.message != null && response.errorMessage.message!!.contains("Unable to resolve host")){
-                        Toast.makeText(context, "متاسفانه اینترنت شما قطع شده است", Toast.LENGTH_SHORT).show()
-                    }
-
-                    emit(CustomResult.error(response.errorMessage, response.data, response.serverError))
+                    emit(
+                        CustomResult.error(
+                            response.errorMessage,
+                            response.data,
+                            response.serverError
+                        )
+                    )
                     if (response.serverError) break@loop
                 }
             }

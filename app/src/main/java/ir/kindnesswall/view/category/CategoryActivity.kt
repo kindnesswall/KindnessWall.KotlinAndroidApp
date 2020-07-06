@@ -15,6 +15,7 @@ import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCategoryBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CategoryActivity : BaseActivity() {
@@ -124,6 +125,14 @@ class CategoryActivity : BaseActivity() {
 
                 CustomResult.Status.ERROR -> {
                     dismissProgressDialog()
+
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            getCategories()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
                 }
 
                 CustomResult.Status.SUCCESS -> {

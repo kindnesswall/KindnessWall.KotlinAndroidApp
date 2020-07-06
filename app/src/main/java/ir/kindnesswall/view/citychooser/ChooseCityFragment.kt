@@ -13,6 +13,7 @@ import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentChooseCityBinding
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.citychooser.adapters.CityListAdapter
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -73,6 +74,13 @@ class ChooseCityFragment : BaseFragment() {
                     }
                 }
                 CustomResult.Status.ERROR -> {
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(childFragmentManager) {
+                            getCities()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
                 }
             }
         }

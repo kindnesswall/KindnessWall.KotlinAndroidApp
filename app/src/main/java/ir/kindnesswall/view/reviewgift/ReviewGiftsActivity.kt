@@ -20,6 +20,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityReviewGiftsBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -83,22 +84,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
 
         swipeController = SwipeController(this, object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-                viewModel.acceptGift(viewModel.reviewItem[position].id)
-                    .observe(this@ReviewGiftsActivity) { result ->
-                        when (result.status) {
-                            CustomResult.Status.SUCCESS -> {
-                                dismissProgressDialog()
-                                removeReviewedItem(position)
-                            }
-                            CustomResult.Status.ERROR -> {
-                                dismissProgressDialog()
-                                showToastMessage(getString(R.string.please_try_again))
-                            }
-                            CustomResult.Status.LOADING -> {
-                                showProgressDialog { }
-                            }
-                        }
-                    }
+                acceptGift(position)
             }
 
             override fun onLeftClicked(position: Int) {
@@ -106,22 +92,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
                     putString("title", getString(R.string.Please_write_reason))
                     putString("hint", getString(R.string.reason_of_reject))
                 }, approveListener = {
-                    viewModel.rejectGift(viewModel.reviewItem[position].id, it)
-                        .observe(this@ReviewGiftsActivity) { result ->
-                            when (result.status) {
-                                CustomResult.Status.SUCCESS -> {
-                                    dismissProgressDialog()
-                                    removeReviewedItem(position)
-                                }
-                                CustomResult.Status.ERROR -> {
-                                    dismissProgressDialog()
-                                    showToastMessage(getString(R.string.please_try_again))
-                                }
-                                CustomResult.Status.LOADING -> {
-                                    showProgressDialog { }
-                                }
-                            }
-                        }
+                    rejectGift(position, it)
                 })
             }
         })
@@ -134,6 +105,56 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
                 swipeController.onDraw(c)
             }
         })
+    }
+
+    private fun rejectGift(position: Int, it: String) {
+        viewModel.rejectGift(viewModel.reviewItem[position].id, it)
+            .observe(this@ReviewGiftsActivity) { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        dismissProgressDialog()
+                        removeReviewedItem(position)
+                    }
+                    CustomResult.Status.ERROR -> {
+                        dismissProgressDialog()
+                        if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                            NoInternetDialogFragment().display(supportFragmentManager) {
+                                rejectGift(position, it)
+                            }
+                        } else {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
+                    }
+                    CustomResult.Status.LOADING -> {
+                        showProgressDialog { }
+                    }
+                }
+            }
+    }
+
+    private fun acceptGift(position: Int) {
+        viewModel.acceptGift(viewModel.reviewItem[position].id)
+            .observe(this@ReviewGiftsActivity) { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        dismissProgressDialog()
+                        removeReviewedItem(position)
+                    }
+                    CustomResult.Status.ERROR -> {
+                        dismissProgressDialog()
+                        if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                            NoInternetDialogFragment().display(supportFragmentManager) {
+                                acceptGift(position)
+                            }
+                        } else {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
+                    }
+                    CustomResult.Status.LOADING -> {
+                        showProgressDialog { }
+                    }
+                }
+            }
     }
 
     private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {

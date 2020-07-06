@@ -17,6 +17,7 @@ import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentConversationBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -125,10 +126,21 @@ class ConversationFragment : BaseFragment(), OnItemClickListener {
                 }
 
                 CustomResult.Status.ERROR -> {
-                    if (UserInfoPref.bearerToken.isEmpty()) {
-                        binding.conversationEmptyPage.visibility = View.VISIBLE
+                    when {
+                        UserInfoPref.bearerToken.isEmpty() -> {
+                            binding.conversationEmptyPage.visibility = View.VISIBLE
+                        }
+                        it.errorMessage?.message!!.contains("Unable to resolve host") -> {
+                            NoInternetDialogFragment().display(childFragmentManager) {
+                                getConversations()
+                            }
+                        }
+                        else -> {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
                     }
                 }
+
             }
         }
     }

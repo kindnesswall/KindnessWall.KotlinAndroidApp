@@ -4,20 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import android.widget.Toast.LENGTH_SHORT
-import android.widget.Toast.makeText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.takusemba.spotlight.OnSpotlightListener
-import com.takusemba.spotlight.OnTargetListener
-import com.takusemba.spotlight.Spotlight
-import com.takusemba.spotlight.Target
-import com.takusemba.spotlight.shape.Circle
+import com.kindnesswall.spotlight.Spotlight
+import com.kindnesswall.spotlight.shape.Circle
+import com.kindnesswall.spotlight.target.SimpleTarget
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
@@ -29,6 +26,7 @@ import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.ToDonateGiftsBottomSheet
 import ir.kindnesswall.view.profile.UserProfileActivity
@@ -128,10 +126,17 @@ class ChatActivity : BaseActivity() {
             if (viewModel.chatContactModel?.contactProfile == null) {
                 getUserProfile()
             } else {
-                showUserData(
-                    viewModel.chatContactModel?.contactProfile?.image,
-                    viewModel.chatContactModel?.contactProfile?.name
-                )
+                if (viewModel.chatContactModel?.contactProfile?.isCharity == true) {
+                    showUserData(
+                        viewModel.chatContactModel?.contactProfile?.image,
+                        viewModel.chatContactModel?.contactProfile?.charityName
+                    )
+                } else {
+                    showUserData(
+                        viewModel.chatContactModel?.contactProfile?.image,
+                        viewModel.chatContactModel?.contactProfile?.name
+                    )
+                }
             }
         }
 
@@ -145,72 +150,46 @@ class ChatActivity : BaseActivity() {
             }
         }
 
-//        AppPref.isSpotlightShown = false
-//
-//        if (!AppPref.isSpotlightShown) {
-//            AppPref.isSpotlightShown = true
-//
-//            val firstTarget = Target.Builder()
-//                .setAnchor(binding.blockUserImageView)
-//                .setShape(Circle(100f))
-//                .setOverlay(binding.root)
-//                .setOnTargetListener(object : OnTargetListener {
-//                    override fun onStarted() {
-//                        makeText(
-//                            this@ChatActivity,
-//                            "first target is started",
-//                            LENGTH_SHORT
-//                        ).show()
-//                    }
-//
-//                    override fun onEnded() {
-//                        makeText(this@ChatActivity, "first target is ended", LENGTH_SHORT).show()
-//                    }
-//                })
-//                .build()
-//
-//            val secondTarget = Target.Builder()
-//                .setAnchor(binding.giftImageView)
-//                .setShape(Circle(100f))
-//                .setOverlay(binding.root)
-//                .setOnTargetListener(object : OnTargetListener {
-//                    override fun onStarted() {
-//                        makeText(
-//                            this@ChatActivity,
-//                            "first target is started",
-//                            LENGTH_SHORT
-//                        ).show()
-//                    }
-//
-//                    override fun onEnded() {
-//                        makeText(this@ChatActivity, "first target is ended", LENGTH_SHORT).show()
-//                    }
-//                })
-//                .build()
-//
-//            val spotlight = Spotlight.Builder(this)
-//                .setTargets(firstTarget, secondTarget)
-//                .setBackgroundColor(R.color.spotlightBackground)
-//                .setDuration(1000L)
-//                .setAnimation(DecelerateInterpolator(2f))
-//                .setOnSpotlightListener(object : OnSpotlightListener {
-//                    override fun onStarted() {
-//                        makeText(
-//                            this@ChatActivity,
-//                            "spotlight is started",
-//                            LENGTH_SHORT
-//                        ).show()
-//                    }
-//
-//                    override fun onEnded() {
-//                        makeText(this@ChatActivity, "spotlight is ended", LENGTH_SHORT)
-//                            .show()
-//                    }
-//                })
-//                .build()
-//
-//            spotlight.start()
-//        }
+        Handler().postDelayed({ showSpotlight() }, 500)
+    }
+
+    private fun showSpotlight() {
+        if (!AppPref.isSpotlightShown) {
+            AppPref.isSpotlightShown = true
+
+            val firstLocation = IntArray(2)
+            binding.blockUserImageView.getLocationInWindow(firstLocation)
+            val oneX: Float = firstLocation[0] + binding.blockUserImageView.width / 2f
+            val oneY: Float = firstLocation[1] + binding.blockUserImageView.height / 2f
+
+            val firstTarget: SimpleTarget = SimpleTarget.Builder(this)
+                .setPoint(oneX, oneY)
+                .setShape(Circle(100f))
+                .setTitle(getString(R.string.block))
+                .setDescription(getString(R.string.block_hint_message))
+                .build()
+
+
+            val secondLocation = IntArray(2)
+            binding.giftImageView.getLocationInWindow(secondLocation)
+            val giftImageViewX: Float = secondLocation[0] + binding.giftImageView.width / 2f
+            val giftImageViewY: Float = secondLocation[1] + binding.giftImageView.height / 2f
+
+            val secondTarget: SimpleTarget = SimpleTarget.Builder(this)
+                .setPoint(giftImageViewX, giftImageViewY)
+                .setShape(Circle(100f))
+                .setTitle(getString(R.string.donate_gift))
+                .setDescription(getString(R.string.donate_gift_hint_message))
+                .build()
+
+            Spotlight.with(this)
+                .setOverlayColor(R.color.spotlightBackground)
+                .setDuration(100L)
+                .setAnimation(DecelerateInterpolator(2f))
+                .setTargets(firstTarget, secondTarget)
+                .setClosedOnTouchedOutside(true)
+                .start()
+        }
     }
 
     private fun gotoUserProfile() {
@@ -270,6 +249,10 @@ class ChatActivity : BaseActivity() {
                                 binding.messageEditText.isEnabled = false
                                 binding.giftImageView.isEnabled = false
                                 binding.youAreBlockedContainer.visibility = View.VISIBLE
+                            } else if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                                NoInternetDialogFragment().display(supportFragmentManager) {
+                                    binding.sendImageView.performClick()
+                                }
                             } else {
                                 showToastMessage(getString(R.string.error_sending_message))
                             }
@@ -357,12 +340,10 @@ class ChatActivity : BaseActivity() {
                 CustomResult.Status.ERROR -> {
                 }
                 CustomResult.Status.SUCCESS -> {
-                    if (it.data.isNullOrEmpty()) {
-                        return@observe
+                    if (it.data != null) {
+                        viewModel.toDonateList.clear()
+                        viewModel.toDonateList.addAll(it.data)
                     }
-
-                    viewModel.toDonateList.clear()
-                    viewModel.toDonateList.addAll(it.data)
                 }
             }
         }
@@ -465,6 +446,14 @@ class ChatActivity : BaseActivity() {
 
                 CustomResult.Status.ERROR -> {
                     endlessRecyclerViewScrollListener.isLoading = false
+
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            getChats()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
                 }
             }
         }
@@ -553,8 +542,12 @@ class ChatActivity : BaseActivity() {
                         binding.messageEditText.isEnabled = false
                         binding.giftImageView.isEnabled = false
                         binding.youAreBlockedContainer.visibility = View.VISIBLE
+                    } else if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            sendDonationMessage(message)
+                        }
                     } else {
-                        showToastMessage(getString(R.string.error_sending_message))
+                        showToastMessage(getString(R.string.please_try_again))
                     }
                 }
             }
@@ -594,6 +587,14 @@ class ChatActivity : BaseActivity() {
                 }
 
                 showOrHideBlockState(false)
+            } else if (it.status == CustomResult.Status.ERROR) {
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        unblockUser()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
             }
         }
     }
@@ -613,6 +614,14 @@ class ChatActivity : BaseActivity() {
                 }
 
                 showOrHideBlockState(true)
+            }else if (it.status == CustomResult.Status.ERROR) {
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        blockUser()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
             }
         }
     }

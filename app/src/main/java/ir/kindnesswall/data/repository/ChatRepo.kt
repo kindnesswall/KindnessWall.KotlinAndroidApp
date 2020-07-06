@@ -200,7 +200,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
     fun getChatId(
         viewModelScope: CoroutineScope,
         charityId: Long
-    ): LiveData<CustomResult<ChatModel>> =
+    ): LiveData<CustomResult<ChatContactModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
@@ -211,7 +211,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
                         if (result.data == null) {
                             emit(CustomResult.error(result.errorMessage))
                         } else {
-                            emitSource(MutableLiveData<ChatModel>().apply {
+                            emitSource(MutableLiveData<ChatContactModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }

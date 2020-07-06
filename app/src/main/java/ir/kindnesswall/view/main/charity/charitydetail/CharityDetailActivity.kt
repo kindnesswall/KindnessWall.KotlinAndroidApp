@@ -16,6 +16,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
 import ir.kindnesswall.utils.StaticContentViewer
 import ir.kindnesswall.utils.shareString
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -49,9 +50,21 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
         configureViews(savedInstanceState)
 
+        getUserInformation()
+    }
+
+    private fun getUserInformation() {
         viewModel.getUserInformation().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
                 binding.otherUser = it.data
+            } else if (it.status == CustomResult.Status.ERROR) {
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        getUserInformation()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
             }
         }
     }
@@ -99,15 +112,6 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
             AuthenticationActivity.start(this)
         } else {
 
-            if (!UserInfoPref.isCharity && !UserInfoPref.isAdmin) {
-                showPromptDialog(
-                    messageToShow = getString(R.string.request_for_users_error_message),
-                    positiveButtonText = getString(R.string.ok),
-                    showNegativeButton = false
-                )
-                return
-            }
-
             if (viewModel.charityModel?.userId == UserInfoPref.userId) {
                 return
             }
@@ -121,6 +125,15 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
                                 isCharity = true,
                                 isStartFromNotification = false
                             )
+                        }
+                    }
+                    CustomResult.Status.ERROR -> {
+                        if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                            NoInternetDialogFragment().display(supportFragmentManager) {
+                                onStartChatClicked()
+                            }
+                        } else {
+                            showToastMessage(getString(R.string.please_try_again))
                         }
                     }
                 }

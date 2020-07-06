@@ -16,6 +16,7 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.shareString
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.gallery.GalleryActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
@@ -208,6 +209,14 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                             it.data.chat,
                             it.data.chat.contactProfile?.isCharity ?: false
                         )
+                    } else if (it.status == CustomResult.Status.ERROR) {
+                        if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                            NoInternetDialogFragment().display(supportFragmentManager) {
+                                onRequestClicked()
+                            }
+                        } else {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
                     }
                 }
                 return
@@ -235,6 +244,14 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                             it.data.chat,
                             it.data.chat.contactProfile?.isCharity ?: false
                         )
+                    } else if (it.status == CustomResult.Status.ERROR) {
+                        if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                            NoInternetDialogFragment().display(supportFragmentManager) {
+                                onRequestClicked()
+                            }
+                        } else {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
                     }
                 }
             } else {
@@ -243,6 +260,15 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                         CustomResult.Status.SUCCESS -> {
                             it.data?.let { data ->
                                 ChatActivity.start(this, data, false)
+                            }
+                        }
+                        CustomResult.Status.ERROR -> {
+                            if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                                NoInternetDialogFragment().display(supportFragmentManager) {
+                                    onRequestClicked()
+                                }
+                            } else {
+                                showToastMessage(getString(R.string.please_try_again))
                             }
                         }
                     }
@@ -273,7 +299,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     setSituationTextIfIsAdmin()
                     returnResult(true)
                 } else if (result.status == CustomResult.Status.ERROR) {
-                    showToastMessage(getString(R.string.please_try_again))
+                    if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            onAcceptGiftClicked()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
                 }
             }
     }
@@ -297,7 +329,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
                         returnResult(true)
                     } else if (result.status == CustomResult.Status.ERROR) {
-                        showToastMessage(getString(R.string.please_try_again))
+                        if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                            NoInternetDialogFragment().display(supportFragmentManager) {
+                                onRejectGiftClicked()
+                            }
+                        } else {
+                            showToastMessage(getString(R.string.please_try_again))
+                        }
                     }
                 }
         })

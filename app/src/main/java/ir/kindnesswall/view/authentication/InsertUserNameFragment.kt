@@ -12,6 +12,7 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentInsertUsernameBinding
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class InsertUserNameFragment : BaseFragment() {
@@ -42,27 +43,37 @@ class InsertUserNameFragment : BaseFragment() {
             if (binding.userNameEditText.text.isEmpty()) {
                 showToastMessage(getString(R.string.insert_user_name))
             } else {
-                viewModel.updateUserProfile(
-                    binding.userNameEditText.text.toString(),
-                    UserInfoPref.image
-                ).observe(viewLifecycleOwner) {
-                    when (it.status) {
-                        CustomResult.Status.LOADING -> {
-                            showProgressDialog()
-                        }
-
-                        CustomResult.Status.SUCCESS -> {
-                            dismissProgressDialog()
-                            authenticationInteractor?.onAuthenticationComplete(binding.sendUsernameTextView)
-                        }
-                        else -> {
-                            showToastMessage("")
-                        }
-                    }
-                }
+                updateUserProfile()
             }
         }
 
         binding.skipAuthenticationTextView.setOnClickListener { activity?.finish() }
+    }
+
+    private fun updateUserProfile() {
+        viewModel.updateUserProfile(
+            binding.userNameEditText.text.toString(),
+            UserInfoPref.image
+        ).observe(viewLifecycleOwner) {
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                    showProgressDialog()
+                }
+
+                CustomResult.Status.SUCCESS -> {
+                    dismissProgressDialog()
+                    authenticationInteractor?.onAuthenticationComplete(binding.sendUsernameTextView)
+                }
+                else -> {
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(childFragmentManager) {
+                            updateUserProfile()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
+                }
+            }
+        }
     }
 }

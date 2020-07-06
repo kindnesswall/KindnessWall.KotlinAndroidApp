@@ -23,6 +23,7 @@ import ir.kindnesswall.databinding.FragmentSearchCatalogBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.extentions.onDone
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.filter.FilterActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -191,7 +192,14 @@ class SearchFragment : BaseFragment() {
 
             CustomResult.Status.ERROR -> {
                 endlessRecyclerViewScrollListener.isLoading = false
-                showToastMessage("")
+
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(childFragmentManager) {
+                        getGifts()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
             }
         }
     }

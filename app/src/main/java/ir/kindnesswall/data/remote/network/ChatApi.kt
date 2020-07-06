@@ -39,7 +39,7 @@ interface ChatApi {
     suspend fun sendActMessage(@Body chatMessageAckRequestModel: ChatMessageAckRequestModel): Response<Any>
 
     @GET("chat/start/{charityId}")
-    suspend fun getChatId(@Path("charityId") id: Long): Response<ChatModel>
+    suspend fun getChatId(@Path("charityId") id: Long): Response<ChatContactModel>
 
     @GET("chat/contacts/block")
     suspend fun getBlockedUsers(): Response<List<ChatContactModel>>

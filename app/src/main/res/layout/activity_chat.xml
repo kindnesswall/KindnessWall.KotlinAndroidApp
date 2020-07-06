@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.main.conversation.chat.ChatActivity">
@@ -49,7 +50,7 @@
 
             <TextView
                 android:id="@+id/userNameTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_margin="16dp"

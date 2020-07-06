@@ -185,4 +185,11 @@
     <string name="talk_with_receiver">"گفتگو با دریافت کننده"</string>
     <string name="set_filter">اعمال فیلتر</string>
     <string name="donate_item_chat_text">%s به %s اهدا شد</string>
+    <string name="block">بلاک</string>
+    <string name="block_hint_message">با استفاده از دکمه بلاک میتوانید این کاربر را بلاک کنید</string>
+    <string name="donate_gift">اهدای هدیه</string>
+    <string name="donate_gift_hint_message">برای اهدای هدیه می توانید از این دکمه استفاده کنید</string>
+    <string name="no_inteneet_message">متاسفانه اینترنت شما قطع شده است</string>
+    <string name="try_again">تلاش مجدد</string>
+
 </resources>
