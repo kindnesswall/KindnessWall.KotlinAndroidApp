@@ -18,6 +18,7 @@ class SubmitGiftViewModel(
     private val giftRepo: GiftRepo,
     private val appDatabase: AppDatabase
 ) : ViewModel() {
+    var hasRegion: Boolean = false
     var title = MutableLiveData<String>()
     var description = MutableLiveData<String>()
     var price = MutableLiveData<String>()

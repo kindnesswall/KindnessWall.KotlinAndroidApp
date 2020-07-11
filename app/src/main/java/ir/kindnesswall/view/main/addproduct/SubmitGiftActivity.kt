@@ -482,15 +482,26 @@ class SubmitGiftActivity : BaseActivity() {
     }
 
     private fun checkSubmitButtonEnabling() {
-        binding.submitButton.isEnabled =
+        val condition =
             (!viewModel.description.value.isNullOrEmpty() && viewModel.description.value!!.length >= 5) &&
                     (!viewModel.title.value.isNullOrEmpty() && viewModel.title.value!!.length >= 5) &&
                     (!viewModel.price.value.isNullOrEmpty() && viewModel.price.value!!.toFloat() >= 1000) &&
-                    (viewModel.regionId.value ?: 0 > 0) &&
                     (viewModel.provinceId.value ?: 0 > 0) &&
                     (viewModel.cityId.value ?: 0 > 0) &&
                     (viewModel.categoryId.value ?: 0 > 0) &&
                     viewModel.imagesToShow.isNotEmpty()
+
+        if (viewModel.hasRegion) {
+            if (viewModel.regionId.value ?: 0 > 0) {
+                binding.submitButton.isEnabled = condition && true
+                return
+            } else {
+                binding.submitButton.isEnabled = false
+                return
+            }
+        }
+
+        binding.submitButton.isEnabled = condition
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -506,6 +517,7 @@ class SubmitGiftActivity : BaseActivity() {
                 val cityModel = data?.getSerializableExtra("city")
                 if (region != null) {
                     (region as? RegionModel)?.let {
+                        viewModel.hasRegion = true
                         viewModel.provinceId.value = it.province_id
                         viewModel.cityId.value = it.city_id
                         viewModel.regionId.value = it.id
@@ -524,6 +536,7 @@ class SubmitGiftActivity : BaseActivity() {
 
                 } else if (cityModel != null) {
                     (cityModel as? CityModel)?.let {
+                        viewModel.hasRegion = false
                         viewModel.provinceId.value = it.provinceId
                         viewModel.cityName.value = it.name
                         viewModel.cityId.value = it.id
