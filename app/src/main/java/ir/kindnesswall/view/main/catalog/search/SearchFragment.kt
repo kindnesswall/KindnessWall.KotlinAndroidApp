@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseFragment
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -246,6 +247,25 @@ class SearchFragment : BaseFragment() {
                 searchByFilter()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (KindnessApplication.instance.deletedGifts.isNotEmpty()) {
+            removeGiftFromList()
+        }
+    }
+
+    private fun removeGiftFromList() {
+        for (gift in KindnessApplication.instance.deletedGifts) {
+            val items = viewModel.searchItems.value?.filter { it.id == gift.id }
+            items?.let {
+                viewModel.searchItems.value?.removeAll(items)
+            }
+        }
+
+        showList(viewModel.searchItems.value)
     }
 
     override fun onPause() {

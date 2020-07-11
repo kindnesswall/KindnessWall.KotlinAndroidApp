@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -30,7 +31,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     val viewModel: GiftDetailViewModel by viewModel()
 
     companion object {
-        const val GIFT_REVIEW_REQUEST_CODE = 185
+        const val GIFT_DETAIL_REQUEST_CODE = 185
         fun start(context: Context, giftModel: GiftModel) {
             context.startActivity(Intent(context, GiftDetailActivity::class.java).apply {
                 putExtra("giftModel", giftModel)
@@ -40,7 +41,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         fun startActivityForResult(activity: AppCompatActivity, giftModel: GiftModel) {
             val intent = Intent(activity, GiftDetailActivity::class.java)
             intent.putExtra("giftModel", giftModel)
-            activity.startActivityForResult(intent, GIFT_REVIEW_REQUEST_CODE)
+            activity.startActivityForResult(intent, GIFT_DETAIL_REQUEST_CODE)
         }
     }
 
@@ -55,6 +56,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         }
 
         viewModel.isMyGift = viewModel.giftModel?.userId == UserInfoPref.userId
+        viewModel.isDonatedToSomeone =
+            viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0
 
         configureViews(savedInstanceState)
     }
@@ -297,7 +300,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
                     setSituationText()
                     setSituationTextIfIsAdmin()
-                    returnResult(true)
+                    returnResult(true, "isReviews")
                 } else if (result.status == CustomResult.Status.ERROR) {
                     if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
                         NoInternetDialogFragment().display(supportFragmentManager) {
@@ -327,7 +330,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                         setSituationText()
                         setSituationTextIfIsAdmin()
 
-                        returnResult(true)
+                        returnResult(true, "isReviews")
                     } else if (result.status == CustomResult.Status.ERROR) {
                         if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
                             NoInternetDialogFragment().display(supportFragmentManager) {
@@ -341,9 +344,43 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         })
     }
 
-    private fun returnResult(result: Boolean) {
+    override fun onDeleteButtonClicked() {
+        showPromptDialog(
+            title = getString(R.string.delete_gift),
+            messageToShow = getString(R.string.sure_to_remove_gift),
+            positiveButtonText = getString(R.string.delete_gift),
+            negativeButtonText = getString(R.string.no),
+            onPositiveClickCallback = {
+                viewModel.deleteGift().observe(this) { result ->
+                    when (result.status) {
+                        CustomResult.Status.LOADING -> {
+                            showProgressDialog { }
+                        }
+
+                        CustomResult.Status.ERROR -> {
+                            dismissProgressDialog()
+                            if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                                NoInternetDialogFragment().display(supportFragmentManager) {
+                                    onRejectGiftClicked()
+                                }
+                            } else {
+                                showToastMessage(getString(R.string.please_try_again))
+                            }
+                        }
+
+                        CustomResult.Status.SUCCESS -> {
+                            dismissProgressDialog()
+                            KindnessApplication.instance.deletedGifts.add(viewModel.giftModel!!)
+                            finish()
+                        }
+                    }
+                }
+            })
+    }
+
+    private fun returnResult(result: Boolean, task: String) {
         val returnIntent = Intent()
-        returnIntent.putExtra("isReviews", result)
+        returnIntent.putExtra(task, result)
 
         if (result) {
             setResult(Activity.RESULT_OK, returnIntent)

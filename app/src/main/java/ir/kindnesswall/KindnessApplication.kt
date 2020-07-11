@@ -12,6 +12,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.chibatching.kotpref.Kotpref
 import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.di.dataBaseModule
 import ir.kindnesswall.di.networkModule
@@ -46,6 +47,8 @@ class KindnessApplication : Application(), LifecycleObserver {
     }
 
     private var contactListMap = mutableMapOf<Long, ChatContactModel>()
+
+    var deletedGifts = mutableListOf<GiftModel>()
 
     override fun onCreate() {
         super.onCreate()

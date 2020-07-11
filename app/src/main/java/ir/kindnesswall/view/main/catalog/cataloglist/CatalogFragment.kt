@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ir.kindnesswall.BaseFragment
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
@@ -153,5 +154,20 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
     override fun onItemClicked(position: Int, obj: Any?) {
         context?.let { GiftDetailActivity.start(it, obj as GiftModel) }
+    }
+
+    fun checkAndRemoveDeletedGiftFromList() {
+        if (KindnessApplication.instance.deletedGifts.isNullOrEmpty()) {
+            return
+        }
+
+        for (gift in KindnessApplication.instance.deletedGifts) {
+            val items = viewModel.catalogItems.filter { it.id == gift.id }
+            viewModel.catalogItems.removeAll(items)
+        }
+
+        KindnessApplication.instance.deletedGifts.clear()
+
+        showList()
     }
 }

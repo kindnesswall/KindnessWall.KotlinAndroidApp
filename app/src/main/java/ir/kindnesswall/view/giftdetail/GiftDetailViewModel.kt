@@ -11,6 +11,8 @@ import ir.kindnesswall.data.repository.GiftRepo
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
 
+    var isDonatedToSomeone: Boolean = false
+
     var isReceivedGift: Boolean = false
 
     var isMyGift: Boolean = false
@@ -52,6 +54,10 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         giftViewListener?.onRejectGiftClicked()
     }
 
+    fun onDeleteButtonClicked() {
+        giftViewListener?.onDeleteButtonClicked()
+    }
+
     fun requestGift(): LiveData<CustomResult<ChatContactModel>> {
         return giftRepo.requestGift(viewModelScope, giftModel?.id ?: 0)
     }
@@ -62,4 +68,6 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun acceptGift(giftId: Long) = giftRepo.acceptGift(viewModelScope, giftId)
 
     fun getRequestStatus() = giftRepo.getGiftRequestStatus(viewModelScope, giftModel!!.id)
+
+    fun deleteGift() = giftRepo.deleteGift(viewModelScope, giftModel!!.id)
 }

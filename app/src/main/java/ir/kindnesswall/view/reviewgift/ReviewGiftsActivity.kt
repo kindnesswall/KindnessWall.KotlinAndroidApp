@@ -252,7 +252,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == GiftDetailActivity.GIFT_REVIEW_REQUEST_CODE) {
+        if (requestCode == GiftDetailActivity.GIFT_DETAIL_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val isReviews = data?.getBooleanExtra("isReviews", false) ?: false
 

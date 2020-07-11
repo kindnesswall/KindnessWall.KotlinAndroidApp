@@ -236,7 +236,7 @@
                                 android:textSize="13sp"
                                 android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : myProfileInfo.id == user.id ? View.VISIBLE : View.GONE}" />
 
-                            <!--admin, charity -->
+                            <!--show all cases -->
                             <TextView
                                 android:id="@+id/receivedFilter"
                                 android:layout_width="wrap_content"
@@ -250,7 +250,6 @@
                                 android:paddingEnd="12dp"
                                 android:singleLine="true"
                                 android:text="@string/filter_profile_received"
-                                android:visibility="@{myProfileInfo.isAdmin ? View.VISIBLE : myProfileInfo.isCharity ? View.VISIBLE : View.GONE}"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="13sp" />
 
