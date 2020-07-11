@@ -129,6 +129,7 @@ class CityChooserActivity : BaseActivity(), OnItemClickListener {
 
             is RegionModel -> {
                 viewModel.chosenRegions = obj
+                viewModel.chosenRegions?.province_id = viewModel.chosenProvince.id
                 returnResult(true)
             }
         }

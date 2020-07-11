@@ -19,7 +19,7 @@ import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
         CharityModel::class,
         GiftModel::class,
         RegisterGiftRequestModel::class],
-    version = 6
+    version = 7
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun provinceDao(): ProvinceDao

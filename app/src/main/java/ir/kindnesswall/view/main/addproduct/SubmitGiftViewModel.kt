@@ -27,6 +27,9 @@ class SubmitGiftViewModel(
     var categoryId = MutableLiveData<Int>()
     var categoryName = MutableLiveData<String>()
 
+    var regionId = MutableLiveData<Int>()
+    var regionName = MutableLiveData<String>()
+
     var provinceId = MutableLiveData<Int>()
     var provinceName = MutableLiveData<String>()
 
@@ -64,6 +67,8 @@ class SubmitGiftViewModel(
         registerGiftRequestModel.giftImages.addAll(uploadedImagesAddress)
         registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
         registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
+        registerGiftRequestModel.regionId = regionId.value?.toInt() ?: 0
+        registerGiftRequestModel.regionName = null
         registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
         registerGiftRequestModel.categoryName = null
         registerGiftRequestModel.provinceName = null
@@ -92,6 +97,8 @@ class SubmitGiftViewModel(
         registerGiftRequestModel.categoryName = categoryName.value ?: ""
         registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
         registerGiftRequestModel.provinceName = provinceName.value ?: ""
+        registerGiftRequestModel.regionId = regionId.value?.toInt() ?: 0
+        registerGiftRequestModel.regionName = regionName.value ?: ""
         registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
         registerGiftRequestModel.cityName = cityName.value ?: ""
         registerGiftRequestModel.countryId = AppPref.countryId
@@ -127,6 +134,8 @@ class SubmitGiftViewModel(
         categoryName.value = ""
         provinceId.value = 0
         provinceName.value = ""
+        regionId.value = 0
+        regionName.value = ""
         cityId.value = 0
         cityName.value = ""
         isNew = true

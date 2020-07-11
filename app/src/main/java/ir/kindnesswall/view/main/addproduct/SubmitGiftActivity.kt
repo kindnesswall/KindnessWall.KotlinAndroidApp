@@ -127,6 +127,7 @@ class SubmitGiftActivity : BaseActivity() {
 
         viewModel.categoryId.observe(this) { checkSubmitButtonEnabling() }
         viewModel.provinceId.observe(this) { checkSubmitButtonEnabling() }
+        viewModel.regionId.observe(this) { checkSubmitButtonEnabling() }
         viewModel.cityId.observe(this) { checkSubmitButtonEnabling() }
 
         viewModel.uploadImagesLiveData.observe(this) {
@@ -485,6 +486,7 @@ class SubmitGiftActivity : BaseActivity() {
             (!viewModel.description.value.isNullOrEmpty() && viewModel.description.value!!.length >= 5) &&
                     (!viewModel.title.value.isNullOrEmpty() && viewModel.title.value!!.length >= 5) &&
                     (!viewModel.price.value.isNullOrEmpty() && viewModel.price.value!!.toFloat() >= 1000) &&
+                    (viewModel.regionId.value ?: 0 > 0) &&
                     (viewModel.provinceId.value ?: 0 > 0) &&
                     (viewModel.cityId.value ?: 0 > 0) &&
                     (viewModel.categoryId.value ?: 0 > 0) &&
@@ -504,8 +506,11 @@ class SubmitGiftActivity : BaseActivity() {
                 val cityModel = data?.getSerializableExtra("city")
                 if (region != null) {
                     (region as? RegionModel)?.let {
-                        viewModel.provinceId.value = it.id
-                        viewModel.provinceName.value = it.name
+                        viewModel.provinceId.value = it.province_id
+                        viewModel.cityId.value = it.city_id
+                        viewModel.regionId.value = it.id
+                        viewModel.regionName.value = it.name
+
                         binding.chooseCityTextView.text = it.name
 
                         binding.chooseCityTextView.setTextColor(

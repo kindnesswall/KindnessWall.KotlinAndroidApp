@@ -19,6 +19,8 @@ data class RegisterGiftRequestModel(
     var isNew: Boolean = true,
     var provinceId: Int = 0,
     var provinceName: String? = "",
+    var regionId: Int? = 0,
+    var regionName: String? = null,
     var cityId: Int = 0,
     var cityName: String? = "",
     var countryId: Int = 103,
@@ -28,7 +30,7 @@ data class RegisterGiftRequestModel(
     fun isEmpty(): Boolean {
         if (title.isEmpty() && description.isEmpty() && price == BigDecimal.ZERO && categoryId == 0 &&
             categoryName.isNullOrEmpty() && provinceId == 0 && provinceName.isNullOrEmpty() &&
-            cityId == 0 && cityName.isNullOrEmpty() && giftImages.isEmpty()
+            cityId == 0 && cityName.isNullOrEmpty() && giftImages.isEmpty() && regionId == 0 && regionName.isNullOrEmpty()
         ) {
             return true
         }
