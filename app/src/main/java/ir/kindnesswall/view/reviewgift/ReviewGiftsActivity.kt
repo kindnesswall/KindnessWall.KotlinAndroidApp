@@ -105,7 +105,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
                 showGetInputDialog(Bundle().apply {
                     putString("title", getString(R.string.Please_write_reason))
                     putString("hint", getString(R.string.reason_of_reject))
-                }, approveListener = {
+                    putString("accept_btn", getString(R.string.reject_gift)) }, approveListener = {
                     viewModel.rejectGift(viewModel.reviewItem[position].id, it)
                         .observe(this@ReviewGiftsActivity) { result ->
                             when (result.status) {

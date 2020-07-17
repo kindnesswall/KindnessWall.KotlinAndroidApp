@@ -189,9 +189,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
-                    android:visibility="gone"
                     android:background="?attr/selectableItemBackground"
                     android:gravity="center_vertical"
+                    android:visibility="@{userInfo.isAdmin ?  View.VISIBLE : View.GONE}"
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
@@ -220,6 +220,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:visibility="@{userInfo.isAdmin ?  View.VISIBLE : View.GONE}"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     tools:visibility="visible">

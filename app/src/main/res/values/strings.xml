@@ -137,6 +137,7 @@
     <string name="rejected_gift_others_empty_message">این کاربر هدیه رد شده‌ای ندارد</string>
 
     <string name="clear">پاک کردن</string>
+    <string name="peak_user">انتخاب كاربر</string>
     <string name="new_message">پیغام جدید</string>
     <string name="error_sending_message">خطا در ارسال پیام</string>
     <string name="pros_and_cons">انتقادات و پیشنهادات</string>
@@ -145,7 +146,8 @@
     <string name="gift_submitted_successfully">هدیه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
 شما میتوانید از صفحه پروفایل به هدیه های ثبت شده خود دسترسی داشته باشید
 </string>
-
+    <string name="charity_submitted_successfully">خيريه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
+</string>
     <string name="verify_code_error">کد وارد شده صحیح نمی باشد.</string>
     <string name="which_gift_to_donate">کدام هدیه را اهدا می کنید؟</string>
     <string name="no_gift_to_donate">برای اهدا، هدیه‌ای ثبت نکرده اید.</string>
@@ -211,5 +213,6 @@
     <string name="blocked">بلاك شده</string>
     <string name="chat_blocked">چت بلاك شده</string>
     <string name="admin">ادمين</string>
+    <string name="error_peak_wrong_user">كاربر انتخاب شده، يك خيريه مي باشد، لطفا دوباره تلاش كنيد</string>
 
 </resources>

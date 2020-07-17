@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ItemUsersBinding
 
-class UserListAdapter : RecyclerView.Adapter<ViewHolder>() {
+class UserListAdapter(private var onItemClick: (user: User) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
     val mUserList = ArrayList<User>()
 
     override fun getItemId(position: Int): Long {
@@ -17,7 +17,7 @@ class UserListAdapter : RecyclerView.Adapter<ViewHolder>() {
     override fun getItemCount() = mUserList.size
 
     // In RecyclerView.Adapter
-    fun submitList(newList:  List<User>) {
+    fun submitList(newList: List<User>) {
         DiffUtil.calculateDiff(UserDiffUtil(this.mUserList, newList)).dispatchUpdatesTo(this)
         this.mUserList.clear()
         this.mUserList.addAll(newList)
@@ -28,10 +28,12 @@ class UserListAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(mUserList[position]) { holder.binding.item = this }
+        holder.itemView.setOnClickListener { onItemClick.invoke(mUserList[position]) }
     }
 }
 
 class ViewHolder(val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root)
+
 
 private class UserDiffUtil(val oldList: List<User>, val newList: List<User>) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

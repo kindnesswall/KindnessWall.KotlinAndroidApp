@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.local.dao.charity.CharityModel
+import ir.kindnesswall.data.local.dao.submitrequest.RegisterCharityModel
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
 import ir.kindnesswall.view.main.reviewcharity.model.CharityAndStatusModel
 import retrofit2.Response
@@ -25,19 +26,23 @@ interface CharityApi {
     @GET("charity/myInfo")
     suspend fun getCharityInfo(): Response<CharityAndStatusModel>
 
-    @POST("charity/review")
+    @GET("charity/review")
     suspend fun getReviewCharity(): Response<List<CharityModel>>
 
-    @POST("charity/review")
-    suspend fun getReviewGiftsFirstPage(): Response<List<CharityModel>>
+    @GET("charity/review")
+    suspend fun getReviewCharityFirstPage(): Response<List<CharityModel>>
 
     @PUT("charity/accept/user/{id}")
     suspend fun acceptCharity(@Path("id") id: Long): Response<Any>
 
     @PUT("charity/reject/user/{id}")
-    suspend fun rejectCharity(
-        @Path("id") id: Long,
-        @Body rejectGiftRequestModel: RejectGiftRequestModel
-    ): Response<Any>
+    suspend fun rejectCharity(@Path("id") id: Long, @Body rejectGiftRequestModel: RejectGiftRequestModel): Response<Any>
+
+    @POST("charity/info/user/{id}")
+    suspend fun registerCharity(@Path("id") id: Long,@Body model: RegisterCharityModel): Response<CharityModel>
+
+    @PUT("charity/info/user/{id}")
+    suspend fun updateCharity(@Path("id") id: Long,@Body model: RegisterCharityModel): Response<CharityModel>
+
 
 }

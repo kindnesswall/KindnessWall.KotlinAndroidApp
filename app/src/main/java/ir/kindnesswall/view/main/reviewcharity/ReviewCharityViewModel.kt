@@ -3,11 +3,9 @@ package ir.kindnesswall.view.main.reviewcharity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.CharityRepo
-import ir.kindnesswall.data.repository.GiftRepo
 
 class ReviewCharityViewModel(private val charityRepo: CharityRepo) : ViewModel() {
     var clickedItemPosition: Int = -1
@@ -16,6 +14,7 @@ class ReviewCharityViewModel(private val charityRepo: CharityRepo) : ViewModel()
     val reviewItem = ArrayList<CharityModel>()
 
     fun getReviewItemsFirstPage(): LiveData<CustomResult<List<CharityModel>>> {
+
             return charityRepo.getReviewCharityFirstPage(viewModelScope)
     }
 

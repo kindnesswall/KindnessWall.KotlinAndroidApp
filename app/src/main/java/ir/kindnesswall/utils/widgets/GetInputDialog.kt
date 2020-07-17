@@ -36,11 +36,13 @@ class GetInputDialog : DialogFragment() {
             val title = arguments?.getString("title", "")
             val hint = arguments?.getString("hint", "")
             val message = arguments?.getString("message", "")
+            val acceptBtn = arguments?.getString("accept_btn", "")
 
             minCharacter = arguments?.getInt("min_char", 0) ?: 0
 
             binding.titleTextView.text = title
             binding.inputEditText.hint = hint
+            binding.acceptButton.text = acceptBtn
 
             if (!message.isNullOrEmpty()) {
                 binding.inputEditText.setText(message)

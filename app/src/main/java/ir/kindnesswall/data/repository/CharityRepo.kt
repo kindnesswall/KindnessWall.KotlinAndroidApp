@@ -5,11 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.charity.CharityModel
+import ir.kindnesswall.data.local.dao.submitrequest.RegisterCharityModel
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
 import ir.kindnesswall.data.remote.network.CharityApi
 import kotlinx.coroutines.CoroutineScope
@@ -50,8 +49,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                 }
         }
 
-    fun getCharity(viewModelScope: CoroutineScope, charityId: Long):
-            LiveData<CustomResult<CharityModel>> =
+    fun getCharity(viewModelScope: CoroutineScope, charityId: Long): LiveData<CustomResult<CharityModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
@@ -74,18 +72,83 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                 }
         }
 
-    fun getReviewCharityFirstPage(
-        viewModelScope: CoroutineScope
-    ): LiveData<CustomResult<List<CharityModel>>> =
+    fun getUserCharity(viewModelScope: CoroutineScope): LiveData<CustomResult<CharityModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            /*        getResultWithExponentialBackoffStrategy { charityApi.getCharityInfo() }
+                            .collect { result ->
+                                when (result.status) {
+                                    CustomResult.Status.SUCCESS -> {
+                                        if (result.data == null) {
+                                            emit(CustomResult.error(result.errorMessage))
+                                        } else {
+                                            emitSource(MutableLiveData<CharityModel>().apply {
+                                                value = result.data
+                                            }
+                                                    .map { CustomResult.success(it) })
+                                        }
+                                    }
+                                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                                    else -> emit(CustomResult.error(result.errorMessage))
+                                }
+                            }*/
+        }
+
+    fun registerCharity(viewModelScope: CoroutineScope, userId: Long, model: RegisterCharityModel): LiveData<CustomResult<CharityModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
-                charityApi.getReviewGiftsFirstPage( )
+                charityApi.registerCharity(userId, model)
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(result.message.toString()))
+                            emit(CustomResult.error(result.errorMessage))
+                        } else {
+                            emitSource(MutableLiveData<CharityModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.errorMessage))
+                }
+            }
+        }
+
+    fun updateCharity(viewModelScope: CoroutineScope, userId: Long, model: RegisterCharityModel): LiveData<CustomResult<CharityModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                charityApi.updateCharity(userId, model)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.errorMessage))
+                        } else {
+                            emitSource(MutableLiveData<CharityModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.errorMessage))
+                }
+            }
+        }
+
+    fun getReviewCharityFirstPage(viewModelScope: CoroutineScope): LiveData<CustomResult<List<CharityModel>>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                charityApi.getReviewCharityFirstPage()
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<CharityModel>>().apply {
                                 value = result.data
@@ -93,7 +156,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -102,20 +165,19 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
     fun getReviewCharity(viewModelScope: CoroutineScope): LiveData<CustomResult<List<CharityModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-
             getResultWithExponentialBackoffStrategy {
-                charityApi.getReviewCharity( )
+                charityApi.getReviewCharity()
             }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
-                            emit(CustomResult.error(""))
+                            emit(CustomResult.error(result.errorMessage))
                         } else {
                             emitSource(MutableLiveData<List<CharityModel>>().apply { value = result.data }.map { CustomResult.success(it) })
                         }
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(""))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -132,7 +194,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }
@@ -149,7 +211,7 @@ class CharityRepo(val context: Context, var charityApi: CharityApi) : BaseDataSo
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.message.toString()))
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
             }
         }

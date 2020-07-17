@@ -1,5 +1,6 @@
 package ir.kindnesswall.view.main.more.userlist.tabs
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.FragmentUserListBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
+import ir.kindnesswall.view.main.more.userlist.IPeakUser
 import ir.kindnesswall.view.main.more.userlist.adapter.UserListAdapter
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,13 +27,14 @@ class UserListFragment : BaseFragment() {
     private var mUserType by Delegates.notNull<Int>()
     private lateinit var mAdapter: UserListAdapter
     private lateinit var mEndless: EndlessRecyclerViewScrollListener
+    private var mPeakUserListener: IPeakUser? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mPeakUserListener = context as IPeakUser
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list, container, false)
         return mBinding.root
     }
@@ -47,7 +51,7 @@ class UserListFragment : BaseFragment() {
         if (animator is SimpleItemAnimator)
             animator.supportsChangeAnimations = false
 
-        mAdapter = UserListAdapter()
+        mAdapter = UserListAdapter{ onUserClicked(it) }
         mAdapter.setHasStableIds(true)
         mBinding.rvUser.adapter = mAdapter
         mBinding.rvUser.setHasFixedSize(true)
@@ -61,6 +65,10 @@ class UserListFragment : BaseFragment() {
         mBinding.swipeRefresh.setOnRefreshListener { refreshList() }
         setRecyclerViewPagination()
 
+    }
+
+    private fun onUserClicked(user: User){
+        mPeakUserListener?.onUserPeaked(user)
     }
 
     private fun setRecyclerViewPagination() {
@@ -95,7 +103,7 @@ class UserListFragment : BaseFragment() {
                     CustomResult.Status.SUCCESS -> {
                         res.data?.let { data ->
                             mViewModel.mUserList.addAll(data)
-                            showList( )
+                            showList()
                             checkEmptyPage(data.isEmpty())
                         } ?: run {
                             checkEmptyPage(false)

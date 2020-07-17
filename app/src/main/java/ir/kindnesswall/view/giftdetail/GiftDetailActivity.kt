@@ -263,6 +263,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         showGetInputDialog(Bundle().apply {
             putString("title", getString(R.string.Please_write_reason))
             putString("hint", getString(R.string.reason_of_reject))
+            putString("accept_btn", getString(R.string.reject_gift))
         }, approveListener = {
             viewModel.rejectGift(viewModel.giftModel!!.id, it)
                 .observe(this) { result ->

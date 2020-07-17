@@ -12,7 +12,7 @@ import java.util.*
 
 @Entity(tableName = "charity_table")
 @TypeConverters(DataConverter::class)
-data class CharityModel(
+data class CharityModel (
     @PrimaryKey(autoGenerate = false)
     var id: Long = 0,
     var userId: Long = 0,
@@ -20,16 +20,16 @@ data class CharityModel(
     var isRejected: Boolean? = null,
     var updatedAt: Date? = null,
     var createdAt: Date? = null,
-    var imageUrl: String?,
-    var registerId: String?,
-    var address: String?,
-    var telephoneNumber: String?,
-    var mobileNumber: String?,
-    var website: String?,
-    var email: String?,
-    var instagram: String?,
-    var telegram: String?,
-    var description: String?
+    var imageUrl: String? = null,
+    var registerId: String? = null,
+    var address: String? = null,
+    var telephoneNumber: String? = null,
+    var mobileNumber: String? = null,
+    var website: String? = null,
+    var email: String? = null,
+    var instagram: String? = null,
+    var telegram: String? = null,
+    var description: String? = null
 ) : Serializable {
     fun getMainOfficeAddress(context: Context): String {
         if (address.isNullOrEmpty()) return ""
