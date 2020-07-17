@@ -171,10 +171,11 @@
     <string name="optional_update_message">نسخه جدید برای این برنامه آمده است جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
     <string name="check_submitted_gifts">بررسی هدیه های ثبت شده</string>
     <string name="check_submitted_Charity">بررسی خيريه های ثبت شده</string>
+    <string name="users">كاربران</string>
     <string name="reject_gift">رد هدیه</string>
-    <string name="reject_charity">رد خيريه</string>
+    <string name="reject_charity">رد </string>
     <string name="accept_gift">" تایید هدیه"</string>
-    <string name="accept_charity">" تایید خيريه"</string>
+    <string name="accept_charity">تایید</string>
     <string name="reason_of_reject">دلیل رد هدیه</string>
     <string name="reason_of_reject_for_charity">دلیل رد خيريه</string>
     <string name="Please_write_reason">لطفا دلیل رد هدیه را بنویسید</string>
@@ -189,5 +190,26 @@
     <string name="your_are_blocked">شما توسط این کاربر بلاک شده اید</string>
     <string name="edit_gift">ویرایش هدیه</string>
     <string name="talk_with_receiver">"گفتگو با دریافت کننده"</string>
+
+    <string name="submit_charity">ثبت خيريه</string>
+    <string name="charity_title">عنوان خيريه</string>
+    <string name="edit_charity_warning_message">در صورت ویرایش، اطلاعات خيريه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
+    <string name="submit_charity_title_message">در عنوان خيريه به موارد مهم اشاره کنید. (حداقل ۵ حرف)</string>
+    <string name="submit_charity_price_message">ارزش مالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
+    <string name="submit_charity_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید. (حداقل ۵ حرف)</string>
+    <string name="charity_image">عکس خيريه</string>
+    <string name="edit_charity">ویرایش خيريه</string>
+    <string name="mobile_phone_number">شماره موبايل</string>
+    <string name="mobile_telephone_number">شماره تلفن</string>
+    <string name="web_site">وب سايت</string>
+    <string name="email">ايميل</string>
+    <string name="telegram">تلگرام</string>
+    <string name="instagram">اينستاگرام</string>
+    <string name="user_list">ليست كاربران</string>
+    <string name="there_is_no_user">هيچ كاربري يافت نشد</string>
+    <string name="active">فعال</string>
+    <string name="blocked">بلاك شده</string>
+    <string name="chat_blocked">چت بلاك شده</string>
+    <string name="admin">ادمين</string>
 
 </resources>

@@ -10,10 +10,12 @@ import ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogViewModel
 import ir.kindnesswall.view.main.catalog.search.SearchViewModel
 import ir.kindnesswall.view.main.charity.CharityListViewModel
+import ir.kindnesswall.view.main.charity.addcharity.SubmitCharityViewModel
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import ir.kindnesswall.view.main.conversation.ConversationsViewModel
 import ir.kindnesswall.view.main.conversation.chat.ChatViewModel
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.DonateGiftViewModel
+import ir.kindnesswall.view.main.more.userlist.tabs.UserListViewModel
 import ir.kindnesswall.view.main.reviewcharity.ReviewCharityViewModel
 import ir.kindnesswall.view.profile.MyProfileViewModel
 import ir.kindnesswall.view.profile.blocklist.BlockListViewModel
@@ -55,4 +57,6 @@ val viewModelModule = module {
     viewModel { ReviewGiftsViewModel(get()) }
     viewModel { ReviewCharityViewModel(get()) }
     viewModel { ChatViewModel(get(), get(), get(), get()) }
+    viewModel { SubmitCharityViewModel(get(), get(), get()) }
+    viewModel { UserListViewModel(get()) }
 }

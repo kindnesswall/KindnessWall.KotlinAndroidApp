@@ -10,4 +10,29 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="registerCharityEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="public_tv"  >
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">@dimen/value_4</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="public_tv_medium" parent="public_tv">
+        <item name="android:textSize">@dimen/size_12</item>
+    </style>
+
+    <style name="public_tv_normal" parent="public_tv">
+        <item name="android:textSize">@dimen/size_14</item>
+    </style>
 </resources>

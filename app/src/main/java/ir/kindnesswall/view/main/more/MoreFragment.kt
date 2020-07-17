@@ -15,7 +15,9 @@ import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.FragmentMoreBinding
 import ir.kindnesswall.utils.isAppAvailable
 import ir.kindnesswall.view.authentication.AuthenticationActivity
+import ir.kindnesswall.view.main.charity.addcharity.SubmitCharityActivity
 import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
+import ir.kindnesswall.view.main.more.userlist.UserListActivity
 import ir.kindnesswall.view.main.reviewcharity.ReviewCharityActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
 import ir.kindnesswall.view.profile.blocklist.BlockListActivity
@@ -48,6 +50,8 @@ class MoreFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.myProfileContainer.setOnClickListener { context?.let { UserProfileActivity.start(it, UserInfoPref.getUser()) } }
+        binding.submitCharityContainer.setOnClickListener { context?.let { SubmitCharityActivity.start(it) } }
+        binding.users.setOnClickListener { context?.let { UserListActivity.start(it) } }
         binding.reviewGiftsContainer.setOnClickListener { context?.let { ReviewGiftsActivity.start(it) } }
         binding.reviewCharityContainer.setOnClickListener { context?.let { ReviewCharityActivity.start(it) } }
         binding.aboutUs.setOnClickListener { context?.let { AboutUsActivity.start(it) } }
