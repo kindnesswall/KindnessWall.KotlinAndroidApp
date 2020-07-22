@@ -68,7 +68,6 @@
                 android:id="@+id/tvPeakUser"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="@{userInfo.isAdmin ?  View.VISIBLE : View.GONE}"
                 android:layout_toStartOf="@id/clearAll"
                 android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackground"
