@@ -10,8 +10,12 @@ import ir.kindnesswall.data.model.TextMessageBaseModel
 import ir.kindnesswall.data.model.TextMessageHeaderModel
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.databinding.ItemChatDateHeaderBinding
+import ir.kindnesswall.databinding.ItemChatDonationBinding
 import ir.kindnesswall.databinding.ItemChatMyselfBinding
 import ir.kindnesswall.databinding.ItemChatOthersBinding
+import ir.kindnesswall.utils.extentions.persianizeDigitsInString
+import saman.zamani.persiandate.PersianDate
+import saman.zamani.persiandate.PersianDateFormat
 
 class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -35,11 +39,18 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = items[position]
 
-        return if (item is TextMessageModel) {
-            if (item.senderId == UserInfoPref.id) 1 else 2
-        } else if (item is TextMessageHeaderModel) 3 else 1
+        return when (val item = items[position]) {
+            is TextMessageModel -> {
+                when {
+                    item.type == "giftDonation" -> return 4
+                    item.senderId == UserInfoPref.id -> 1
+                    else -> 2
+                }
+            }
+            is TextMessageHeaderModel -> 3
+            else -> 1
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -77,6 +88,17 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
                 )
             }
 
+            4 -> {
+                return ChatDonationViewHolder(
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.item_chat_donation,
+                        parent,
+                        false
+                    )
+                )
+            }
+
             else -> {
                 return MyChatsViewHolder(
                     DataBindingUtil.inflate(
@@ -99,6 +121,7 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
             is MyChatsViewHolder -> {
                 holder.binding.item = item as TextMessageModel
             }
+
             is OthersChatsViewHolder -> {
                 holder.binding.item = item as TextMessageModel
                 if (!item.ack) {
@@ -109,6 +132,12 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
 
             is ChatDateViewHolder -> {
                 holder.binding.item = item as TextMessageHeaderModel
+            }
+
+            is ChatDonationViewHolder -> {
+                holder.binding.item = item as TextMessageModel
+                holder.binding.donationDate.text =
+                    PersianDateFormat("j F Y").format(PersianDate(item.createdAt)).persianizeDigitsInString()
             }
         }
     }
@@ -123,4 +152,7 @@ class OthersChatsViewHolder(var binding: ItemChatOthersBinding) :
 
 
 class ChatDateViewHolder(var binding: ItemChatDateHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root)
+
+class ChatDonationViewHolder(var binding: ItemChatDonationBinding) :
     RecyclerView.ViewHolder(binding.root)

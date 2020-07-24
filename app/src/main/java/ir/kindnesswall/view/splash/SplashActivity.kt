@@ -9,6 +9,7 @@ import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.onbording.OnBoardingActivity
@@ -46,6 +47,12 @@ class SplashActivity : BaseActivity() {
                         ForceAndOptionalUpdateActivity.start(this, false)
                     } else {
                         gotoNextActivity()
+                    }
+                }
+            } else if (it.status == CustomResult.Status.ERROR) {
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        checkUpdate()
                     }
                 }
             }

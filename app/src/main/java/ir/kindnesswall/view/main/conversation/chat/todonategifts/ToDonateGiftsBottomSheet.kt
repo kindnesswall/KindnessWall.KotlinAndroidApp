@@ -12,11 +12,12 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.BottomSheetGiftsToDonateBinding
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
 
-    private lateinit var listener: (Boolean) -> Unit
+    private lateinit var listener: (Boolean, GiftModel) -> Unit
 
     private lateinit var binding: BottomSheetGiftsToDonateBinding
 
@@ -36,7 +37,7 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    fun setOnItemClickListener(listener: (Boolean) -> Unit) {
+    fun setOnItemClickListener(listener: (Boolean, GiftModel) -> Unit) {
         this.listener = listener
     }
 
@@ -70,29 +71,38 @@ class ToDonateGiftsBottomSheet : BottomSheetDialogFragment() {
 
         val adapter = ToDonateListAdapter()
         adapter.setOnItemClickListener {
-            viewModel.donateGift(it).observe(viewLifecycleOwner) { result ->
-                when (result.status) {
-                    CustomResult.Status.LOADING -> {
-                        // todo show loading
-                    }
-
-                    CustomResult.Status.ERROR -> {
-                        showToastMessage(getString(R.string.error_in_donate))
-                        listener.invoke(false)
-                    }
-
-                    CustomResult.Status.SUCCESS -> {
-                        showToastMessage(getString(R.string.gift_donated))
-                        listener.invoke(true)
-                        dismiss()
-                    }
-                }
-            }
+            donateGift(it)
         }
 
         binding.toDonatesList.adapter = adapter
 
         adapter.setItems(viewModel.giftsList!!)
+    }
+
+    private fun donateGift(it: GiftModel) {
+        viewModel.donateGift(it).observe(viewLifecycleOwner) { result ->
+            when (result.status) {
+                CustomResult.Status.LOADING -> {
+                    // todo show loading
+                }
+
+                CustomResult.Status.ERROR -> {
+                    if (result.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(childFragmentManager) {
+                            donateGift(it)
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.error_in_donate))
+                        listener.invoke(false, it)
+                    }
+                }
+
+                CustomResult.Status.SUCCESS -> {
+                    listener.invoke(true, it)
+                    dismiss()
+                }
+            }
+        }
     }
 
     fun showToastMessage(message: String) {

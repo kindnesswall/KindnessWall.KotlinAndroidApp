@@ -33,6 +33,8 @@ data class GiftModel(
     var rejectReason: String? = null,
     var isNew: Boolean = false,
     var isReviewed: Boolean = false,
+    var regionId: Int? = 0,
+    var regionName: String? = null,
     var provinceId: Int = 0,
     var donatedToUserId: Long? = null,
     var giftImages: List<String>? = null,

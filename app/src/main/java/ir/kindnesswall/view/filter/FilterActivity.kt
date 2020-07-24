@@ -174,6 +174,7 @@ class FilterActivity : BaseActivity() {
         selectedFilterLayout.minimumWidth = 70.dp(this)
 
         selectedFilterLayout.setOnClickListener { view ->
+            selectedRegion = null
             binding.selectedRegionsLinearLayout.removeView(view)
             binding.selectedRegionsLinearLayout.requestLayout()
         }
@@ -206,6 +207,7 @@ class FilterActivity : BaseActivity() {
         selectedFilterLayout.minimumWidth = 70.dp(this)
 
         selectedFilterLayout.setOnClickListener { view ->
+            selectedCity = null
             binding.selectedRegionsLinearLayout.removeView(view)
             binding.selectedRegionsLinearLayout.requestLayout()
         }

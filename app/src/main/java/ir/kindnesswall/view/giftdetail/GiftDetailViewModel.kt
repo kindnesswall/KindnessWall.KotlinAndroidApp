@@ -3,13 +3,15 @@ package ir.kindnesswall.view.giftdetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.GiftRepo
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
+
+    var isDonatedToSomeone: Boolean = false
 
     var isReceivedGift: Boolean = false
 
@@ -23,9 +25,13 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun onBackButtonClicked() {
         giftViewListener?.onBackButtonClicked()
     }
-    
+
     fun onRequestClicked() {
-        if (isMyGift) {
+        if (giftModel?.donatedToUserId == UserInfoPref.userId) {
+            giftViewListener?.onRequestClicked()
+        } else if (giftModel?.donatedToUserId != null && giftModel?.donatedToUserId!! > 0) {
+            giftViewListener?.onRequestClicked()
+        } else if (isMyGift) {
             giftViewListener?.onEditButtonClicked()
         } else {
             giftViewListener?.onRequestClicked()
@@ -48,6 +54,10 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         giftViewListener?.onRejectGiftClicked()
     }
 
+    fun onDeleteButtonClicked() {
+        giftViewListener?.onDeleteButtonClicked()
+    }
+
     fun requestGift(): LiveData<CustomResult<ChatContactModel>> {
         return giftRepo.requestGift(viewModelScope, giftModel?.id ?: 0)
     }
@@ -58,4 +68,6 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun acceptGift(giftId: Long) = giftRepo.acceptGift(viewModelScope, giftId)
 
     fun getRequestStatus() = giftRepo.getGiftRequestStatus(viewModelScope, giftModel!!.id)
+
+    fun deleteGift() = giftRepo.deleteGift(viewModelScope, giftModel!!.id)
 }

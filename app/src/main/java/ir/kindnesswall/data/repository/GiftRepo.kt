@@ -5,10 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
-import ir.kindnesswall.data.model.*
+import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.ChatContactModel
+import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.GiftRequestStatusModel
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
@@ -27,7 +29,7 @@ import kotlinx.coroutines.flow.collect
  *
  */
 
-class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSource() {
+class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(context) {
     fun getGifts(
         viewModelScope: CoroutineScope,
         lastId: Long
@@ -311,6 +313,25 @@ class GiftRepo(val context: Context, private val giftApi: GiftApi) : BaseDataSou
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                     else -> emit(CustomResult.error(result.errorMessage))
+                }
+            }
+        }
+
+    fun deleteGift(
+        viewModelScope: CoroutineScope,
+        giftId: Long
+    ): LiveData<CustomResult<Any?>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy { giftApi.deleteGift(giftId) }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emit(CustomResult.success(result.data))
+                    }
+                    CustomResult.Status.ERROR -> {
+                        emit(CustomResult.error(result.errorMessage))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
                 }
             }
         }

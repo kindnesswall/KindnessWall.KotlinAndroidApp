@@ -11,11 +11,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "ir.kindnesswall"
+        applicationId "ir.kindnesswall.test"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "Kindnesswall-$versionName-$versionCode")
         vectorDrawables.useSupportLibrary = true
@@ -165,6 +165,10 @@ dependencies {
 
     //recycler view swipe detector
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
+
+    implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
+
+    implementation project(path: ':spotlight')
 
     //Chuck
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'

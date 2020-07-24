@@ -17,6 +17,7 @@ import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityBlockListBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -69,6 +70,15 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
             if (it.status == CustomResult.Status.SUCCESS) {
                 showList(it.data)
                 checkEmptyPage()
+            } else if (it.status == CustomResult.Status.ERROR) {
+                dismissProgressDialog()
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        getBlockedUsers()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
             }
         }
     }
@@ -126,6 +136,15 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
 
                                     setBlockedUsersCount()
                                     checkEmptyPage()
+                                } else if (it.status == CustomResult.Status.ERROR) {
+                                    dismissProgressDialog()
+                                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                                        NoInternetDialogFragment().display(supportFragmentManager) {
+                                            onItemClicked(position, it)
+                                        }
+                                    } else {
+                                        showToastMessage(getString(R.string.please_try_again))
+                                    }
                                 }
                             }
                     }

@@ -26,19 +26,6 @@
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/removeAllFilters"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:layout_toStartOf="@+id/doneImageView"
-                android:fontFamily="@font/vazir"
-                android:gravity="center"
-                android:text="@string/remove_filters"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
             <ImageView
                 android:id="@+id/backImageView"
                 android:layout_width="40dp"
@@ -47,15 +34,6 @@
                 android:layout_margin="8dp"
                 android:padding="8dp"
                 app:srcCompat="@drawable/ic_arrow_back_white" />
-
-            <ImageView
-                android:id="@+id/doneImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_done_white" />
 
         </RelativeLayout>
 
@@ -178,6 +156,45 @@
                     android:orientation="horizontal" />
 
             </HorizontalScrollView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/doneImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/vazir_bold"
+                    android:gravity="center"
+                    android:text="@string/set_filter"
+                    android:textColor="@color/white"
+                    android:background="@drawable/primary_round_selector_4dp"/>
+
+                <TextView
+                    android:id="@+id/removeAllFilters"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/accent_round_selector_4dp"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/red"
+                    android:fontFamily="@font/vazir_bold"
+                    android:text="@string/remove_filters"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

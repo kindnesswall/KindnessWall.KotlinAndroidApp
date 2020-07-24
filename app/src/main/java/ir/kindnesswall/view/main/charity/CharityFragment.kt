@@ -13,6 +13,7 @@ import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentCharityBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.charitydetail.CharityDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -99,7 +100,13 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
             }
 
             CustomResult.Status.ERROR -> {
-                showToastMessage("")
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(childFragmentManager) {
+                        getCharities()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
             }
         }
     }

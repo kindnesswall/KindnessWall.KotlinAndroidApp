@@ -42,4 +42,6 @@
     <color name="tabColorInactive">#E1E0E0</color>
     <color name="tabColorActive">@color/white</color>
 
+    <color name="spotlightBackground">#BF000000</color>
+
 </resources>

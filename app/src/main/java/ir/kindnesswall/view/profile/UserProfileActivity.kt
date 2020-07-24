@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
@@ -28,6 +27,7 @@ import ir.kindnesswall.utils.imageloader.GlideApp
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
 import ir.kindnesswall.utils.startSingleModeImagePicker
+import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -194,7 +194,15 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
 
             CustomResult.Status.ERROR -> {
                 dismissProgressDialog()
-                showToastMessage("")
+
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        getGiftList()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
+
                 checkEmptyState()
             }
         }
@@ -310,6 +318,14 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
                 }
                 CustomResult.Status.ERROR -> {
                     dismissProgressDialog()
+
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            saveChanges()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
                 }
 
                 CustomResult.Status.SUCCESS -> {

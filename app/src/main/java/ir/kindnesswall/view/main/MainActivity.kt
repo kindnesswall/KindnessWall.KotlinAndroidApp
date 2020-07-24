@@ -21,6 +21,7 @@ import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
+import ir.kindnesswall.view.main.catalog.cataloglist.CatalogFragment
 import ir.kindnesswall.view.main.conversation.ConversationFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -94,6 +95,7 @@ class MainActivity : BaseActivity() {
 
     private fun updatePagesList() {
         getConversationFragment()?.loadData()
+        getCatalogFragment()?.checkAndRemoveDeletedGiftFromList()
     }
 
     private fun getConversationFragment(): ConversationFragment? {
@@ -101,6 +103,19 @@ class MainActivity : BaseActivity() {
             supportFragmentManager.findFragmentById(R.id.conversationTab)
         favoriteFragmentNavHost?.childFragmentManager?.fragments?.filterNotNull()?.find {
             if (it is ConversationFragment) {
+                return it
+            }
+            true
+        }
+
+        return null
+    }
+
+    private fun getCatalogFragment(): CatalogFragment? {
+        val catalogFragmentNavHost =
+            supportFragmentManager.findFragmentById(R.id.homeTab)
+        catalogFragmentNavHost?.childFragmentManager?.fragments?.filterNotNull()?.find {
+            if (it is CatalogFragment) {
                 return it
             }
             true

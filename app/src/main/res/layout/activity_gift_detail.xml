@@ -12,6 +12,9 @@
         <variable
             name="viewModel"
             type="ir.kindnesswall.view.giftdetail.GiftDetailViewModel" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <LinearLayout
@@ -44,6 +47,17 @@
                     android:layout_height="300dp"
                     android:background="@drawable/photo_slider_gradient"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="8dp"
+                    android:onClick="@{() -> viewModel.onDeleteButtonClicked()}"
+                    android:padding="8dp"
+                    android:visibility="@{viewModel.isMyGift ? viewModel.isDonatedToSomeone ? View.GONE : View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_delete_white" />
 
                 <ImageView
                     android:layout_width="40dp"
@@ -245,8 +259,8 @@
         <LinearLayout
             android:id="@+id/reviewGiftsContainer"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/acceptButton"

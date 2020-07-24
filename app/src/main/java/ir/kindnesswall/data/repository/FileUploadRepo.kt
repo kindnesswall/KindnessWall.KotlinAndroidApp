@@ -17,8 +17,8 @@ import net.gotev.uploadservice.observer.request.RequestObserverDelegate
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 
 
-class FileUploadRepo(val context: Context, private val uploadFileApi: UploadFileApi) :
-    BaseDataSource() {
+class FileUploadRepo(context: Context, private val uploadFileApi: UploadFileApi) :
+    BaseDataSource(context) {
 
     fun uploadFile(
         context: Context,

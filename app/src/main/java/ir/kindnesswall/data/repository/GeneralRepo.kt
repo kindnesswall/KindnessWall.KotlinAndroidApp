@@ -23,8 +23,8 @@ import kotlinx.coroutines.flow.collect
  * Useful parameter:
  *
  */
-class GeneralRepo(val context: Context, var generalApi: GeneralApi, var appDatabase: AppDatabase) :
-    BaseDataSource() {
+class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase: AppDatabase) :
+    BaseDataSource(context) {
 
     fun getProvinces(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ProvinceModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {

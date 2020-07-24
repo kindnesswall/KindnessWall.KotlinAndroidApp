@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
  *
  */
 
-class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSource() {
+class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(context) {
     fun getConversationList(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<ChatContactModel>>> =
@@ -116,12 +116,13 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
     fun sendMessage(
         viewModelScope: CoroutineScope,
         chatId: Long,
-        message: String
+        message: String,
+        type: String? = null
     ): LiveData<CustomResult<TextMessageModel>> = liveData(viewModelScope.coroutineContext, 0) {
         emit(CustomResult.loading())
 
         getResultWithExponentialBackoffStrategy {
-            chatApi.sendMessage(SendChatMessageRequestModel(chatId, message))
+            chatApi.sendMessage(SendChatMessageRequestModel(chatId, message, type))
         }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
@@ -199,7 +200,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
     fun getChatId(
         viewModelScope: CoroutineScope,
         charityId: Long
-    ): LiveData<CustomResult<ChatModel>> =
+    ): LiveData<CustomResult<ChatContactModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
@@ -210,7 +211,7 @@ class ChatRepo(val context: Context, private var chatApi: ChatApi) : BaseDataSou
                         if (result.data == null) {
                             emit(CustomResult.error(result.errorMessage))
                         } else {
-                            emitSource(MutableLiveData<ChatModel>().apply {
+                            emitSource(MutableLiveData<ChatContactModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }

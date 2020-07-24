@@ -102,7 +102,7 @@
     <string name="submit_gift_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید. (حداقل ۵ حرف)</string>
     <string name="price_range">حدود قیمت</string>
     <string name="price_range_hint">_ _ _ , _ _ _ تومان</string>
-    <string name="gift_image">عکس هدیه</string>
+    <string name="gift_image">عکس هدیه (اجباری)</string>
     <string name="choose_category">انتخاب دسته بندی</string>
     <string name="submit">ثبت</string>
     <string name="chatHintMessage">پیام …</string>
@@ -192,6 +192,16 @@
     <string name="your_are_blocked">شما توسط این کاربر بلاک شده اید</string>
     <string name="edit_gift">ویرایش هدیه</string>
     <string name="talk_with_receiver">"گفتگو با دریافت کننده"</string>
+    <string name="set_filter">اعمال فیلتر</string>
+    <string name="donate_item_chat_text">%s به %s اهدا شد</string>
+    <string name="block">بلاک</string>
+    <string name="block_hint_message">با استفاده از دکمه بلاک میتوانید این کاربر را بلاک کنید</string>
+    <string name="donate_gift">اهدای هدیه</string>
+    <string name="donate_gift_hint_message">برای اهدای هدیه می توانید از این دکمه استفاده کنید</string>
+    <string name="no_inteneet_message">متاسفانه اینترنت شما قطع شده است</string>
+    <string name="try_again">تلاش مجدد</string>
+    <string name="delete_gift">حذف هدیه</string>
+    <string name="sure_to_remove_gift">آیا از حذف هدیه خود اطمینان دارید؟</string>
 
     <string name="submit_charity">ثبت خيريه</string>
     <string name="charity_title">عنوان خيريه</string>

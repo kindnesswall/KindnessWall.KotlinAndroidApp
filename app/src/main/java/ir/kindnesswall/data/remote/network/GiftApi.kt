@@ -3,7 +3,6 @@ package ir.kindnesswall.data.remote.network
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.GiftRequestStatusModel
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
@@ -35,6 +34,9 @@ interface GiftApi {
         @Path("id") id: Long,
         @Body registerGiftRequestModel: RegisterGiftRequestModel
     ): Response<GiftModel>
+
+    @DELETE("gifts/{id}")
+    suspend fun deleteGift(@Path("id") id: Long): Response<Any>
 
     @POST("gifts/todonate/{userId}")
     suspend fun getToDonateGifts(
