@@ -1,6 +1,5 @@
 package ir.kindnesswall.view.main.reviewcharity
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
@@ -20,7 +19,6 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityReviewCharityBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
-import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.charity.CharityAdapter
 import ir.kindnesswall.view.main.charity.charitydetail.CharityDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -47,10 +45,10 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review_charity)
 
         configureViews(savedInstanceState)
-        configureViewModel()
 
-
-/*        val data: MutableList<CharityModel> = ArrayList()
+/*
+       - Add Test data
+        val data: MutableList<CharityModel> = ArrayList()
         data.add(CharityModel(0, 1, "name", false))
         viewModel.reviewItem.addAll(data)*/
         showList()
@@ -77,10 +75,6 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
         initRecyclerView()
     }
 
-    private fun configureViewModel() {
-
-    }
-
     private fun initRecyclerView() {
         binding.itemsListRecyclerView.apply {
             adapter = CharityAdapter(this@ReviewCharityActivity)
@@ -92,13 +86,13 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
         swipeController = SwipeController(this, object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
                 viewModel.acceptCharity(viewModel.reviewItem[position].userId)
-                        .observe(this@ReviewCharityActivity) { result ->
-                            if (result.status == CustomResult.Status.SUCCESS) {
-                                removeReviewedItem(position)
-                            } else if (result.status == CustomResult.Status.ERROR) {
-                                showToastMessage(getString(R.string.please_try_again))
-                            }
+                    .observe(this@ReviewCharityActivity) { result ->
+                        if (result.status == CustomResult.Status.SUCCESS) {
+                            removeReviewedItem(position)
+                        } else if (result.status == CustomResult.Status.ERROR) {
+                            showToastMessage(getString(R.string.please_try_again))
                         }
+                    }
             }
 
             override fun onLeftClicked(position: Int) {
@@ -108,13 +102,13 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
                     putString("accept_btn", getString(R.string.reject_charity))
                 }, approveListener = {
                     viewModel.rejectCharity(viewModel.reviewItem[position].userId, it)
-                            .observe(this@ReviewCharityActivity) { result ->
-                                if (result.status == CustomResult.Status.SUCCESS) {
-                                    removeReviewedItem(position)
-                                } else if (result.status == CustomResult.Status.ERROR) {
-                                    showToastMessage(getString(R.string.please_try_again))
-                                }
+                        .observe(this@ReviewCharityActivity) { result ->
+                            if (result.status == CustomResult.Status.SUCCESS) {
+                                removeReviewedItem(position)
+                            } else if (result.status == CustomResult.Status.ERROR) {
+                                showToastMessage(getString(R.string.please_try_again))
                             }
+                        }
                 })
             }
         })
@@ -131,15 +125,15 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
 
     private fun setRecyclerViewPagination(layoutManager: LinearLayoutManager) {
         endlessRecyclerViewScrollListener =
-                object : EndlessRecyclerViewScrollListener(layoutManager) {
-                    override fun onLoadMore() {
-                        endlessRecyclerViewScrollListener.isLoading = true
-                        loadNextPage()
-                    }
-
-                    override fun onScrolled(position: Int) {
-                    }
+            object : EndlessRecyclerViewScrollListener(layoutManager) {
+                override fun onLoadMore() {
+                    endlessRecyclerViewScrollListener.isLoading = true
+                    loadNextPage()
                 }
+
+                override fun onScrolled(position: Int) {
+                }
+            }
 
         binding.itemsListRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
@@ -217,22 +211,7 @@ class ReviewCharityActivity : BaseActivity(), OnItemClickListener {
     private fun removeReviewedItem(position: Int) {
         viewModel.reviewItem.removeAt(position)
         (binding.itemsListRecyclerView.adapter as CharityAdapter)
-                .notifyItemRemoved(position)
+            .notifyItemRemoved(position)
         checkEmptyState()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == GiftDetailActivity.GIFT_REVIEW_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                val isReviews = data?.getBooleanExtra("isReviews", false) ?: false
-
-                if (isReviews) {
-                    removeReviewedItem(viewModel.clickedItemPosition)
-                    viewModel.clickedItemPosition = -1
-                }
-            }
-        }
     }
 }
