@@ -3,4 +3,5 @@ google-services.json
 /staging/release/app-staging-release.apk
 /staging/release/output.json
 /production/release/output.json
+KindnessWallKeyStore
 *.apk
