@@ -168,5 +168,9 @@ dependencies {
 
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 
+    //chucker debugger
+    debugImplementation "com.github.chuckerteam.chucker:library:3.2.0"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.2.0"
+
     implementation project(path: ':spotlight')
 }
