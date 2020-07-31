@@ -20,4 +20,9 @@ jobs:
       with:
         java-version: 1.8
     - name: apk
-      run: bash ./gradlew assembleDebug --stacktrace
+      run: bash ./gradlew assembleStagingDebug --stacktrace
+    - name: Upload APK
+      uses: actions/upload-artifact@v1
+      with:
+        name: app
+        path: app/build/outputs/apk/staging/debug/app-staging-debug.apk
