@@ -23,7 +23,7 @@ val repositoryModule = module {
     single { UserRepo(androidContext(), userApi = get()) }
     single { ChatRepo(androidContext(), chatApi = get()) }
     single { GiftRepo(androidContext(), giftApi = get()) }
-    single { FileUploadRepo(androidContext(), uploadFileApi = get()) }
+    single { FileUploadRepo(androidContext()) }
 
 //    single { LocationHandler(get()) }
 }

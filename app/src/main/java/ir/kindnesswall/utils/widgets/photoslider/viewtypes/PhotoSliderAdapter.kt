@@ -42,6 +42,7 @@ class PhotoSliderAdapter(private var isZoomable: Boolean) :
 
     override fun onBindViewHolder(holder: PhotoSliderViewHolder, position: Int) {
         holder.image.isZoomable = isZoomable
+        val centerCrop = isZoomable
 
         loadImage(
             images[position],
@@ -49,7 +50,9 @@ class PhotoSliderAdapter(private var isZoomable: Boolean) :
             0,
             null,
             holder.progressBar,
-            diskCacheStrategy = DiskCacheStrategy.ALL)
+            centerCrop,
+            diskCacheStrategy = DiskCacheStrategy.ALL
+        )
 
         holder.itemView.setOnClickListener {
             clickListener?.invoke(holder.adapterPosition)

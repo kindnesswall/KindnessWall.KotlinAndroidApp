@@ -38,12 +38,14 @@ fun loadImage(
     options: RequestOptions? = null,
     progressBar: ProgressBar? = null,
     forceOriginalSize: Boolean = false,
+    centerCrop: Boolean = true,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
     callback: ((Bitmap?, Boolean) -> Unit)? = null
 ) {
     val glideRequest = getGlideRequest(
         imageViewToLoad.context,
-        imageUrl
+        imageUrl,
+        centerCrop
     )
     setPlaceHolder(glideRequest, placeHolderId)
     setOptions(glideRequest, options)
@@ -109,8 +111,16 @@ private fun setPlaceHolder(glideRequest: GlideRequest<Bitmap>, placeHolderId: In
     }
 }
 
-private fun getGlideRequest(context: Context, imageUrl: String?) =
-    GlideApp.with(context).asBitmap().load(imageUrl).centerCrop()
+private fun getGlideRequest(
+    context: Context,
+    imageUrl: String?,
+    centerCrop: Boolean
+): GlideRequest<Bitmap> {
+    return if (centerCrop)
+        GlideApp.with(context).asBitmap().load(imageUrl).centerCrop()
+    else
+        GlideApp.with(context).asBitmap().load(imageUrl)
+}
 
 fun circleCropTransform() = RequestOptions.circleCropTransform()
 fun roundCornerTransform(cornerRadius: Int) =

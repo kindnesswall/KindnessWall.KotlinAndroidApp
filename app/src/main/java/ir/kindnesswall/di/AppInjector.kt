@@ -50,8 +50,5 @@ val networkModule = module {
     single {
         get<Retrofit>(named(baseNetworkQualifier)).create(GiftApi::class.java)
     }
-    single {
-        get<Retrofit>(named(baseNetworkQualifier)).create(UploadFileApi::class.java)
-    }
 }
 
