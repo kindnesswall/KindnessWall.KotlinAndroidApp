@@ -62,7 +62,6 @@ class GalleryActivity : BaseActivity(), OnGalleryButtonClickListener {
     private fun setupPhotoSlider() {
         binding.viewModel = viewModel
 
-        binding.photoSlider.layoutParams.height = getDeviceWidth(this)
         binding.photoSlider.initialize(zoomable = true, showIndicator = false)
             .show(viewModel.images)
 
