@@ -26,3 +26,11 @@ jobs:
       with:
         name: app
         path: app/build/outputs/apk/staging/debug/app-staging-debug.apk
+    - name: send custom message
+      uses: appleboy/telegram-action@master
+      with:
+       to: ${{ secrets.TELEGRAM_TO }}
+       token: ${{ secrets.TELEGRAM_TOKEN }}
+       message: |
+         Below is the apk for commit: ${{ github.event.head_commit.message }}
+       document: ${{ github.workspace }}/app/build/outputs/apk/staging/debug/app-staging-debug.apk
