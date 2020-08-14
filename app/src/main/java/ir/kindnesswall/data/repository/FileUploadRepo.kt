@@ -9,15 +9,16 @@ import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.UploadImageResponse
-import ir.kindnesswall.data.remote.network.UploadFileApi
+import ir.kindnesswall.utils.extentions.reduceImageSizeAndSave
 import ir.kindnesswall.utils.wrapInBearer
 import net.gotev.uploadservice.data.UploadInfo
 import net.gotev.uploadservice.network.ServerResponse
 import net.gotev.uploadservice.observer.request.RequestObserverDelegate
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
+import java.io.File
 
 
-class FileUploadRepo(context: Context, private val uploadFileApi: UploadFileApi) :
+class FileUploadRepo(context: Context) :
     BaseDataSource(context) {
 
     fun uploadFile(
@@ -29,7 +30,10 @@ class FileUploadRepo(context: Context, private val uploadFileApi: UploadFileApi)
         val request: MultipartUploadRequest =
             MultipartUploadRequest(context, serverUrl = "${BuildConfig.URL_WEBAPI}/image/upload")
                 .setMethod("POST")
-                .addFileToUpload(filePath = imagePath, parameterName = "image")
+                .addFileToUpload(
+                    filePath = File(imagePath).reduceImageSizeAndSave(context)!!,
+                    parameterName = "image"
+                )
 
         request.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
 

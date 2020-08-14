@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -75,8 +76,12 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         binding.item = viewModel.charityModel
 
         viewModel.charityViewListener = this
-
+        viewModel.charityModel?.apply {
+            if (listOfNotNull(telephoneNumber, telegram, instagram, website).count() == 0)
+                binding.informationBottomSheet.charityContentBottomSheet.visibility = View.GONE
+        }
         initBottomSheet()
+
     }
 
     private fun initBottomSheet() {

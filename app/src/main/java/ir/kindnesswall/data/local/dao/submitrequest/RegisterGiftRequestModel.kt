@@ -19,12 +19,12 @@ data class RegisterGiftRequestModel(
     var isNew: Boolean = true,
     var provinceId: Int = 0,
     var provinceName: String? = "",
-    var regionId: Int? = 0,
+    var regionId: Int?,
     var regionName: String? = null,
     var cityId: Int = 0,
     var cityName: String? = "",
     var countryId: Int = 103,
-    var giftImages: ArrayList<String> = arrayListOf(),
+    var giftImages: ArrayList<String>,
     var isBackup: Boolean? = false
 ) {
     fun isEmpty(): Boolean {

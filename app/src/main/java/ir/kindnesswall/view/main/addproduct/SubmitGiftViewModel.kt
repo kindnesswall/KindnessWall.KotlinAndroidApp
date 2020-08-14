@@ -61,21 +61,22 @@ class SubmitGiftViewModel(
     }
 
     fun submitGift(): LiveData<CustomResult<GiftModel>> {
-        val registerGiftRequestModel = RegisterGiftRequestModel()
-        registerGiftRequestModel.title = title.value ?: ""
-        registerGiftRequestModel.description = description.value ?: ""
-        registerGiftRequestModel.price = price.value?.toBigDecimal() ?: BigDecimal.ZERO
-        registerGiftRequestModel.giftImages.addAll(uploadedImagesAddress)
-        registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
-        registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
-        registerGiftRequestModel.regionId = regionId.value?.toInt() ?: 0
-        registerGiftRequestModel.regionName = null
-        registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
-        registerGiftRequestModel.categoryName = null
-        registerGiftRequestModel.provinceName = null
-        registerGiftRequestModel.cityName = null
-        registerGiftRequestModel.isNew = isNew
-        registerGiftRequestModel.isBackup = null
+        val registerGiftRequestModel = RegisterGiftRequestModel(
+            title = title.value ?: "",
+            description = description.value ?: "",
+            price = price.value?.toBigDecimal() ?: BigDecimal.ZERO,
+            giftImages = ArrayList(uploadedImagesAddress),
+            categoryId = categoryId.value?.toInt() ?: 0,
+            provinceId = provinceId.value?.toInt() ?: 0,
+            regionId = regionId.value?.toInt(),
+            regionName = null,
+            cityId = cityId.value?.toInt() ?: 0,
+            categoryName = null,
+            provinceName = null,
+            cityName = null,
+            isNew = isNew,
+            isBackup = null
+        )
 
         return if (isNew) {
             giftRepo.registerGift(viewModelScope, registerGiftRequestModel)
@@ -86,29 +87,33 @@ class SubmitGiftViewModel(
     }
 
     fun uploadImages(context: Context, lifecycleOwner: LifecycleOwner) {
-        fileUploadRepo.uploadFile(context, lifecycleOwner, imagesToUpload[0], uploadImagesLiveData)
+        fileUploadRepo.uploadFile(
+            context,
+            lifecycleOwner,
+            imagesToUpload.first(),
+            uploadImagesLiveData
+        )
     }
 
     fun backupData(callback: (Boolean) -> Unit) {
-        val registerGiftRequestModel = RegisterGiftRequestModel()
-        registerGiftRequestModel.title = title.value ?: ""
-        registerGiftRequestModel.description = description.value ?: ""
-        registerGiftRequestModel.giftImages.addAll(imagesToShow)
-        registerGiftRequestModel.categoryId = categoryId.value?.toInt() ?: 0
-        registerGiftRequestModel.categoryName = categoryName.value ?: ""
-        registerGiftRequestModel.provinceId = provinceId.value?.toInt() ?: 0
-        registerGiftRequestModel.provinceName = provinceName.value ?: ""
-        registerGiftRequestModel.regionId = regionId.value?.toInt() ?: 0
-        registerGiftRequestModel.regionName = regionName.value ?: ""
-        registerGiftRequestModel.cityId = cityId.value?.toInt() ?: 0
-        registerGiftRequestModel.cityName = cityName.value ?: ""
-        registerGiftRequestModel.countryId = AppPref.countryId
-        registerGiftRequestModel.isNew = isNew
-        registerGiftRequestModel.isBackup = true
-
-        registerGiftRequestModel.price =
+        val registerGiftRequestModel = RegisterGiftRequestModel(
+        title = title.value ?: "",
+        description = description.value ?: "",
+        giftImages= ArrayList(imagesToShow),
+        categoryId = categoryId.value?.toInt() ?: 0,
+        categoryName = categoryName.value ?: "",
+        provinceId = provinceId.value?.toInt() ?: 0,
+        provinceName = provinceName.value ?: "",
+        regionId = regionId.value?.toInt(),
+        regionName = regionName.value ?: "",
+        cityId = cityId.value?.toInt() ?: 0,
+        cityName = cityName.value ?: "",
+        countryId = AppPref.countryId,
+        isNew = isNew,
+        isBackup = true,
+        price =
             if (price.value.isNullOrEmpty()) BigDecimal.ZERO else price.value!!.toBigDecimal()
-
+        )
         viewModelScope.launch {
             appDatabase.registerGiftRequestDao().insert(registerGiftRequestModel)
             callback.invoke(true)

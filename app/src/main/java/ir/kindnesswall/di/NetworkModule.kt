@@ -1,7 +1,9 @@
 package ir.kindnesswall.di
 
+import android.content.Context
 import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.utils.extentions.addDebugInterceptor
 import ir.kindnesswall.utils.wrapInBearer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -34,25 +36,27 @@ private fun getLogInterceptor() = HttpLoggingInterceptor().apply {
         sLogLevel
 }
 
-fun createBaseNetworkClient() =
+fun createBaseNetworkClient(context: Context) =
     retrofitClient(
         baseUrl,
-        okHttpClient(true)
+        okHttpClient(context, true)
     )
 
-fun createAuthNetworkClient() =
+fun createAuthNetworkClient(context: Context) =
     retrofitClient(
         baseUrl,
-        okHttpClient(false)
+        okHttpClient(context, false)
     )
 
-private fun okHttpClient(addAuthHeader: Boolean) = OkHttpClient.Builder()
+private fun okHttpClient(context: Context, addAuthHeader: Boolean) = OkHttpClient.Builder()
     .addInterceptor(getLogInterceptor()).apply {
         setTimeOutToOkHttpClient(
             this
         )
     }
-    .addInterceptor(headersInterceptor(addAuthHeader)).build()
+    .addInterceptor(headersInterceptor(addAuthHeader))
+    .addDebugInterceptor(context)
+    .build()
 
 private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit =
     Retrofit.Builder()
