@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="item"
             type="ir.kindnesswall.data.local.dao.charity.CharityModel" />
@@ -70,6 +72,7 @@
                 android:id="@+id/callImage"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:visibility="@{item.telephoneNumber.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_call_gray" />
@@ -81,6 +84,7 @@
                 android:onClick="@{() -> viewModel.onCallClicked()}"
                 android:text="@{item.telephoneNumber}"
                 android:textColor="@color/secondaryTextColor"
+                android:visibility="@{item.telephoneNumber.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/callImage"
                 app:layout_constraintStart_toEndOf="@+id/callImage"
                 app:layout_constraintTop_toTopOf="@+id/callImage" />
@@ -90,6 +94,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
+                android:visibility="@{item.telegram.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/callImage"
                 app:srcCompat="@drawable/ic_telegram" />
@@ -101,6 +106,7 @@
                 android:onClick="@{() -> viewModel.onTelegramClicked()}"
                 android:text="@{item.telegram}"
                 android:textColor="@color/secondaryTextColor"
+                android:visibility="@{item.telegram.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/telegramImage"
                 app:layout_constraintStart_toEndOf="@+id/telegramImage"
                 app:layout_constraintTop_toTopOf="@+id/telegramImage" />
@@ -110,6 +116,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
+                android:visibility="@{item.instagram.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/telegramImage"
                 app:srcCompat="@drawable/ic_instagram_gray" />
@@ -121,6 +128,7 @@
                 android:onClick="@{() -> viewModel.onInstagramClicked()}"
                 android:text="@{item.instagram}"
                 android:textColor="@color/secondaryTextColor"
+                android:visibility="@{item.instagram.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/instagramImage"
                 app:layout_constraintStart_toEndOf="@+id/instagramImage"
                 app:layout_constraintTop_toTopOf="@+id/instagramImage" />
@@ -130,6 +138,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
+                android:visibility="@{item.email.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/instagramImage"
                 app:srcCompat="@drawable/ic_mail_gray" />
@@ -141,6 +150,7 @@
                 android:onClick="@{() -> viewModel.onEmailClicked()}"
                 android:text="@{item.email}"
                 android:textColor="@color/secondaryTextColor"
+                android:visibility="@{item.email.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/mailImage"
                 app:layout_constraintStart_toEndOf="@+id/mailImage"
                 app:layout_constraintTop_toTopOf="@+id/mailImage" />
@@ -150,6 +160,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
+                android:visibility="@{item.website.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mailImage"
                 app:srcCompat="@drawable/ic_web_site_gray" />
@@ -161,6 +172,7 @@
                 android:onClick="@{() -> viewModel.onWebsiteClicked()}"
                 android:text="@{item.website}"
                 android:textColor="@color/secondaryTextColor"
+                android:visibility="@{item.website.length()>0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/websiteImage"
                 app:layout_constraintStart_toEndOf="@+id/websiteImage"
                 app:layout_constraintTop_toTopOf="@+id/websiteImage" />
