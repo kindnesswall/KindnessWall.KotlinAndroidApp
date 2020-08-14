@@ -193,5 +193,6 @@
     <string name="try_again">تلاش مجدد</string>
     <string name="delete_gift">حذف هدیه</string>
     <string name="sure_to_remove_gift">آیا از حذف هدیه خود اطمینان دارید؟</string>
+    <string name="notfound_related_app">برنامه مرتبط یافت نشد</string>
 
 </resources>
