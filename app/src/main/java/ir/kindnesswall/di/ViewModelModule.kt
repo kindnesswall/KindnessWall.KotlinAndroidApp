@@ -22,6 +22,7 @@ import ir.kindnesswall.view.profile.blocklist.BlockListViewModel
 import ir.kindnesswall.view.profile.bookmarks.BookmarksViewModel
 import ir.kindnesswall.view.reviewgift.ReviewGiftsViewModel
 import ir.kindnesswall.view.splash.SplashViewModel
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -46,7 +47,7 @@ val viewModelModule = module {
     viewModel { GiftDetailViewModel(get()) }
     viewModel { GalleryViewModel() }
     viewModel { CharityListViewModel(get()) }
-    viewModel { BookmarksViewModel(get()) }
+    viewModel { BookmarksViewModel(get(),androidApplication()) }
     viewModel { BlockListViewModel(get(), get()) }
     viewModel { CharityViewModel(get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get()) }

@@ -166,7 +166,7 @@ class SubmitCharityActivity : BaseActivity() {
     }
 
     private fun submitCharity() {
-        mViewModel.submitCharity(mPeakedUser).observe(this) { it ->
+        mViewModel.submitCharity(mPeakedUser!!).observe(this) { it ->
             when (it.status) {
                 CustomResult.Status.LOADING -> showProgressDialog()
                 CustomResult.Status.ERROR -> {
@@ -233,7 +233,7 @@ class SubmitCharityActivity : BaseActivity() {
         mBinding.submitButton.isEnabled =
             (!mViewModel.mDescriptionLive.value.isNullOrEmpty() && mViewModel.mDescriptionLive.value!!.length >= 5) &&
                     (!mViewModel.mTitleLive.value.isNullOrEmpty() && mViewModel.mTitleLive.value!!.length >= 5) &&
-                    mViewModel.imagesToShow.isNotEmpty()
+                    mViewModel.imagesToShow.isNotEmpty()&&mPeakedUser!=null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

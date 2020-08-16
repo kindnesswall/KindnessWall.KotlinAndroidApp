@@ -2,7 +2,6 @@ package ir.kindnesswall.view.main.charity.addcharity
 
 import android.content.Context
 import androidx.lifecycle.*
-import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterCharityModel
 import ir.kindnesswall.data.model.CustomResult
@@ -34,7 +33,7 @@ class SubmitCharityViewModel(private val fileUploadRepo: FileUploadRepo, private
         return charityRepo.getUserCharity(viewModelScope)
     }
 
-    fun submitCharity(user: User?): LiveData<CustomResult<CharityModel>> {
+    fun submitCharity(user: User): LiveData<CustomResult<CharityModel>> {
         val model = RegisterCharityModel().apply {
             name = mTitleLive.value
             description = mDescriptionLive.value
@@ -49,7 +48,7 @@ class SubmitCharityViewModel(private val fileUploadRepo: FileUploadRepo, private
             description = mDescriptionLive.value
         }
 
-        val userId = user?.id ?: UserInfoPref.id
+        val userId = user.id
 
         return if (isNew) {
             charityRepo.registerCharity(viewModelScope, userId, model)
