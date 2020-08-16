@@ -55,12 +55,13 @@
         app:tabBackground="@color/colorPrimary"
         app:tabIndicatorColor="@color/colorPrimary" />
 
-    <androidx.viewpager.widget.ViewPager
+    <ir.kindnesswall.utils.widgets.rtlviewpager.RtlViewPager
         android:id="@+id/vViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vTab" />
+        app:layout_constraintTop_toBottomOf="@id/vTab"
+      />
 
     <FrameLayout
         android:id="@+id/flContainter"
