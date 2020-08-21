@@ -20,6 +20,7 @@ import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
+import kotlinx.android.synthetic.main.toolbar_action_button_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -66,7 +67,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
                 .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
         }
 
-        binding.submitGift.setOnClickListener {
+        actionButton.setOnClickListener {
             SubmitGiftActivity.start(requireContext())
         }
 

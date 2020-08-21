@@ -195,4 +195,6 @@
     <string name="sure_to_remove_gift">آیا از حذف هدیه خود اطمینان دارید؟</string>
     <string name="notfound_related_app">برنامه مرتبط یافت نشد</string>
     <string name="version">نسخه %1$s</string>
+    <string name="submit_charity">ثبت خیریه</string>
+    <string name="add_charity_description">لطفا مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
 </resources>
