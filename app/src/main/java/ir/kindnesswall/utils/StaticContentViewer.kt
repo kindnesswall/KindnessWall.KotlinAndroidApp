@@ -1,8 +1,13 @@
 package ir.kindnesswall.utils
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.net.Uri
+import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
+import com.google.android.material.snackbar.Snackbar
+import ir.kindnesswall.R
 
 /**
  * Created by farshid.abazari since 2019-05-08
@@ -17,12 +22,23 @@ import androidx.browser.customtabs.CustomTabsIntent
 
 object StaticContentViewer {
     fun show(context: Context, address: String?) {
-        if (address.isNullOrEmpty()) {
-            return
-        }
+        try {
+            if (address.isNullOrEmpty()) {
+                return
+            }
 
-        val builder = CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(context, Uri.parse(address))
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(context, Uri.parse(address))
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            (context as? Activity)?.findViewById<View>(android.R.id.content)?.let {
+                Snackbar.make(
+                    it,
+                    context.getString(R.string.notfound_related_app),
+                    Snackbar.LENGTH_SHORT
+                ).setTextColor(Color.WHITE).show()
+            }
+        }
     }
 }
