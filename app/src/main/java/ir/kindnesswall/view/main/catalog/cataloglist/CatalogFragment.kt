@@ -16,6 +16,7 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentCatalogBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
@@ -68,7 +69,9 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         }
 
         actionButton.setOnClickListener {
-            SubmitGiftActivity.start(requireContext())
+            requireContext().runOrStartAuth {
+                SubmitGiftActivity.start(requireContext())
+            }
         }
 
         binding.pullToRefreshLayout.setOnRefreshListener {

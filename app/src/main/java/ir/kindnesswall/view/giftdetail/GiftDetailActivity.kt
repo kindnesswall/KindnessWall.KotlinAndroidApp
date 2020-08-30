@@ -16,9 +16,9 @@ import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
-import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.gallery.GalleryActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
@@ -201,9 +201,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     }
 
     override fun onRequestClicked() {
-        if (UserInfoPref.bearerToken.isEmpty()) {
-            AuthenticationActivity.start(this)
-        } else {
+        runOrStartAuth {
             if (viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0) {
                 viewModel.getRequestStatus().observe(this) {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {

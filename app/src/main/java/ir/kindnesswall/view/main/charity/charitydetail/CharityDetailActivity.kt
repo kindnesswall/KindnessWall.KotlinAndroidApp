@@ -16,9 +16,9 @@ import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
 import ir.kindnesswall.utils.StaticContentViewer
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
-import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -113,10 +113,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
     override fun onStartChatClicked() {
-        if (UserInfoPref.bearerToken.isEmpty()) {
-            AuthenticationActivity.start(this)
-        } else {
-
+        runOrStartAuth {
             if (viewModel.charityModel?.userId == UserInfoPref.userId) {
                 return
             }
