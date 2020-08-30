@@ -23,6 +23,7 @@ object UserInfoPref : KotprefModel() {
     var name by stringPref("")
     var charityName by stringPref("")
     var phoneNumber by stringPref("")
+    var charityImage by stringPref("")
     var image by stringPref("")
 
     var isCharity by booleanPref(false)
@@ -43,6 +44,7 @@ object UserInfoPref : KotprefModel() {
 
         phoneNumber = user.phoneNumber ?: ""
         image = user.image ?: ""
+        charityImage = user.charityImage ?: ""
     }
 
     fun getPersianPhoneNumber() =
@@ -57,5 +59,6 @@ object UserInfoPref : KotprefModel() {
             .replace("8", "۸")
             .replace("9", "۹")
 
-    fun getUser() = User(userId, name, phoneNumber, image, isCharity, isAdmin, charityName)
+    fun getUser() =
+        User(userId, name, phoneNumber, image, isCharity, isAdmin, charityName, charityImage)
 }

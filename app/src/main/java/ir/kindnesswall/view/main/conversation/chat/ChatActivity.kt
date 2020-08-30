@@ -355,13 +355,15 @@ class ChatActivity : BaseActivity() {
                 when (it.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (viewModel.chatContactModel == null) {
-                            val user = User()
-                            user.charityName = it.data?.name
-                            user.name = it.data?.name
-                            user.isCharity = true
-                            user.id = it.data?.userId!!
-                            user.phoneNumber = it.data.mobileNumber
-                            user.image = it.data.imageUrl
+                            val user = User(
+                                charityName = it.data?.name,
+                                name = it.data?.name,
+                                isCharity = true,
+                                id = it.data?.userId!!,
+                                phoneNumber = it.data.mobileNumber,
+                                image = it.data.imageUrl,
+                                charityImage = it.data.imageUrl
+                            )
 
                             viewModel.chatContactModel = ChatContactModel(
                                 BlockStatus(),
@@ -614,7 +616,7 @@ class ChatActivity : BaseActivity() {
                 }
 
                 showOrHideBlockState(true)
-            }else if (it.status == CustomResult.Status.ERROR) {
+            } else if (it.status == CustomResult.Status.ERROR) {
                 if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
                     NoInternetDialogFragment().display(supportFragmentManager) {
                         blockUser()

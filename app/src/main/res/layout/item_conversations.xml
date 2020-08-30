@@ -32,7 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginStart="16dp"
-            app:srcAvatarImage="@{item.contactProfile.image}"
+            app:srcAvatarImage="@{item.contactProfile.isCharity? item.contactProfile.charityName : item.contactProfile.image}"
             tools:srcCompat="@drawable/ic_profile_placeholder_gary" />
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/vazir"
-            android:text="@{item.contactProfile.name}"
+            android:text="@{item.contactProfile.isCharity? item.contactProfile.charityName : item.contactProfile.name}"
             app:layout_constraintBottom_toBottomOf="@+id/userImageView"
             app:layout_constraintStart_toEndOf="@id/userImageView"
             app:layout_constraintTop_toTopOf="@id/userImageView"

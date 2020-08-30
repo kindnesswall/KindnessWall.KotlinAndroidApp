@@ -11,7 +11,8 @@ data class User(
     var image: String? = null,
     var isCharity: Boolean? = false,
     var isAdmin: Boolean? = false,
-    var charityName: String? = null
+    var charityName: String? = null,
+    val charityImage: String?
 ) : Serializable {
     fun getTitle(context: Context): String {
         if (name.isNullOrEmpty()) {
