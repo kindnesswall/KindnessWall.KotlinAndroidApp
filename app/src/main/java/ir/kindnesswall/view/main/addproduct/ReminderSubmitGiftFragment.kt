@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import ir.kindnesswall.BR
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.databinding.FragmentReminderSubmitGiftBinding
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.widgets.RoundBottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +29,9 @@ class ReminderSubmitGiftFragment : RoundBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.setVariable(BR.onClickPrimary, View.OnClickListener {
-            SubmitGiftActivity.start(requireContext())
+            requireContext().runOrStartAuth {
+                SubmitGiftActivity.start(requireContext())
+            }
             dismiss()
         })
 
