@@ -13,8 +13,8 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.FragmentMoreBinding
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.isAppAvailable
-import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
 import ir.kindnesswall.view.profile.blocklist.BlockListActivity
@@ -46,8 +46,21 @@ class MoreFragment : BaseFragment() {
     override fun configureViews() {
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.myProfileContainer.setOnClickListener { context?.let { UserProfileActivity.start(it, UserInfoPref.getUser()) } }
-        binding.reviewGiftsContainer.setOnClickListener { context?.let { ReviewGiftsActivity.start(it) } }
+        binding.myProfileContainer.setOnClickListener {
+            context?.let {
+                UserProfileActivity.start(
+                    it,
+                    UserInfoPref.getUser()
+                )
+            }
+        }
+        binding.reviewGiftsContainer.setOnClickListener {
+            context?.let {
+                ReviewGiftsActivity.start(
+                    it
+                )
+            }
+        }
         binding.aboutUs.setOnClickListener { context?.let { AboutUsActivity.start(it) } }
         binding.blockedUsers.setOnClickListener { context?.let { BlockListActivity.start(it) } }
 
@@ -56,9 +69,7 @@ class MoreFragment : BaseFragment() {
         binding.suggestions.setOnClickListener { openTelegram() }
 
         binding.logInLogOut.setOnClickListener {
-            if (UserInfoPref.bearerToken.isEmpty()) {
-                context?.let { AuthenticationActivity.start(it) }
-            } else {
+            context?.runOrStartAuth {
                 showPromptDialog(
                     getString(R.string.logout_message),
                     positiveButtonText = getString(R.string.yes),

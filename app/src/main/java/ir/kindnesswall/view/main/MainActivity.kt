@@ -19,6 +19,7 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogFragment
@@ -176,10 +177,7 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.navigation_add_product -> {
-                if (UserInfoPref.bearerToken.isEmpty()) {
-                    AuthenticationActivity.start(this)
-                    return false
-                } else {
+                runOrStartAuth {
                     SubmitGiftActivity.start(this)
                     return false
                 }
