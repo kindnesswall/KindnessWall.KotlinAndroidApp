@@ -1,9 +1,11 @@
 package ir.kindnesswall.di
 
 import com.readystatesoftware.chuck.ChuckInterceptor
+import android.content.Context
 import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.utils.extentions.addDebugInterceptor
 import ir.kindnesswall.utils.wrapInBearer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -36,26 +38,28 @@ private fun getLogInterceptor() = HttpLoggingInterceptor().apply {
         sLogLevel
 }
 
-fun createBaseNetworkClient() =
+fun createBaseNetworkClient(context: Context) =
     retrofitClient(
         baseUrl,
-        okHttpClient(true)
+        okHttpClient(context, true)
     )
 
-fun createAuthNetworkClient() =
+fun createAuthNetworkClient(context: Context) =
     retrofitClient(
         baseUrl,
-        okHttpClient(false)
+        okHttpClient(context, false)
     )
 
-private fun okHttpClient(addAuthHeader: Boolean) = OkHttpClient.Builder()
+private fun okHttpClient(context: Context, addAuthHeader: Boolean) = OkHttpClient.Builder()
     .addInterceptor(getLogInterceptor()).apply {
         setTimeOutToOkHttpClient(
             this
         )
     }
     .addInterceptor(ChuckInterceptor(KindnessApplication.instance.applicationContext))
-    .addInterceptor(headersInterceptor(addAuthHeader)).build()
+    .addInterceptor(headersInterceptor(addAuthHeader))
+    .addDebugInterceptor(context)
+    .build()
 
 private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit =
     Retrofit.Builder()
@@ -71,10 +75,9 @@ fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->
             .also {
                 if (addAuthHeader) {
                     it.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
-//                    it.addHeader("Authorization", wrapInBearer("QAFLcG8R8/D6jwn7CWxIpg=="))
                 }
                 it.addHeader("Content-Type", "application/json")
-            } 
+            }
             .build()
     )
 }

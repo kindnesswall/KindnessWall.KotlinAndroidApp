@@ -7,24 +7,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/toolbarRelativeLayout"
+        <LinearLayout
+            android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_margin="16dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/vazir"
                 android:text="@string/kindness_wall"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
+            <include
+                layout="@layout/toolbar_action_button_layout"
+                app:actionName="@{@string/submit_gift}" />
 
             <ImageView
                 android:id="@+id/searchImageView"
@@ -32,10 +37,11 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="8dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 app:srcCompat="@drawable/ic_search_white" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="0dp"
@@ -43,14 +49,14 @@
             android:background="@drawable/shadow_top_to_down"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/pullToRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemsListRecyclerView"
@@ -63,7 +69,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 tools:listitem="@layout/item_catalog" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

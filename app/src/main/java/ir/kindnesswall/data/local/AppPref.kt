@@ -22,6 +22,8 @@ object AppPref : KotprefModel() {
     var isSpotlightShown by booleanPref(false)
     var isInChatPage by booleanPref(false)
     var currentChatSessionId by longPref(-1)
+    var latestDayVisitedApp by longPref(-1)
+    var countDaysVisitedApp by intPref(0)
 
     var countryId by intPref(103)
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -15,9 +16,9 @@ import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
 import ir.kindnesswall.utils.StaticContentViewer
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
-import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -75,8 +76,12 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         binding.item = viewModel.charityModel
 
         viewModel.charityViewListener = this
-
+        viewModel.charityModel?.apply {
+            if (listOfNotNull(telephoneNumber, telegram, instagram, website).count() == 0)
+                binding.informationBottomSheet.charityContentBottomSheet.visibility = View.GONE
+        }
         initBottomSheet()
+
     }
 
     private fun initBottomSheet() {
@@ -108,10 +113,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
     override fun onStartChatClicked() {
-        if (UserInfoPref.bearerToken.isEmpty()) {
-            AuthenticationActivity.start(this)
-        } else {
-
+        runOrStartAuth {
             if (viewModel.charityModel?.userId == UserInfoPref.userId) {
                 return
             }

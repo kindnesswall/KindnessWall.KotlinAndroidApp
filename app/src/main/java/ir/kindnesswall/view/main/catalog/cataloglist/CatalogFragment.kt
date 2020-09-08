@@ -16,9 +16,13 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentCatalogBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
+import ir.kindnesswall.view.main.addproduct.ReminderSubmitGiftFragment
+import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
+import kotlinx.android.synthetic.main.toolbar_action_button_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -63,6 +67,12 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
         binding.searchImageView.setOnClickListener {
             it.findNavController()
                 .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
+        }
+
+        actionButton.setOnClickListener {
+            requireContext().runOrStartAuth {
+                SubmitGiftActivity.start(requireContext())
+            }
         }
 
         binding.pullToRefreshLayout.setOnRefreshListener {
@@ -150,6 +160,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
     private fun showList() {
         (binding.itemsListRecyclerView.adapter as CatalogAdapter).submitList(viewModel.catalogItems)
         (binding.itemsListRecyclerView.adapter as CatalogAdapter).notifyDataSetChanged()
+        ReminderSubmitGiftFragment.start(childFragmentManager)
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {

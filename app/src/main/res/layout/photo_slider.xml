@@ -12,7 +12,6 @@
         android:background="@color/place_holder_back_color"
         android:gravity="center"
         android:visibility="gone"
-        tools:layout_height="300dp"
         tools:visibility="visible">
 
         <ImageView
@@ -31,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="ltr"
-        android:orientation="horizontal"
-        tools:layout_height="300dp" />
+        android:orientation="horizontal" />
 
     <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
         android:id="@+id/recyclerPagerIndicator"

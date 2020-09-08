@@ -14,7 +14,9 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentCharityBinding
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
+import ir.kindnesswall.view.main.charity.add.AddCharityFragment
 import ir.kindnesswall.view.main.charity.charitydetail.CharityDetailActivity
+import kotlinx.android.synthetic.main.toolbar_action_button_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -54,7 +56,9 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun configureViews() {
-        binding.addImageView.setOnClickListener {
+        actionButton.setOnClickListener {
+            val addCharityFragment = AddCharityFragment()
+            addCharityFragment.show(childFragmentManager, addCharityFragment.tag)
         }
 
         binding.pullToRefreshLayout.setOnRefreshListener {

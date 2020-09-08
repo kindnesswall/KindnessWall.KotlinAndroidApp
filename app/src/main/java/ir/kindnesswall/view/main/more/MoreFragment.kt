@@ -13,6 +13,7 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.FragmentMoreBinding
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.isAppAvailable
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.charity.addcharity.SubmitCharityActivity
@@ -62,9 +63,7 @@ class MoreFragment : BaseFragment() {
         binding.suggestions.setOnClickListener { openTelegram() }
 
         binding.logInLogOut.setOnClickListener {
-            if (UserInfoPref.bearerToken.isEmpty()) {
-                context?.let { AuthenticationActivity.start(it) }
-            } else {
+            context?.runOrStartAuth {
                 showPromptDialog(
                     getString(R.string.logout_message),
                     positiveButtonText = getString(R.string.yes),

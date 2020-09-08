@@ -225,4 +225,9 @@
     <string name="admin">ادمين</string>
     <string name="error_peak_wrong_user">كاربر انتخاب شده، يك خيريه مي باشد، لطفا دوباره تلاش كنيد</string>
 
+    <string name="notfound_related_app">برنامه مرتبط یافت نشد</string>
+    <string name="version">نسخه %1$s</string>
+    <string name="add_charity_description">لطفا مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
+    <string name="submit_gift_reminder_description">با هدیه دادن وسایلی که دیگر از آنها استفاده نمیکنید، به راحتی  میتوانید نیاز یک نیازمند را برطرف سازید.</string>
+    <string name="later">بعدا</string>
 </resources>
