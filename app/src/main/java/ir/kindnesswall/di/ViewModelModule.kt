@@ -47,10 +47,10 @@ val viewModelModule = module {
     viewModel { GiftDetailViewModel(get()) }
     viewModel { GalleryViewModel() }
     viewModel { CharityListViewModel(get()) }
-    viewModel { BookmarksViewModel(get(),androidApplication()) }
+    viewModel { BookmarksViewModel(get(), androidApplication()) }
     viewModel { BlockListViewModel(get(), get()) }
     viewModel { CharityViewModel(get(), get(), get()) }
-    viewModel { MyProfileViewModel(get(), get()) }
+    viewModel { MyProfileViewModel(get(), get(), get()) }
     viewModel { SplashViewModel(get(), get()) }
     viewModel { SubmitGiftViewModel(get(), get(), get()) }
     viewModel { ConversationsViewModel(get()) }

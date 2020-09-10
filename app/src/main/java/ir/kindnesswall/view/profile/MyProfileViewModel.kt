@@ -4,16 +4,19 @@ import android.content.Context
 import androidx.lifecycle.*
 import ir.kindnesswall.annotation.Filter
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.data.repository.ChatRepo
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.UserRepo
 import java.io.File
 
 class MyProfileViewModel(
     private val userRepo: UserRepo,
-    private val fileUploadRepo: FileUploadRepo
+    private val fileUploadRepo: FileUploadRepo,
+    private val chatRepo: ChatRepo
 ) : ViewModel() {
     var gifts: List<GiftModel>? = arrayListOf()
     lateinit var user: User
@@ -50,5 +53,9 @@ class MyProfileViewModel(
 
     fun onNameTextChanged(text: CharSequence) {
         newUserName = text.toString()
+    }
+
+    fun getChatId(): LiveData<CustomResult<ChatContactModel>> {
+        return chatRepo.getChatId(viewModelScope, user.id)
     }
 }

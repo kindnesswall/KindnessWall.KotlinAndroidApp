@@ -23,7 +23,9 @@
         <activity android:name=".view.reviewgift.ReviewGiftsActivity" />
         <activity android:name=".view.update.ForceAndOptionalUpdateActivity" />
         <activity android:name=".view.main.more.aboutus.AboutUsActivity" />
-        <activity android:name=".view.main.conversation.chat.ChatActivity"/>
+        <activity
+            android:name=".view.main.conversation.chat.ChatActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".view.main.addproduct.SubmitGiftActivity" />
         <activity android:name=".view.main.charity.addcharity.SubmitCharityActivity" />
         <activity android:name=".view.profile.blocklist.BlockListActivity" />
