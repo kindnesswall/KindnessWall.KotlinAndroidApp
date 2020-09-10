@@ -6,7 +6,7 @@ import ir.kindnesswall.BuildConfig
 import okhttp3.OkHttpClient
 
 fun OkHttpClient.Builder.addDebugInterceptor(context: Context): OkHttpClient.Builder {
-    if (BuildConfig.DEBUG)
+    if (BuildConfig.DEBUG || BuildConfig.FLAVOR.contains("staging"))
         addInterceptor(ChuckerInterceptor(context))
     return this
 }

@@ -1,6 +1,5 @@
 package ir.kindnesswall.di
 
-import com.readystatesoftware.chuck.ChuckInterceptor
 import android.content.Context
 import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.KindnessApplication
@@ -56,7 +55,6 @@ private fun okHttpClient(context: Context, addAuthHeader: Boolean) = OkHttpClien
             this
         )
     }
-    .addInterceptor(ChuckInterceptor(KindnessApplication.instance.applicationContext))
     .addInterceptor(headersInterceptor(addAuthHeader))
     .addDebugInterceptor(context)
     .build()

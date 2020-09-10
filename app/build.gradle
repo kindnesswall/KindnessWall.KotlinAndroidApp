@@ -173,8 +173,4 @@ dependencies {
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.2.0"
 
     implementation project(path: ':spotlight')
-
-    //Chuck
-    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
-    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 }
