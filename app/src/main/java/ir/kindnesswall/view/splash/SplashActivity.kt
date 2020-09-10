@@ -35,7 +35,16 @@ class SplashActivity : BaseActivity() {
 
         checkUpdate()
         runIfAuthenticated {
-            viewModel.getUserProfile()
+            viewModel.getUserProfile().observe(this@SplashActivity) {
+                when (it.status) {
+                    CustomResult.Status.SUCCESS -> checkUpdate()
+
+                    CustomResult.Status.ERROR -> checkUpdate()
+
+                    CustomResult.Status.LOADING -> {
+                    }
+                }
+            }
         }
     }
 
