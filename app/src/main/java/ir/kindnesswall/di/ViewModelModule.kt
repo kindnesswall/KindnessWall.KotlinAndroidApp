@@ -44,7 +44,7 @@ val viewModelModule = module {
     viewModel { SearchViewModel(get()) }
     viewModel { CategoryViewModel(get()) }
     viewModel { CityChooserViewModel(get()) }
-    viewModel { GiftDetailViewModel(get()) }
+    viewModel { GiftDetailViewModel(get(),get()) }
     viewModel { GalleryViewModel() }
     viewModel { CharityListViewModel(get()) }
     viewModel { BookmarksViewModel(get(), androidApplication()) }

@@ -230,4 +230,5 @@
     <string name="add_charity_description">لطفا مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
     <string name="submit_gift_reminder_description">با هدیه دادن وسایلی که دیگر از آنها استفاده نمیکنید، به راحتی  میتوانید نیاز یک نیازمند را برطرف سازید.</string>
     <string name="later">بعدا</string>
+    <string name="donator">اهدا کننده</string>
 </resources>
