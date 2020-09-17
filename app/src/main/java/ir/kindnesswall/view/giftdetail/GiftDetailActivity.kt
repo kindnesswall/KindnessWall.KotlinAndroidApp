@@ -82,10 +82,12 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         }
 
         binding.visitProfileTxt.setOnClickListener {
-            if (::donatorUser.isInitialized)
-                UserProfileActivity.start(this, donatorUser)
-            else
-                Toast.makeText(this, R.string.loading, Toast.LENGTH_SHORT).show()
+            runOrStartAuth {
+                if (::donatorUser.isInitialized)
+                    UserProfileActivity.start(this, donatorUser)
+                else
+                    Toast.makeText(this, R.string.loading, Toast.LENGTH_SHORT).show()
+            }
         }
 
         setupPhotoSlider()

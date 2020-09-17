@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -14,12 +15,14 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
 import ir.kindnesswall.utils.StaticContentViewer
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
+import ir.kindnesswall.view.profile.UserProfileActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -79,6 +82,14 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         viewModel.charityModel?.apply {
             if (listOfNotNull(telephoneNumber, telegram, instagram, website).count() == 0)
                 binding.informationBottomSheet.charityContentBottomSheet.visibility = View.GONE
+        }
+        binding.visitProfileTxt.setOnClickListener {
+            runOrStartAuth {
+                if (binding.otherUser != null)
+                    UserProfileActivity.start(this, binding.otherUser as User)
+                else
+                    Toast.makeText(this, R.string.loading, Toast.LENGTH_SHORT).show()
+            }
         }
         initBottomSheet()
 
