@@ -23,12 +23,14 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityMyProfileBinding
 import ir.kindnesswall.utils.OnItemClickListener
+import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.imageloader.GlideApp
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
 import ir.kindnesswall.utils.startSingleModeImagePicker
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
+import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 
@@ -107,6 +109,32 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
             selectFilter(binding.registeredFilter)
             viewModel.currentFilter = Filter.REGISTERED
             getGiftList()
+        }
+
+        binding.btnSendMessage.setOnClickListener {
+            runOrStartAuth {
+                viewModel.getChatId().observe(this) {
+                    when (it.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            it.data?.let { data ->
+                                ChatActivity.start(
+                                    this, data,
+                                    isCharity = true,
+                                    isStartFromNotification = false
+                                )
+                            }
+                        }
+                        CustomResult.Status.ERROR -> {
+                            if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                                NoInternetDialogFragment().display(supportFragmentManager) {
+                                }
+                            } else {
+                                showToastMessage(getString(R.string.please_try_again))
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         binding.donatedFilter.setOnClickListener {

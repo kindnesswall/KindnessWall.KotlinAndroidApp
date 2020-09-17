@@ -2,6 +2,7 @@ package ir.kindnesswall.di
 
 import android.content.Context
 import ir.kindnesswall.BuildConfig
+import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.utils.extentions.addDebugInterceptor
 import ir.kindnesswall.utils.wrapInBearer

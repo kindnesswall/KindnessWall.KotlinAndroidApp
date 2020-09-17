@@ -140,6 +140,34 @@
                     app:layout_constraintTop_toTopOf="@id/managerText" />
 
                 <TextView
+                    android:id="@+id/visitProfileLabelTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/vazir_bold"
+                    android:text="@string/charity_owner"
+                    android:textColor="@color/secondaryTextColor"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/managerTextView" />
+
+                <TextView
+                    android:id="@+id/visitProfileTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/show_profile"
+                    android:clickable="true"
+                    android:singleLine="false"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/visitProfileLabelTxt"
+                    app:layout_constraintTop_toTopOf="@id/visitProfileLabelTxt" />
+
+                <TextView
                     android:id="@+id/neighborhoodText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -149,7 +177,8 @@
                     android:text="@string/central_office"
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/managerText" />
+                    app:layout_constraintTop_toBottomOf="@+id/visitProfileLabelTxt" />
+
 
                 <TextView
                     android:id="@+id/neighborhoodTextView"

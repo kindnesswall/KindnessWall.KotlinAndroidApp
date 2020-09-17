@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
@@ -15,6 +17,7 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
@@ -22,11 +25,13 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.gallery.GalleryActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
+import ir.kindnesswall.view.profile.UserProfileActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
     lateinit var binding: ActivityGiftDetailBinding
+    lateinit var donatorUser: User
 
     val viewModel: GiftDetailViewModel by viewModel()
 
@@ -59,6 +64,10 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         viewModel.isDonatedToSomeone =
             viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0
 
+        viewModel.getUserProfile(viewModel.giftModel!!.userId).observe(this, Observer { callback ->
+            callback.data?.let { donatorUser = it }
+        })
+
         configureViews(savedInstanceState)
     }
 
@@ -70,6 +79,15 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         if (UserInfoPref.isAdmin && !viewModel.giftModel!!.isReviewed) {
             binding.reviewGiftsContainer.visibility = View.VISIBLE
             binding.requestButton.visibility = View.GONE
+        }
+
+        binding.visitProfileTxt.setOnClickListener {
+            runOrStartAuth {
+                if (::donatorUser.isInitialized)
+                    UserProfileActivity.start(this, donatorUser)
+                else
+                    Toast.makeText(this, R.string.loading, Toast.LENGTH_SHORT).show()
+            }
         }
 
         setupPhotoSlider()
@@ -315,6 +333,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         showGetInputDialog(Bundle().apply {
             putString("title", getString(R.string.Please_write_reason))
             putString("hint", getString(R.string.reason_of_reject))
+            putString("accept_btn", getString(R.string.reject_gift))
         }, approveListener = {
             viewModel.rejectGift(viewModel.giftModel!!.id, it)
                 .observe(this) { result ->

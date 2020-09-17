@@ -10,15 +10,19 @@ import ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogViewModel
 import ir.kindnesswall.view.main.catalog.search.SearchViewModel
 import ir.kindnesswall.view.main.charity.CharityListViewModel
+import ir.kindnesswall.view.main.charity.addcharity.SubmitCharityViewModel
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import ir.kindnesswall.view.main.conversation.ConversationsViewModel
 import ir.kindnesswall.view.main.conversation.chat.ChatViewModel
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.DonateGiftViewModel
+import ir.kindnesswall.view.main.more.userlist.tabs.UserListViewModel
+import ir.kindnesswall.view.main.reviewcharity.ReviewCharityViewModel
 import ir.kindnesswall.view.profile.MyProfileViewModel
 import ir.kindnesswall.view.profile.blocklist.BlockListViewModel
 import ir.kindnesswall.view.profile.bookmarks.BookmarksViewModel
 import ir.kindnesswall.view.reviewgift.ReviewGiftsViewModel
 import ir.kindnesswall.view.splash.SplashViewModel
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -40,17 +44,20 @@ val viewModelModule = module {
     viewModel { SearchViewModel(get()) }
     viewModel { CategoryViewModel(get()) }
     viewModel { CityChooserViewModel(get()) }
-    viewModel { GiftDetailViewModel(get()) }
+    viewModel { GiftDetailViewModel(get(),get()) }
     viewModel { GalleryViewModel() }
     viewModel { CharityListViewModel(get()) }
-    viewModel { BookmarksViewModel(get()) }
+    viewModel { BookmarksViewModel(get(), androidApplication()) }
     viewModel { BlockListViewModel(get(), get()) }
     viewModel { CharityViewModel(get(), get(), get()) }
-    viewModel { MyProfileViewModel(get(), get()) }
+    viewModel { MyProfileViewModel(get(), get(), get()) }
     viewModel { SplashViewModel(get(), get()) }
     viewModel { SubmitGiftViewModel(get(), get(), get()) }
     viewModel { ConversationsViewModel(get()) }
     viewModel { DonateGiftViewModel(get()) }
     viewModel { ReviewGiftsViewModel(get()) }
+    viewModel { ReviewCharityViewModel(get()) }
     viewModel { ChatViewModel(get(), get(), get(), get()) }
+    viewModel { SubmitCharityViewModel(get(), get()) }
+    viewModel { UserListViewModel(get()) }
 }

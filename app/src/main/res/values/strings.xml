@@ -137,6 +137,7 @@
     <string name="rejected_gift_others_empty_message">این کاربر هدیه رد شده‌ای ندارد</string>
 
     <string name="clear">پاک کردن</string>
+    <string name="peak_user">انتخاب كاربر</string>
     <string name="new_message">پیغام جدید</string>
     <string name="error_sending_message">خطا در ارسال پیام</string>
     <string name="pros_and_cons">انتقادات و پیشنهادات</string>
@@ -145,7 +146,8 @@
     <string name="gift_submitted_successfully">هدیه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
 شما میتوانید از صفحه پروفایل به هدیه های ثبت شده خود دسترسی داشته باشید
 </string>
-
+    <string name="charity_submitted_successfully">خيريه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
+</string>
     <string name="verify_code_error">کد وارد شده صحیح نمی باشد.</string>
     <string name="which_gift_to_donate">کدام هدیه را اهدا می کنید؟</string>
     <string name="no_gift_to_donate">برای اهدا، هدیه‌ای ثبت نکرده اید.</string>
@@ -170,12 +172,19 @@
     <string name="force_update_message">نسخه فعلی برنامه دیگر پشتیبانی نمی شود جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
     <string name="optional_update_message">نسخه جدید برای این برنامه آمده است جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
     <string name="check_submitted_gifts">بررسی هدیه های ثبت شده</string>
+    <string name="check_submitted_Charity">بررسی خيريه های ثبت شده</string>
+    <string name="users">كاربران</string>
     <string name="reject_gift">رد هدیه</string>
+    <string name="reject_charity">رد </string>
     <string name="accept_gift">" تایید هدیه"</string>
+    <string name="accept_charity">تایید</string>
     <string name="reason_of_reject">دلیل رد هدیه</string>
+    <string name="reason_of_reject_for_charity">دلیل رد خيريه</string>
     <string name="Please_write_reason">لطفا دلیل رد هدیه را بنویسید</string>
+    <string name="Please_write_reason_for_charity">لطفا دلیل رد خيريه را بنویسید</string>
     <string name="please_try_again">مشکلی پیش آمده، لطفا دوباره تلاش کنید</string>
     <string name="review_gifts_empty_state">هدیه‌ای برای بررسی وجود ندارد</string>
+    <string name="review_charity_empty_state">خيريه‌ای برای بررسی وجود ندارد</string>
     <string name="loading">لطفا شکیبا باشید…</string>
     <string name="talk_with_donator">گفتگو با اهدا کننده</string>
     <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
@@ -193,8 +202,34 @@
     <string name="try_again">تلاش مجدد</string>
     <string name="delete_gift">حذف هدیه</string>
     <string name="sure_to_remove_gift">آیا از حذف هدیه خود اطمینان دارید؟</string>
+
+    <string name="submit_charity">ثبت خيريه</string>
+    <string name="charity_title">عنوان خيريه</string>
+    <string name="edit_charity_warning_message">در صورت ویرایش، اطلاعات خيريه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
+    <string name="submit_charity_title_message">در عنوان خيريه به موارد مهم اشاره کنید. (حداقل ۵ حرف)</string>
+    <string name="submit_charity_price_message">ارزش مالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
+    <string name="submit_charity_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید. (حداقل ۵ حرف)</string>
+    <string name="charity_image">عکس خيريه</string>
+    <string name="edit_charity">ویرایش خيريه</string>
+    <string name="mobile_phone_number">شماره موبايل</string>
+    <string name="mobile_telephone_number">شماره تلفن</string>
+    <string name="web_site">وب سايت</string>
+    <string name="email">ايميل</string>
+    <string name="telegram">تلگرام</string>
+    <string name="instagram">اينستاگرام</string>
+    <string name="user_list">ليست كاربران</string>
+    <string name="there_is_no_user">هيچ كاربري يافت نشد</string>
+    <string name="active">فعال</string>
+    <string name="blocked">بلاك شده</string>
+    <string name="chat_blocked">چت بلاك شده</string>
+    <string name="admin">ادمين</string>
+    <string name="error_peak_wrong_user">كاربر انتخاب شده، يك خيريه مي باشد، لطفا دوباره تلاش كنيد</string>
+
     <string name="notfound_related_app">برنامه مرتبط یافت نشد</string>
     <string name="version">نسخه %1$s</string>
-    <string name="submit_charity">ثبت خیریه</string>
     <string name="add_charity_description">لطفا مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
+    <string name="submit_gift_reminder_description">با هدیه دادن وسایلی که دیگر از آنها استفاده نمیکنید، به راحتی  میتوانید نیاز یک نیازمند را برطرف سازید.</string>
+    <string name="later">بعدا</string>
+    <string name="donator">اهدا کننده</string>
+    <string name="charity_owner">ثبت کننده خیریه</string>
 </resources>

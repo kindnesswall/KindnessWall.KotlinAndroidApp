@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="userInfo"
+            type="ir.kindnesswall.data.local.UserInfoPref" />
+
+        <import type="android.view.View" />
+        <variable
+            name="charityModel"
+            type="ir.kindnesswall.data.local.dao.charity.CharityModel" />
+        <variable
+            name="viewModel"
+            type="ir.kindnesswall.view.main.charity.addcharity.SubmitCharityViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:orientation="vertical"
+        tools:context=".view.profile.bookmarks.BookmarksActivity">
+
+        <RelativeLayout
+            android:id="@+id/toolbarRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/backImageView"
+                android:fontFamily="@font/vazir"
+                android:text="@string/submit_charity"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/backImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_arrow_back_white" />
+
+            <TextView
+                android:id="@+id/clearAll"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/clear"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvPeakUser"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/clearAll"
+                android:layout_margin="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/peak_user"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarRelativeLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvPeakUser"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_8"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="2dp" >
+
+                <RelativeLayout
+                    android:id="@+id/rlPeakUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/value_8" >
+
+                    <TextView
+                        android:id="@+id/tvInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/vazir"
+                        android:text="ثبت خيريه براي"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/tvPeakedUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_below="@+id/tvInfo"
+                        android:fontFamily="@font/vazir"
+                        android:text="جواد وطن دوست 09150747687"
+                        android:textColor="@color/primaryTextColor"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/ivRemovePeakedUser"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/value_4"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_close_black"/>
+                </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etTitle"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/charity_title"
+                        android:focusable="true"
+                        android:text="@{charityModel.name}"
+                        android:nextFocusDown="@+id/etDesc"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onTitleTextChange(text)}"
+                        android:textColorHint="@color/secondaryTextColor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/etDesc"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/description"
+                        android:inputType="textMultiLine"
+                        android:maxLines="3"
+                        android:text="@{charityModel.description}"
+                        android:nextFocusDown="@+id/etPhoneNumber"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onDescriptionTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etPhoneNumber"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/mobile_phone_number"
+                        android:inputType="phone"
+                        android:text="@{charityModel.mobileNumber}"
+                        android:nextFocusDown="@+id/etTelephoneNumber"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onPhoneTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etTelephoneNumber"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/mobile_telephone_number"
+                        android:inputType="phone"
+                        android:text="@{charityModel.telephoneNumber}"
+                        android:nextFocusDown="@+id/etWebsite"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onTelephoneTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etWebsite"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/web_site"
+                        android:text="@{charityModel.website}"
+                        android:inputType="textWebEmailAddress"
+                        android:nextFocusDown="@+id/etEmail"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onWebsiteTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/email"
+                        android:text="@{charityModel.email}"
+                        android:inputType="textEmailAddress"
+                        android:nextFocusDown="@+id/etInstagram"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onEmailTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etInstagram"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/instagram"
+                        android:text="@{charityModel.instagram}"
+                        android:inputType="textWebEmailAddress"
+                        android:nextFocusDown="@+id/etTelegram"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onInstagramTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etTelegram"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/telegram"
+                        android:text="@{charityModel.telegram}"
+                        android:inputType="textWebEmailAddress"
+                        android:nextFocusDown="@+id/etAddress"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onTelegramTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/etAddress"
+                        style="@style/registerCharityEditText"
+                        android:hint="@string/address"
+                        android:text="@{charityModel.address}"
+                        android:inputType="textMultiLine"
+                        android:maxLines="3"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onAddressTextChange(text)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/charity_image"
+                    android:textColor="@color/secondaryTextColor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbarRelativeLayout" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="8dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/addNewPhotoContainer"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/gray_stroke_4dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            app:srcCompat="@drawable/ic_add_photo_camera" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/selectedImagesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_selected_images" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/primary_round_selector_4dp"
+                    android:enabled="false"
+                    android:text="@string/submit"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</layout>

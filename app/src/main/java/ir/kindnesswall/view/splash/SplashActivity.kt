@@ -9,6 +9,7 @@ import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.utils.helper.runIfAuthenticated
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
@@ -32,7 +33,19 @@ class SplashActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        getUserProfile()
+        checkUpdate()
+        runIfAuthenticated {
+            viewModel.getUserProfile().observe(this@SplashActivity) {
+                when (it.status) {
+                    CustomResult.Status.SUCCESS -> checkUpdate()
+
+                    CustomResult.Status.ERROR -> checkUpdate()
+
+                    CustomResult.Status.LOADING -> {
+                    }
+                }
+            }
+        }
     }
 
     private fun checkUpdate() {
@@ -54,19 +67,6 @@ class SplashActivity : BaseActivity() {
                     NoInternetDialogFragment().display(supportFragmentManager) {
                         checkUpdate()
                     }
-                }
-            }
-        }
-    }
-
-    private fun getUserProfile() {
-        viewModel.getUserProfile().observe(this@SplashActivity) {
-            when (it.status) {
-                CustomResult.Status.SUCCESS -> checkUpdate()
-
-                CustomResult.Status.ERROR -> checkUpdate()
-
-                CustomResult.Status.LOADING -> {
                 }
             }
         }

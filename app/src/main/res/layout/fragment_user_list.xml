@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+     <TextView
+        android:fontFamily="@font/vazir"
+        android:id="@+id/tvEmptyList"
+        style="@style/public_tv_normal"
+        android:layout_gravity="center"
+        android:text="@string/there_is_no_user"
+        android:textColor="@color/grayBlack"
+        android:visibility="gone" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/value_45"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:paddingTop="@dimen/value_10"
+            tools:listitem="@layout/item_users" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/pbCenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/loadingBg"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="@dimen/value_80"
+            android:layout_height="@dimen/value_80"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbBottom"
+        android:layout_width="@dimen/value_40"
+        android:layout_height="@dimen/value_40"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/value_10"
+        android:visibility="gone" />
+
+</FrameLayout>
+</layout>

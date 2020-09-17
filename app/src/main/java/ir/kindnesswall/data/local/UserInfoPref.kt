@@ -44,6 +44,10 @@ object UserInfoPref : KotprefModel() {
 
         phoneNumber = user.phoneNumber ?: ""
         image = user.image ?: ""
+
+        isCharity = user.isCharity ?: false
+
+        isAdmin = user.isAdmin ?: false
         charityImage = user.charityImage ?: ""
     }
 

@@ -22,7 +22,19 @@ data class User(
                 context.getString(R.string.username)
             }
         }
-
         return name!!
+    }
+
+    fun getNameWithType(context: Context): String {
+        var userName = ""
+        name?.let { userName = it }
+        isCharity?.takeIf { it }?.also {
+            userName = "$userName (${context.getString(R.string.tabbar_charity)})"
+        }
+
+        isAdmin?.takeIf { it }?.also {
+            userName = "$userName (${context.getString(R.string.admin)})"
+        }
+        return userName
     }
 }

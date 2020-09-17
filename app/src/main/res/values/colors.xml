@@ -35,6 +35,12 @@
     <color name="disableButtonColor">#a1a1a1</color>
 
     <color name="situation_yellow_color">#BBAB5B</color>
+    <color name="backgroundColor">#FAFAFA</color>
+    <color name="grayBlack">#303030</color>
+    <color name="loadingBg">#B0FFFFFF</color>
+
+    <color name="tabColorInactive">#E1E0E0</color>
+    <color name="tabColorActive">@color/white</color>
 
     <color name="spotlightBackground">#BF000000</color>
 

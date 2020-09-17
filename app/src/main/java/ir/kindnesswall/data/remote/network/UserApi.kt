@@ -2,6 +2,7 @@ package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
+import ir.kindnesswall.data.model.requestsmodel.GetUsersRequestModel
 import ir.kindnesswall.data.model.requestsmodel.PushRegisterRequestModel
 import ir.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
 import ir.kindnesswall.data.model.user.User
@@ -32,47 +33,47 @@ interface UserApi {
 
     @POST("gifts/userReceived/{userId}")
     suspend fun getUserReceivedGifts(
-        @Path("userId") userId: Long,
-        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
-            GetGiftsRequestBaseBody().apply {
-                count = Int.MAX_VALUE
-            }
+            @Path("userId") userId: Long,
+            @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+                    GetGiftsRequestBaseBody().apply {
+                        count = Int.MAX_VALUE
+                    }
     ): Response<List<GiftModel>>
 
     @POST("gifts/userDonated/{userId}")
     suspend fun getUserDonatedGifts(
-        @Path("userId") userId: Long,
-        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
-            GetGiftsRequestBaseBody().apply {
-                count = Int.MAX_VALUE
-            }
+            @Path("userId") userId: Long,
+            @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+                    GetGiftsRequestBaseBody().apply {
+                        count = Int.MAX_VALUE
+                    }
     ): Response<List<GiftModel>>
 
     @POST("gifts/accept/{giftId}")
     suspend fun getUserAcceptedGifts(
-        @Path("giftId") userId: Long,
-        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
-            GetGiftsRequestBaseBody().apply {
-                count = Int.MAX_VALUE
-            }
+            @Path("giftId") userId: Long,
+            @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+                    GetGiftsRequestBaseBody().apply {
+                        count = Int.MAX_VALUE
+                    }
     ): Response<List<GiftModel>>
 
     @POST("gifts/userDonated/{giftId}")
     suspend fun getUserRejectedGifts(
-        @Path("giftId") userId: Long,
-        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
-            GetGiftsRequestBaseBody().apply {
-                count = Int.MAX_VALUE
-            }
+            @Path("giftId") userId: Long,
+            @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+                    GetGiftsRequestBaseBody().apply {
+                        count = Int.MAX_VALUE
+                    }
     ): Response<List<GiftModel>>
 
     @POST("gifts/userRegistered/{userId}")
     suspend fun getUserRegisteredGifts(
-        @Path("userId") userId: Long,
-        @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
-            GetGiftsRequestBaseBody().apply {
-                count = Int.MAX_VALUE
-            }
+            @Path("userId") userId: Long,
+            @Body getGiftsRequestBaseBody: GetGiftsRequestBaseBody =
+                    GetGiftsRequestBaseBody().apply {
+                        count = Int.MAX_VALUE
+                    }
     ): Response<List<GiftModel>>
 
     @GET("profile/{userId}")
@@ -80,4 +81,14 @@ interface UserApi {
 
     @POST("push/register")
     fun registerFirebaseToken(@Body pushRegisterRequestModel: PushRegisterRequestModel): Call<Any>
+
+
+    @POST("users/list/active")
+    suspend fun getActiveUsers(@Body model: GetUsersRequestModel): Response<List<User>>
+
+    @POST("users/list/blocked")
+    suspend fun getBlockedUsers(@Body model: GetUsersRequestModel):Response<List<User>>
+
+    @POST("users/list/chatBlocked")
+    suspend fun getChatBlockedUsers(@Body model: GetUsersRequestModel):Response<List<User>>
 }

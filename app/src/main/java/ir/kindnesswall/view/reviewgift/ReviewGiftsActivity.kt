@@ -91,6 +91,7 @@ class ReviewGiftsActivity : BaseActivity(), OnItemClickListener {
                 showGetInputDialog(Bundle().apply {
                     putString("title", getString(R.string.Please_write_reason))
                     putString("hint", getString(R.string.reason_of_reject))
+                    putString("accept_btn", getString(R.string.reject_gift))
                 }, approveListener = {
                     rejectGift(position, it)
                 })

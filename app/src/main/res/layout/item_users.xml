@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="ir.kindnesswall.data.model.user.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivUserAvatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcAvatarImage="@{item.image}"
+            tools:srcCompat="@drawable/ic_profile_placeholder_gary" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_16"
+            android:singleLine="true"
+            android:textSize="@dimen/size_14"
+            android:textColor="@color/primaryTextColor"
+            android:text="@{item.getNameWithType(context)}"
+            app:layout_constraintStart_toEndOf="@+id/ivUserAvatar"
+            app:layout_constraintTop_toTopOf="@id/ivUserAvatar" />
+
+        <TextView
+            android:id="@+id/tvUserPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_16"
+            android:singleLine="true"
+            android:textSize="@dimen/size_12"
+            android:textColor="@color/secondaryTextColor"
+            android:text="@{item.phoneNumber}"
+            app:layout_constraintStart_toEndOf="@+id/ivUserAvatar"
+            app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
