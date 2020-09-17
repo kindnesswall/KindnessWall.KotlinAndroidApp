@@ -15,6 +15,7 @@ import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import ir.kindnesswall.view.main.conversation.ConversationsViewModel
 import ir.kindnesswall.view.main.conversation.chat.ChatViewModel
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.DonateGiftViewModel
+import ir.kindnesswall.view.main.more.hami.HamiViewModel
 import ir.kindnesswall.view.main.more.userlist.tabs.UserListViewModel
 import ir.kindnesswall.view.main.reviewcharity.ReviewCharityViewModel
 import ir.kindnesswall.view.profile.MyProfileViewModel
@@ -60,4 +61,5 @@ val viewModelModule = module {
     viewModel { ChatViewModel(get(), get(), get(), get()) }
     viewModel { SubmitCharityViewModel(get(), get()) }
     viewModel { UserListViewModel(get()) }
+    viewModel { HamiViewModel(get()) }
 }

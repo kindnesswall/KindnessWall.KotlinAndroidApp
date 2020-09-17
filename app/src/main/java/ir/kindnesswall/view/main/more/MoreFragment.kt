@@ -18,6 +18,7 @@ import ir.kindnesswall.utils.isAppAvailable
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.charity.addcharity.SubmitCharityActivity
 import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
+import ir.kindnesswall.view.main.more.hami.HamiActivity
 import ir.kindnesswall.view.main.more.userlist.UserListActivity
 import ir.kindnesswall.view.main.reviewcharity.ReviewCharityActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
@@ -61,6 +62,7 @@ class MoreFragment : BaseFragment() {
         binding.contactUs.setOnClickListener { openTelegram() }
         binding.bugReport.setOnClickListener { openTelegram() }
         binding.suggestions.setOnClickListener { openTelegram() }
+        binding.hami.setOnClickListener { HamiActivity.start(requireContext()) }
 
         binding.logInLogOut.setOnClickListener {
             context?.runOrStartAuth {

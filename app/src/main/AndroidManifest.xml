@@ -41,6 +41,9 @@
         <activity android:name=".view.authentication.AuthenticationActivity" />
         <activity android:name=".view.main.MainActivity" />
         <activity android:name=".view.onbording.OnBoardingActivity" />
+        <activity
+            android:name=".view.main.more.hami.HamiActivity"
+            android:configChanges="orientation|layoutDirection|screenLayout" />
 
         <activity android:name=".view.splash.SplashActivity">
             <intent-filter>

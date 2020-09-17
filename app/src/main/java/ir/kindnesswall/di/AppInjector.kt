@@ -50,5 +50,8 @@ val networkModule = module {
     single {
         get<Retrofit>(named(baseNetworkQualifier)).create(GiftApi::class.java)
     }
+    single {
+        get<Retrofit>(named(baseNetworkQualifier)).create(HamiApi::class.java)
+    }
 }
 
