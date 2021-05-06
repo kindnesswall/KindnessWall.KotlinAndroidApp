@@ -81,6 +81,7 @@
     <string name="gift_from_me">هدیه هایی که از طرف من…</string>
     <string name="gift_from_user">هدیه هایی که از این کاربر:</string>
     <string name="registered">ثبت شده</string>
+    <string name="submitcomment">ثبت نظر</string>
     <string name="filter_profile_donate">اهدا شده</string>
     <string name="filter_profile_received">دریافت شده</string>
     <string name="save">ذخیره</string>
