@@ -20,12 +20,12 @@ class RateAdapter(val list :ArrayList<RateModel>) : RecyclerView.Adapter<RateAda
 
     override fun onBindViewHolder(holder: RateAdapterViewHolder, position: Int) {
         //holder.itemView = list.get(position)
-       // holder.itemView.opin =
+
 
     }
 
     override fun getItemCount(): Int =list.count()
 
-    inner class RateAdapterViewHolder(vieww: OpinionBinding) : RecyclerView.ViewHolder(vieww.root)
+    inner class RateAdapterViewHolder(view: OpinionBinding) : RecyclerView.ViewHolder(view.root)
 
 }
