@@ -3,9 +3,14 @@ package ir.kindnesswall.view.giftdetail
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Message
+import android.util.Log
 import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -19,15 +24,20 @@ import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
+import ir.kindnesswall.view.authentication.AuthenticationActivity
+import ir.kindnesswall.view.authentication.InsertVerificationNumberFragment
 import ir.kindnesswall.view.gallery.GalleryActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GiftDetailActivity : BaseActivity(), GiftViewListener {
-
+    var progress: ProgressBar? = null
+    var show_number_txt: TextView? = null
+    var CallMessage: TextView? = null
+    var show_number: CardView? = null
     lateinit var binding: ActivityGiftDetailBinding
-
+    var number: String = ""
     val viewModel: GiftDetailViewModel by viewModel()
 
     companion object {
@@ -43,6 +53,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             intent.putExtra("giftModel", giftModel)
             activity.startActivityForResult(intent, GIFT_DETAIL_REQUEST_CODE)
         }
+
+        var LoginFlag: String = " "
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +66,12 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         if (viewModel.giftModel == null) {
             finish()
         }
-
+        progress = binding.numberProgressBar
+        CallMessage = binding.CallMessage
+        show_number = binding.showNumber
+        show_number_txt = binding.showNumberTxt
+        getSetting()
+        //getSetting(progress!!, numberMessage!!)
         viewModel.isMyGift = viewModel.giftModel?.userId == UserInfoPref.userId
         viewModel.isDonatedToSomeone =
             viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0
@@ -227,16 +244,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 return
             }
 
-            if (!UserInfoPref.isCharity && !UserInfoPref.isAdmin) {
-                showPromptDialog(
-                    messageToShow = getString(R.string.request_for_users_error_message),
-                    positiveButtonText = getString(R.string.ok),
-                    showNegativeButton = false
-                )
-
-                return
-            }
-
             if (viewModel.isReceivedGift) {
                 viewModel.getRequestStatus().observe(this) {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
@@ -376,6 +383,81 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             })
     }
 
+    override fun onCallButtonClick(view: View) {
+        //  getSetting(progress!!, numberMessage!!)
+        if (UserInfoPref.bearerToken.isNotEmpty()) {
+            getUserNumber()
+
+        } else {
+            AuthenticationActivity.start(this)
+            LoginFlag = "GiftDetailActivity"
+            progress!!.visibility = View.GONE
+
+        }
+    }
+
+
+    fun getSetting() {
+        show_number_txt!!.text = resources.getString(R.string.show_number)
+
+        var message = "";
+        viewModel.getSetting().observe(this) {
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                    //showProgressDialog { }
+                }
+
+
+                CustomResult.Status.SUCCESS -> {
+
+                    when (it.data!!.setting) {
+                        "none" -> {
+                            CallMessage!!.text =
+                                "بنا به درخواست اهدا کننده،امکان نمایش شماره تلفن وجود ندارد "
+                            if (UserInfoPref.isAdmin) {
+                                CallMessage!!.text = ""
+                                show_number!!.visibility = View.VISIBLE
+                            }
+
+                        }
+                        "charity" -> {
+                            CallMessage!!.text =
+                                "بنا به درخواست اهدا کننده،تنها خیریه ها به شماره تلفن دسترسی دارند"
+                            show_number!!.visibility = View.VISIBLE
+                            if (UserInfoPref.bearerToken.isNotEmpty()) {
+                                if (UserInfoPref.isCharity || UserInfoPref.isAdmin) {
+                                    CallMessage!!.text = ""
+                                    show_number_txt!!.text =
+                                        resources.getString(R.string.show_number)
+                                } else {
+                                    show_number!!.visibility = View.GONE
+
+                                }
+                            }
+
+
+                        }
+                        "all" -> {
+                            CallMessage!!.text = ""
+                            show_number!!.visibility = View.VISIBLE
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    override fun onCallPageClick() {
+        if (!number.equals("")) {
+            dismissProgressDialog()
+            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number))
+            startActivity(callIntent)
+        }
+
+    }
+
     private fun returnResult(result: Boolean, task: String) {
         val returnIntent = Intent()
         returnIntent.putExtra(task, result)
@@ -387,5 +469,45 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         }
 
         finish()
+    }
+
+    private fun getUserNumber() {
+        viewModel.getUserNumber().observe(this) {
+            when (it.status) {
+
+                CustomResult.Status.LOADING -> {
+                    // showProgressDialog { }
+                    progress!!.visibility = View.VISIBLE
+
+                }
+                CustomResult.Status.SUCCESS -> {
+                    progress!!.visibility = View.GONE
+                    show_number_txt!!.text = "تماس با : " + it.data!!.phoneNumber.toString()
+                    viewModel.callPageStatus = true
+                    CallMessage!!.text = ""
+                    //numberMessage!!.visibility = View.VISIBLE
+                    number = it.data!!.phoneNumber.toString()
+                }
+                CustomResult.Status.ERROR -> {
+                    //   dismissProgressDialog()
+                    progress!!.visibility = View.GONE
+                    viewModel.callPageStatus = false
+                    show_number!!.visibility = View.GONE
+                    number = ""
+
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (InsertVerificationNumberFragment.login != null) {
+            if (InsertVerificationNumberFragment.login == true) {
+                getUserNumber()
+                InsertVerificationNumberFragment.login = false
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package ir.kindnesswall.view.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
@@ -18,6 +20,7 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.repository.GeneralRepo
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.view.authentication.AuthenticationActivity
@@ -27,7 +30,6 @@ import ir.kindnesswall.view.main.conversation.ConversationFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
-
     private val viewModel by viewModel<MainViewModel>()
 
     private var currentController: NavController? = null
@@ -40,6 +42,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
+        val liveData :MutableLiveData<String> = MutableLiveData()
         fun start(context: Context?, defaultTab: Int = R.id.navigation_home) {
             context?.let {
                 val intent = Intent(it, MainActivity::class.java)
@@ -199,7 +202,7 @@ class MainActivity : BaseActivity() {
 
             R.id.navigation_more -> {
                 currentController = navMoreController
-
+                liveData.value = "getPhoneNumberValue"
                 binding.moreTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE

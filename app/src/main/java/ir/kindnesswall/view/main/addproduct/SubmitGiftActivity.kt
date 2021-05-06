@@ -1,9 +1,14 @@
 package ir.kindnesswall.view.main.addproduct
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -12,23 +17,29 @@ import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
+import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.startMultiSelectingImagePicker
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
+import ir.kindnesswall.view.main.MainActivity
+import kotlinx.android.synthetic.main.activity_submit_gift.*
+import kotlinx.android.synthetic.main.fragment_more.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SubmitGiftActivity : BaseActivity() {
-
+    var shPref: SharedPreferences?=null
+    val keyName = "nameKey"
+    var sEdite : SharedPreferences.Editor ?=null
     lateinit var binding: ActivitySubmitGiftBinding
-
     private val viewModel: SubmitGiftViewModel by viewModel()
     private lateinit var adapter: SelectedImagesAdapter
 
@@ -43,6 +54,7 @@ class SubmitGiftActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,7 +76,13 @@ class SubmitGiftActivity : BaseActivity() {
             binding.titleTextView.text = getString(R.string.edit_gift)
             fillWithEditableGift()
         }
+
+        val numberstatus = NumberStatus(viewModel ,submit_none , submit_charity , submit_all )
+        numberstatus.getShowNumberStatus(this)
     }
+
+
+
 
     private fun configureViewModel() {
         viewModel.title.observe(this) {
@@ -153,7 +171,8 @@ class SubmitGiftActivity : BaseActivity() {
 
         binding.backImageView.setOnClickListener { onBackPressed() }
         binding.addNewPhotoContainer.setOnClickListener { pickImage() }
-
+        shPref= getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
+        sEdite =shPref!!.edit()
         binding.chooseCategoryTextView.setOnClickListener {
             CategoryActivity.startActivityForResult(
                 this,
@@ -170,7 +189,57 @@ class SubmitGiftActivity : BaseActivity() {
         binding.chooseCityTextView.setOnClickListener {
             CityChooserActivity.startActivityForResult(this, true)
         }
-
+        binding.submitNone.setOnClickListener {
+            sEdite!!.putString(keyName,"none")
+            sEdite!!.apply()
+            viewModel.setPhoneVisibility("none").observe(this){
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                       Log.i("4566456456465465","LOADING")
+                    }
+                    CustomResult.Status.ERROR -> {
+                        Log.i("4566456456465465","ERROR")
+                    }
+                    CustomResult.Status.SUCCESS -> {
+                        Log.i("4566456456465465","SUCCESS")
+                    }
+                }
+            }
+        }
+        binding.submitCharity.setOnClickListener {
+            sEdite!!.putString(keyName,"charity")
+            sEdite!!.apply()
+                viewModel.setPhoneVisibility("charity").observe(this){
+                    when (it.status) {
+                        CustomResult.Status.LOADING -> {
+                            Log.i("4566456456465465","LOADING")
+                        }
+                        CustomResult.Status.ERROR -> {
+                            Log.i("4566456456465465","ERROR")
+                        }
+                        CustomResult.Status.SUCCESS -> {
+                            Log.i("4566456456465465","SUCCESS")
+                        }
+                    }
+                }
+        }
+        binding.submitAll.setOnClickListener {
+            sEdite!!.putString(keyName,"all")
+            sEdite!!.apply()
+              viewModel.setPhoneVisibility("all").observe(this){
+                    when (it.status) {
+                        CustomResult.Status.LOADING -> {
+                            Log.i("4566456456465465","LOADING")
+                        }
+                        CustomResult.Status.ERROR -> {
+                            Log.i("4566456456465465","ERROR")
+                        }
+                        CustomResult.Status.SUCCESS -> {
+                            Log.i("4566456456465465","SUCCESS")
+                        }
+                    }
+                }
+        }
         binding.submitButton.setOnClickListener {
             if (viewModel.editableGiftModel == null && viewModel.isNew) {
                 showProgressDialog()
@@ -575,5 +644,10 @@ class SubmitGiftActivity : BaseActivity() {
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MainActivity.liveData.value="getPhoneNumberValue"
     }
 }
