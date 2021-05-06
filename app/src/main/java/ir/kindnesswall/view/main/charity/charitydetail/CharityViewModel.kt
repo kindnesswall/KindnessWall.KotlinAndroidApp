@@ -58,6 +58,10 @@ class CharityViewModel(
         charityViewListener?.onWebsiteClicked()
     }
 
+    fun onRating(){
+        charityViewListener?.onRatingClick()
+    }
+
     fun getUserInformation(): LiveData<CustomResult<User>> =
         userRepo.getOtherUsersProfile(viewModelScope, charityModel?.userId)
 

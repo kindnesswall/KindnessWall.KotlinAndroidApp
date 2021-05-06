@@ -5,7 +5,7 @@ interface CharityViewListener {
     fun onStartChatClicked()
     fun onShareClicked()
     fun onBookmarkClicked()
-
+    fun onRatingClick()
     fun onCallClicked()
     fun onTelegramClicked()
     fun onInstagramClicked()

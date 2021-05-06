@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ir.kindnesswall">
+    package="ir.kindnesswall" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,6 +26,9 @@
         <activity
             android:name=".view.main.conversation.chat.ChatActivity"
             android:launchMode="singleTask" />
+
+        <activity android:name="ir.kindnesswall.view.main.charity.Rating.RatingActivity" >
+        </activity>
         <activity android:name=".view.main.addproduct.SubmitGiftActivity" />
         <activity android:name=".view.main.charity.addcharity.SubmitCharityActivity" />
         <activity android:name=".view.profile.blocklist.BlockListActivity" />
@@ -41,6 +44,7 @@
         <activity android:name=".view.authentication.AuthenticationActivity" />
         <activity android:name=".view.main.MainActivity" />
         <activity android:name=".view.onbording.OnBoardingActivity" />
+
         <activity
             android:name=".view.main.more.hami.HamiActivity"
             android:configChanges="orientation|layoutDirection|screenLayout" />
@@ -55,7 +59,7 @@
 
         <service
             android:name=".service.KindnessWallFirebaseMessagingService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

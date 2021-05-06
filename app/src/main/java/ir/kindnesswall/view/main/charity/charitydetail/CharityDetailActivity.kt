@@ -21,6 +21,7 @@ import ir.kindnesswall.utils.StaticContentViewer
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
+import ir.kindnesswall.view.main.charity.Rating.RatingActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -159,6 +160,11 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
     override fun onBookmarkClicked() {
+    }
+
+    override fun onRatingClick() {
+        val intent = Intent(this,RatingActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCallClicked() {
