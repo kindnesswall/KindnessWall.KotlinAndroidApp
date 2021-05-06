@@ -2,7 +2,7 @@
 <layout>
     <data>
         <variable
-            name="test2"
+            name="OpnionModel"
             type="ir.kindnesswall.data.model.RateModel" />
     </data>
     <LinearLayout android:orientation="vertical"
