@@ -5,4 +5,6 @@ class RateModel(
     var date : String,
     var opinion : String,
     var rate : Float
-)
+){
+    
+}
