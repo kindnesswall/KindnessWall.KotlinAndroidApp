@@ -4,6 +4,7 @@
         <variable
             name="OpnionModel"
             type="ir.kindnesswall.data.model.RateModel" />
+
     </data>
     <LinearLayout android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android"
