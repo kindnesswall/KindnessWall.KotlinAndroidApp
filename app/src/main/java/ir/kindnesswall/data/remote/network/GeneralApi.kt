@@ -2,10 +2,7 @@ package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.province.ProvinceModel
-import ir.kindnesswall.data.model.CategoryModel
-import ir.kindnesswall.data.model.CityModel
-import ir.kindnesswall.data.model.RegionModel
-import ir.kindnesswall.data.model.UpdateModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.requestsmodel.RequestBaseModel
 import retrofit2.Response
 import retrofit2.http.Body
@@ -38,4 +35,7 @@ interface GeneralApi {
 
     @POST("categories")
     suspend fun getAllCategories(@Body requestBaseModel: RequestBaseModel = RequestBaseModel()): Response<List<CategoryModel>>
+
+    @GET("phone/visibility/setting")
+    suspend fun getSetting():Response<SettingModel>
 }

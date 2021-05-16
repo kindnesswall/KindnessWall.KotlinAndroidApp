@@ -12,6 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layoutDirection="rtl"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".view.authentication.InsertPhoneNumberFragment">

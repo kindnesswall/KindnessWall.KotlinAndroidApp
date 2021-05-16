@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.kindnesswand",
+  "variantName": "processProductionReleaseResources",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 7,
+      "versionName": "2.1.0",
+      "outputFile": "app-production-release.apk"
+    }
+  ]
+}
