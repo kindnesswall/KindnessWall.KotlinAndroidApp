@@ -33,6 +33,7 @@ import ir.kindnesswall.view.reviewgift.ReviewGiftsActivity
  */
 
 class MoreFragment : BaseFragment() {
+    var numview : Boolean =true
     lateinit var binding: FragmentMoreBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +64,16 @@ class MoreFragment : BaseFragment() {
         }
         binding.aboutUs.setOnClickListener { context?.let { AboutUsActivity.start(it) } }
         binding.blockedUsers.setOnClickListener { context?.let { BlockListActivity.start(it) } }
+        binding.showNumber.setOnClickListener {
+        if (numview.equals(true)){
+            numview = false
+            binding.numViewGroup.visibility = View.VISIBLE
+        }else{
+            numview = true
+            binding.numViewGroup.visibility = View.GONE
 
+        }
+        }
         binding.contactUs.setOnClickListener { openTelegram() }
         binding.bugReport.setOnClickListener { openTelegram() }
         binding.suggestions.setOnClickListener { openTelegram() }
@@ -101,4 +111,6 @@ class MoreFragment : BaseFragment() {
         super.onResume()
         binding.userInfo = UserInfoPref
     }
+
+
 }
