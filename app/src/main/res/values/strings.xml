@@ -93,6 +93,7 @@
     <string name="accepted">پذیرفته شده</string>
     <string name="show_profile">نمایش پروفایل</string>
     <string name="my_profile">پروفایل من</string>
+    <string name="show_number">نمایش شماره تلفن</string>
 
     <string name="user_name_place_holder">نام کاربری</string>
     <string name="conversations">گفتگو‌ها</string>
