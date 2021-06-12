@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -144,5 +145,46 @@ class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase:
                         else -> emit(CustomResult.error(result.errorMessage))
                     }
                 }
+        }
+
+
+    fun getVersion1(viewModelScope: CoroutineScope): LiveData<CustomResult<SettingModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+
+            getResultWithExponentialBackoffStrategy { generalApi.getSetting() }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(result.errorMessage))
+                            } else {
+                                emitSource(MutableLiveData<SettingModel>().apply {
+                                    value = result.data
+                                }.map { CustomResult.success(it) })
+                            }
+                        }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(result.errorMessage))
+                    }
+                }
+        }
+    fun getSetting(viewModelScope: CoroutineScope): LiveData<CustomResult<SettingModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            Log.i("6544646564565445","result.data.toString()555555555555")
+
+            getResultWithExponentialBackoffStrategy{generalApi.getSetting()}.collect{ result->
+                Log.i("6544646564565445","${result.errorMessage}"+"${result.status}")
+
+                when (result.status){
+                    CustomResult.Status.SUCCESS->{
+                            emitSource(MutableLiveData<SettingModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+
+                    }
+                }
+            }
         }
 }

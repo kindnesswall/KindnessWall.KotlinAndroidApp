@@ -4,6 +4,8 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.GiftRequestStatusModel
+import ir.kindnesswall.data.model.PhoneNumberModel
+import ir.kindnesswall.data.model.SettingModel
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
@@ -38,6 +40,12 @@ interface GiftApi {
     @DELETE("gifts/{id}")
     suspend fun deleteGift(@Path("id") id: Long): Response<Any>
 
+    @GET("phone/visibility/setting/{userId}")
+    suspend fun getSetting(@Path("userId") userId: Long) :Response<SettingModel>
+
+    @GET("phone/visibility/access/{userId}")
+    suspend fun getUserNumber(@Path("userId") userId: Long) :Response<PhoneNumberModel>
+
     @POST("gifts/todonate/{userId}")
     suspend fun getToDonateGifts(
         @Path("userId") userId: Long,
@@ -67,4 +75,5 @@ interface GiftApi {
 
     @GET("gifts/request/status/{id}")
     suspend fun getGiftRequestStatus(@Path("id") id: Long): Response<GiftRequestStatusModel>
+
 }

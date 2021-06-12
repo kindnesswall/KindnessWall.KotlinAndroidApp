@@ -1,9 +1,10 @@
 package ir.kindnesswall.view.splash
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
-import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
@@ -28,12 +29,27 @@ class SplashActivity : BaseActivity() {
         viewModel.isStartFromNotification = intent.getBooleanExtra("isStartFromNotification", false)
         viewModel.requestChatModel =
             intent.getSerializableExtra("requestChatModel") as? ChatModel
+
+
     }
 
     override fun onResume() {
         super.onResume()
+        viewModel.getSetting().observe(this) {
+            if (it.status == CustomResult.Status.SUCCESS) {
+                it.data?.let { data ->
+              Toast.makeText(this,"jnklnkl",Toast.LENGTH_LONG).show()
 
+                }
+            } else if (it.status == CustomResult.Status.ERROR) {
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                    }
+                }
+            }
+        }
         checkUpdate()
+
         runIfAuthenticated {
             viewModel.getUserProfile()
         }
@@ -43,10 +59,10 @@ class SplashActivity : BaseActivity() {
         viewModel.getVersion().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
                 it.data?.let { data ->
-                    if (BuildConfig.VERSION_CODE < data.minVersion) {
+                    if (ir.kindnesswall.BuildConfig.VERSION_CODE < data.minVersion) {
                         ForceAndOptionalUpdateActivity.start(this, true)
-                    } else if (BuildConfig.VERSION_CODE >= data.minVersion &&
-                        BuildConfig.VERSION_CODE < data.currentVersion
+                    } else if (ir.kindnesswall.BuildConfig.VERSION_CODE >= data.minVersion &&
+                        ir.kindnesswall.BuildConfig.VERSION_CODE < data.currentVersion
                     ) {
                         ForceAndOptionalUpdateActivity.start(this, false)
                     } else {
@@ -64,6 +80,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun gotoNextActivity() {
+
         if (AppPref.isOnBoardingShown or UserInfoPref.bearerToken.isNotEmpty()) {
             if (viewModel.requestChatModel != null && viewModel.isStartFromNotification) {
                 ChatActivity.start(

@@ -56,7 +56,7 @@
     <string name="category">دسته بندی</string>
     <string name="neighborhood">محل</string>
     <string name="description">توضیحات</string>
-    <string name="request">درخواست</string>
+    <string name="request">درخواست از طریق چت</string>
     <string name="send_verification_code">ارسال کد ورود</string>
     <string name="close">بستن</string>
     <string name="submit_information">ثبت اطلاعات</string>

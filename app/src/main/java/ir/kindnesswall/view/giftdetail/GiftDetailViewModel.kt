@@ -8,6 +8,7 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.GiftRepo
+import ir.kindnesswall.view.authentication.AuthenticationActivity
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
 
@@ -41,6 +42,10 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun onShareClicked() {
         giftViewListener?.onShareClicked()
     }
+    fun onCallClick(){
+        giftViewListener?.onCallButtonClick()
+
+        }
 
     fun onBookmarkClicked() {
         giftViewListener?.onBookmarkClicked()
@@ -70,4 +75,9 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun getRequestStatus() = giftRepo.getGiftRequestStatus(viewModelScope, giftModel!!.id)
 
     fun deleteGift() = giftRepo.deleteGift(viewModelScope, giftModel!!.id)
+
+    fun getSetting()=giftRepo.getSetting(viewModelScope , giftModel!!.userId)
+
+    fun getUserNumber()=giftRepo.getUserNmber(viewModelScope,giftModel!!.userId)
+
 }

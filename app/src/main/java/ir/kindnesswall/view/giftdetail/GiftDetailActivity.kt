@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -19,6 +21,7 @@ import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
+import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.gallery.GalleryActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
@@ -376,6 +379,42 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             })
     }
 
+    override fun onCallButtonClick() {
+        if (UserInfoPref.bearerToken.isNotEmpty()) {
+            viewModel.getSetting().observe(this) {
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                        showProgressDialog { }
+                    }
+
+
+                    CustomResult.Status.SUCCESS -> {
+
+                        when (it.data!!.setting){
+                            "none"->{
+                                dismissProgressDialog()
+                                Toast.makeText(this, "بنا به درخواست اهدا کننده،امکان نمایش شماره تلفن وجود ندارد ", Toast.LENGTH_LONG).show()
+                            }
+                            "charity"->{
+                                dismissProgressDialog()
+                                Toast.makeText(this, "بنا به درخواست اهدا کننده،تنها خیریه ها به شماره تلفن دسترسی دارند", Toast.LENGTH_LONG).show()
+
+                            }
+                            "all"->{
+                                dismissProgressDialog()
+                                getUserNumber()
+                            }
+                        }
+                    }
+
+                }
+            }
+        } else {
+            AuthenticationActivity.start(this)
+
+        }
+    }
+
     private fun returnResult(result: Boolean, task: String) {
         val returnIntent = Intent()
         returnIntent.putExtra(task, result)
@@ -387,5 +426,19 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         }
 
         finish()
+    }
+    private fun getUserNumber(){
+        viewModel.getUserNumber().observe(this){
+            when (it.status) {
+                CustomResult.Status.LOADING -> {
+                    showProgressDialog { }
+                }
+                CustomResult.Status.SUCCESS -> {
+                    dismissProgressDialog()
+                    Toast.makeText(this, "go to umbers", Toast.LENGTH_LONG).show()
+
+                }
+            }
+        }
     }
 }
