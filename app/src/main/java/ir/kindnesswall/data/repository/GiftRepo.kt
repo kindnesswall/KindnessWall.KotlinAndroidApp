@@ -1,16 +1,14 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
-import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.GiftRequestStatusModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
@@ -36,10 +34,10 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     ): LiveData<CustomResult<List<GiftModel>>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-
             getResultWithExponentialBackoffStrategy {
                 giftApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
             }.collect { result ->
+                Log.i("54646165464654564646", (result.data).toString())
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
@@ -238,7 +236,10 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
             getResultWithExponentialBackoffStrategy {
                 giftApi.getReviewGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
             }.collect { result ->
+                Log.i("54646165464654564646", (result.data).toString())
+
                 when (result.status) {
+
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
                             emit(CustomResult.error(result.errorMessage))
@@ -251,7 +252,9 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
                     else -> emit(CustomResult.error(result.errorMessage))
                 }
+
             }
+
         }
 
     fun rejectGift(
@@ -312,8 +315,46 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                         }.map { CustomResult.success(it) })
                     }
                     CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                    else -> emit(CustomResult.error(result.errorMessage))
+                    else -> {
+                        emit(CustomResult.error(result.errorMessage))
+                    }
                 }
+            }
+        }
+
+    fun getSetting(
+        viewModelScope: CoroutineScope,
+        userId: Long
+    ): LiveData<CustomResult<SettingModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            Log.i("545645656465", userId.toString())
+            getResultWithExponentialBackoffStrategy { giftApi.getSetting(userId) }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<SettingModel>().apply {
+                            value = result.data as SettingModel?
+                        }.map { CustomResult.success(it) })
+                    }
+                }
+            }
+        }
+
+    fun getUserNmber(
+        viewModelScope: CoroutineScope,
+        userId: Long
+    ): LiveData<CustomResult<PhoneNumberModel>> =
+        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy { giftApi.getSetting(userId) }.collect() { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource((MutableLiveData<PhoneNumberModel>().apply {
+                            value = result.data as PhoneNumberModel?
+                        }.map { CustomResult.success(it) }))
+                    }
+                }
+
             }
         }
 

@@ -18,6 +18,7 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.repository.GeneralRepo
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.view.authentication.AuthenticationActivity

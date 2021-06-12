@@ -1,6 +1,7 @@
 package ir.kindnesswall.view.main.catalog.cataloglist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +56,6 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         if (viewModel.catalogItems.isNullOrEmpty()) {
             getGifts()
         } else {

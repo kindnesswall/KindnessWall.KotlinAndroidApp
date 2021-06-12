@@ -10,6 +10,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.data.repository.GiftRepo
 import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.view.authentication.AuthenticationActivity
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo, private val userRepo: UserRepo) :
     ViewModel() {
@@ -44,6 +45,10 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo, private val userRepo: 
     fun onShareClicked() {
         giftViewListener?.onShareClicked()
     }
+    fun onCallClick(){
+        giftViewListener?.onCallButtonClick()
+
+        }
 
     fun onBookmarkClicked() {
         giftViewListener?.onBookmarkClicked()
@@ -77,4 +82,8 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo, private val userRepo: 
     fun getUserProfile(userId: Long): LiveData<CustomResult<User>> {
         return userRepo.getUserProfile(viewModelScope, userId)
     }
+
+    fun getSetting()=giftRepo.getSetting(viewModelScope , giftModel!!.userId)
+
+    fun getUserNumber()=giftRepo.getUserNmber(viewModelScope,giftModel!!.userId)
 }
