@@ -1,6 +1,8 @@
 package ir.kindnesswall.view.main.addproduct
 
 import android.content.Context
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.*
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.AppDatabase
@@ -146,4 +148,7 @@ class SubmitGiftViewModel(
         cityName.value = ""
         isNew = true
     }
+
+    fun setPhoneVisibility(value : String)= giftRepo.SetSettingNumber(viewModelScope,value)
+    fun getPhoneVisibility()=giftRepo.getSettingNumber(viewModelScope)
 }

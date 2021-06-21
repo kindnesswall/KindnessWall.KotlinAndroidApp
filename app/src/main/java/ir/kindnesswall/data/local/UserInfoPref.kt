@@ -1,7 +1,15 @@
 package ir.kindnesswall.data.local
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.chibatching.kotpref.KotprefModel
 import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.data.repository.UserRepo
+
 
 /**
  * Created by Farshid since 25/10/19
@@ -13,8 +21,11 @@ import ir.kindnesswall.data.model.user.User
  * @sample {UserInfoPref.id = "id", var id = UserInfoPref.id}
  *
  * */
-object UserInfoPref : KotprefModel() {
+object UserInfoPref : KotprefModel(
 
+) {
+    val MyPref = "MyPrefers"
+     val keyName = "nameKey"
     var fireBaseToken by stringPref("")
 
     var id by longPref(0)
@@ -60,6 +71,8 @@ object UserInfoPref : KotprefModel() {
             .replace("7", "۷")
             .replace("8", "۸")
             .replace("9", "۹")
+
+
 
     fun getUser() = User(userId, name, phoneNumber, image, isCharity, isAdmin, charityName)
 }

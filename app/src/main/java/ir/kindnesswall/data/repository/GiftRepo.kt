@@ -346,7 +346,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     ): LiveData<CustomResult<PhoneNumberModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy { giftApi.getSetting(userId) }.collect() { result ->
+            getResultWithExponentialBackoffStrategy { giftApi.getUserNumber(userId) }.collect() { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emitSource((MutableLiveData<PhoneNumberModel>().apply {
@@ -376,4 +376,40 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                 }
             }
         }
+
+    fun SetSettingNumber(
+        viewModelScope: CoroutineScope,
+        value: String
+    ): LiveData<CustomResult<Any?>> = liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        emit(CustomResult.loading())
+        getResultWithExponentialBackoffStrategy { giftApi.setPhoneVisibilitySetting(SetSetting(value)) }.collect { result ->
+            Log.i("4566456456465465",result.status.toString()+"SUCCESS")
+            when (result.status) {
+                CustomResult.Status.SUCCESS -> {
+                Log.i("4566456456465465","SUCCESS")
+                }
+                CustomResult.Status.ERROR -> {
+                    Log.i("4566456456465465","ERROR")
+                }
+                CustomResult.Status.LOADING -> emit(CustomResult.loading())
+            }
+        }
+
+    }
+    fun getSettingNumber(viewModelScope: CoroutineScope):LiveData<CustomResult<SettingModel?>> = liveData(viewModelScope.coroutineContext,timeoutInMs = 0){
+        emit(CustomResult.loading())
+        getResultWithExponentialBackoffStrategy{giftApi.getPhoneVisibilitySetting()}.collect{result ->
+            when (result.status) {
+                CustomResult.Status.SUCCESS -> {
+                    emit(CustomResult.success(result.data))
+                    Log.i("4566456456465465","SUCCESS   "+result.data!!.setting)
+
+                }
+                CustomResult.Status.ERROR -> {
+                    Log.i("4566456456465465","ERROR")
+                }
+                CustomResult.Status.LOADING -> emit(CustomResult.loading())
+            }
+        }
+    }
 }

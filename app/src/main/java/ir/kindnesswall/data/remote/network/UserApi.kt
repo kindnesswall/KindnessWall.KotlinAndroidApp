@@ -4,6 +4,7 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.GetUsersRequestModel
 import ir.kindnesswall.data.model.requestsmodel.PushRegisterRequestModel
+import ir.kindnesswall.data.model.requestsmodel.SettingRequestBody
 import ir.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
 import ir.kindnesswall.data.model.user.User
 import retrofit2.Call
@@ -25,6 +26,7 @@ import retrofit2.http.Path
  */
 
 interface UserApi {
+
     @GET("profile/{userId}")
     suspend fun getUserProfile(@Path("userId") userId: Long): Response<User>
 
@@ -82,7 +84,6 @@ interface UserApi {
     @POST("push/register")
     fun registerFirebaseToken(@Body pushRegisterRequestModel: PushRegisterRequestModel): Call<Any>
 
-
     @POST("users/list/active")
     suspend fun getActiveUsers(@Body model: GetUsersRequestModel): Response<List<User>>
 
@@ -91,4 +92,12 @@ interface UserApi {
 
     @POST("users/list/chatBlocked")
     suspend fun getChatBlockedUsers(@Body model: GetUsersRequestModel):Response<List<User>>
+
+    @POST("phone/visibility/setting")
+    fun  setPhoneSetting(settingdata:String,
+        @Body settingrequest: SettingRequestBody =
+            SettingRequestBody().apply {
+                setting = settingdata
+            }
+    ):Response<Any>
 }

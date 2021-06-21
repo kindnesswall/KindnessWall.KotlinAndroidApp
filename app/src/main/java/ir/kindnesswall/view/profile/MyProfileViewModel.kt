@@ -1,6 +1,7 @@
 package ir.kindnesswall.view.profile
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import ir.kindnesswall.annotation.Filter
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -44,6 +45,7 @@ class MyProfileViewModel(
     }
 
     fun updateUserProfile(): LiveData<CustomResult<Any>> {
+
         return userRepo.updateUserProfile(
             viewModelScope,
             newUserName,

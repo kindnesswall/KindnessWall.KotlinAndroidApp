@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -35,6 +36,7 @@ import retrofit2.Response
 class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(context) {
     fun getUserProfile(viewModelScope: CoroutineScope):
             LiveData<CustomResult<User>> =
+
             liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
                 emit(CustomResult.loading())
 
@@ -214,6 +216,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
                 }
             }
 
+
     fun getBookmarkList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>>? {
         return null
     }
@@ -348,4 +351,27 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
                             }
                         }
             }
+
+    fun setUserPhoneSetting(
+        viewModelScope: CoroutineScope,
+        setting: String
+    ): LiveData<CustomResult<Any>> = liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        Log.i("56456465456", "Run2")
+        emit(CustomResult.loading())
+        getResultWithExponentialBackoffStrategy {
+            userApi.setPhoneSetting(setting)
+        }.collect { result ->
+            Log.i("56456465456", "Run3")
+
+            when (result.status) {
+                CustomResult.Status.SUCCESS -> {
+                    Log.i("56456465456", "SUCCESS")
+                }
+                CustomResult.Status.ERROR -> {
+                    Log.i("56456465456", "ERROR")
+
+                }
+            }
+        }
+    }
 }
