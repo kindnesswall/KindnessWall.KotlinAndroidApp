@@ -38,7 +38,6 @@ class SplashActivity : BaseActivity() {
         viewModel.getSetting().observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
                 it.data?.let { data ->
-              Toast.makeText(this,"jnklnkl",Toast.LENGTH_LONG).show()
 
                 }
             } else if (it.status == CustomResult.Status.ERROR) {

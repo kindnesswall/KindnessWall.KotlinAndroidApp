@@ -145,14 +145,20 @@
                     android:background="?attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
+                    android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
+                    tools:visibility="visible"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    tools:visibility="visible">
+                    >
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_height="40dp">
+                        android:visibility="gone"
+                        android:orientation="horizontal"
+                        tools:visibility="gone">
+
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
@@ -168,6 +174,7 @@
                             android:text="@string/show_number"
                             android:textSize="15sp" />
                     </LinearLayout>
+
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:orientation="vertical"
@@ -178,12 +185,14 @@
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:text="عدم نمایش"
+                            android:id="@+id/none1"
                             android:textSize="14dp"
                             android:textColor="@color/secondaryTextColor"
                             android:layout_height="wrap_content"/>
                         <RadioButton
                             android:text="نمایش فقط برای خیریه ها"
                             android:textSize="14dp"
+                            android:id="@+id/charity1"
                             android:textColor="@color/secondaryTextColor"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"/>
@@ -191,6 +200,7 @@
                             android:layout_width="wrap_content"
                             android:text="نمایش برای تمامی کاربر ها"
                             android:textSize="14dp"
+                            android:id="@+id/all1"
                             android:textColor="@color/secondaryTextColor"
                             android:layout_height="wrap_content" />
                     </RadioGroup>

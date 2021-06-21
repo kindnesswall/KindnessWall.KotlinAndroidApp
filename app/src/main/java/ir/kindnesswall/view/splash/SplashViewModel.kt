@@ -1,5 +1,6 @@
 package ir.kindnesswall.view.splash
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,7 @@ class SplashViewModel(private val userRepo: UserRepo, private val generalRepo: G
     var isStartFromNotification: Boolean = false
 
     fun getUserProfile(): LiveData<CustomResult<User>> {
+        Log.i("56456465456", "Run")
         return userRepo.getUserProfile(viewModelScope)
     }
 

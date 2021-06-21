@@ -3,6 +3,7 @@ package ir.kindnesswall.view.giftdetail
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -435,8 +436,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 }
                 CustomResult.Status.SUCCESS -> {
                     dismissProgressDialog()
-                    Toast.makeText(this, "go to umbers", Toast.LENGTH_LONG).show()
-
+                    val callIntent  = Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+it.data!!.phoneNumber.toString()))
+                    startActivity(callIntent)
                 }
             }
         }

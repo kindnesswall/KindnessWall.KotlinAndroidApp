@@ -1,8 +1,11 @@
 package ir.kindnesswall.view.main.more
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,7 @@ import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.databinding.FragmentMoreBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.isAppAvailable
@@ -19,6 +23,9 @@ import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
 import ir.kindnesswall.view.profile.blocklist.BlockListActivity
 import ir.kindnesswall.view.reviewgift.ReviewGiftsActivity
+import kotlinx.android.synthetic.main.fragment_more.*
+import kotlinx.android.synthetic.main.fragment_more.view.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 /**
@@ -32,7 +39,7 @@ import ir.kindnesswall.view.reviewgift.ReviewGiftsActivity
  *
  */
 
-class MoreFragment : BaseFragment() {
+class MoreFragment() : BaseFragment() {
     var numview : Boolean =true
     lateinit var binding: FragmentMoreBinding
     override fun onCreateView(
@@ -46,7 +53,9 @@ class MoreFragment : BaseFragment() {
 
     override fun configureViews() {
         binding.lifecycleOwner = viewLifecycleOwner
-
+        binding.none1.setOnClickListener {
+            Log.i("5446546546545","test")
+        }
         binding.myProfileContainer.setOnClickListener {
             context?.let {
                 UserProfileActivity.start(
@@ -64,6 +73,7 @@ class MoreFragment : BaseFragment() {
         }
         binding.aboutUs.setOnClickListener { context?.let { AboutUsActivity.start(it) } }
         binding.blockedUsers.setOnClickListener { context?.let { BlockListActivity.start(it) } }
+
         binding.showNumber.setOnClickListener {
         if (numview.equals(true)){
             numview = false
@@ -77,6 +87,22 @@ class MoreFragment : BaseFragment() {
         binding.contactUs.setOnClickListener { openTelegram() }
         binding.bugReport.setOnClickListener { openTelegram() }
         binding.suggestions.setOnClickListener { openTelegram() }
+        var shPref: SharedPreferences = view?.context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
+        val keyName = "nameKey"
+        if (shPref.contains(keyName)){
+            when(shPref.getString(keyName, null)){
+                "none"->{
+                    none1.isChecked = true
+                }
+                "charity"->{
+                    charity1.isChecked= true
+                }
+                "all"->{
+                    all1.isChecked= true
+                }
+            }
+        }
+
 
         binding.logInLogOut.setOnClickListener {
             context?.runOrStartAuth {
@@ -111,6 +137,7 @@ class MoreFragment : BaseFragment() {
         super.onResume()
         binding.userInfo = UserInfoPref
     }
+
 
 
 }

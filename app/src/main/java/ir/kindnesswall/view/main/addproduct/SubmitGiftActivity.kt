@@ -1,9 +1,12 @@
 package ir.kindnesswall.view.main.addproduct
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -12,6 +15,7 @@ import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CityModel
@@ -23,10 +27,14 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
+import kotlinx.android.synthetic.main.activity_submit_gift.*
+import kotlinx.android.synthetic.main.fragment_more.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SubmitGiftActivity : BaseActivity() {
-
+    var shPref: SharedPreferences ?=null
+    val keyName = "nameKey"
+    var sEdite : SharedPreferences.Editor ?=null
     lateinit var binding: ActivitySubmitGiftBinding
 
     private val viewModel: SubmitGiftViewModel by viewModel()
@@ -43,6 +51,7 @@ class SubmitGiftActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,6 +72,51 @@ class SubmitGiftActivity : BaseActivity() {
         } else {
             binding.titleTextView.text = getString(R.string.edit_gift)
             fillWithEditableGift()
+        }
+       shPref= getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
+        sEdite =shPref!!.edit()
+        if (shPref!!.contains(keyName)){
+            when(shPref!!.getString(keyName, null)){
+                "none"->{
+                    none.isChecked = true
+                }
+                "charity"->{
+                    charity.isChecked= true
+                }
+                "all"->{
+                    all.isChecked= true
+                }
+            }
+        }else{
+            viewModel.getPhoneVisibility().observe(this){
+                when(it.status){
+                    CustomResult.Status.LOADING ->{
+
+                    }
+                    CustomResult.Status.SUCCESS->{
+                        Log.i("45664564564654655621616","aaa  "+ it.data!!.setting.toString())
+
+                        when(it.data!!.setting){
+                            "none"->{
+                                none.isChecked = true
+                            }
+                            "charity"->{
+                                charity.isChecked= true
+                            }
+                            "all"->{
+                                all.isChecked= true
+                            }
+                        }
+                        sEdite!!.putString(keyName,it.data!!.setting.toString())
+                        sEdite!!.apply()
+                    }
+                    CustomResult.Status.ERROR->{
+
+                    }
+                }
+               // Log.i("4566456456465465",it.data!!.setting.toString())
+
+            }
         }
     }
 
@@ -170,7 +224,57 @@ class SubmitGiftActivity : BaseActivity() {
         binding.chooseCityTextView.setOnClickListener {
             CityChooserActivity.startActivityForResult(this, true)
         }
-
+        binding.none.setOnClickListener {
+            sEdite!!.putString(keyName,"none")
+            sEdite!!.apply()
+            viewModel.setPhoneVisibility("none").observe(this){
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                       Log.i("4566456456465465","LOADING")
+                    }
+                    CustomResult.Status.ERROR -> {
+                        Log.i("4566456456465465","ERROR")
+                    }
+                    CustomResult.Status.SUCCESS -> {
+                        Log.i("4566456456465465","SUCCESS")
+                    }
+                }
+            }
+        }
+        binding.charity.setOnClickListener {
+            sEdite!!.putString(keyName,"charity")
+            sEdite!!.apply()
+                viewModel.setPhoneVisibility("charity").observe(this){
+                    when (it.status) {
+                        CustomResult.Status.LOADING -> {
+                            Log.i("4566456456465465","LOADING")
+                        }
+                        CustomResult.Status.ERROR -> {
+                            Log.i("4566456456465465","ERROR")
+                        }
+                        CustomResult.Status.SUCCESS -> {
+                            Log.i("4566456456465465","SUCCESS")
+                        }
+                    }
+                }
+        }
+        binding.all.setOnClickListener {
+            sEdite!!.putString(keyName,"all")
+            sEdite!!.apply()
+              viewModel.setPhoneVisibility("all").observe(this){
+                    when (it.status) {
+                        CustomResult.Status.LOADING -> {
+                            Log.i("4566456456465465","LOADING")
+                        }
+                        CustomResult.Status.ERROR -> {
+                            Log.i("4566456456465465","ERROR")
+                        }
+                        CustomResult.Status.SUCCESS -> {
+                            Log.i("4566456456465465","SUCCESS")
+                        }
+                    }
+                }
+        }
         binding.submitButton.setOnClickListener {
             if (viewModel.editableGiftModel == null && viewModel.isNew) {
                 showProgressDialog()
