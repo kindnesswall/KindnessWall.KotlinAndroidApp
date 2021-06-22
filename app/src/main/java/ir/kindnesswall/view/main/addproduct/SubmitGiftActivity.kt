@@ -27,6 +27,7 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
+import ir.kindnesswall.view.main.MainActivity
 import kotlinx.android.synthetic.main.activity_submit_gift.*
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -679,5 +680,10 @@ class SubmitGiftActivity : BaseActivity() {
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MainActivity.liveData.value="getPhoneNumberValue"
     }
 }

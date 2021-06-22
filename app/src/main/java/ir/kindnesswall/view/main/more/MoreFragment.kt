@@ -9,20 +9,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.databinding.FragmentMoreBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.isAppAvailable
+import ir.kindnesswall.view.main.MainActivity
+import ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel
 import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
 import ir.kindnesswall.view.profile.blocklist.BlockListActivity
 import ir.kindnesswall.view.reviewgift.ReviewGiftsActivity
+import kotlinx.android.synthetic.main.activity_submit_gift.*
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.android.synthetic.main.fragment_more.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,7 +49,10 @@ import org.koin.android.viewmodel.ext.android.viewModel
  */
 
 class MoreFragment() : BaseFragment() {
-    var numview : Boolean =true
+    var shPref: SharedPreferences? = null
+    val keyName = "nameKey"
+    var sEdite: SharedPreferences.Editor? = null
+    var numview: Boolean = true
     lateinit var binding: FragmentMoreBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,14 +60,118 @@ class MoreFragment() : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_more, container, false)
+        val viewModel: SubmitGiftViewModel by viewModel()
+        MainActivity.liveData.observe(binding.root.context as LifecycleOwner, Observer {
+            shPref =
+                binding.root.context.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
+            sEdite = shPref!!.edit()
+            if (shPref!!.contains(keyName)) {
+                when (shPref!!.getString(keyName, null)) {
+                    "none" -> {
+                        nonee.isChecked = true
+                    }
+                    "charity" -> {
+                        charity1.isChecked = true
+                    }
+                    "all" -> {
+                        all1.isChecked = true
+                    }
+                }
+            } else {
+                if (UserInfoPref.bearerToken.length != 0) {
+                    viewModel.getPhoneVisibility().observe(this) {
+                        when (it.status) {
+                            CustomResult.Status.LOADING -> {
+
+                            }
+                            CustomResult.Status.SUCCESS -> {
+                                Log.i(
+                                    "45664564564654655621616",
+                                    "aaa  " + it.data!!.setting.toString()
+                                )
+
+                                when (it.data!!.setting) {
+                                    "none" -> {
+                                        nonee.isChecked = true
+                                    }
+                                    "charity" -> {
+                                        charity1.isChecked = true
+                                    }
+                                    "all" -> {
+                                        all1.isChecked = true
+                                    }
+                                }
+                                sEdite!!.putString(keyName, it.data!!.setting.toString())
+                                sEdite!!.apply()
+                            }
+                            CustomResult.Status.ERROR -> {
+
+                            }
+                        }
+                        // Log.i("4566456456465465",it.data!!.setting.toString())
+
+                    }
+                }
+            }
+        })
+
+        binding.charity1.setOnClickListener {
+            sEdite!!.putString(keyName, "charity")
+            sEdite!!.apply()
+            viewModel.setPhoneVisibility("charity").observe(this) {
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                        Log.i("4566456456465465", "LOADING")
+                    }
+                    CustomResult.Status.ERROR -> {
+                        Log.i("4566456456465465", "ERROR")
+                    }
+                    CustomResult.Status.SUCCESS -> {
+                        Log.i("4566456456465465", "SUCCESS")
+                    }
+                }
+            }
+        }
+        binding.all1.setOnClickListener {
+            sEdite!!.putString(keyName, "all")
+            sEdite!!.apply()
+            viewModel.setPhoneVisibility("all").observe(this) {
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                        Log.i("4566456456465465", "LOADING")
+                    }
+                    CustomResult.Status.ERROR -> {
+                        Log.i("4566456456465465", "ERROR")
+                    }
+                    CustomResult.Status.SUCCESS -> {
+                        Log.i("4566456456465465", "SUCCESS")
+                    }
+                }
+            }
+        }
+        binding.nonee.setOnClickListener {
+            sEdite!!.putString(keyName, "none")
+            sEdite!!.apply()
+            viewModel.setPhoneVisibility("none").observe(this) {
+                when (it.status) {
+                    CustomResult.Status.LOADING -> {
+                        Log.i("4566456456465465", "LOADING")
+                    }
+                    CustomResult.Status.ERROR -> {
+                        Log.i("4566456456465465", "ERROR")
+                    }
+                    CustomResult.Status.SUCCESS -> {
+                        Log.i("4566456456465465", "SUCCESS")
+                    }
+                }
+            }
+        }
+
         return binding.root
     }
 
     override fun configureViews() {
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.none1.setOnClickListener {
-            Log.i("5446546546545","test")
-        }
         binding.myProfileContainer.setOnClickListener {
             context?.let {
                 UserProfileActivity.start(
@@ -75,30 +191,31 @@ class MoreFragment() : BaseFragment() {
         binding.blockedUsers.setOnClickListener { context?.let { BlockListActivity.start(it) } }
 
         binding.showNumber.setOnClickListener {
-        if (numview.equals(true)){
-            numview = false
-            binding.numViewGroup.visibility = View.VISIBLE
-        }else{
-            numview = true
-            binding.numViewGroup.visibility = View.GONE
+            if (numview.equals(true)) {
+                numview = false
+                binding.numViewGroup.visibility = View.VISIBLE
+            } else {
+                numview = true
+                binding.numViewGroup.visibility = View.GONE
 
-        }
+            }
         }
         binding.contactUs.setOnClickListener { openTelegram() }
         binding.bugReport.setOnClickListener { openTelegram() }
         binding.suggestions.setOnClickListener { openTelegram() }
-        var shPref: SharedPreferences = view?.context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
+        var shPref: SharedPreferences =
+            view?.context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
         val keyName = "nameKey"
-        if (shPref.contains(keyName)){
-            when(shPref.getString(keyName, null)){
-                "none"->{
-                    none1.isChecked = true
+        if (shPref.contains(keyName)) {
+            when (shPref.getString(keyName, null)) {
+                "none" -> {
+                    nonee.isChecked = true
                 }
-                "charity"->{
-                    charity1.isChecked= true
+                "charity" -> {
+                    charity1.isChecked = true
                 }
-                "all"->{
-                    all1.isChecked= true
+                "all" -> {
+                    all1.isChecked = true
                 }
             }
         }
@@ -137,7 +254,6 @@ class MoreFragment() : BaseFragment() {
         super.onResume()
         binding.userInfo = UserInfoPref
     }
-
 
 
 }

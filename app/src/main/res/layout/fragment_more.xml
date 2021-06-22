@@ -155,9 +155,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:visibility="gone"
+                        android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
                         android:orientation="horizontal"
-                        tools:visibility="gone">
+                        tools:visibility="visible">
 
                         <ImageView
                             android:layout_width="24dp"
@@ -180,15 +180,16 @@
                         android:orientation="vertical"
                         android:layout_margin="14dp"
                         android:id="@+id/num_view_group"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:layout_height="wrap_content">
+
                         <RadioButton
-                            android:layout_width="wrap_content"
                             android:text="عدم نمایش"
-                            android:id="@+id/none1"
                             android:textSize="14dp"
+                            android:id="@+id/nonee"
                             android:textColor="@color/secondaryTextColor"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"/>
                         <RadioButton
                             android:text="نمایش فقط برای خیریه ها"
                             android:textSize="14dp"
