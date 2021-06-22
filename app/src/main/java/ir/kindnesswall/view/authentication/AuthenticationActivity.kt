@@ -10,6 +10,7 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityAuthenticationBinding
+import ir.kindnesswall.view.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AuthenticationActivity : BaseActivity(), AuthenticationInteractor {
@@ -57,5 +58,9 @@ class AuthenticationActivity : BaseActivity(), AuthenticationInteractor {
 
     override fun onAuthenticationComplete(view: View) {
         finish()
+    }
+    override fun onStop() {
+        super.onStop()
+        MainActivity.liveData.value="getPhoneNumberValue"
     }
 }

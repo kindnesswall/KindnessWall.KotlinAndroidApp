@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
@@ -28,7 +29,6 @@ import ir.kindnesswall.view.main.conversation.ConversationFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
-
     private val viewModel by viewModel<MainViewModel>()
 
     private var currentController: NavController? = null
@@ -41,6 +41,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
+        val liveData :MutableLiveData<String> = MutableLiveData()
         fun start(context: Context?, defaultTab: Int = R.id.navigation_home) {
             context?.let {
                 val intent = Intent(it, MainActivity::class.java)
@@ -200,7 +201,7 @@ class MainActivity : BaseActivity() {
 
             R.id.navigation_more -> {
                 currentController = navMoreController
-
+                liveData.value = "getPhoneNumberValue"
                 binding.moreTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE
