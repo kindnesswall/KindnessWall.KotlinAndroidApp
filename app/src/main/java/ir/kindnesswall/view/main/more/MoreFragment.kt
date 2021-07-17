@@ -184,9 +184,6 @@ class MoreFragment() : BaseFragment() {
         binding.reviewGiftsContainer.setOnClickListener { context?.let { ReviewGiftsActivity.start(it) } }
         binding.reviewCharityContainer.setOnClickListener { context?.let { ReviewCharityActivity.start(it) } }
 
-        binding.none1.setOnClickListener {
-            Log.i("5446546546545","test")
-        }
         binding.myProfileContainer.setOnClickListener {
             context?.let {
                 UserProfileActivity.start(
