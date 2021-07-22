@@ -93,8 +93,8 @@
     <string name="accepted">پذیرفته شده</string>
     <string name="show_profile">نمایش پروفایل</string>
     <string name="my_profile">پروفایل من</string>
-    <string name="show_number">نمایش شماره تلفن</string>
-
+    <string name="show_number">نمایش شماره تماس</string>
+    <string name="call">شماره تماس</string>
     <string name="user_name_place_holder">نام کاربری</string>
     <string name="conversations">گفتگو‌ها</string>
     <string name="submit_gift">ثبت هدیه</string>
@@ -201,4 +201,8 @@
     <string name="add_charity_description">لطفا مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
     <string name="submit_gift_reminder_description">با هدیه دادن وسایلی که دیگر از آنها استفاده نمیکنید، به راحتی  میتوانید نیاز یک نیازمند را برطرف سازید.</string>
     <string name="later">بعدا</string>
+    <string name="none">عدم نمایش</string>
+    <string name="charity">نمایش فقط برای خیریه ها</string>
+    <string name="all">نمایش برای تمامی کاربر ها</string>
+
 </resources>

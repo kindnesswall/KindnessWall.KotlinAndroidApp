@@ -19,21 +19,20 @@ class MoreViewModel(
         if (UserInfoPref.bearerToken.length!=0){
             var shPref: SharedPreferences = view.context.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
             when (view.id){
-                ir.kindnesswall.R.id.none->
+                ir.kindnesswall.R.id.more_none->
                 {
                     with (shPref.edit()) {
                         putString(UserInfoPref.keyName, "none")
                         apply()
                     }
                 }
-                ir.kindnesswall.R.id.charity->{
+                ir.kindnesswall.R.id.more_charity->{
                     with (shPref.edit()) {
                         putString(UserInfoPref.keyName, "charity")
                         apply()
                     }
                 }
-                ir.kindnesswall.R.id.all->{
-                    Log.i("5465454654","all"+shPref.contains(UserInfoPref.keyName))
+                ir.kindnesswall.R.id.more_all->{
                     with (shPref.edit()) {
                         putString(UserInfoPref.keyName, "all")
                         apply()
@@ -44,6 +43,5 @@ class MoreViewModel(
         }
 
     }
-    fun  getnum() =  userRepo.setUserPhoneSetting(viewModelScope,"all")
 
 }

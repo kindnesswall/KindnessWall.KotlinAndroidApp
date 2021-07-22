@@ -22,5 +22,5 @@ class SplashViewModel(private val userRepo: UserRepo, private val generalRepo: G
     }
 
     fun getVersion() = generalRepo.getVersion(viewModelScope)
-    fun getSetting()= generalRepo.getVersion1(viewModelScope);
+    fun getSetting()= generalRepo.getSetting(viewModelScope);
 }

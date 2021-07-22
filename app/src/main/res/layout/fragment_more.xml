@@ -180,28 +180,28 @@
                         android:orientation="vertical"
                         android:layout_margin="14dp"
                         android:id="@+id/num_view_group"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:layout_height="wrap_content">
 
                         <RadioButton
-                            android:text="عدم نمایش"
+                            android:text="@string/none"
                             android:textSize="14dp"
-                            android:id="@+id/nonee"
+                            android:id="@+id/more_none"
                             android:textColor="@color/secondaryTextColor"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"/>
                         <RadioButton
-                            android:text="نمایش فقط برای خیریه ها"
+                            android:text="@string/charity"
                             android:textSize="14dp"
-                            android:id="@+id/charity1"
+                            android:id="@+id/more_charity"
                             android:textColor="@color/secondaryTextColor"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"/>
                         <RadioButton
                             android:layout_width="wrap_content"
-                            android:text="نمایش برای تمامی کاربر ها"
+                            android:text="@string/all"
                             android:textSize="14dp"
-                            android:id="@+id/all1"
+                            android:id="@+id/more_all"
                             android:textColor="@color/secondaryTextColor"
                             android:layout_height="wrap_content" />
                     </RadioGroup>

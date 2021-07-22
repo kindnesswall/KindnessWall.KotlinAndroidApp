@@ -181,23 +181,23 @@
                             android:layout_height="wrap_content">
                             <RadioButton
                                 android:layout_width="wrap_content"
-                                android:text="عدم نمایش"
-                                android:id="@+id/none"
+                                android:text="@string/none"
+                                android:id="@+id/submit_none"
                                 android:textSize="14dp"
                                 android:textColor="@color/secondaryTextColor"
                                 android:layout_height="wrap_content"/>
                             <RadioButton
-                                android:text="نمایش فقط برای خیریه ها"
+                                android:text="@string/charity"
                                 android:textSize="14dp"
-                                android:id="@+id/charity"
+                                android:id="@+id/submit_charity"
                                 android:textColor="@color/secondaryTextColor"
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"/>
                             <RadioButton
                                 android:layout_width="wrap_content"
-                                android:text="نمایش برای تمامی کاربر ها"
+                                android:text="@string/all"
                                 android:textSize="14dp"
-                                android:id="@+id/all"
+                                android:id="@+id/submit_all"
                                 android:textColor="@color/secondaryTextColor"
                                 android:layout_height="wrap_content" />
                         </RadioGroup>

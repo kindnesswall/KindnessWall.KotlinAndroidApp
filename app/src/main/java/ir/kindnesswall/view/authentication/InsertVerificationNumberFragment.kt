@@ -19,9 +19,15 @@ import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentInsertVerificationNumberBinding
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
+import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class InsertVerificationNumberFragment : BaseFragment() {
+    companion object {
+        var login: Boolean? = null
+        var isAdmin: Boolean =false
+    }
+
     private var couldResendCode: Boolean = false
 
     private val viewModel by sharedViewModel<AuthenticationViewModel>()
@@ -121,6 +127,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
     }
 
     private fun loginUser() {
+        login = false
         viewModel.loginUser(binding.verificationCodeEditText.text.toString())
             .observe(viewLifecycleOwner) {
                 when (it.status) {
@@ -131,12 +138,17 @@ class InsertVerificationNumberFragment : BaseFragment() {
                         UserInfoPref.isAdmin = it.data?.isAdmin ?: false
                         UserInfoPref.isCharity = it.data?.isCharity ?: false
                         getUserProfile()
+                        isAdmin = it.data?.isAdmin!!
+                        if (GiftDetailActivity.LoginFlag.equals("GiftDetailActivity")) {
+                            login = true
+                        }
                     }
                     CustomResult.Status.LOADING -> {
                         showProgressDialog()
                     }
                     CustomResult.Status.ERROR -> {
                         binding.errorPhoneNumberTextView.visibility = View.VISIBLE
+                        login = false
                     }
                 }
             }

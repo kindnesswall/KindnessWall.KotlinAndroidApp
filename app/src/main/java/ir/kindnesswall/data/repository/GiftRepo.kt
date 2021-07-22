@@ -37,7 +37,6 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
             getResultWithExponentialBackoffStrategy {
                 giftApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
             }.collect { result ->
-                Log.i("54646165464654564646", (result.data).toString())
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         if (result.data == null) {
@@ -236,8 +235,6 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
             getResultWithExponentialBackoffStrategy {
                 giftApi.getReviewGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
             }.collect { result ->
-                Log.i("54646165464654564646", (result.data).toString())
-
                 when (result.status) {
 
                     CustomResult.Status.SUCCESS -> {
@@ -328,7 +325,6 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     ): LiveData<CustomResult<SettingModel>> =
         liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            Log.i("545645656465", userId.toString())
             getResultWithExponentialBackoffStrategy { giftApi.getSetting(userId) }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
@@ -336,6 +332,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                             value = result.data as SettingModel?
                         }.map { CustomResult.success(it) })
                     }
+
                 }
             }
         }
@@ -352,6 +349,10 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                         emitSource((MutableLiveData<PhoneNumberModel>().apply {
                             value = result.data as PhoneNumberModel?
                         }.map { CustomResult.success(it) }))
+                    }
+                    CustomResult.Status.ERROR ->{
+                        emit(CustomResult.error(result.errorMessage))
+
                     }
                 }
 
@@ -377,19 +378,19 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
             }
         }
 
-    fun SetSettingNumber(
+    fun setSettingNumber(
         viewModelScope: CoroutineScope,
         value: String
     ): LiveData<CustomResult<Any?>> = liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
         emit(CustomResult.loading())
         getResultWithExponentialBackoffStrategy { giftApi.setPhoneVisibilitySetting(SetSetting(value)) }.collect { result ->
-            Log.i("4566456456465465",result.status.toString()+"SUCCESS")
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
-                Log.i("4566456456465465","SUCCESS")
+                    emit(CustomResult.success(result.data))
                 }
                 CustomResult.Status.ERROR -> {
-                    Log.i("4566456456465465","ERROR")
+                    emit(CustomResult.error(result.errorMessage))
+
                 }
                 CustomResult.Status.LOADING -> emit(CustomResult.loading())
             }
@@ -402,11 +403,9 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
                     emit(CustomResult.success(result.data))
-                    Log.i("4566456456465465","SUCCESS   "+result.data!!.setting)
-
                 }
                 CustomResult.Status.ERROR -> {
-                    Log.i("4566456456465465","ERROR")
+                    emit(CustomResult.success(result.data))
                 }
                 CustomResult.Status.LOADING -> emit(CustomResult.loading())
             }

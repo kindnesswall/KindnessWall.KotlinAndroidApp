@@ -23,6 +23,7 @@ import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.databinding.FragmentMoreBinding
+import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.isAppAvailable
 import ir.kindnesswall.view.main.MainActivity
@@ -62,60 +63,13 @@ class MoreFragment() : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_more, container, false)
         val viewModel: SubmitGiftViewModel by viewModel()
         MainActivity.liveData.observe(binding.root.context as LifecycleOwner, Observer {
-            shPref =
-                binding.root.context.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
-            sEdite = shPref!!.edit()
-            if (shPref!!.contains(keyName)) {
-                when (shPref!!.getString(keyName, null)) {
-                    "none" -> {
-                        nonee.isChecked = true
-                    }
-                    "charity" -> {
-                        charity1.isChecked = true
-                    }
-                    "all" -> {
-                        all1.isChecked = true
-                    }
-                }
-            } else {
-                if (UserInfoPref.bearerToken.length != 0) {
-                    viewModel.getPhoneVisibility().observe(this) {
-                        when (it.status) {
-                            CustomResult.Status.LOADING -> {
-
-                            }
-                            CustomResult.Status.SUCCESS -> {
-                                Log.i(
-                                    "45664564564654655621616",
-                                    "aaa  " + it.data!!.setting.toString()
-                                )
-
-                                when (it.data!!.setting) {
-                                    "none" -> {
-                                        nonee.isChecked = true
-                                    }
-                                    "charity" -> {
-                                        charity1.isChecked = true
-                                    }
-                                    "all" -> {
-                                        all1.isChecked = true
-                                    }
-                                }
-                                sEdite!!.putString(keyName, it.data!!.setting.toString())
-                                sEdite!!.apply()
-                            }
-                            CustomResult.Status.ERROR -> {
-
-                            }
-                        }
-                        // Log.i("4566456456465465",it.data!!.setting.toString())
-
-                    }
-                }
-            }
+            shPref= context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
+            sEdite =shPref!!.edit()
+            val numberstatus = NumberStatus(viewModel ,more_none , more_charity , more_all )
+            numberstatus.getShowNumberStatus(binding.root.context)
         })
 
-        binding.charity1.setOnClickListener {
+        binding.moreCharity.setOnClickListener {
             sEdite!!.putString(keyName, "charity")
             sEdite!!.apply()
             viewModel.setPhoneVisibility("charity").observe(this) {
@@ -132,7 +86,7 @@ class MoreFragment() : BaseFragment() {
                 }
             }
         }
-        binding.all1.setOnClickListener {
+        binding.moreAll.setOnClickListener {
             sEdite!!.putString(keyName, "all")
             sEdite!!.apply()
             viewModel.setPhoneVisibility("all").observe(this) {
@@ -149,7 +103,7 @@ class MoreFragment() : BaseFragment() {
                 }
             }
         }
-        binding.nonee.setOnClickListener {
+        binding.moreNone.setOnClickListener {
             sEdite!!.putString(keyName, "none")
             sEdite!!.apply()
             viewModel.setPhoneVisibility("none").observe(this) {
@@ -209,13 +163,13 @@ class MoreFragment() : BaseFragment() {
         if (shPref.contains(keyName)) {
             when (shPref.getString(keyName, null)) {
                 "none" -> {
-                    nonee.isChecked = true
+                    more_none.isChecked = true
                 }
                 "charity" -> {
-                    charity1.isChecked = true
+                    more_charity.isChecked = true
                 }
                 "all" -> {
-                    all1.isChecked = true
+                    more_all.isChecked = true
                 }
             }
         }

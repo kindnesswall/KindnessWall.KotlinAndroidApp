@@ -52,8 +52,6 @@ abstract class BaseDataSource(val context: Context) {
             val response = getResult(call)
             when (response.status) {
                 CustomResult.Status.SUCCESS -> {
-                    Log.i("545645656465",response.data.toString())
-
                    emit(CustomResult.success(response.data))
                     break@loop
                 }

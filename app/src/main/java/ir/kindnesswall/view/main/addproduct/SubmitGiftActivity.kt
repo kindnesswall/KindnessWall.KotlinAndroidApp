@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -22,6 +24,7 @@ import ir.kindnesswall.data.model.CityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
+import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.startMultiSelectingImagePicker
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
@@ -33,11 +36,10 @@ import kotlinx.android.synthetic.main.fragment_more.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SubmitGiftActivity : BaseActivity() {
-    var shPref: SharedPreferences ?=null
+    var shPref: SharedPreferences?=null
     val keyName = "nameKey"
     var sEdite : SharedPreferences.Editor ?=null
     lateinit var binding: ActivitySubmitGiftBinding
-
     private val viewModel: SubmitGiftViewModel by viewModel()
     private lateinit var adapter: SelectedImagesAdapter
 
@@ -74,52 +76,13 @@ class SubmitGiftActivity : BaseActivity() {
             binding.titleTextView.text = getString(R.string.edit_gift)
             fillWithEditableGift()
         }
-       shPref= getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
-        sEdite =shPref!!.edit()
-        if (shPref!!.contains(keyName)){
-            when(shPref!!.getString(keyName, null)){
-                "none"->{
-                    none.isChecked = true
-                }
-                "charity"->{
-                    charity.isChecked= true
-                }
-                "all"->{
-                    all.isChecked= true
-                }
-            }
-        }else{
-            viewModel.getPhoneVisibility().observe(this){
-                when(it.status){
-                    CustomResult.Status.LOADING ->{
 
-                    }
-                    CustomResult.Status.SUCCESS->{
-                        Log.i("45664564564654655621616","aaa  "+ it.data!!.setting.toString())
-
-                        when(it.data!!.setting){
-                            "none"->{
-                                none.isChecked = true
-                            }
-                            "charity"->{
-                                charity.isChecked= true
-                            }
-                            "all"->{
-                                all.isChecked= true
-                            }
-                        }
-                        sEdite!!.putString(keyName,it.data!!.setting.toString())
-                        sEdite!!.apply()
-                    }
-                    CustomResult.Status.ERROR->{
-
-                    }
-                }
-               // Log.i("4566456456465465",it.data!!.setting.toString())
-
-            }
-        }
+        val numberstatus = NumberStatus(viewModel ,submit_none , submit_charity , submit_all )
+        numberstatus.getShowNumberStatus(this)
     }
+
+
+
 
     private fun configureViewModel() {
         viewModel.title.observe(this) {
@@ -208,7 +171,8 @@ class SubmitGiftActivity : BaseActivity() {
 
         binding.backImageView.setOnClickListener { onBackPressed() }
         binding.addNewPhotoContainer.setOnClickListener { pickImage() }
-
+        shPref= getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
+        sEdite =shPref!!.edit()
         binding.chooseCategoryTextView.setOnClickListener {
             CategoryActivity.startActivityForResult(
                 this,
@@ -225,7 +189,7 @@ class SubmitGiftActivity : BaseActivity() {
         binding.chooseCityTextView.setOnClickListener {
             CityChooserActivity.startActivityForResult(this, true)
         }
-        binding.none.setOnClickListener {
+        binding.submitNone.setOnClickListener {
             sEdite!!.putString(keyName,"none")
             sEdite!!.apply()
             viewModel.setPhoneVisibility("none").observe(this){
@@ -242,7 +206,7 @@ class SubmitGiftActivity : BaseActivity() {
                 }
             }
         }
-        binding.charity.setOnClickListener {
+        binding.submitCharity.setOnClickListener {
             sEdite!!.putString(keyName,"charity")
             sEdite!!.apply()
                 viewModel.setPhoneVisibility("charity").observe(this){
@@ -259,7 +223,7 @@ class SubmitGiftActivity : BaseActivity() {
                     }
                 }
         }
-        binding.all.setOnClickListener {
+        binding.submitAll.setOnClickListener {
             sEdite!!.putString(keyName,"all")
             sEdite!!.apply()
               viewModel.setPhoneVisibility("all").observe(this){

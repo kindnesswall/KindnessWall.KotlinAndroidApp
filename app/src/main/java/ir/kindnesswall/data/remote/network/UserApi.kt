@@ -85,7 +85,7 @@ interface UserApi {
 
     @POST("phone/visibility/setting")
     fun  setPhoneSetting(settingdata:String,
-        @Body settingrequest: SettingRequestBody =
+        @Body settingRequest: SettingRequestBody =
             SettingRequestBody().apply {
                 setting = settingdata
             }

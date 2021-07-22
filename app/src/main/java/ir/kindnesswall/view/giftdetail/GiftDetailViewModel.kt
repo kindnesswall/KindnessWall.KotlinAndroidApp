@@ -1,5 +1,6 @@
 package ir.kindnesswall.view.giftdetail
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,7 @@ import ir.kindnesswall.data.repository.GiftRepo
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
-
+    var callPageStatus :Boolean = false
     var isDonatedToSomeone: Boolean = false
 
     var isReceivedGift: Boolean = false
@@ -42,11 +43,13 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun onShareClicked() {
         giftViewListener?.onShareClicked()
     }
-    fun onCallClick(){
-        giftViewListener?.onCallButtonClick()
+    fun onCallClick(view :View){
+        giftViewListener?.onCallButtonClick(view)
 
         }
-
+        fun callPage(){
+            giftViewListener?.onCallPageClick()
+        }
     fun onBookmarkClicked() {
         giftViewListener?.onBookmarkClicked()
     }

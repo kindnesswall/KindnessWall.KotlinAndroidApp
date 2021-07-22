@@ -35,20 +35,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getSetting().observe(this) {
-            if (it.status == CustomResult.Status.SUCCESS) {
-                it.data?.let { data ->
-
-                }
-            } else if (it.status == CustomResult.Status.ERROR) {
-                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
-                    NoInternetDialogFragment().display(supportFragmentManager) {
-                    }
-                }
-            }
-        }
         checkUpdate()
-
         runIfAuthenticated {
             viewModel.getUserProfile()
         }
