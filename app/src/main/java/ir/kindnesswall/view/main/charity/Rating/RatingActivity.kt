@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.RateModel
 import ir.kindnesswall.databinding.ActivityRatingBinding
-import ir.kindnesswall.view.Test
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import kotlinx.android.synthetic.main.activity_rating.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -19,8 +18,7 @@ class RatingActivity : AppCompatActivity() , RateViewListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        var binding : ActivityRatingBinding= DataBindingUtil.setContentView(this, R.layout.activity_rating)
-        val a = Test()
-       binding.viewModelRating = a
+
         val list :ArrayList<RateModel> =ArrayList()
         list.add(RateModel("A","","",1.5f))
         list.add(RateModel("B","","",1.5f))
@@ -41,6 +39,6 @@ class RatingActivity : AppCompatActivity() , RateViewListener {
     }
 
     override fun submitListener() {
-        Log.i("5645646555555555","test")
+        Log.i("5645646555555555","get List Data")
     }
 }
