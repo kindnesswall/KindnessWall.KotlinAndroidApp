@@ -25,7 +25,7 @@ object UserInfoPref : KotprefModel(
 
 ) {
     val MyPref = "MyPrefers"
-     val keyName = "nameKey"
+    val keyName = "nameKey"
     var fireBaseToken by stringPref("")
 
     var id by longPref(0)
@@ -71,7 +71,6 @@ object UserInfoPref : KotprefModel(
             .replace("7", "۷")
             .replace("8", "۸")
             .replace("9", "۹")
-
 
 
     fun getUser() = User(userId, name, phoneNumber, image, isCharity, isAdmin, charityName)

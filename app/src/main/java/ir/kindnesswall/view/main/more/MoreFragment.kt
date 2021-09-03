@@ -65,8 +65,11 @@ class MoreFragment() : BaseFragment() {
         MainActivity.liveData.observe(binding.root.context as LifecycleOwner, Observer {
             shPref= context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
             sEdite =shPref!!.edit()
-            val numberstatus = NumberStatus(viewModel ,more_none , more_charity , more_all )
-            numberstatus.getShowNumberStatus(binding.root.context)
+            if (UserInfoPref.bearerToken.isNotEmpty()){
+                val numberstatus = NumberStatus(viewModel ,more_none , more_charity , more_all )
+                numberstatus.getShowNumberStatus(binding.root.context)
+            }
+
         })
 
         binding.moreCharity.setOnClickListener {
