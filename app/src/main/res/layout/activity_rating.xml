@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <variable
-            name="ViewModelRating"
-            type="ir.kindnesswall.view.Test" />
+
     </data>
     <LinearLayout
         android:orientation="vertical"
@@ -114,7 +112,6 @@
                         android:id="@+id/registeredFilter"
                         android:layout_width="150dp"
                         android:layout_height="32dp"
-                        android:onClick="@{()-> ViewModelRating.submit()}"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/selected_profile_filter"
