@@ -55,7 +55,7 @@ class NumberStatus(
 
                 }
                 CustomResult.Status.SUCCESS -> {
-                    if (it.data?.setting == null) {
+                    if (it.data?.setting === null) {
                         none.isChecked = true
                         editSharedPreferences("none")
                     } else {
