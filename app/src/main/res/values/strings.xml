@@ -159,7 +159,6 @@
     <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
     <string name="no_gift_to_show">هدیه‌ای یافت نشد</string>
     <string name="unblock_user_question">کاربر %s رفع بلاک شود؟</string>
-    <string name="request_for_users_error_message">به علت کرونا در حال حاضر تنها امکان درخواست توسط خیریه ها وجود دارد</string>
     <string name="ok">باشه</string>
 
     <string name="situation_in_review_queue">در صف بررسی</string>

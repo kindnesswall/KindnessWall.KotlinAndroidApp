@@ -244,16 +244,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 return
             }
 
-            if (!UserInfoPref.isCharity && !UserInfoPref.isAdmin) {
-                showPromptDialog(
-                    messageToShow = getString(R.string.request_for_users_error_message),
-                    positiveButtonText = getString(R.string.ok),
-                    showNegativeButton = false
-                )
-
-                return
-            }
-
             if (viewModel.isReceivedGift) {
                 viewModel.getRequestStatus().observe(this) {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {

@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.kindnesswand"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -65,7 +65,7 @@ android {
 }
 
 ext {
-    navigation_version = "1.0.0"
+    navigation_version = "2.3.5"
 
     lifecycle_version = "2.2.0"
 
@@ -112,8 +112,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     // navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
