@@ -9,11 +9,11 @@ plugins {
 }
 apply from: '../dependencies.gradle'
 android {
-    compileSdk 31
+    compileSdk versions.compileSdk
     defaultConfig {
         applicationId "com.kindnesswand"
-        minSdk 21
-        targetSdk 31
+        minSdk versions.minSdk
+        targetSdk versions.targetSdk
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -64,58 +64,23 @@ android {
         jvmTarget = "1.8"
     }
 }
-
-ext {
-    navigation_version = "2.3.5"
-
-    lifecycle_version = "2.4.0"
-
-    retrofit_version = '2.9.0'
-    okhttp_version = '5.0.0-alpha.2'
-
-    mockito_version = "2.23.4"
-
-    glide_version = "4.12.0"
-
-    ktx_version = "1.2.0-rc01"
-    koin_version = "2.0.1"
-
-    androidXAnnotations = '1.0.1'
-
-    coroutinesVersion = '1.5.2'
-
-    roomVersion = '2.4.0'
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':spotlight')
+
     // Androidx Libs
     implementation preDefine.corKtx
     implementation preDefine.appcompat
     implementation preDefine.material
     implementation preDefine.constraintLayout
 
-
-
-
-
-
-
-
     //room
     implementation room.roomRuntime
     implementation room.roomKtx
     kapt room.roomKapt
 
-
-
-
-
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-
-    implementation "androidx.annotation:annotation:$androidXAnnotations"
-
+    //koin
+    implementation koin.viewmodel
 
     //coroutines
     implementation coroutines.android
@@ -132,20 +97,14 @@ dependencies {
     implementation lifecycle.livedata
     kapt lifecycle.kapt
 
-
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
-
-
-
-    // RETROFIT
+    // retrofit
     implementation retrofit.retrofit
     implementation retrofit.converterGson
     implementation retrofit.okhttp
 
     //Glide
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation glide.glide
+    kapt glide.kapt
 
     // firebase
     implementation firebase.messaging
@@ -156,14 +115,10 @@ dependencies {
     implementation kotpref.kotpref
     implementation kotpref.gson
 
-    // zoomable image view
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    //chuck debugger
+    debugImplementation chuck.debug
+    releaseImplementation chuck.release
 
-    //recycler view indicator
-    implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10'
-
-    // chrome tab
-    implementation "androidx.browser:browser:1.4.0"
 
     //utils
     implementation utils.imagePicker
@@ -172,14 +127,15 @@ dependencies {
     implementation utils.uploadservice
     implementation utils.flexbox
     implementation utils.persiandate
+    implementation utils.legacy
+    implementation utils.browser
+    implementation utils.zoomable
+    implementation utils.indicator
+    implementation utils.annotation
 
 
 
-    //chucker debugger
-    debugImplementation "com.github.chuckerteam.chucker:library:3.2.0"
-    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.2.0"
-
-    // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+//    // kotlin
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+//    implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
