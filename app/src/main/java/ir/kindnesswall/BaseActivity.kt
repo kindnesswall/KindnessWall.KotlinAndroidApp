@@ -14,7 +14,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.google.firebase.iid.FirebaseInstanceId
+//import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.repository.UserRepo
@@ -64,9 +65,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
         if (UserInfoPref.bearerToken.isNotEmpty()) {
             if (UserInfoPref.fireBaseToken.isEmpty()) {
-                FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
+//                FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
+//                    if (result.isSuccessful) {
+//                        val token = result.result?.token.toString()
+//                        if (token.isNotEmpty()) {
+//                            UserInfoPref.fireBaseToken = token
+//                            userRepo.registerFirebaseToken()
+//                        }
+//                    }
+//                }
+                FirebaseMessaging.getInstance().token.addOnCompleteListener { result ->
                     if (result.isSuccessful) {
-                        val token = result.result?.token.toString()
+                        val token = result.result.toString()
                         if (token.isNotEmpty()) {
                             UserInfoPref.fireBaseToken = token
                             userRepo.registerFirebaseToken()

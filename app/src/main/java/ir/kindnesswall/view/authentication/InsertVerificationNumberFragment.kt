@@ -11,7 +11,8 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
+//import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
@@ -159,10 +160,28 @@ class InsertVerificationNumberFragment : BaseFragment() {
             when (it.status) {
                 CustomResult.Status.SUCCESS -> {
                     dismissProgressDialog()
-                    FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
+//                    FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
+//                        if (result.isSuccessful) {
+//                            val token = result.result?.token.toString()
+//                            if (token.isNotEmpty()) {
+//                                UserInfoPref.fireBaseToken = token
+//                                AppPref.shouldUpdatedFireBaseToken = true
+//                                authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+//                            } else {
+//                                authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+//                            }
+//                        } else {
+//                            authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+//                        }
+//                    }.addOnFailureListener {
+//                        authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)
+//                    }
+
+
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener { result ->
                         if (result.isSuccessful) {
-                            val token = result.result?.token.toString()
-                            if (token.isNotEmpty()) {
+                            val token = result.result?.toString()
+                            if (token!!.isNotEmpty()) {
                                 UserInfoPref.fireBaseToken = token
                                 AppPref.shouldUpdatedFireBaseToken = true
                                 authenticationInteractor?.onVerificationSent(binding.sendVersificationTextView)

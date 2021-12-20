@@ -150,7 +150,7 @@ class MainActivity : BaseActivity() {
         val menuView = binding.mainBottomNavigationView.getChildAt(0) as? ViewGroup ?: return
 
         menuView.forEach {
-            it.findViewById<View>(R.id.largeLabel)?.setPadding(0, 0, 0, 0)
+//            it.findViewById<View>(R.id.largeLabel)?.setPadding(0, 0, 0, 0)
         }
     }
 

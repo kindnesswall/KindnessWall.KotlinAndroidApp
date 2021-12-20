@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface ProvinceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(team: List<ProvinceModel>)
+    suspend fun insert(team: List<ProvinceModel>)
 
     @Transaction
     @Query("SELECT * from province_table")

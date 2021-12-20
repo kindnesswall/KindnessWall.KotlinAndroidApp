@@ -263,7 +263,7 @@ fun startMultiSelectingImagePicker(activity: BaseActivity) {
 fun isAppAvailable(context: Context, appName: String?): Boolean {
     val pm = context.packageManager
     return try {
-        pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES)
+        pm.getPackageInfo(appName!!, PackageManager.GET_ACTIVITIES)
         true
     } catch (e: Exception) {
         false

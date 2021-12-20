@@ -62,7 +62,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gift_detail)
 
-        viewModel.giftModel = intent?.getParcelableExtra("giftModel") as GiftModel
+        viewModel.giftModel = intent?.getParcelableExtra("giftModel") as GiftModel?
         if (viewModel.giftModel == null) {
             finish()
         }

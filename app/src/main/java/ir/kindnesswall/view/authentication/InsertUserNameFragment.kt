@@ -47,7 +47,9 @@ class InsertUserNameFragment : BaseFragment() {
             }
         }
 
-        binding.skipAuthenticationTextView.setOnClickListener { activity?.finish() }
+        binding.skipAuthenticationTextView.setOnClickListener {
+            activity?.finish()
+        }
     }
 
     private fun updateUserProfile() {

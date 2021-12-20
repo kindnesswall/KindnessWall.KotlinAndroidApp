@@ -1,18 +1,19 @@
-apply plugin: 'com.android.application'
-apply plugin: 'androidx.navigation.safeargs'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-
+plugins {
+    id 'com.android.application'
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+apply from: '../dependencies.gradle'
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdk 31
     defaultConfig {
         applicationId "com.kindnesswand"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdk 21
+        targetSdk 31
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -67,83 +68,93 @@ android {
 ext {
     navigation_version = "2.3.5"
 
-    lifecycle_version = "2.2.0"
+    lifecycle_version = "2.4.0"
 
-    retrofit_version = '2.6.0'
-    okhttp_version = '3.9.1'
+    retrofit_version = '2.9.0'
+    okhttp_version = '5.0.0-alpha.2'
 
     mockito_version = "2.23.4"
 
-    glide_version = "4.10.0"
+    glide_version = "4.12.0"
 
     ktx_version = "1.2.0-rc01"
     koin_version = "2.0.1"
 
     androidXAnnotations = '1.0.1'
 
-    coroutinesVersion = '1.2.1'
+    coroutinesVersion = '1.5.2'
 
-    roomVersion = '2.2.5'
+    roomVersion = '2.4.0'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation project(path: ':spotlight')
     // Androidx Libs
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android:flexbox:2.0.1'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation preDefine.corKtx
+    implementation preDefine.appcompat
+    implementation preDefine.material
+    implementation preDefine.constraintLayout
+
+
+
+
+
+
+
 
     //room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation room.roomRuntime
+    implementation room.roomKtx
+    kapt room.roomKapt
 
-    // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+
+
+
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     implementation "androidx.annotation:annotation:$androidXAnnotations"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    //coroutines
+    implementation coroutines.android
+    implementation coroutines.core
 
     // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation navigation.fragment
+    implementation navigation.ui
 
-    // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    //lifecycle
+    implementation lifecycle.viewModel
+    implementation lifecycle.runtime
+    implementation lifecycle.livedata
+    kapt lifecycle.kapt
+
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    //noinspection LifecycleAnnotationProcessorWithJava8
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    //KTX
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01'
+
+
 
     // RETROFIT
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    implementation retrofit.retrofit
+    implementation retrofit.converterGson
+    implementation retrofit.okhttp
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // firebase
-    implementation 'com.google.firebase:firebase-messaging:20.2.0'
-    implementation 'com.google.firebase:firebase-analytics:17.4.2'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+    implementation firebase.messaging
+    implementation firebase.analytics
+    implementation firebase.crashlytics
 
     // Kotpref
-    implementation 'com.chibatching.kotpref:kotpref:2.6.0'
-    implementation 'com.chibatching.kotpref:gson-support:2.6.0'
+    implementation kotpref.kotpref
+    implementation kotpref.gson
 
     // zoomable image view
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -152,24 +163,23 @@ dependencies {
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10'
 
     // chrome tab
-    implementation "androidx.browser:browser:1.2.0"
+    implementation "androidx.browser:browser:1.4.0"
 
-    implementation "com.github.marlonlom:timeago:4.0.3"
+    //utils
+    implementation utils.imagePicker
+    implementation utils.swipedecorator
+    implementation utils.timeago
+    implementation utils.uploadservice
+    implementation utils.flexbox
+    implementation utils.persiandate
 
-    def uploadServiceVersion = "4.3.0"
-    implementation "net.gotev:uploadservice:$uploadServiceVersion"
 
-    //image picker
-    implementation 'com.github.nguyenhoanglam:ImagePicker:1.4.0'
-
-    //recycler view swipe detector
-    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
-
-    implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 
     //chucker debugger
     debugImplementation "com.github.chuckerteam.chucker:library:3.2.0"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.2.0"
 
-    implementation project(path: ':spotlight')
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
