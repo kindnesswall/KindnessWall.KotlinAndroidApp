@@ -31,7 +31,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
     fun getConversationList(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<ChatContactModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<ChatContactModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { chatApi.getConversations() }.collect { result ->
                 when (result.status) {
@@ -69,7 +69,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         lastId: Long,
         chatId: Long
     ): LiveData<CustomResult<ChatMessageModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<ChatMessageModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 chatApi.getChats(GetChatsRequestModel(chatId, beforeId = lastId))
@@ -94,7 +94,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         chatId: Long
     ): LiveData<CustomResult<ChatMessageModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<ChatMessageModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { chatApi.getChats(GetChatsRequestModel(chatId)) }.collect { result ->
                 when (result.status) {
@@ -118,7 +118,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         chatId: Long,
         message: String,
         type: String? = null
-    ): LiveData<CustomResult<TextMessageModel>> = liveData(viewModelScope.coroutineContext, 0) {
+    ): LiveData<CustomResult<TextMessageModel>> = liveData<CustomResult<TextMessageModel>>(viewModelScope.coroutineContext, 0) {
         emit(CustomResult.loading())
 
         getResultWithExponentialBackoffStrategy {
@@ -141,7 +141,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
     }
 
     fun blockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy { chatApi.blockChat(chatId) }.collect { result ->
@@ -156,7 +156,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         }
 
     fun unblockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy { chatApi.unblockChat(chatId) }.collect { result ->
@@ -171,10 +171,10 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         }
 
     fun getBlockedUsers(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<ChatContactModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             getResultWithExponentialBackoffStrategy {
                 chatApi.getBlockedUsers()
-            }.collect { result ->
+            }.collect { result: CustomResult<List<ChatContactModel>> ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emitSource(MutableLiveData<List<ChatContactModel>>().apply {
@@ -201,7 +201,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         charityId: Long
     ): LiveData<CustomResult<ChatContactModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<ChatContactModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 chatApi.getChatId(charityId)

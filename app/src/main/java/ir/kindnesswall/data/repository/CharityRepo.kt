@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.collect
 class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource(context) {
 
     fun getCharities(viewModelScope: CoroutineScope): LiveData<CustomResult<List<CharityModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<CharityModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy { charityApi.getCharities() }
@@ -49,7 +49,7 @@ class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource
 
     fun getCharity(viewModelScope: CoroutineScope, charityId: Long):
             LiveData<CustomResult<CharityModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<CharityModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy { charityApi.getCharity(charityId) }

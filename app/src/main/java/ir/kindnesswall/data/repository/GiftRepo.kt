@@ -32,7 +32,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         lastId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 giftApi.getGifts(GetGiftsRequestBaseBody().apply { beforeId = lastId })
@@ -58,7 +58,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         lastId: Long,
         getGiftsRequestBody: GetGiftsRequestBaseBody
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -84,7 +84,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         registerGiftRequestModel: RegisterGiftRequestModel
     ): LiveData<CustomResult<GiftModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<GiftModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 giftApi.registerGift(registerGiftRequestModel)
@@ -109,7 +109,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         registerGiftRequestModel: RegisterGiftRequestModel
     ): LiveData<CustomResult<GiftModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<GiftModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 giftApi.updateGift(registerGiftRequestModel.id.toLong(), registerGiftRequestModel)
@@ -132,7 +132,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
 
     fun requestGift(viewModelScope: CoroutineScope, giftId: Long):
             LiveData<CustomResult<ChatContactModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<ChatContactModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { giftApi.requestGift(giftId) }
                 .collect { result ->
@@ -156,7 +156,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         userId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 giftApi.getToDonateGifts(userId, GetGiftsRequestBaseBody().apply {
@@ -186,7 +186,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         giftId: Long,
         userToDonateId: Long
     ): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 giftApi.donateGift(DonateGiftRequestModel(giftId, userToDonateId))
@@ -204,7 +204,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     fun getReviewGiftsFirstPage(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 giftApi.getReviewGiftsFirstPage(GetGiftsRequestBaseBody())
@@ -229,7 +229,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         lastId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -259,7 +259,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         giftId: Long,
         rejectReason: String
     ): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -279,7 +279,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         giftId: Long
     ): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -299,7 +299,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         giftId: Long
     ): LiveData<CustomResult<GiftRequestStatusModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<GiftRequestStatusModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -323,7 +323,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         userId: Long
     ): LiveData<CustomResult<SettingModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<SettingModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { giftApi.getSetting(userId) }.collect { result ->
                 when (result.status) {
@@ -341,7 +341,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         userId: Long
     ): LiveData<CustomResult<PhoneNumberModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<PhoneNumberModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { giftApi.getUserNumber(userId) }.collect() { result ->
                 when (result.status) {
@@ -363,7 +363,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         giftId: Long
     ): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { giftApi.deleteGift(giftId) }.collect { result ->
                 when (result.status) {
@@ -381,7 +381,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     fun setSettingNumber(
         viewModelScope: CoroutineScope,
         value: String
-    ): LiveData<CustomResult<Any?>> = liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+    ): LiveData<CustomResult<Any?>> = liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
         emit(CustomResult.loading())
         getResultWithExponentialBackoffStrategy { giftApi.setPhoneVisibilitySetting(SetSetting(value)) }.collect { result ->
             when (result.status) {
@@ -397,7 +397,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         }
 
     }
-    fun getSettingNumber(viewModelScope: CoroutineScope):LiveData<CustomResult<SettingModel?>> = liveData(viewModelScope.coroutineContext,timeoutInMs = 0){
+    fun getSettingNumber(viewModelScope: CoroutineScope):LiveData<CustomResult<SettingModel?>> = liveData<CustomResult<SettingModel?>>(viewModelScope.coroutineContext,timeoutInMs = 0){
         emit(CustomResult.loading())
         getResultWithExponentialBackoffStrategy{giftApi.getPhoneVisibilitySetting()}.collect{result ->
             when (result.status) {
