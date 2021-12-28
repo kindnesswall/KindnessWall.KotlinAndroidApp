@@ -1,0 +1,21 @@
+// to get report about all dependencies update
+// run ./gradlew dependencyUpdate
+// more info: https://github.com/ben-manes/gradle-versions-plugin
+
+apply plugin: "com.github.ben-manes.versions"
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+tasks.named("dependencyUpdates").configure {
+    gradleReleaseChannel = "current"
+    outputFormatter = "text"
+    revision = "release"
+    outputDir = "./scripts/dependencyUpdates"
+    rejectVersionIf {
+        isNonStable(it.candidate.version)
+    }
+}
