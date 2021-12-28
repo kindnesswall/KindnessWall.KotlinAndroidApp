@@ -2,16 +2,12 @@ package ir.kindnesswall.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import android.view.View
 import android.widget.RadioButton
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.observe
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel
-import kotlinx.android.synthetic.main.activity_submit_gift.*
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class NumberStatus(
     val viewModel: SubmitGiftViewModel,

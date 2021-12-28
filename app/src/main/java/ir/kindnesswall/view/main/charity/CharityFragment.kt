@@ -16,7 +16,6 @@ import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.add.AddCharityFragment
 import ir.kindnesswall.view.main.charity.charitydetail.CharityDetailActivity
-import kotlinx.android.synthetic.main.toolbar_action_button_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -56,7 +55,7 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun configureViews() {
-        actionButton.setOnClickListener {
+        binding.includeToolbarAction.actionButton.setOnClickListener {
             val addCharityFragment = AddCharityFragment()
             addCharityFragment.show(childFragmentManager, addCharityFragment.tag)
         }
