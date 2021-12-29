@@ -30,14 +30,17 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 +--- androidx.databinding:databinding-adapters:4.1.3
 |    +--- androidx.databinding:databinding-common:4.1.3
 |    \--- androidx.databinding:databinding-runtime:4.1.3 (*)
-+--- org.jetbrains.kotlin:kotlin-stdlib:1.4.32
-|    +--- org.jetbrains.kotlin:kotlin-stdlib-common:1.4.32
-|    \--- org.jetbrains:annotations:13.0
++--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.5.31
+|    |    +--- org.jetbrains:annotations:13.0
+|    |    \--- org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31
+|    \--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31
+|         \--- org.jetbrains.kotlin:kotlin-stdlib:1.5.31 (*)
 +--- com.github.chuckerteam.chucker:library:3.2.0
 |    +--- androidx.databinding:viewbinding:3.6.1 -> 4.1.3 (*)
-|    +--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.71 -> 1.4.32
-|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.4.32 (*)
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.4.32 (*)
+|    +--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.71 -> 1.5.31
+|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.5.31 (*)
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 |    +--- com.google.android.material:material:1.1.0
 |    |    +--- androidx.annotation:annotation:1.0.1 -> 1.1.0
 |    |    +--- androidx.appcompat:appcompat:1.1.0
@@ -141,20 +144,20 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    +--- androidx.constraintlayout:constraintlayout:1.1.3
 |    |    \--- androidx.constraintlayout:constraintlayout-solver:1.1.3
 |    +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.4.32 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.5.31 (*)
 |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.4.1
 |    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1
 |    |    |    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.4.1
-|    |    |    |         +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.0 -> 1.4.32 (*)
-|    |    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib-common:1.4.0 -> 1.4.32
-|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.4.0 -> 1.4.32 (*)
+|    |    |    |         +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.0 -> 1.5.31 (*)
+|    |    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib-common:1.4.0 -> 1.5.31
+|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.4.0 -> 1.5.31 (*)
 |    |    \--- androidx.lifecycle:lifecycle-viewmodel:2.2.0 (*)
 |    +--- androidx.lifecycle:lifecycle-livedata-ktx:2.2.0 -> 2.3.0-alpha01
 |    |    +--- androidx.lifecycle:lifecycle-livedata:2.3.0-alpha01 (*)
 |    |    +--- androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.0-alpha01
 |    |    |    +--- androidx.lifecycle:lifecycle-livedata-core:2.3.0-alpha01 (*)
-|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.32 (*)
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.32 (*)
+|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.5.31 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.5.31 (*)
 |    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0 -> 1.4.1 (*)
 |    +--- androidx.room:room-ktx:2.2.5 -> 2.3.0
 |    |    +--- androidx.room:room-common:2.3.0
@@ -168,7 +171,7 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    |    +--- androidx.sqlite:sqlite:2.1.0 (*)
 |    |    |    +--- androidx.arch.core:core-runtime:2.0.1 -> 2.1.0 (*)
 |    |    |    \--- androidx.annotation:annotation-experimental:1.1.0
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31 -> 1.4.32 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31 -> 1.5.31 (*)
 |    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1 (*)
 |    +--- androidx.room:room-runtime:2.2.5 -> 2.3.0 (*)
 |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5 -> 1.4.1 (*)
@@ -176,9 +179,6 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    +--- com.google.code.gson:gson:2.8.6
 |    \--- com.squareup.okhttp3:okhttp:3.12.10
 |         \--- com.squareup.okio:okio:1.15.0
-+--- org.jetbrains.kotlin:kotlin-parcelize-runtime:1.4.32
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.32 (*)
-|    \--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.4.32 (*)
 +--- androidx.appcompat:appcompat:1.1.0 (*)
 +--- androidx.cardview:cardview:1.0.0 (*)
 +--- androidx.recyclerview:recyclerview:1.1.0 (*)
@@ -190,7 +190,7 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    +--- org.koin:koin-android-scope:2.0.1
 |    |    +--- org.koin:koin-android:2.0.1
 |    |    |    \--- org.koin:koin-core:2.0.1
-|    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.31 -> 1.4.32 (*)
+|    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.31 -> 1.5.31 (*)
 |    |    +--- androidx.appcompat:appcompat:1.0.0 -> 1.1.0 (*)
 |    |    \--- androidx.lifecycle:lifecycle-common:2.0.0 -> 2.3.0-alpha01 (*)
 |    \--- androidx.lifecycle:lifecycle-extensions:2.0.0 -> 2.2.0
@@ -224,36 +224,36 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    +--- androidx.navigation:navigation-runtime:2.3.5 (*)
 |    |    +--- androidx.navigation:navigation-common-ktx:2.3.5
 |    |    |    +--- androidx.navigation:navigation-common:2.3.5 (*)
-|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.4.32 (*)
+|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 |    |    |    +--- androidx.core:core-ktx:1.1.0 -> 1.3.0
-|    |    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.4.32 (*)
+|    |    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 |    |    |    |    +--- androidx.annotation:annotation:1.1.0
 |    |    |    |    \--- androidx.core:core:1.3.0 (*)
 |    |    |    \--- androidx.collection:collection:1.1.0 (*)
 |    |    +--- androidx.activity:activity-ktx:1.1.0
-|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.4.32 (*)
+|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.5.31 (*)
 |    |    |    +--- androidx.activity:activity:1.1.0 (*)
 |    |    |    +--- androidx.core:core-ktx:1.1.0 -> 1.3.0 (*)
 |    |    |    +--- androidx.lifecycle:lifecycle-runtime-ktx:2.2.0 -> 2.3.0-alpha01
 |    |    |    |    +--- androidx.lifecycle:lifecycle-runtime:2.3.0-alpha01 (*)
-|    |    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.32 (*)
+|    |    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.5.31 (*)
 |    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.4.1 (*)
 |    |    |    |    \--- androidx.annotation:annotation:1.0.0 -> 1.1.0
 |    |    |    \--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
 |    |    +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
-|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.4.32 (*)
+|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 |    +--- androidx.fragment:fragment-ktx:1.2.4
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.4.32 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.5.31 (*)
 |    |    +--- androidx.fragment:fragment:1.2.4 (*)
 |    |    +--- androidx.activity:activity-ktx:1.1.0 (*)
 |    |    +--- androidx.core:core-ktx:1.1.0 -> 1.3.0 (*)
 |    |    +--- androidx.collection:collection-ktx:1.1.0
-|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.20 -> 1.4.32 (*)
+|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.20 -> 1.5.31 (*)
 |    |    |    \--- androidx.collection:collection:1.1.0 (*)
 |    |    +--- androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0 -> 2.3.0-alpha01 (*)
 |    |    \--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
 |    +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.4.32 (*)
+|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 +--- androidx.navigation:navigation-ui-ktx:2.3.5
 |    +--- androidx.navigation:navigation-ui:2.3.5
 |    |    +--- androidx.navigation:navigation-runtime:2.3.5 (*)
@@ -262,7 +262,7 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    +--- com.google.android.material:material:1.0.0 -> 1.1.0 (*)
 |    |    \--- androidx.transition:transition:1.3.0 (*)
 |    +--- androidx.navigation:navigation-runtime-ktx:2.3.5 (*)
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.4.32 (*)
+|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 +--- androidx.lifecycle:lifecycle-extensions:2.2.0 (*)
 +--- androidx.legacy:legacy-support-v4:1.0.0
 |    +--- androidx.core:core:1.0.0 -> 1.3.0 (*)
@@ -439,8 +439,7 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 +--- com.github.chrisbanes:PhotoView:2.3.0
 |    \--- androidx.appcompat:appcompat:1.0.0 -> 1.1.0 (*)
 +--- com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10
-|    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.41 -> 1.3.72
-|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.72 -> 1.4.32 (*)
+|    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.41 -> 1.5.31 (*)
 |    +--- androidx.appcompat:appcompat:1.0.0 -> 1.1.0 (*)
 |    \--- androidx.recyclerview:recyclerview:1.0.0 -> 1.1.0 (*)
 +--- androidx.browser:browser:1.2.0
@@ -454,26 +453,29 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    \--- androidx.interpolator:interpolator:1.0.0 (*)
 +--- com.github.marlonlom:timeago:4.0.3
 +--- net.gotev:uploadservice:4.3.0
-|    +--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.71 -> 1.4.32 (*)
+|    +--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.71 -> 1.5.31 (*)
 |    +--- androidx.appcompat:appcompat:1.1.0 (*)
-|    \--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.71 -> 1.3.72 (*)
+|    \--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.71 -> 1.5.31 (*)
 +--- com.github.nguyenhoanglam:ImagePicker:1.4.0
-|    +--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.72 -> 1.4.32 (*)
+|    +--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.72 -> 1.5.31 (*)
 |    +--- androidx.appcompat:appcompat:1.1.0 (*)
 |    +--- androidx.recyclerview:recyclerview:1.1.0 (*)
 |    +--- com.google.android.material:material:1.1.0 (*)
 |    +--- androidx.legacy:legacy-support-v4:1.0.0 (*)
 |    +--- androidx.core:core-ktx:1.2.0 -> 1.3.0 (*)
-|    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72 (*)
+|    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72 -> 1.5.31 (*)
 |    +--- androidx.lifecycle:lifecycle-extensions:2.2.0 (*)
 |    +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
 |    \--- com.github.bumptech.glide:glide:4.11.0 (*)
 +--- it.xabaras.android:recyclerview-swipedecorator:1.2.2
 +--- com.github.samanzamani.persiandate:PersianDate:0.8
-\--- project :spotlight
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.32 (*)
-     +--- androidx.core:core-ktx:1.3.0 (*)
-     \--- androidx.appcompat:appcompat:1.1.0 (*)
++--- project :spotlight
+|    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31 (*)
+|    +--- androidx.core:core-ktx:1.3.0 (*)
+|    \--- androidx.appcompat:appcompat:1.1.0 (*)
+\--- org.jetbrains.kotlin:kotlin-parcelize-runtime:1.5.31
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.5.31 (*)
+     \--- org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.5.31 (*)
 
 (*) - dependencies omitted (listed previously)
 
