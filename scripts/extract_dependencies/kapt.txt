@@ -14,60 +14,65 @@ Project :app
 ------------------------------------------------------------
 
 kapt
-+--- androidx.room:room-compiler:2.2.5
-|    +--- androidx.room:room-common:2.2.5
++--- androidx.room:room-compiler:2.3.0
+|    +--- androidx.room:room-common:2.3.0
 |    |    \--- androidx.annotation:annotation:1.1.0
-|    +--- androidx.room:room-migration:2.2.5
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.41 -> 1.3.72
-|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib-common:1.3.72
+|    +--- androidx.room:room-migration:2.3.0
+|    |    +--- androidx.room:room-common:2.3.0 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31
+|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib-common:1.4.31
 |    |    |    \--- org.jetbrains:annotations:13.0
-|    |    +--- com.google.code.gson:gson:2.8.0 -> 2.8.5
-|    |    \--- androidx.room:room-common:2.2.5 (*)
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.41 -> 1.3.72 (*)
-|    +--- com.google.auto:auto-common:0.10
-|    |    \--- com.google.guava:guava:23.5-jre -> 28.1-jre
-|    |         +--- com.google.guava:failureaccess:1.0.1
-|    |         +--- com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava
-|    |         +--- com.google.code.findbugs:jsr305:3.0.2
-|    |         +--- org.checkerframework:checker-qual:2.8.1
-|    |         +--- com.google.errorprone:error_prone_annotations:2.3.2
-|    |         +--- com.google.j2objc:j2objc-annotations:1.3
-|    |         \--- org.codehaus.mojo:animal-sniffer-annotations:1.18
+|    |    \--- com.google.code.gson:gson:2.8.0 -> 2.8.5
+|    +--- androidx.room:room-compiler-processing:2.3.0
+|    |    +--- androidx.annotation:annotation:1.1.0
+|    |    +--- com.google.guava:guava:29.0-jre
+|    |    |    +--- com.google.guava:failureaccess:1.0.1
+|    |    |    +--- com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava
+|    |    |    +--- com.google.code.findbugs:jsr305:3.0.2
+|    |    |    +--- org.checkerframework:checker-qual:2.11.1
+|    |    |    +--- com.google.errorprone:error_prone_annotations:2.3.4
+|    |    |    \--- com.google.j2objc:j2objc-annotations:1.3
+|    |    +--- com.google.auto:auto-common:0.10
+|    |    |    \--- com.google.guava:guava:23.5-jre -> 29.0-jre (*)
+|    |    +--- com.google.auto.value:auto-value-annotations:1.6.3
+|    |    +--- org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0
+|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.4.10 -> 1.4.31 (*)
+|    |    +--- com.intellij:annotations:12.0
+|    |    +--- com.google.devtools.ksp:symbol-processing-api:1.4.30-1.0.0-alpha04
+|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.30 -> 1.4.31
+|    |    |         +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31 (*)
+|    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31
+|    |    |              \--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.31 (*)
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31 (*)
+|    |    \--- com.squareup:javapoet:1.13.0
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.31 (*)
+|    +--- com.google.auto:auto-common:0.10 (*)
 |    +--- com.google.auto.value:auto-value-annotations:1.6.3
-|    +--- com.squareup:javapoet:1.8.0 -> 1.10.0
-|    +--- org.antlr:antlr4:4.7.1
-|    |    +--- org.antlr:antlr4-runtime:4.7.1
-|    |    +--- org.antlr:antlr-runtime:3.5.2
-|    |    +--- org.antlr:ST4:4.0.8
-|    |    |    \--- org.antlr:antlr-runtime:3.5.2
-|    |    +--- org.abego.treelayout:org.abego.treelayout.core:1.0.3
-|    |    +--- org.glassfish:javax.json:1.0.4
-|    |    \--- com.ibm.icu:icu4j:58.2
+|    +--- com.squareup:javapoet:1.13.0
+|    +--- com.google.devtools.ksp:symbol-processing-api:1.4.30-1.0.0-alpha04 (*)
 |    +--- org.xerial:sqlite-jdbc:3.25.2
-|    +--- org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5
-|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.11 -> 1.3.72 (*)
-|    \--- commons-codec:commons-codec:1.10
+|    +--- org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0 (*)
+|    +--- commons-codec:commons-codec:1.10
+|    \--- com.intellij:annotations:12.0
 +--- androidx.lifecycle:lifecycle-compiler:2.2.0
 |    +--- androidx.lifecycle:lifecycle-common:2.2.0
 |    |    \--- androidx.annotation:annotation:1.1.0
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.3.72 (*)
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.4.31 (*)
 |    +--- com.google.auto:auto-common:0.10 (*)
-|    \--- com.squareup:javapoet:1.8.0 -> 1.10.0
+|    \--- com.squareup:javapoet:1.8.0 -> 1.13.0
 +--- com.github.bumptech.glide:compiler:4.10.0
 |    \--- com.github.bumptech.glide:annotations:4.10.0
 \--- androidx.databinding:databinding-compiler:4.1.3
      +--- androidx.databinding:databinding-compiler-common:4.1.3
      |    +--- androidx.databinding:databinding-common:4.1.3
      |    +--- com.android.databinding:baseLibrary:4.1.3
-     |    +--- org.antlr:antlr4:4.5.3 -> 4.7.1 (*)
+     |    +--- org.antlr:antlr4:4.5.3
      |    +--- commons-io:commons-io:2.4
      |    +--- com.googlecode.juniversalchardet:juniversalchardet:1.0.3
-     |    +--- com.google.guava:guava:28.1-jre (*)
-     |    +--- com.squareup:javapoet:1.10.0
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72
-     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.72 (*)
-     |    |    \--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72
-     |    |         \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.72 (*)
+     |    +--- com.google.guava:guava:28.1-jre -> 29.0-jre (*)
+     |    +--- com.squareup:javapoet:1.10.0 -> 1.13.0
+     |    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72 -> 1.4.31 (*)
      |    +--- com.google.code.gson:gson:2.8.5
      |    +--- org.glassfish.jaxb:jaxb-runtime:2.3.1
      |    |    +--- javax.xml.bind:jaxb-api:2.3.1
@@ -80,18 +85,18 @@ kapt
      |    +--- com.android.tools:annotations:27.1.3
      |    \--- com.android.tools.build.jetifier:jetifier-core:1.0.0-beta09
      |         +--- com.google.code.gson:gson:2.8.0 -> 2.8.5
-     |         \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.3.72 (*)
+     |         \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.31 (*)
      +--- androidx.databinding:databinding-common:4.1.3
-     +--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72 (*)
+     +--- org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72 -> 1.4.31 (*)
      +--- com.google.auto:auto-common:0.10 (*)
      +--- commons-io:commons-io:2.4
      +--- commons-codec:commons-codec:1.10
-     +--- org.antlr:antlr4:4.5.3 -> 4.7.1 (*)
+     +--- org.antlr:antlr4:4.5.3
      \--- com.googlecode.juniversalchardet:juniversalchardet:1.0.3
 
 (*) - dependencies omitted (listed previously)
 
 A web-based, searchable dependency report is available by adding the --scan option.
 
-BUILD SUCCESSFUL in 1s
+BUILD SUCCESSFUL in 2s
 1 actionable task: 1 executed

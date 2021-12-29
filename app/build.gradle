@@ -81,7 +81,7 @@ ext {
 
     androidXAnnotations = '1.0.1'
     coroutinesVersion = '1.4.1'
-    roomVersion = '2.2.5'
+    roomVersion = '2.3.0'
 }
 
 dependencies {
