@@ -80,9 +80,7 @@ ext {
     koin_version = "2.0.1"
 
     androidXAnnotations = '1.0.1'
-
-    coroutinesVersion = '1.2.1'
-
+    coroutinesVersion = '1.4.1'
     roomVersion = '2.2.5'
 }
 

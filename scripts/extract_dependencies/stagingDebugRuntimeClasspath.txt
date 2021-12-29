@@ -142,11 +142,12 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    \--- androidx.constraintlayout:constraintlayout-solver:1.1.3
 |    +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0
 |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.50 -> 1.4.32 (*)
-|    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.3.5
-|    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.70 -> 1.4.32 (*)
-|    |    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5
-|    |    |         +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.70 -> 1.4.32 (*)
-|    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib-common:1.3.70 -> 1.4.32
+|    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.4.1
+|    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1
+|    |    |    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.4.1
+|    |    |    |         +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.0 -> 1.4.32 (*)
+|    |    |    |         \--- org.jetbrains.kotlin:kotlin-stdlib-common:1.4.0 -> 1.4.32
+|    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.4.0 -> 1.4.32 (*)
 |    |    \--- androidx.lifecycle:lifecycle-viewmodel:2.2.0 (*)
 |    +--- androidx.lifecycle:lifecycle-livedata-ktx:2.2.0 -> 2.3.0-alpha01
 |    |    +--- androidx.lifecycle:lifecycle-livedata:2.3.0-alpha01 (*)
@@ -154,10 +155,10 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    |    +--- androidx.lifecycle:lifecycle-livedata-core:2.3.0-alpha01 (*)
 |    |    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.32 (*)
 |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.32 (*)
-|    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0 -> 1.3.5 (*)
+|    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0 -> 1.4.1 (*)
 |    +--- androidx.room:room-ktx:2.2.5
 |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.41 -> 1.4.32 (*)
-|    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.3.5 (*)
+|    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.4.1 (*)
 |    |    +--- androidx.room:room-common:2.2.5
 |    |    |    \--- androidx.annotation:annotation:1.1.0
 |    |    \--- androidx.room:room-runtime:2.2.5
@@ -169,8 +170,8 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |         +--- androidx.sqlite:sqlite:2.0.1 (*)
 |    |         \--- androidx.arch.core:core-runtime:2.0.1 -> 2.1.0 (*)
 |    +--- androidx.room:room-runtime:2.2.5 (*)
-|    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5 (*)
-|    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5 (*)
+|    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5 -> 1.4.1 (*)
+|    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5 -> 1.4.1 (*)
 |    +--- com.google.code.gson:gson:2.8.6
 |    \--- com.squareup.okhttp3:okhttp:3.12.10
 |         \--- com.squareup.okio:okio:1.15.0
@@ -204,8 +205,8 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |         |    \--- androidx.lifecycle:lifecycle-runtime:2.2.0 -> 2.3.0-alpha01 (*)
 |         \--- androidx.lifecycle:lifecycle-viewmodel:2.2.0 (*)
 +--- androidx.annotation:annotation:1.0.1 -> 1.1.0
-+--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1 -> 1.3.5 (*)
-+--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1 -> 1.3.5 (*)
++--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1 (*)
++--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1 (*)
 +--- androidx.navigation:navigation-fragment-ktx:2.3.5
 |    +--- androidx.navigation:navigation-fragment:2.3.5
 |    |    +--- androidx.fragment:fragment:1.2.4 (*)
@@ -235,7 +236,7 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    |    +--- androidx.lifecycle:lifecycle-runtime-ktx:2.2.0 -> 2.3.0-alpha01
 |    |    |    |    +--- androidx.lifecycle:lifecycle-runtime:2.3.0-alpha01 (*)
 |    |    |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.3.60 -> 1.4.32 (*)
-|    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.3.5 (*)
+|    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0 -> 1.4.1 (*)
 |    |    |    |    \--- androidx.annotation:annotation:1.0.0 -> 1.1.0
 |    |    |    \--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
 |    |    +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
