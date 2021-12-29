@@ -15,6 +15,7 @@ requiredConfigurations
     }
 
 // https://github.com/ProtonMail/proton-mail-android/blob/977215963d52c989a93a58d3e637b5e8a6124682/scripts/extract_dependencies/ExtractDeps.kts#L217
+@Suppress("UndocumentedPublicFunction")
 fun String.runCommand(workingDir: File = File("./")) {
     val parts = split(" > ")
     ProcessBuilder(parts[0].split("\\s".toRegex()))
