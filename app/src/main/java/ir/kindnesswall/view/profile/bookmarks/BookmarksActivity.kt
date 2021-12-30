@@ -2,16 +2,13 @@ package ir.kindnesswall.view.profile.bookmarks
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityBookmarksBinding
-import ir.kindnesswall.databinding.FragmentChooseRegionBinding
 import ir.kindnesswall.utils.OnItemClickListener
-import ir.kindnesswall.view.citychooser.adapters.RegionListAdapter
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 

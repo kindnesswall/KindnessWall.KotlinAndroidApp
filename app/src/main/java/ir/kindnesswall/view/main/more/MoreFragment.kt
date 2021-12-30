@@ -12,14 +12,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.repository.UserRepo
 import ir.kindnesswall.databinding.FragmentMoreBinding
 import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.extentions.runOrStartAuth

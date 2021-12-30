@@ -1,9 +1,6 @@
 package ir.kindnesswall.view.splash
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref

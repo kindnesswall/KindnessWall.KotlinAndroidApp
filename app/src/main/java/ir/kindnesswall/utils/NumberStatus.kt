@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.widget.RadioButton
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.observe
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel
