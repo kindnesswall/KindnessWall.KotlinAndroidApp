@@ -37,7 +37,7 @@ class ForceAndOptionalUpdateActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_force_and_optional_update)
 
         isForceUpdate = intent.getBooleanExtra("isForceUpdate", false)
-        updateLink = intent.getStringExtra("updateLink")
+        updateLink = intent.getStringExtra("updateLink")!!
 
         binding.isForeUpdate = isForceUpdate
         binding.lifecycleOwner = this
