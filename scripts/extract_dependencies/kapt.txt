@@ -98,5 +98,5 @@ kapt
 
 A web-based, searchable dependency report is available by adding the --scan option.
 
-BUILD SUCCESSFUL in 1s
+BUILD SUCCESSFUL in 3s
 1 actionable task: 1 executed

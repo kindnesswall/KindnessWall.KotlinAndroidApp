@@ -264,45 +264,11 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    +--- androidx.navigation:navigation-runtime-ktx:2.3.5 (*)
 |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.71 -> 1.5.31 (*)
 +--- androidx.lifecycle:lifecycle-extensions:2.2.0 (*)
-+--- androidx.legacy:legacy-support-v4:1.0.0
-|    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    +--- androidx.media:media:1.0.0
-|    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    |    \--- androidx.versionedparcelable:versionedparcelable:1.0.0 -> 1.1.1 (*)
-|    +--- androidx.legacy:legacy-support-core-utils:1.0.0
-|    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    |    +--- androidx.documentfile:documentfile:1.0.0
-|    |    |    \--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    +--- androidx.loader:loader:1.0.0 (*)
-|    |    +--- androidx.localbroadcastmanager:localbroadcastmanager:1.0.0
-|    |    |    \--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    \--- androidx.print:print:1.0.0
-|    |         \--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    +--- androidx.legacy:legacy-support-core-ui:1.0.0
-|    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    |    +--- androidx.legacy:legacy-support-core-utils:1.0.0 (*)
-|    |    +--- androidx.customview:customview:1.0.0 -> 1.1.0 (*)
-|    |    +--- androidx.viewpager:viewpager:1.0.0 (*)
-|    |    +--- androidx.coordinatorlayout:coordinatorlayout:1.0.0 -> 1.1.0 (*)
-|    |    +--- androidx.drawerlayout:drawerlayout:1.0.0 -> 1.1.1 (*)
-|    |    +--- androidx.slidingpanelayout:slidingpanelayout:1.0.0
-|    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    |    |    \--- androidx.customview:customview:1.0.0 -> 1.1.0 (*)
-|    |    +--- androidx.interpolator:interpolator:1.0.0 (*)
-|    |    +--- androidx.swiperefreshlayout:swiperefreshlayout:1.0.0
-|    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    |    |    \--- androidx.interpolator:interpolator:1.0.0 (*)
-|    |    +--- androidx.asynclayoutinflater:asynclayoutinflater:1.0.0
-|    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
-|    |    |    \--- androidx.core:core:1.0.0 -> 1.5.0 (*)
-|    |    \--- androidx.cursoradapter:cursoradapter:1.0.0 (*)
-|    \--- androidx.fragment:fragment:1.0.0 -> 1.2.4 (*)
 +--- androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0 (*)
++--- androidx.swiperefreshlayout:swiperefreshlayout:1.0.0
+|    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    \--- androidx.interpolator:interpolator:1.0.0 (*)
 +--- androidx.core:core-ktx:1.5.0 (*)
 +--- androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha01 (*)
 +--- androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01 (*)
@@ -342,7 +308,16 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
 |    |    \--- androidx.fragment:fragment:1.0.0 -> 1.2.4 (*)
 |    +--- com.google.android.gms:play-services-stats:17.0.0
-|    |    +--- androidx.legacy:legacy-support-core-utils:1.0.0 (*)
+|    |    +--- androidx.legacy:legacy-support-core-utils:1.0.0
+|    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    |    |    +--- androidx.documentfile:documentfile:1.0.0
+|    |    |    |    \--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    +--- androidx.loader:loader:1.0.0 (*)
+|    |    |    +--- androidx.localbroadcastmanager:localbroadcastmanager:1.0.0
+|    |    |    |    \--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    \--- androidx.print:print:1.0.0
+|    |    |         \--- androidx.annotation:annotation:1.0.0 -> 1.2.0
 |    |    \--- com.google.android.gms:play-services-basement:17.0.0 (*)
 |    +--- com.google.android.gms:play-services-tasks:17.0.0
 |    |    \--- com.google.android.gms:play-services-basement:17.0.0 (*)
@@ -461,7 +436,32 @@ stagingDebugRuntimeClasspath - Runtime classpath of compilation 'stagingDebug' (
 |    +--- androidx.appcompat:appcompat:1.1.0 (*)
 |    +--- androidx.recyclerview:recyclerview:1.1.0 (*)
 |    +--- com.google.android.material:material:1.1.0 (*)
-|    +--- androidx.legacy:legacy-support-v4:1.0.0 (*)
+|    +--- androidx.legacy:legacy-support-v4:1.0.0
+|    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    |    +--- androidx.media:media:1.0.0
+|    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    |    |    \--- androidx.versionedparcelable:versionedparcelable:1.0.0 -> 1.1.1 (*)
+|    |    +--- androidx.legacy:legacy-support-core-utils:1.0.0 (*)
+|    |    +--- androidx.legacy:legacy-support-core-ui:1.0.0
+|    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    |    |    +--- androidx.legacy:legacy-support-core-utils:1.0.0 (*)
+|    |    |    +--- androidx.customview:customview:1.0.0 -> 1.1.0 (*)
+|    |    |    +--- androidx.viewpager:viewpager:1.0.0 (*)
+|    |    |    +--- androidx.coordinatorlayout:coordinatorlayout:1.0.0 -> 1.1.0 (*)
+|    |    |    +--- androidx.drawerlayout:drawerlayout:1.0.0 -> 1.1.1 (*)
+|    |    |    +--- androidx.slidingpanelayout:slidingpanelayout:1.0.0
+|    |    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    |    +--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    |    |    |    \--- androidx.customview:customview:1.0.0 -> 1.1.0 (*)
+|    |    |    +--- androidx.interpolator:interpolator:1.0.0 (*)
+|    |    |    +--- androidx.swiperefreshlayout:swiperefreshlayout:1.0.0 (*)
+|    |    |    +--- androidx.asynclayoutinflater:asynclayoutinflater:1.0.0
+|    |    |    |    +--- androidx.annotation:annotation:1.0.0 -> 1.2.0
+|    |    |    |    \--- androidx.core:core:1.0.0 -> 1.5.0 (*)
+|    |    |    \--- androidx.cursoradapter:cursoradapter:1.0.0 (*)
+|    |    \--- androidx.fragment:fragment:1.0.0 -> 1.2.4 (*)
 |    +--- androidx.core:core-ktx:1.2.0 -> 1.5.0 (*)
 |    +--- org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72 -> 1.5.31 (*)
 |    +--- androidx.lifecycle:lifecycle-extensions:2.2.0 (*)
