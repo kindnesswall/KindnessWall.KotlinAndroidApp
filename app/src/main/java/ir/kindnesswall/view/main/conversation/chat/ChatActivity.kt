@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kindnesswall.spotlight.Spotlight
@@ -20,7 +19,13 @@ import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.*
+import ir.kindnesswall.data.model.BlockStatus
+import ir.kindnesswall.data.model.ChatContactModel
+import ir.kindnesswall.data.model.ChatMessageModel
+import ir.kindnesswall.data.model.ChatModel
+import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.TextMessageBaseModel
+import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
@@ -31,7 +36,6 @@ import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.ToDonateGiftsBottomSheet
 import ir.kindnesswall.view.profile.UserProfileActivity
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class ChatActivity : BaseActivity() {
 
