@@ -263,6 +263,9 @@ fun startMultiSelectingImagePicker(activity: BaseActivity) {
         .start()
 }
 
+/**
+ * This function can determine an app exists on device
+ */
 fun isAppAvailable(context: Context, appName: String): Boolean {
     val pm = context.packageManager
     return try {
