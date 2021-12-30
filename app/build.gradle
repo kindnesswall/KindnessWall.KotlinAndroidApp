@@ -78,7 +78,6 @@ ext {
     koin_version = "2.0.1"
 
     androidXAnnotations = '1.0.1'
-    coroutinesVersion = '1.4.1'
     roomVersion = '2.3.0'
 }
 
@@ -102,6 +101,7 @@ dependencies {
 
     implementation "androidx.annotation:annotation:$androidXAnnotations"
 
+    def coroutinesVersion = '1.5.2'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
