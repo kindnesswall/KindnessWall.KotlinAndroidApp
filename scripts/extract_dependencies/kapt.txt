@@ -55,8 +55,8 @@ kapt
 |    +--- org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0 (*)
 |    +--- commons-codec:commons-codec:1.10
 |    \--- com.intellij:annotations:12.0
-+--- androidx.lifecycle:lifecycle-compiler:2.3.0
-|    +--- androidx.lifecycle:lifecycle-common:2.3.0
++--- androidx.lifecycle:lifecycle-compiler:2.3.1
+|    +--- androidx.lifecycle:lifecycle-common:2.3.1
 |    |    \--- androidx.annotation:annotation:1.1.0
 |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.4.20 -> 1.4.31 (*)
 |    +--- com.google.auto:auto-common:0.10 (*)
