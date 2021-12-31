@@ -1,7 +1,6 @@
 package ir.kindnesswall.view.main.catalog.cataloglist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,9 +22,7 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.addproduct.ReminderSubmitGiftFragment
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
-import kotlinx.android.synthetic.main.toolbar_action_button_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 /**
  * Created by farshid.abazari since 2019-11-07
@@ -69,7 +66,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
                 .navigate(CatalogFragmentDirections.actionCatalogFragmentToSearchFragment())
         }
 
-        actionButton.setOnClickListener {
+        binding.includeToolbarAction.actionButton.setOnClickListener {
             requireContext().runOrStartAuth {
                 SubmitGiftActivity.start(requireContext())
             }

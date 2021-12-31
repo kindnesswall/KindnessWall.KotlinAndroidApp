@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -80,10 +80,8 @@ ext {
     koin_version = "2.0.1"
 
     androidXAnnotations = '1.0.1'
-
-    coroutinesVersion = '1.2.1'
-
-    roomVersion = '2.2.5'
+    coroutinesVersion = '1.4.1'
+    roomVersion = '2.3.0'
 }
 
 dependencies {
@@ -101,9 +99,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     implementation "androidx.annotation:annotation:$androidXAnnotations"

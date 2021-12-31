@@ -9,9 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
@@ -32,11 +30,7 @@ import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
 import ir.kindnesswall.view.profile.UserProfileActivity
 import ir.kindnesswall.view.profile.blocklist.BlockListActivity
 import ir.kindnesswall.view.reviewgift.ReviewGiftsActivity
-import kotlinx.android.synthetic.main.activity_submit_gift.*
-import kotlinx.android.synthetic.main.fragment_more.*
-import kotlinx.android.synthetic.main.fragment_more.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 /**
  * Created by farshid.abazari since 2019-11-07
@@ -66,7 +60,7 @@ class MoreFragment() : BaseFragment() {
             shPref= context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
             sEdite =shPref!!.edit()
            if (UserInfoPref.bearerToken.isNotEmpty()){
-                val numberstatus = NumberStatus(viewModel ,more_none , more_charity , more_all )
+               val numberstatus = NumberStatus(viewModel, binding.moreNone, binding.moreCharity, binding.moreAll)
                 numberstatus.getShowNumberStatus(binding.root.context)
            }
 
@@ -166,13 +160,13 @@ class MoreFragment() : BaseFragment() {
         if (shPref.contains(keyName)) {
             when (shPref.getString(keyName, null)) {
                 "none" -> {
-                    more_none.isChecked = true
+                    binding.moreNone.isChecked = true
                 }
                 "charity" -> {
-                    more_charity.isChecked = true
+                    binding.moreCharity.isChecked = true
                 }
                 "all" -> {
-                    more_all.isChecked = true
+                    binding.moreAll.isChecked = true
                 }
             }
         }

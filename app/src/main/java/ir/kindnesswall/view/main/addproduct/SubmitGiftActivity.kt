@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -31,8 +29,6 @@ import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.MainActivity
-import kotlinx.android.synthetic.main.activity_submit_gift.*
-import kotlinx.android.synthetic.main.fragment_more.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SubmitGiftActivity : BaseActivity() {
@@ -77,7 +73,7 @@ class SubmitGiftActivity : BaseActivity() {
             fillWithEditableGift()
         }
 
-        val numberstatus = NumberStatus(viewModel ,submit_none , submit_charity , submit_all )
+        val numberstatus = NumberStatus(viewModel, binding.submitNone, binding.submitCharity, binding.submitAll)
         numberstatus.getShowNumberStatus(this)
     }
 

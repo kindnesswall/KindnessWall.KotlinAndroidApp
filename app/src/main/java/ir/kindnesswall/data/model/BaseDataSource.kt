@@ -44,7 +44,7 @@ abstract class BaseDataSource(val context: Context) {
         maxDelay: Long = 10000,
         factor: Double = 2.0,
         call: suspend () -> Response<T>
-    ) = flow {
+    ) = flow<CustomResult<T>> {
         var loopTimes = times
         var currentDelay = initialDelay
         loop@ while (loopTimes - 1 != 0) {
@@ -52,7 +52,7 @@ abstract class BaseDataSource(val context: Context) {
             val response = getResult(call)
             when (response.status) {
                 CustomResult.Status.SUCCESS -> {
-                   emit(CustomResult.success(response.data))
+                   emit(CustomResult.success(response.data!!))
                     break@loop
                 }
                 CustomResult.Status.ERROR -> {

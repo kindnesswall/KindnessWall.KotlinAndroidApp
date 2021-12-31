@@ -3,9 +3,9 @@ package ir.kindnesswall.view.main.more.aboutus
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import ir.kindnesswall.R
-import kotlinx.android.synthetic.main.activity_about_us.*
 
 class AboutUsActivity : AppCompatActivity() {
 
@@ -19,6 +19,6 @@ class AboutUsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_us)
 
-        backImageView.setOnClickListener { onBackPressed() }
+        findViewById<View>(R.id.backImageView).setOnClickListener { onBackPressed() }
     }
 }

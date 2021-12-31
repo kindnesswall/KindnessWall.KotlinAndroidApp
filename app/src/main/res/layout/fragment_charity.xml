@@ -41,6 +41,7 @@
                 app:srcCompat="@drawable/ic_add_white" />
 
             <include
+                android:id="@+id/include_toolbar_action"
                 layout="@layout/toolbar_action_button_layout"
                 app:actionName="@{@string/submit_charity}" />
 

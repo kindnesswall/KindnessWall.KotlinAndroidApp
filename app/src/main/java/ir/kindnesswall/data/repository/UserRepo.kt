@@ -35,7 +35,7 @@ import retrofit2.Response
 class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(context) {
     fun getUserProfile(viewModelScope: CoroutineScope):
             LiveData<CustomResult<User>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<User>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -61,7 +61,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
 
     fun getUserProfile(viewModelScope: CoroutineScope, userId: Long):
             LiveData<CustomResult<User>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<User>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy { userApi.getUserProfile(userId) }.collect { result ->
@@ -84,7 +84,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
         userName: String,
         imageUrl: String
     ): LiveData<CustomResult<Any>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 userApi.updateUserProfile(UpdateProfileRequestBaseModel(userName, imageUrl))
@@ -108,7 +108,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
 
     fun getOtherUsersProfile(viewModelScope: CoroutineScope, userId: Long?):
             LiveData<CustomResult<User>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<User>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
                 emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
@@ -135,7 +135,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
 
     fun getUserReceivedGifts(viewModelScope: CoroutineScope, userId: Long?):
             LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
                 emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
@@ -162,7 +162,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
 
     fun getUserDonatedGifts(viewModelScope: CoroutineScope, userId: Long?):
             LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
                 emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
@@ -189,7 +189,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
 
     fun getUserRegisteredGifts(viewModelScope: CoroutineScope, userId: Long?):
             LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
                 emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
@@ -236,7 +236,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         userId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
                 emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
@@ -266,7 +266,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         userId: Long
     ): LiveData<CustomResult<List<GiftModel>>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             if (userId == null) {
                 emit(CustomResult.error(CustomResult.ErrorMessage()))
                 return@liveData
@@ -298,7 +298,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
     fun setUserPhoneSetting(
         viewModelScope: CoroutineScope,
         setting: String
-    ): LiveData<CustomResult<Any>> = liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+    ): LiveData<CustomResult<Any>> = liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
         Log.i("56456465456", "Run2")
         emit(CustomResult.loading())
         getResultWithExponentialBackoffStrategy {

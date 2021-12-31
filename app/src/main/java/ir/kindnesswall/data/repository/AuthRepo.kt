@@ -1,7 +1,6 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -30,27 +29,27 @@ class AuthRepo(context: Context, private var authApi: AuthApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         phoneNumber: String
     ): LiveData<CustomResult<Any?>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
                 authApi.registerUser(RegisterBaseModel(phoneNumber))
-            }.collect { result ->
+            }.collect { result: CustomResult<Any> ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))
                     }
                     CustomResult.Status.ERROR -> {
-                        emit(CustomResult.error(result.errorMessage))
+                        emit(CustomResult.error<Any>(result.errorMessage))
                     }
-                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading<Any>())
                 }
             }
         }
 
     fun loginUser(viewModelScope: CoroutineScope, phoneNumber: String, verificationCode: String):
-            LiveData<CustomResult<LoginResponseModel>> =
-        liveData(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        LiveData<CustomResult<LoginResponseModel>> =
+        liveData<CustomResult<LoginResponseModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {

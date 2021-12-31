@@ -28,6 +28,7 @@
                 android:textSize="16sp" />
 
             <include
+                android:id="@+id/include_toolbar_action"
                 layout="@layout/toolbar_action_button_layout"
                 app:actionName="@{@string/submit_gift}" />
 
