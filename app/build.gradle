@@ -6,6 +6,10 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+ext {
+    compose_version = "1.0.5"
+}
+
 android {
     compileSdkVersion 30
     defaultConfig {
@@ -26,6 +30,7 @@ android {
 
     buildFeatures {
         dataBinding true
+        compose true
     }
 
     buildTypes {
@@ -58,6 +63,11 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+
+    composeOptions {
+        kotlinCompilerExtensionVersion "$compose_version"
     }
 }
 
@@ -114,6 +124,7 @@ dependencies {
     def glide_version = "4.12.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "com.github.skydoves:landscapist-glide:1.4.0"
 
     // firebase
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
@@ -124,6 +135,7 @@ dependencies {
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
     implementation "com.chibatching.kotpref:gson-support:$kotpref_version"
     implementation "com.chibatching.kotpref:initializer:$kotpref_version"
+    implementation "com.chibatching.kotpref:livedata-support:$kotpref_version"
 
     // zoomable image view
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -144,6 +156,13 @@ dependencies {
     //chucker debugger
     debugImplementation "com.github.chuckerteam.chucker:library:3.2.0"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.2.0"
+
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation 'androidx.compose.material:material:1.0.5'
+    implementation "com.google.android.material:compose-theme-adapter:1.0.5"
 
     implementation project(path: ':spotlight')
 
