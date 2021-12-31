@@ -61,19 +61,6 @@ android {
     }
 }
 
-ext {
-    retrofit_version = '2.6.0'
-    okhttp_version = '3.9.1'
-
-    mockito_version = "2.23.4"
-
-    ktx_version = "1.2.0-rc01"
-    koin_version = "2.0.1"
-
-    androidXAnnotations = '1.0.1'
-    roomVersion = '2.3.0'
-}
-
 dependencies {
     // Androidx Libs
     implementation 'androidx.appcompat:appcompat:1.3.1'
@@ -82,14 +69,16 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    //room
+    def roomVersion = '2.3.0'
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
 
+    def koin_version = "2.0.1"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
+    def androidXAnnotations = '1.0.1'
     implementation "androidx.annotation:annotation:$androidXAnnotations"
 
     def coroutinesVersion = '1.5.2'
@@ -116,13 +105,15 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation "androidx.activity:activity-ktx:1.3.1"
 
-    // RETROFIT
+    def retrofit_version = '2.6.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    def okhttp_version = '3.9.1'
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
-    implementation "com.github.bumptech.glide:glide:4.11.0"
-    kapt "com.github.bumptech.glide:compiler:4.11.0"
+    def glide_version = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // firebase
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
