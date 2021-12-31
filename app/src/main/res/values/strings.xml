@@ -46,6 +46,8 @@
 
     <string name="choose_province">انتخاب استان</string>
     <string name="more_items">موارد بیشتر</string>
+    <string name="add_wallet">افزودن موجودی</string>
+    <string name="detailsOFNationalId">برای بررسی وضعیت موجود لطفا کد ملی را وارد نمایید</string>
     <string name="bookmarks">نشان شده ها</string>
     <string name="setting">تنظیمات</string>
     <string name="blocked_users">کاربر های بلاک شده</string>
