@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
@@ -62,6 +64,9 @@ class CharityFragment : BaseFragment(), OnItemClickListener {
         binding.pullToRefreshLayout.setOnRefreshListener {
             binding.pullToRefreshLayout.isRefreshing = true
             refreshList()
+        }
+        binding.txtPoint.setOnClickListener {
+            findNavController().navigate(R.id.action_charityFragment_to_nationalIdFragment)
         }
 
         initRecyclerView()

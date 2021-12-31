@@ -6,5 +6,13 @@
     <fragment
         android:id="@+id/charityFragment"
         android:name="ir.kindnesswall.view.main.charity.CharityFragment"
-        android:label="CharityFragment" />
+        android:label="CharityFragment" >
+        <action
+            android:id="@+id/action_charityFragment_to_nationalIdFragment"
+            app:destination="@id/nationalIdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nationalIdFragment"
+        android:name="ir.kindnesswall.view.main.charity.nationalId.NationalIdFragment"
+        android:label="NationalIdFragment" />
 </navigation>

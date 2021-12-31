@@ -11,11 +11,11 @@ ext {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.kindnesswand"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -30,6 +30,7 @@ android {
 
     buildFeatures {
         dataBinding true
+        viewBinding true
         compose true
     }
 
@@ -165,6 +166,14 @@ dependencies {
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation 'androidx.compose.material:material:1.0.5'
     implementation "com.google.android.material:compose-theme-adapter:1.0.5"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+    implementation "androidx.compose.animation:animation:1.1.0-rc01"
 
     implementation project(path: ':spotlight')
+}
+configurations.all {
+    resolutionStrategy {
+        force ("org.xerial:sqlite-jdbc:3.34.0")
+
+    }
 }

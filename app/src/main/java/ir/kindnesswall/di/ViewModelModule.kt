@@ -11,6 +11,8 @@ import ir.kindnesswall.view.main.catalog.cataloglist.CatalogViewModel
 import ir.kindnesswall.view.main.catalog.search.SearchViewModel
 import ir.kindnesswall.view.main.charity.CharityListViewModel
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
+import ir.kindnesswall.view.main.charity.nationalId.NationalIdFragment
+import ir.kindnesswall.view.main.charity.nationalId.NationalIdViewModel
 import ir.kindnesswall.view.main.conversation.ConversationsViewModel
 import ir.kindnesswall.view.main.conversation.chat.ChatViewModel
 import ir.kindnesswall.view.main.conversation.chat.todonategifts.DonateGiftViewModel
@@ -43,6 +45,7 @@ val viewModelModule = module {
     viewModel { GiftDetailViewModel(get()) }
     viewModel { GalleryViewModel() }
     viewModel { CharityListViewModel(get()) }
+    viewModel { NationalIdViewModel() }
     viewModel { BookmarksViewModel(get()) }
     viewModel { BlockListViewModel(get(), get()) }
     viewModel { CharityViewModel(get(), get(), get()) }
