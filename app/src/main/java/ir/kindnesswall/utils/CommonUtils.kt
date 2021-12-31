@@ -22,8 +22,11 @@ import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.dp
-import java.io.*
-
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.InputStreamReader
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -260,7 +263,10 @@ fun startMultiSelectingImagePicker(activity: BaseActivity) {
         .start()
 }
 
-fun isAppAvailable(context: Context, appName: String?): Boolean {
+/**
+ * This function can determine an app exists on device
+ */
+fun isAppAvailable(context: Context, appName: String): Boolean {
     val pm = context.packageManager
     return try {
         pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES)

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R

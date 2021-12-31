@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R

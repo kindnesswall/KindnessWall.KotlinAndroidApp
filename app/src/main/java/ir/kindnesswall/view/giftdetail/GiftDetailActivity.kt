@@ -5,15 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Message
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
@@ -62,7 +60,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gift_detail)
 
-        viewModel.giftModel = intent?.getParcelableExtra("giftModel") as GiftModel
+        viewModel.giftModel = intent?.getParcelableExtra("giftModel")!!
         if (viewModel.giftModel == null) {
             finish()
         }
