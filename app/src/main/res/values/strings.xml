@@ -28,6 +28,7 @@
     <string name="horizontal_divider">|</string>
     <string name="just_now">دقایقی پیش</string>
     <string name="next">بعدی</string>
+    <string name="tryAgain">تلاش مجدد</string>
 
     <string name="onboarding_title_first">نیاز داری بردار ، نیاز نداری بذار</string>
     <string name="onboarding_desc_first">همه ما کلی وسیله توی خونه داریم که بهشون !نیاز نداریم اما نمی دونیم باهشون چیکار کنیم چه بهتر از اینکه به کسی بدیم که بهش نیاز داره؟</string>
