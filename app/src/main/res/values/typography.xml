@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/vazir_bold</item>
+        <item name="android:fontFamily">@font/vazir_bold</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="AppTheme.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/vazir_bold</item>
+        <item name="android:fontFamily">@font/vazir_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/vazir_bold</item>
+        <item name="android:fontFamily">@font/vazir_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AppTheme.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AppTheme.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="AppTheme.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/vazir_bold</item>
+        <item name="android:fontFamily">@font/vazir_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/vazir</item>
+        <item name="android:fontFamily">@font/vazir</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>
