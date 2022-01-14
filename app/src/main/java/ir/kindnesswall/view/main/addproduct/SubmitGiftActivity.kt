@@ -16,11 +16,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.local.UserPreferences
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CityModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
 import ir.kindnesswall.utils.NumberStatus
@@ -33,9 +34,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SubmitGiftActivity : BaseActivity() {
-    var shPref: SharedPreferences?=null
-    val keyName = "nameKey"
-    var sEdite : SharedPreferences.Editor ?=null
     lateinit var binding: ActivitySubmitGiftBinding
     private val viewModel: SubmitGiftViewModel by viewModel()
     private lateinit var adapter: SelectedImagesAdapter
@@ -172,8 +170,7 @@ class SubmitGiftActivity : BaseActivity() {
 
         binding.backImageView.setOnClickListener { onBackPressed() }
         binding.addNewPhotoContainer.setOnClickListener { pickImage() }
-        shPref= getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
-        sEdite =shPref!!.edit()
+
         binding.chooseCategoryTextView.setOnClickListener {
             CategoryActivity.startActivityForResult(
                 this,
@@ -191,9 +188,8 @@ class SubmitGiftActivity : BaseActivity() {
             CityChooserActivity.startActivityForResult(this, true)
         }
         binding.submitNone.setOnClickListener {
-            sEdite!!.putString(keyName,"none")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("none").observe(this){
+            UserPreferences.phoneVisibilityStatus = PhoneVisibility.None
+            viewModel.setPhoneVisibility(PhoneVisibility.None).observe(this){
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
                        Log.i("4566456456465465","LOADING")
@@ -208,9 +204,8 @@ class SubmitGiftActivity : BaseActivity() {
             }
         }
         binding.submitCharity.setOnClickListener {
-            sEdite!!.putString(keyName,"charity")
-            sEdite!!.apply()
-                viewModel.setPhoneVisibility("charity").observe(this){
+            UserPreferences.phoneVisibilityStatus = PhoneVisibility.JustCharities
+                viewModel.setPhoneVisibility(PhoneVisibility.JustCharities).observe(this){
                     when (it.status) {
                         CustomResult.Status.LOADING -> {
                             Log.i("4566456456465465","LOADING")
@@ -225,9 +220,8 @@ class SubmitGiftActivity : BaseActivity() {
                 }
         }
         binding.submitAll.setOnClickListener {
-            sEdite!!.putString(keyName,"all")
-            sEdite!!.apply()
-              viewModel.setPhoneVisibility("all").observe(this){
+            UserPreferences.phoneVisibilityStatus = PhoneVisibility.All
+              viewModel.setPhoneVisibility(PhoneVisibility.All).observe(this){
                     when (it.status) {
                         CustomResult.Status.LOADING -> {
                             Log.i("4566456456465465","LOADING")

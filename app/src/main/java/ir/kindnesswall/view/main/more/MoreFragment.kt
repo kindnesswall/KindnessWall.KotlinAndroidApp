@@ -1,7 +1,5 @@
 package ir.kindnesswall.view.main.more
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +13,9 @@ import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.local.UserPreferences
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.databinding.FragmentMoreBinding
 import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.extentions.runOrStartAuth
@@ -40,9 +40,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
  */
 
 class MoreFragment() : BaseFragment() {
-    var shPref: SharedPreferences? = null
-    val keyName = "nameKey"
-    var sEdite: SharedPreferences.Editor? = null
     var numview: Boolean = true
     lateinit var binding: FragmentMoreBinding
     override fun onCreateView(
@@ -53,19 +50,16 @@ class MoreFragment() : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_more, container, false)
         val viewModel: SubmitGiftViewModel by viewModel()
         MainActivity.liveData.observe(binding.root.context as LifecycleOwner, Observer {
-            shPref= context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
-            sEdite =shPref!!.edit()
-           if (UserInfoPref.bearerToken.isNotEmpty()){
-               val numberstatus = NumberStatus(viewModel, binding.moreNone, binding.moreCharity, binding.moreAll)
+            if (UserInfoPref.bearerToken.isNotEmpty()) {
+                val numberstatus = NumberStatus(viewModel, binding.moreNone, binding.moreCharity, binding.moreAll)
                 numberstatus.getShowNumberStatus(binding.root.context)
-           }
+            }
 
         })
 
         binding.moreCharity.setOnClickListener {
-            sEdite!!.putString(keyName, "charity")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("charity").observe(this) {
+            UserPreferences.phoneVisibilityStatus = PhoneVisibility.JustCharities
+            viewModel.setPhoneVisibility(PhoneVisibility.JustCharities).observe(this) {
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
                         Log.i("4566456456465465", "LOADING")
@@ -80,9 +74,8 @@ class MoreFragment() : BaseFragment() {
             }
         }
         binding.moreAll.setOnClickListener {
-            sEdite!!.putString(keyName, "all")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("all").observe(this) {
+            UserPreferences.phoneVisibilityStatus = PhoneVisibility.All
+            viewModel.setPhoneVisibility(PhoneVisibility.All).observe(this) {
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
                         Log.i("4566456456465465", "LOADING")
@@ -97,9 +90,8 @@ class MoreFragment() : BaseFragment() {
             }
         }
         binding.moreNone.setOnClickListener {
-            sEdite!!.putString(keyName, "none")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("none").observe(this) {
+            UserPreferences.phoneVisibilityStatus = PhoneVisibility.None
+            viewModel.setPhoneVisibility(PhoneVisibility.None).observe(this) {
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
                         Log.i("4566456456465465", "LOADING")
@@ -144,29 +136,24 @@ class MoreFragment() : BaseFragment() {
             } else {
                 numview = true
                 binding.numViewGroup.visibility = View.GONE
-
             }
         }
         binding.contactUs.setOnClickListener { openSupportForm(requireContext()) }
         binding.bugReport.setOnClickListener { openSupportForm(requireContext()) }
         binding.suggestions.setOnClickListener { openSupportForm(requireContext()) }
-        var shPref: SharedPreferences =
-            view?.context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
-        val keyName = "nameKey"
-        if (shPref.contains(keyName)) {
-            when (shPref.getString(keyName, null)) {
-                "none" -> {
-                    binding.moreNone.isChecked = true
-                }
-                "charity" -> {
-                    binding.moreCharity.isChecked = true
-                }
-                "all" -> {
-                    binding.moreAll.isChecked = true
-                }
-            }
-        }
 
+        when (UserPreferences.phoneVisibilityStatus) {
+            PhoneVisibility.None -> {
+                binding.moreNone.isChecked = true
+            }
+            PhoneVisibility.JustCharities -> {
+                binding.moreCharity.isChecked = true
+            }
+            PhoneVisibility.All -> {
+                binding.moreAll.isChecked = true
+            }
+            null -> {}
+        }
 
         binding.logInLogOut.setOnClickListener {
             context?.runOrStartAuth {
@@ -188,6 +175,4 @@ class MoreFragment() : BaseFragment() {
         super.onResume()
         binding.userInfo = UserInfoPref
     }
-
-
 }
