@@ -217,14 +217,9 @@ class SubmitGiftViewModel(
         isNew = true
     }
 
-    fun setPhoneVisibility(phoneVisibility: PhoneVisibility) =
-        giftRepo.setSettingNumber(
-            viewModelScope,
-            when (phoneVisibility) {
-                PhoneVisibility.None -> "none"
-                PhoneVisibility.JustCharities -> "charity"
-                PhoneVisibility.All -> "all"
-            }
-        )
-    fun getPhoneVisibility()=giftRepo.getSettingNumber(viewModelScope)
+    fun setPhoneVisibility(phoneVisibility: PhoneVisibility): LiveData<CustomResult<Any?>> =
+        giftRepo.setSettingNumber(viewModelScope.coroutineContext, phoneVisibility)
+
+    fun getPhoneVisibility(): LiveData<CustomResult<PhoneVisibility>> =
+        giftRepo.getSettingNumber(viewModelScope.coroutineContext)
 }

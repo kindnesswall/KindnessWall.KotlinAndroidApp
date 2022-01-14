@@ -43,28 +43,15 @@ class NumberStatus(
         viewModel.getPhoneVisibility().observe(context as LifecycleOwner) {
             when (it.status) {
                 CustomResult.Status.LOADING -> {
-
                 }
                 CustomResult.Status.SUCCESS -> {
-                    if (it.data?.setting === null) {
-                        none.isChecked = true
-                        UserPreferences.phoneVisibilityStatus = PhoneVisibility.None
-                    } else {
-                        when (it.data!!.setting) {
-                            "none" -> {
-                                none.isChecked = true
-                                UserPreferences.phoneVisibilityStatus = PhoneVisibility.None
-                            }
-                            "charity" -> {
-                                charity.isChecked = true
-                                UserPreferences.phoneVisibilityStatus = PhoneVisibility.JustCharities
-                            }
-                            "all" -> {
-                                all.isChecked = true
-                                UserPreferences.phoneVisibilityStatus = PhoneVisibility.All
-                            }
-                        }
+                    val visibility = it.data ?: error("null visibility must not be comes here")
+                    when (visibility) {
+                        PhoneVisibility.None -> none.isChecked = true
+                        PhoneVisibility.JustCharities -> charity.isChecked = true
+                        PhoneVisibility.All -> all.isChecked = true
                     }
+                    UserPreferences.phoneVisibilityStatus = visibility
                 }
                 CustomResult.Status.ERROR -> {
                 }

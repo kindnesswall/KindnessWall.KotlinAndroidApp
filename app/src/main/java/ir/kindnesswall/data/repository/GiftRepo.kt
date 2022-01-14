@@ -12,6 +12,7 @@ import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.GiftRequestStatusModel
 import ir.kindnesswall.data.model.PhoneNumberModel
+import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.data.model.SetSetting
 import ir.kindnesswall.data.model.SettingModel
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
@@ -20,6 +21,7 @@ import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
 import ir.kindnesswall.data.remote.network.GiftApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -384,36 +386,55 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         }
 
     fun setSettingNumber(
-        viewModelScope: CoroutineScope,
-        value: String
-    ): LiveData<CustomResult<Any?>> = liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        context: CoroutineContext,
+        visibility: PhoneVisibility
+    ): LiveData<CustomResult<Any?>> = liveData<CustomResult<Any?>>(context, timeoutInMs = 0) {
         emit(CustomResult.loading())
-        getNullableResultWithExponentialBackoffStrategy { giftApi.setPhoneVisibilitySetting(SetSetting(value)) }.collect { result ->
+        getNullableResultWithExponentialBackoffStrategy {
+            val requestBody = SetSetting(
+                when (visibility) {
+                    PhoneVisibility.None -> "none"
+                    PhoneVisibility.JustCharities -> "charity"
+                    PhoneVisibility.All -> "all"
+                }
+            )
+            giftApi.setPhoneVisibilitySetting(requestBody)
+        }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
                     emit(CustomResult.success(result.data))
                 }
                 CustomResult.Status.ERROR -> {
                     emit(CustomResult.error(result.errorMessage))
-
                 }
                 CustomResult.Status.LOADING -> emit(CustomResult.loading())
             }
         }
 
     }
-    fun getSettingNumber(viewModelScope: CoroutineScope):LiveData<CustomResult<SettingModel?>> = liveData<CustomResult<SettingModel?>>(viewModelScope.coroutineContext,timeoutInMs = 0){
-        emit(CustomResult.loading())
-        getResultWithExponentialBackoffStrategy{giftApi.getPhoneVisibilitySetting()}.collect{result ->
-            when (result.status) {
-                CustomResult.Status.SUCCESS -> {
-                    emit(CustomResult.success(result.data))
+
+    fun getSettingNumber(context: CoroutineContext): LiveData<CustomResult<PhoneVisibility>> =
+        liveData<CustomResult<PhoneVisibility>>(context, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getNullableResultWithExponentialBackoffStrategy { giftApi.getPhoneVisibilitySetting() }
+                .collect { result: CustomResult<SettingModel?> ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS ->
+                            emit(
+                                CustomResult.success(
+                                    when (result.data?.setting) {
+                                        "charity" -> PhoneVisibility.JustCharities
+                                        "all" -> PhoneVisibility.All
+                                        "none",
+                                        null -> PhoneVisibility.None // based on legacy codes null value is equal to none
+                                        else -> error("Unknown value received for phone-visibility")
+                                    }
+                                )
+                            )
+                        CustomResult.Status.ERROR ->
+                            emit(CustomResult.error(result.errorMessage, serverError = true))
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    }
                 }
-                CustomResult.Status.ERROR -> {
-                    emit(CustomResult.success(result.data))
-                }
-                CustomResult.Status.LOADING -> emit(CustomResult.loading())
-            }
         }
-    }
 }
