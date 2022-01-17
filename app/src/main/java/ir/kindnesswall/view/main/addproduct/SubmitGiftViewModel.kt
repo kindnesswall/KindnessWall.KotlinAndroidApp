@@ -1,9 +1,11 @@
 package ir.kindnesswall.view.main.addproduct
 
 import android.content.Context
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -89,12 +91,14 @@ class SubmitGiftViewModel(
     }
 
     fun uploadImages(context: Context, lifecycleOwner: LifecycleOwner) {
-        fileUploadRepo.uploadFile(
-            context,
-            lifecycleOwner,
-            imagesToUpload.first(),
-            uploadImagesLiveData
-        )
+        viewModelScope.launch {
+            fileUploadRepo.uploadFile(
+                context,
+                lifecycleOwner,
+                imagesToUpload.first(),
+                uploadImagesLiveData
+            )
+        }
     }
 
     fun backupData(callback: (Boolean) -> Unit) {

@@ -14,6 +14,7 @@ import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.UserRepo
+import kotlinx.coroutines.launch
 
 class MyProfileViewModel(
     private val userRepo: UserRepo,
@@ -40,7 +41,9 @@ class MyProfileViewModel(
     }
 
     fun uploadImage(context: Context, lifecycleOwner: LifecycleOwner, uri: Uri) {
-        fileUploadRepo.uploadFile(context, lifecycleOwner, uri.toString(), newImageUrlLiveData)
+        viewModelScope.launch {
+            fileUploadRepo.uploadFile(context, lifecycleOwner, uri.toString(), newImageUrlLiveData)
+        }
     }
 
     fun updateUserProfile(): LiveData<CustomResult<Any>> {
