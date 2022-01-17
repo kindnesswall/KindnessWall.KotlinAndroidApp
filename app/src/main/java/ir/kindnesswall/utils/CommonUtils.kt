@@ -224,25 +224,6 @@ fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap {
     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 }
 
-fun startSingleModeImagePicker(activity: BaseActivity) {
-    ImagePicker.with(activity)
-        .setToolbarColor("#11BC89")
-        .setStatusBarColor("#0FB282")
-        .setToolbarTextColor("#FFFFFF")
-        .setToolbarIconColor("#FFFFFF")
-        .setProgressBarColor("#D81B60")
-        .setBackgroundColor("#212121")
-        .setCameraOnly(false)
-        .setMultipleMode(false)
-        .setFolderMode(true)
-        .setShowCamera(true)
-        .setDoneTitle(activity.getString(R.string.choose))
-        .setDirectoryName("ImagePicker")
-        .setAlwaysShowDoneButton(true)
-        .setRequestCode(Config.RC_PICK_IMAGES)
-        .start()
-}
-
 fun startMultiSelectingImagePicker(activity: BaseActivity) {
     ImagePicker.with(activity)
         .setToolbarColor("#11BC89")
