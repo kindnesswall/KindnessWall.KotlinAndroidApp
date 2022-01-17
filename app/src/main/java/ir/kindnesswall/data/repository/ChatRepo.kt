@@ -6,7 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.KindnessApplication
-import ir.kindnesswall.data.model.*
+import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.ChatContactModel
+import ir.kindnesswall.data.model.ChatMessageModel
+import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel
 import ir.kindnesswall.data.model.requestsmodel.SendChatMessageRequestModel
@@ -14,7 +18,6 @@ import ir.kindnesswall.data.remote.network.ChatApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -144,7 +147,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy { chatApi.blockChat(chatId) }.collect { result ->
+            getNullableResultWithExponentialBackoffStrategy { chatApi.blockChat(chatId) }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))
@@ -159,7 +162,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy { chatApi.unblockChat(chatId) }.collect { result ->
+            getNullableResultWithExponentialBackoffStrategy { chatApi.unblockChat(chatId) }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))

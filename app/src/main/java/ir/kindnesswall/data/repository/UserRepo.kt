@@ -86,7 +86,7 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
     ): LiveData<CustomResult<Any>> =
         liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy {
+            getNullableResultWithExponentialBackoffStrategy {
                 userApi.updateUserProfile(UpdateProfileRequestBaseModel(userName, imageUrl))
             }.collect { result ->
                 when (result.status) {

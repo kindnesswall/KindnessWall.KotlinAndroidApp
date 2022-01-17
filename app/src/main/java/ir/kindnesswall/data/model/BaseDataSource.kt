@@ -1,11 +1,9 @@
 package ir.kindnesswall.data.model
 
 import android.content.Context
-import android.util.Log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
-
 
 abstract class BaseDataSource(val context: Context) {
 
@@ -38,6 +36,40 @@ abstract class BaseDataSource(val context: Context) {
         )
     }
 
+    protected fun <T> getNullableResultWithExponentialBackoffStrategy(
+        times: Int = 2,
+        initialDelay: Long = 100,
+        maxDelay: Long = 10000,
+        factor: Double = 2.0,
+        call: suspend () -> Response<T>
+    ) = flow<CustomResult<T?>> {
+        var loopTimes = times
+        var currentDelay = initialDelay
+        loop@ while (loopTimes - 1 != 0) {
+            loopTimes--
+            val response = getResult(call)
+            when (response.status) {
+                CustomResult.Status.SUCCESS -> {
+                    emit(CustomResult.success(response.data))
+                    break@loop
+                }
+                CustomResult.Status.ERROR -> {
+                    emit(
+                        CustomResult.error(
+                            response.errorMessage,
+                            response.data,
+                            response.serverError
+                        )
+                    )
+                    if (response.serverError) break@loop
+                }
+            }
+
+            delay(currentDelay)
+            currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)
+        }
+    }
+
     protected fun <T> getResultWithExponentialBackoffStrategy(
         times: Int = 2,
         initialDelay: Long = 100,
@@ -52,7 +84,7 @@ abstract class BaseDataSource(val context: Context) {
             val response = getResult(call)
             when (response.status) {
                 CustomResult.Status.SUCCESS -> {
-                   emit(CustomResult.success(response.data!!))
+                    emit(CustomResult.success(response.data!!))
                     break@loop
                 }
                 CustomResult.Status.ERROR -> {

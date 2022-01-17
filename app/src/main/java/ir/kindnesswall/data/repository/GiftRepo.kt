@@ -1,14 +1,19 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
-import ir.kindnesswall.data.model.*
+import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.ChatContactModel
+import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.GiftRequestStatusModel
+import ir.kindnesswall.data.model.PhoneNumberModel
+import ir.kindnesswall.data.model.SetSetting
+import ir.kindnesswall.data.model.SettingModel
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
@@ -188,7 +193,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     ): LiveData<CustomResult<Any?>> =
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy {
+            getNullableResultWithExponentialBackoffStrategy {
                 giftApi.donateGift(DonateGiftRequestModel(giftId, userToDonateId))
             }.collect { result ->
                 when (result.status) {
@@ -262,7 +267,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy {
+            getNullableResultWithExponentialBackoffStrategy {
                 giftApi.rejectGift(giftId, RejectGiftRequestModel(rejectReason))
             }.collect { result ->
                 when (result.status) {
@@ -282,7 +287,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy {
+            getNullableResultWithExponentialBackoffStrategy {
                 giftApi.acceptGift(giftId)
             }.collect { result ->
                 when (result.status) {
@@ -365,7 +370,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     ): LiveData<CustomResult<Any?>> =
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy { giftApi.deleteGift(giftId) }.collect { result ->
+            getNullableResultWithExponentialBackoffStrategy { giftApi.deleteGift(giftId) }.collect { result ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))
@@ -383,7 +388,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         value: String
     ): LiveData<CustomResult<Any?>> = liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
         emit(CustomResult.loading())
-        getResultWithExponentialBackoffStrategy { giftApi.setPhoneVisibilitySetting(SetSetting(value)) }.collect { result ->
+        getNullableResultWithExponentialBackoffStrategy { giftApi.setPhoneVisibilitySetting(SetSetting(value)) }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
                     emit(CustomResult.success(result.data))
