@@ -22,8 +22,8 @@ import net.gotev.uploadservice.UploadServiceConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import java.util.*
-
+import timber.log.Timber
+import java.util.Locale
 
 /**
  * Created by farshid.abazari since 2019-11-01
@@ -52,6 +52,9 @@ class KindnessApplication : Application(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG)
+            Timber.plant(Timber.DebugTree())
 
         Kotpref.init(this)
 
