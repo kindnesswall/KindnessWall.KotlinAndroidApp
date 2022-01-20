@@ -42,7 +42,7 @@ class MyProfileViewModel(
 
     fun uploadImage(context: Context, lifecycleOwner: LifecycleOwner, uri: Uri) {
         viewModelScope.launch {
-            fileUploadRepo.uploadFile(context, lifecycleOwner, uri.toString(), newImageUrlLiveData)
+            newImageUrlLiveData.value = fileUploadRepo.uploadFile(context, uri.toString())
         }
     }
 

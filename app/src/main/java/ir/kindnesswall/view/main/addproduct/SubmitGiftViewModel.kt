@@ -92,11 +92,9 @@ class SubmitGiftViewModel(
 
     fun uploadImages(context: Context, lifecycleOwner: LifecycleOwner) {
         viewModelScope.launch {
-            fileUploadRepo.uploadFile(
+            uploadImagesLiveData.value = fileUploadRepo.uploadFile(
                 context,
-                lifecycleOwner,
                 imagesToUpload.first(),
-                uploadImagesLiveData
             )
         }
     }

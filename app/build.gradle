@@ -152,9 +152,6 @@ dependencies {
 
     implementation "com.github.marlonlom:timeago:4.0.3"
 
-    def uploadServiceVersion = "4.3.0"
-    implementation "net.gotev:uploadservice:$uploadServiceVersion"
-
     //image picker
     implementation 'com.github.nguyenhoanglam:ImagePicker:1.4.0'
 

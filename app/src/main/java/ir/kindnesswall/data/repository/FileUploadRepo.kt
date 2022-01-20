@@ -5,25 +5,21 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.transition.Transition
-import com.google.gson.Gson
-import ir.kindnesswall.BuildConfig
-import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
-import ir.kindnesswall.utils.wrapInBearer
+import ir.kindnesswall.data.remote.network.UserApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.withContext
-import net.gotev.uploadservice.data.UploadInfo
-import net.gotev.uploadservice.network.ServerResponse
-import net.gotev.uploadservice.observer.request.RequestObserverDelegate
-import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import timber.log.Timber
 import java.io.BufferedOutputStream
 import java.io.File
@@ -31,25 +27,24 @@ import java.io.FileOutputStream
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FileUploadRepo(context: Context) :
-    BaseDataSource(context) {
+class FileUploadRepo(
+    context: Context,
+    private val userApi: UserApi
+) : BaseDataSource(context) {
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun uploadFile(
-        context: Context,
-        lifecycleOwner: LifecycleOwner,
-        imagePath: String,
-        data: MutableLiveData<UploadImageResponse>
-    ) {
-        val outFile = withContext<File?>(Dispatchers.IO) {
+    suspend fun uploadFile(context: Context, imagePath: String): UploadImageResponse =
+        withContext(Dispatchers.IO) {
             val inFile = if (imagePath.startsWith("content://"))
                 convertPublicContentToPrivateFile(context, imagePath.toUri())
             else
                 File(imagePath)
 
+            val failedResult = UploadImageResponse("").apply { isFailed = true }
+
             val normalizedBitmap = createNormalizedBitmap(inFile) ?: kotlin.run {
                 Timber.w("uploadFile was skipped because of normalized bitmap was null. ")
-                return@withContext null
+                return@withContext failedResult
             }
 
             // write normalized bitmap on disk
@@ -57,51 +52,25 @@ class FileUploadRepo(context: Context) :
             val os = BufferedOutputStream(FileOutputStream(normalizedFile))
             normalizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
 
-            normalizedFile
-        } ?: return
+            val mediaType = MediaType.get(
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension(normalizedFile.extension)
+                    ?: "application/octet-stream"
+            )
+            val imagePart = RequestBody.create(mediaType, normalizedFile)
 
-        val request: MultipartUploadRequest =
-            MultipartUploadRequest(context, serverUrl = "${BuildConfig.URL_WEBAPI}/image/upload")
-                .setMethod("POST")
-                .addFileToUpload(
-                    filePath = outFile.absolutePath,
-                    parameterName = "image"
-                )
+            val request = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", inFile.name, imagePart)
+                .build()
 
-        request.addHeader("Authorization", wrapInBearer(UserInfoPref.bearerToken))
+            // convert a flow to a blocking statement
+            // TODO refactor after deprecating backoff or api call strategy
+            val results: List<CustomResult<UploadImageResponse>> = getResultWithExponentialBackoffStrategy {
+                userApi.uploadImage(request)
+            }.toList()
 
-        request.subscribe(context, lifecycleOwner, object : RequestObserverDelegate {
-            override fun onCompleted(context: Context, uploadInfo: UploadInfo) {
-                Log.e("LIFECYCLE", "Completed ")
-            }
-
-            override fun onCompletedWhileNotObserving() {
-            }
-
-            override fun onError(context: Context, uploadInfo: UploadInfo, exception: Throwable) {
-                Log.e("LIFECYCLE", "Error " + exception.message)
-                data.value = UploadImageResponse("").apply { isFailed = true }
-            }
-
-            override fun onProgress(context: Context, uploadInfo: UploadInfo) {
-                Log.e("LIFECYCLE", "Progress " + uploadInfo.progressPercent)
-            }
-
-            override fun onSuccess(
-                context: Context,
-                uploadInfo: UploadInfo,
-                serverResponse: ServerResponse
-            ) {
-                Log.e("LIFECYCLE", "Success " + uploadInfo.progressPercent)
-                Log.e("LIFECYCLE", "server response is " + serverResponse.bodyString)
-
-                data.value = Gson().fromJson<UploadImageResponse>(
-                    serverResponse.bodyString,
-                    UploadImageResponse::class.java
-                ).apply { isFailed = false }
-            }
-        })
-    }
+            results.find { it.status == CustomResult.Status.SUCCESS }?.data ?: failedResult
+        }
 
     private suspend fun convertPublicContentToPrivateFile(context: Context, uri: Uri): File {
         return suspendCoroutine {
