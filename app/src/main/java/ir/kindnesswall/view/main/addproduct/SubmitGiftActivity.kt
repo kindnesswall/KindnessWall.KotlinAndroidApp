@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.nguyenhoanglam.imagepicker.model.Config
@@ -150,9 +151,9 @@ class SubmitGiftActivity : BaseActivity() {
                 return@observe
             }
 
-            viewModel.uploadedImagesAddress.add(it.address)
-            viewModel.imagesToUpload.removeAt(0)
-            if (viewModel.imagesToUpload.isEmpty()) {
+            viewModel.applyUploadedLocalImage(it.address)
+
+            if (viewModel.images.all { image -> image is GiftImage.OnlineImage }) {
                 registerGift()
             } else {
                 viewModel.uploadImages(this, this)
@@ -291,12 +292,11 @@ class SubmitGiftActivity : BaseActivity() {
             viewModel.cityName.value = it.cityName
             viewModel.isNew = false
 
-            if (!it.giftImages.isNullOrEmpty()) {
-                viewModel.uploadedImagesAddress.addAll(it.giftImages!!)
-                viewModel.imagesToShow.addAll(it.giftImages!!)
-            }
+            it.giftImages.takeUnless { it.isNullOrEmpty() }
+                ?.map { GiftImage.OnlineImage(it) }
+                ?.let { viewModel.fillByOnlineImages(it) }
 
-            if (viewModel.imagesToShow.isNotEmpty()) {
+            if (viewModel.images.isNotEmpty()) {
                 showImages()
             }
 
@@ -415,10 +415,9 @@ class SubmitGiftActivity : BaseActivity() {
                     binding.chooseCityTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
                 }
 
-                viewModel.imagesToShow.addAll(it.giftImages)
-                viewModel.imagesToUpload.addAll(it.giftImages)
+                viewModel.fillByLocalImages(it.giftImages.map { GiftImage.LocalImage(it.toUri()) })
 
-                if (viewModel.imagesToShow.isNotEmpty()) {
+                if (viewModel.images.isNotEmpty()) {
                     showImages()
                 }
             }
@@ -514,14 +513,8 @@ class SubmitGiftActivity : BaseActivity() {
 
     private fun initRecyclerView() {
         adapter = SelectedImagesAdapter().apply {
-            onClickCallback = { position, url ->
-                if (viewModel.editableGiftModel == null && viewModel.isNew) {
-                    viewModel.imagesToShow.removeAt(position)
-                    viewModel.imagesToUpload.removeAt(position)
-                } else {
-                    viewModel.uploadedImagesAddress.removeAt(position)
-                    viewModel.imagesToShow.removeAt(position)
-                }
+            onClickCallback = { position ->
+                viewModel.deleteImage(position)
                 showImages()
             }
         }
@@ -539,7 +532,7 @@ class SubmitGiftActivity : BaseActivity() {
 
     private fun showImages() {
         if (::adapter.isInitialized) {
-            adapter.setItems(viewModel.imagesToShow)
+            adapter.setItems(viewModel.images)
         }
 
         checkSubmitButtonEnabling()
@@ -553,7 +546,7 @@ class SubmitGiftActivity : BaseActivity() {
                     (viewModel.provinceId.value ?: 0 > 0) &&
                     (viewModel.cityId.value ?: 0 > 0) &&
                     (viewModel.categoryId.value ?: 0 > 0) &&
-                    viewModel.imagesToShow.isNotEmpty()
+                viewModel.images.isNotEmpty()
 
         if (viewModel.hasRegion) {
             if (viewModel.regionId.value ?: 0 > 0) {
@@ -571,8 +564,7 @@ class SubmitGiftActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Config.RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
             data.getParcelableArrayListExtra<Image>(Config.EXTRA_IMAGES)?.let {
-                viewModel.imagesToShow.addAll(it.map { image -> image.path })
-                viewModel.imagesToUpload.addAll(it.map { image -> image.path })
+                viewModel.addLocalImages(it.map { image -> GiftImage.LocalImage(image.path.toUri()) })
                 showImages()
             }
         } else if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {

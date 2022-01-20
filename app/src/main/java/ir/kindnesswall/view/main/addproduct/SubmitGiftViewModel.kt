@@ -43,10 +43,8 @@ class SubmitGiftViewModel(
 
     var isNew = true
 
-    var imagesToShow = arrayListOf<String>()
-    var imagesToUpload = arrayListOf<String>()
-
-    var uploadedImagesAddress = arrayListOf<String>()
+    private val _images = mutableListOf<GiftImage>()
+    val images: List<GiftImage> = _images
 
     var uploadImagesLiveData = MutableLiveData<UploadImageResponse>()
 
@@ -69,7 +67,7 @@ class SubmitGiftViewModel(
             title = title.value ?: "",
             description = description.value ?: "",
             price = price.value?.toBigDecimal() ?: BigDecimal.ZERO,
-            giftImages = ArrayList(uploadedImagesAddress),
+            giftImages = images.filterIsInstance<GiftImage.OnlineImage>().map { it.url },
             categoryId = categoryId.value?.toInt() ?: 0,
             provinceId = provinceId.value?.toInt() ?: 0,
             regionId = regionId.value?.toInt(),
@@ -94,16 +92,43 @@ class SubmitGiftViewModel(
         viewModelScope.launch {
             uploadImagesLiveData.value = fileUploadRepo.uploadFile(
                 context,
-                imagesToUpload.first(),
+                images.first { it is GiftImage.LocalImage }.let {
+                    (it as GiftImage.LocalImage).uri.toString()
+                }
             )
         }
+    }
+
+    fun applyUploadedLocalImage(address: String) {
+        val uploadedImageIndex = images.indexOfFirst { it is GiftImage.LocalImage }
+
+        _images[uploadedImageIndex] = GiftImage.OnlineImage(address)
+    }
+
+    fun addLocalImages(images: List<GiftImage.LocalImage>) {
+        _images.addAll(images)
+    }
+
+    fun fillByOnlineImages(list: List<GiftImage.OnlineImage>) {
+        _images.clear()
+        _images.addAll(list)
+    }
+
+    fun fillByLocalImages(list: List<GiftImage.LocalImage>) {
+        _images.clear()
+        _images.addAll(list)
+    }
+
+    fun deleteImage(position: Int) {
+        _images.removeAt(position)
     }
 
     fun backupData(callback: (Boolean) -> Unit) {
         val registerGiftRequestModel = RegisterGiftRequestModel(
         title = title.value ?: "",
         description = description.value ?: "",
-        giftImages= ArrayList(imagesToShow),
+            giftImages = images.filterIsInstance<GiftImage.LocalImage>()
+                .map { it.uri.toString() },
         categoryId = categoryId.value?.toInt() ?: 0,
         categoryName = categoryName.value ?: "",
         provinceId = provinceId.value?.toInt() ?: 0,
@@ -136,9 +161,7 @@ class SubmitGiftViewModel(
     fun clearData() {
         appDatabase.registerGiftRequestDao().delete()
 
-        imagesToShow.clear()
-        imagesToUpload.clear()
-        uploadedImagesAddress.clear()
+        _images.clear()
 
         categoryId.value = 0
         categoryName.value = ""
