@@ -53,7 +53,7 @@ class FileUploadRepo(
             // write normalized bitmap on disk
             val normalizedFile = File.createTempFile("normalized_image", ".jpg", context.cacheDir)
             val os = BufferedOutputStream(FileOutputStream(normalizedFile))
-            normalizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            normalizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, os)
 
             val mediaType = MediaType.get(
                 MimeTypeMap.getSingleton().getMimeTypeFromExtension(normalizedFile.extension)
