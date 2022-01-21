@@ -5,14 +5,20 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.webkit.MimeTypeMap
-import androidx.core.net.toUri
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.transition.Transition
+import com.google.gson.Gson
+import ir.kindnesswall.BuildConfig
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.remote.network.UserApi
+import ir.kindnesswall.utils.wrapInBearer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
@@ -33,12 +39,9 @@ class FileUploadRepo(
 ) : BaseDataSource(context) {
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun uploadFile(context: Context, imagePath: String): UploadImageResponse =
+    suspend fun uploadFile(context: Context, uri: Uri): UploadImageResponse =
         withContext(Dispatchers.IO) {
-            val inFile = if (imagePath.startsWith("content://"))
-                convertPublicContentToPrivateFile(context, imagePath.toUri())
-            else
-                File(imagePath)
+            val inFile = convertPublicContentToPrivateFile(context, uri)
 
             val failedResult = UploadImageResponse("").apply { isFailed = true }
 

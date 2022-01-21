@@ -17,9 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
-import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.dp
 import timber.log.Timber
@@ -192,25 +189,6 @@ fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap {
     val matrix = Matrix()
     matrix.preScale((if (horizontal) -1 else 1).toFloat(), (if (vertical) -1 else 1).toFloat())
     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-}
-
-fun startMultiSelectingImagePicker(activity: BaseActivity) {
-    ImagePicker.with(activity)
-        .setToolbarColor("#11BC89")
-        .setStatusBarColor("#0FB282")
-        .setToolbarTextColor("#FFFFFF")
-        .setToolbarIconColor("#FFFFFF")
-        .setProgressBarColor("#D81B60")
-        .setBackgroundColor("#212121")
-        .setCameraOnly(false)
-        .setMultipleMode(true)
-        .setFolderMode(true)
-        .setShowCamera(true)
-        .setDoneTitle(activity.getString(R.string.choose))
-        .setDirectoryName("ImagePicker")
-        .setAlwaysShowDoneButton(true)
-        .setRequestCode(Config.RC_PICK_IMAGES)
-        .start()
 }
 
 fun openSupportForm(context: Context) {

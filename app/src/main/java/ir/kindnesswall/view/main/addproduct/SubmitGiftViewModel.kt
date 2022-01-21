@@ -93,7 +93,7 @@ class SubmitGiftViewModel(
             uploadImagesLiveData.value = fileUploadRepo.uploadFile(
                 context,
                 images.first { it is GiftImage.LocalImage }.let {
-                    (it as GiftImage.LocalImage).uri.toString()
+                    (it as GiftImage.LocalImage).uri
                 }
             )
         }

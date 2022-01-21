@@ -2,17 +2,18 @@ package ir.kindnesswall.view.main.addproduct
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
@@ -23,13 +24,13 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
 import ir.kindnesswall.utils.NumberStatus
-import ir.kindnesswall.utils.startMultiSelectingImagePicker
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class SubmitGiftActivity : BaseActivity() {
     var shPref: SharedPreferences?=null
@@ -508,7 +509,21 @@ class SubmitGiftActivity : BaseActivity() {
     }
 
     private fun pickImage() {
-        startMultiSelectingImagePicker(this)
+        AlertDialog.Builder(this)
+            .setItems(
+                listOf(R.string.from_gallery, R.string.by_camera).map(::getString).toTypedArray()
+            ) { _, which ->
+                when (which) {
+                    0 -> {
+                        imagePickerContract.launch("image/*")
+                    }
+                    1 -> {
+                        showToastMessage("not implemented yet!") // TODO camera
+                    }
+                    else -> {}
+                }
+            }
+            .show()
     }
 
     private fun initRecyclerView() {
@@ -561,13 +576,19 @@ class SubmitGiftActivity : BaseActivity() {
         binding.submitButton.isEnabled = condition
     }
 
+    private val imagePickerContract =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri?>? ->
+            Timber.d("image-picker result=$uris ")
+            if (uris.isNullOrEmpty()) return@registerForActivityResult
+
+            val filteredUris = uris.filterNotNull().map { GiftImage.LocalImage(it) }
+            viewModel.addLocalImages(filteredUris)
+
+            showImages()
+        }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Config.RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
-            data.getParcelableArrayListExtra<Image>(Config.EXTRA_IMAGES)?.let {
-                viewModel.addLocalImages(it.map { image -> GiftImage.LocalImage(image.path.toUri()) })
-                showImages()
-            }
-        } else if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {
+        if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val region = data?.getSerializableExtra("region")
                 val cityModel = data?.getSerializableExtra("city")
