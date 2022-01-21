@@ -160,6 +160,10 @@ class SubmitGiftActivity : BaseActivity() {
                 viewModel.uploadImages(this, this)
             }
         }
+
+        viewModel.openCameraLiveData.observe(this) { uriEvent ->
+            uriEvent?.ifNotHandled { cameraPickerContract.launch(it) }
+        }
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
@@ -518,7 +522,7 @@ class SubmitGiftActivity : BaseActivity() {
                         imagePickerContract.launch("image/*")
                     }
                     1 -> {
-                        showToastMessage("not implemented yet!") // TODO camera
+                        viewModel.attemptOpenCamera(this)
                     }
                     else -> {}
                 }
@@ -583,6 +587,16 @@ class SubmitGiftActivity : BaseActivity() {
 
             val filteredUris = uris.filterNotNull().map { GiftImage.LocalImage(it) }
             viewModel.addLocalImages(filteredUris)
+
+            showImages()
+        }
+
+    private val cameraPickerContract =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { wasSuccessfully: Boolean ->
+            Timber.d("camera result=$wasSuccessfully ")
+            if (wasSuccessfully.not()) return@registerForActivityResult
+
+            viewModel.submitPendingImages()
 
             showImages()
         }

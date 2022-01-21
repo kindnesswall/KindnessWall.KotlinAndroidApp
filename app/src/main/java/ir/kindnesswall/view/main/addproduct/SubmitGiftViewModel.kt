@@ -1,6 +1,8 @@
 package ir.kindnesswall.view.main.addproduct
 
 import android.content.Context
+import android.net.Uri
+import androidx.core.content.FileProvider
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +16,11 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.GiftRepo
+import ir.kindnesswall.utils.Event
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.File
 import java.math.BigDecimal
 
 class SubmitGiftViewModel(
@@ -121,6 +127,42 @@ class SubmitGiftViewModel(
 
     fun deleteImage(position: Int) {
         _images.removeAt(position)
+    }
+
+    private val _openCameraLiveData = MutableLiveData<Event<Uri>?>()
+    val openCameraLiveData: LiveData<Event<Uri>?> get() = _openCameraLiveData
+    private var isProcessingOpeningCamera = false
+
+    fun attemptOpenCamera(context: Context) {
+        if (isProcessingOpeningCamera) return
+
+        isProcessingOpeningCamera = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val directory = context.filesDir.resolve("camera_temporary")
+            directory.mkdirs()
+
+            val tempFile = File.createTempFile("pending_image", ".jpg", directory)
+
+            val uri = FileProvider.getUriForFile(
+                context,
+                context.applicationContext.packageName.plus(".fileprovider"),
+                tempFile
+            )
+
+            _openCameraLiveData.postValue(Event(uri))
+            isProcessingOpeningCamera = false
+        }
+    }
+
+    fun submitPendingImages() {
+        val pendingUri = openCameraLiveData.value?.peekContent() ?: kotlin.run {
+            Timber.w("submitting image occurred in a illegal state")
+            return
+        }
+
+        _images.add(GiftImage.LocalImage(pendingUri))
+
+        _openCameraLiveData.value = null
     }
 
     fun backupData(callback: (Boolean) -> Unit) {
