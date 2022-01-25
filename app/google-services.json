@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "655425715392",
+    "firebase_url": "https://kindnesswall.firebaseio.com",
+    "project_id": "kindnesswall",
+    "storage_bucket": "kindnesswall.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655425715392:android:9ef645634e05ca5c068125",
+        "android_client_info": {
+          "package_name": "com.kindnesswand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655425715392-4fkpn91gs3b17o6cq24i7r0tfih72fd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC5SjrFH4mjBmVYgCd3evHU7ODLVsmBq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655425715392-4fkpn91gs3b17o6cq24i7r0tfih72fd6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655425715392-8ut20ku4c0jac2pagpnjnab4peatk09u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ir.kindnesswall.publicusers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655425715392:android:ded1aad2ae06e1a2",
+        "android_client_info": {
+          "package_name": "ir.kindnesswall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655425715392-4fkpn91gs3b17o6cq24i7r0tfih72fd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC5SjrFH4mjBmVYgCd3evHU7ODLVsmBq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655425715392-4fkpn91gs3b17o6cq24i7r0tfih72fd6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655425715392-8ut20ku4c0jac2pagpnjnab4peatk09u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ir.kindnesswall.publicusers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
