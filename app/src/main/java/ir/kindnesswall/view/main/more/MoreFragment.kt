@@ -1,9 +1,7 @@
 package ir.kindnesswall.view.main.more
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +19,7 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentMoreBinding
 import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.extentions.runOrStartAuth
-import ir.kindnesswall.utils.isAppAvailable
+import ir.kindnesswall.utils.openSupportForm
 import ir.kindnesswall.view.main.MainActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftViewModel
 import ir.kindnesswall.view.main.more.aboutus.AboutUsActivity
@@ -149,9 +147,9 @@ class MoreFragment() : BaseFragment() {
 
             }
         }
-        binding.contactUs.setOnClickListener { openTelegram() }
-        binding.bugReport.setOnClickListener { openTelegram() }
-        binding.suggestions.setOnClickListener { openTelegram() }
+        binding.contactUs.setOnClickListener { openSupportForm(requireContext()) }
+        binding.bugReport.setOnClickListener { openSupportForm(requireContext()) }
+        binding.suggestions.setOnClickListener { openSupportForm(requireContext()) }
         var shPref: SharedPreferences =
             view?.context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
         val keyName = "nameKey"
@@ -182,19 +180,6 @@ class MoreFragment() : BaseFragment() {
                         KindnessApplication.instance.clearContactList()
                         activity?.recreate()
                     })
-            }
-        }
-    }
-
-    private fun openTelegram() {
-        context?.let {
-            val packageName = "org.telegram.messenger"
-            if (isAppAvailable(it, packageName)) {
-                val telegramIntent = Intent(Intent.ACTION_VIEW)
-                telegramIntent.data = Uri.parse("http://telegram.me/Kindness_Wall_Admin")
-                startActivity(telegramIntent)
-            } else {
-                showToastMessage(getString(R.string.install_telegram))
             }
         }
     }

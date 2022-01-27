@@ -32,9 +32,9 @@ class AuthRepo(context: Context, private var authApi: AuthApi) : BaseDataSource(
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
 
-            getResultWithExponentialBackoffStrategy {
+            getNullableResultWithExponentialBackoffStrategy {
                 authApi.registerUser(RegisterBaseModel(phoneNumber))
-            }.collect { result: CustomResult<Any> ->
+            }.collect { result: CustomResult<Any?> ->
                 when (result.status) {
                     CustomResult.Status.SUCCESS -> {
                         emit(CustomResult.success(result.data))

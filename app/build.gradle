@@ -168,4 +168,6 @@ dependencies {
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.2.0"
 
     implementation project(path: ':spotlight')
+
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }

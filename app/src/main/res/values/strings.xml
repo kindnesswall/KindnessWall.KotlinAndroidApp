@@ -17,6 +17,8 @@
     <string name="_98">98+</string>
     <string name="phone_number_hint">9xx-xxx-xxxx</string>
     <string name="phone_number_is_wrong">شماره وارد شده صحیح نیست</string>
+    <string name="terms_and_condition_hint1">شرایط استفاده</string>
+    <string name="terms_and_condition_hint2">از دیوار مهربانی را می‌پذیرم</string>
     <string name="send">ارسال</string>
     <string name="send_to">ارسال به</string>
     <string name="send_again">ارسال مجدد کد</string>
@@ -143,7 +145,7 @@
     <string name="error_sending_message">خطا در ارسال پیام</string>
     <string name="pros_and_cons">انتقادات و پیشنهادات</string>
     <string name="report_bug">گزارش خطا</string>
-    <string name="install_telegram">برای ارتباط با پشتیبانی ابتدا تلگرام را نصب کنید</string>
+    <string name="related_app_not_found">برنامه‌ای برای اجرای این کار یافت نشد</string>
     <string name="gift_submitted_successfully">هدیه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
 شما میتوانید از صفحه پروفایل به هدیه های ثبت شده خود دسترسی داشته باشید
 </string>
