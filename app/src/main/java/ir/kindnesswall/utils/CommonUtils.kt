@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
@@ -36,7 +37,6 @@ import java.io.InputStreamReader
  * How to call: just call functions
  */
 
-
 /**
  * share string with other apps
  *
@@ -60,7 +60,6 @@ fun shareString(
     context.startActivity(Intent.createChooser(sharingIntent, shareTitle))
 }
 
-
 fun Uri.getFilePathFromUri(): String {
     try {
         val fIS = FileInputStream(File(path))
@@ -79,7 +78,6 @@ fun Uri.getFilePathFromUri(): String {
         fIS.close()
 
         return path
-
     } catch (e: IOException) {
         Log.e(">>>>>", "Error occured while reading text file!!")
     }
@@ -263,15 +261,14 @@ fun startMultiSelectingImagePicker(activity: BaseActivity) {
         .start()
 }
 
-/**
- * This function can determine an app exists on device
- */
-fun isAppAvailable(context: Context, appName: String): Boolean {
-    val pm = context.packageManager
-    return try {
-        pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES)
-        true
-    } catch (e: Exception) {
-        false
+fun openSupportForm(context: Context) {
+    runCatching {
+        context.startActivity(
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("http://t.me/Kindness_Wall_Admin")
+            }
+        )
+    }.onFailure {
+        Toast.makeText(context, context.getString(R.string.related_app_not_found), Toast.LENGTH_SHORT).show()
     }
 }
