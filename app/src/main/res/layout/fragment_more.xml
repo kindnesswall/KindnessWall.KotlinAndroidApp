@@ -136,77 +136,34 @@
                         android:textSize="15sp" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/show_number"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
+                    android:layout_height="40dp"
                     android:layout_marginTop="8dp"
                     android:background="?attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
-                    tools:visibility="visible"
+                    android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    >
+                    android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
+                    tools:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:visibility="@{userInfo.bearerToken.length() == 0 ? View.GONE : View.VISIBLE}"
-                        android:orientation="horizontal"
-                        tools:visibility="visible">
+                        android:tint="@color/secondaryTextColor"
+                        app:srcCompat="@drawable/ic_baseline_phone_iphone_24" />
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:tint="@color/secondaryTextColor"
-                            app:srcCompat="@drawable/ic_baseline_phone_iphone_24" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="8dp"
-                            android:text="@string/show_number"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_margin="14dp"
-                        android:id="@+id/num_view_group"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content">
-
-                        <RadioButton
-                            android:text="@string/none"
-                            android:textSize="14dp"
-                            android:id="@+id/more_none"
-                            android:textColor="@color/secondaryTextColor"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"/>
-                        <RadioButton
-                            android:text="@string/charity"
-                            android:textSize="14dp"
-                            android:id="@+id/more_charity"
-                            android:textColor="@color/secondaryTextColor"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"/>
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:text="@string/all"
-                            android:textSize="14dp"
-                            android:id="@+id/more_all"
-                            android:textColor="@color/secondaryTextColor"
-                            android:layout_height="wrap_content" />
-                    </RadioGroup>
-
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/show_number"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
 
