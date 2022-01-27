@@ -17,7 +17,6 @@ import ir.kindnesswall.data.local.UserPreferences
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.databinding.FragmentMoreBinding
-import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.openSupportForm
 import ir.kindnesswall.view.main.MainActivity
@@ -51,56 +50,27 @@ class MoreFragment() : BaseFragment() {
         val viewModel: SubmitGiftViewModel by viewModel()
         MainActivity.liveData.observe(binding.root.context as LifecycleOwner, Observer {
             if (UserInfoPref.bearerToken.isNotEmpty()) {
-                val numberstatus = NumberStatus(viewModel, binding.moreNone, binding.moreCharity, binding.moreAll)
-                numberstatus.getShowNumberStatus(binding.root.context)
+                viewModel.refreshPhoneVisibility()
             }
-
         })
 
-        binding.moreCharity.setOnClickListener {
-            viewModel.setPhoneVisibility(PhoneVisibility.JustCharities).observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        Log.i("4566456456465465", "LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465", "ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465", "SUCCESS")
-                    }
-                }
+        viewModel.phoneVisibilityLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                PhoneVisibility.None -> binding.moreNone.isChecked = true
+                PhoneVisibility.JustCharities -> binding.moreCharity.isChecked = true
+                PhoneVisibility.All -> binding.moreAll.isChecked = true
+                null -> {}
             }
+        }
+
+        binding.moreCharity.setOnClickListener {
+            viewModel.setPhoneVisibility(PhoneVisibility.JustCharities)
         }
         binding.moreAll.setOnClickListener {
-            viewModel.setPhoneVisibility(PhoneVisibility.All).observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        Log.i("4566456456465465", "LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465", "ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465", "SUCCESS")
-                    }
-                }
-            }
+            viewModel.setPhoneVisibility(PhoneVisibility.All)
         }
         binding.moreNone.setOnClickListener {
-            viewModel.setPhoneVisibility(PhoneVisibility.None).observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        Log.i("4566456456465465", "LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465", "ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465", "SUCCESS")
-                    }
-                }
-            }
+            viewModel.setPhoneVisibility(PhoneVisibility.None)
         }
 
         return binding.root

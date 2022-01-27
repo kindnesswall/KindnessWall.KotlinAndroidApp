@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -56,6 +57,13 @@ class SubmitGiftViewModel(
     var uploadImagesLiveData = MutableLiveData<UploadImageResponse>()
 
     var editableGiftModel: GiftModel? = null
+
+    private val _phoneVisibilityLiveData = MediatorLiveData<PhoneVisibility?>()
+    val phoneVisibilityLiveData: LiveData<PhoneVisibility?> get() = _phoneVisibilityLiveData
+
+    init {
+        getPhoneVisibility()
+    }
 
     fun onTitleTextChange(text: CharSequence) {
         title.value = text.toString()
@@ -217,9 +225,25 @@ class SubmitGiftViewModel(
         isNew = true
     }
 
-    fun setPhoneVisibility(phoneVisibility: PhoneVisibility): LiveData<CustomResult<Any?>> =
-        giftRepo.setSettingNumber(viewModelScope.coroutineContext, phoneVisibility)
+    fun setPhoneVisibility(phoneVisibility: PhoneVisibility) {
+        _phoneVisibilityLiveData.addSource(
+            giftRepo.setSettingNumber(viewModelScope.coroutineContext, phoneVisibility)
+        ) {
+            when (it.status) {
+                CustomResult.Status.SUCCESS -> getPhoneVisibility()
+                CustomResult.Status.ERROR -> getPhoneVisibility()
+                CustomResult.Status.LOADING -> {}
+            }
+        }
+    }
 
-    fun getPhoneVisibility(): LiveData<CustomResult<PhoneVisibility>> =
-        giftRepo.getSettingNumber(viewModelScope.coroutineContext)
+    private fun getPhoneVisibility() {
+        _phoneVisibilityLiveData.addSource(
+            giftRepo.getSettingNumber(viewModelScope.coroutineContext)
+        ) { _phoneVisibilityLiveData.value = it.data }
+    }
+
+    fun refreshPhoneVisibility() {
+        getPhoneVisibility()
+    }
 }
