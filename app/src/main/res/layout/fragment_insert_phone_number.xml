@@ -107,9 +107,20 @@
             android:layout_marginBottom="8dp"
             android:text="@string/phone_number_is_wrong"
             android:textColor="@color/red"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumberDivider" />
+
+        <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/errorPhoneNumberTextView"
+            tools:text="شرایط استفاده را میپذیرم" />
 
         <TextView
             android:id="@+id/sendPhoneNumberTextView"
@@ -125,7 +136,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/phoneNumberDivider" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_terms" />
 
         <TextView
             android:id="@+id/skipAuthenticationTextView"

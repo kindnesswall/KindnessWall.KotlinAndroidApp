@@ -23,6 +23,7 @@ import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.dp
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -262,13 +263,22 @@ fun startMultiSelectingImagePicker(activity: BaseActivity) {
 }
 
 fun openSupportForm(context: Context) {
+    openUrl(context, "http://t.me/Kindness_Wall_Admin")
+}
+
+fun openTermsAndConditionLink(context: Context) {
+    openUrl(context, "https://kindnesswand.com/terms")
+}
+
+fun openUrl(context: Context, url: String) {
     runCatching {
         context.startActivity(
             Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("http://t.me/Kindness_Wall_Admin")
+                setDataAndNormalize(Uri.parse(url))
             }
         )
     }.onFailure {
+        Timber.d(it, "can't open link")
         Toast.makeText(context, context.getString(R.string.related_app_not_found), Toast.LENGTH_SHORT).show()
     }
 }
