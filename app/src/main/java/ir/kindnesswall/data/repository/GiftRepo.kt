@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import ir.kindnesswall.data.local.UserPreferences
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.BaseDataSource
@@ -402,6 +403,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         }.collect { result ->
             when (result.status) {
                 CustomResult.Status.SUCCESS -> {
+                    UserPreferences.phoneVisibilityStatus = visibility
                     emit(CustomResult.success(result.data))
                 }
                 CustomResult.Status.ERROR -> {
@@ -416,25 +418,28 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     fun getSettingNumber(context: CoroutineContext): LiveData<CustomResult<PhoneVisibility>> =
         liveData<CustomResult<PhoneVisibility>>(context, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getNullableResultWithExponentialBackoffStrategy { giftApi.getPhoneVisibilitySetting() }
-                .collect { result: CustomResult<SettingModel?> ->
-                    when (result.status) {
-                        CustomResult.Status.SUCCESS ->
-                            emit(
-                                CustomResult.success(
-                                    when (result.data?.setting) {
-                                        "charity" -> PhoneVisibility.JustCharities
-                                        "all" -> PhoneVisibility.All
-                                        "none",
-                                        null -> PhoneVisibility.None // based on legacy codes null value is equal to none
-                                        else -> error("Unknown value received for phone-visibility")
-                                    }
-                                )
-                            )
-                        CustomResult.Status.ERROR ->
-                            emit(CustomResult.error(result.errorMessage, serverError = true))
-                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+            val cachedVisibility = UserPreferences.phoneVisibilityStatus
+            if (cachedVisibility != null)
+                emit(CustomResult.success(cachedVisibility))
+            else
+                getNullableResultWithExponentialBackoffStrategy { giftApi.getPhoneVisibilitySetting() }
+                    .collect { result: CustomResult<SettingModel?> ->
+                        when (result.status) {
+                            CustomResult.Status.SUCCESS -> {
+                                val newVisibility = when (result.data?.setting) {
+                                    "charity" -> PhoneVisibility.JustCharities
+                                    "all" -> PhoneVisibility.All
+                                    "none",
+                                    null -> PhoneVisibility.None // based on legacy codes null value is equal to none
+                                    else -> error("Unknown value received for phone-visibility")
+                                }
+                                UserPreferences.phoneVisibilityStatus = newVisibility
+                                emit(CustomResult.success(newVisibility))
+                            }
+                            CustomResult.Status.ERROR ->
+                                emit(CustomResult.error(result.errorMessage, serverError = true))
+                            CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        }
                     }
-                }
         }
 }

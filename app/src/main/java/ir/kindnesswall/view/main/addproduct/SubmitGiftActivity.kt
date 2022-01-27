@@ -188,7 +188,6 @@ class SubmitGiftActivity : BaseActivity() {
             CityChooserActivity.startActivityForResult(this, true)
         }
         binding.submitNone.setOnClickListener {
-            UserPreferences.phoneVisibilityStatus = PhoneVisibility.None
             viewModel.setPhoneVisibility(PhoneVisibility.None).observe(this){
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
@@ -204,7 +203,6 @@ class SubmitGiftActivity : BaseActivity() {
             }
         }
         binding.submitCharity.setOnClickListener {
-            UserPreferences.phoneVisibilityStatus = PhoneVisibility.JustCharities
                 viewModel.setPhoneVisibility(PhoneVisibility.JustCharities).observe(this){
                     when (it.status) {
                         CustomResult.Status.LOADING -> {
@@ -220,7 +218,6 @@ class SubmitGiftActivity : BaseActivity() {
                 }
         }
         binding.submitAll.setOnClickListener {
-            UserPreferences.phoneVisibilityStatus = PhoneVisibility.All
               viewModel.setPhoneVisibility(PhoneVisibility.All).observe(this){
                     when (it.status) {
                         CustomResult.Status.LOADING -> {

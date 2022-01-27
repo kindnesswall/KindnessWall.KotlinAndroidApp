@@ -45,13 +45,11 @@ class NumberStatus(
                 CustomResult.Status.LOADING -> {
                 }
                 CustomResult.Status.SUCCESS -> {
-                    val visibility = it.data ?: error("null visibility must not be comes here")
-                    when (visibility) {
+                    when (it.data ?: error("null visibility must not be comes here")) {
                         PhoneVisibility.None -> none.isChecked = true
                         PhoneVisibility.JustCharities -> charity.isChecked = true
                         PhoneVisibility.All -> all.isChecked = true
                     }
-                    UserPreferences.phoneVisibilityStatus = visibility
                 }
                 CustomResult.Status.ERROR -> {
                 }

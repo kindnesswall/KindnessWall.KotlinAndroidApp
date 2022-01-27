@@ -58,7 +58,6 @@ class MoreFragment() : BaseFragment() {
         })
 
         binding.moreCharity.setOnClickListener {
-            UserPreferences.phoneVisibilityStatus = PhoneVisibility.JustCharities
             viewModel.setPhoneVisibility(PhoneVisibility.JustCharities).observe(this) {
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
@@ -74,7 +73,6 @@ class MoreFragment() : BaseFragment() {
             }
         }
         binding.moreAll.setOnClickListener {
-            UserPreferences.phoneVisibilityStatus = PhoneVisibility.All
             viewModel.setPhoneVisibility(PhoneVisibility.All).observe(this) {
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
@@ -90,7 +88,6 @@ class MoreFragment() : BaseFragment() {
             }
         }
         binding.moreNone.setOnClickListener {
-            UserPreferences.phoneVisibilityStatus = PhoneVisibility.None
             viewModel.setPhoneVisibility(PhoneVisibility.None).observe(this) {
                 when (it.status) {
                     CustomResult.Status.LOADING -> {
