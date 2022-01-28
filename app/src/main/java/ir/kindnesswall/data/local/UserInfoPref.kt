@@ -24,8 +24,6 @@ import ir.kindnesswall.data.repository.UserRepo
 object UserInfoPref : KotprefModel(
 
 ) {
-    val MyPref = "MyPrefers"
-    val keyName = "nameKey"
     var fireBaseToken by stringPref("")
 
     var id by longPref(0)

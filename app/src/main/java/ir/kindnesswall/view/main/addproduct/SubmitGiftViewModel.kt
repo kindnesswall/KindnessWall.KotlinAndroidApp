@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.GiftRepo
@@ -55,6 +57,13 @@ class SubmitGiftViewModel(
     var uploadImagesLiveData = MutableLiveData<UploadImageResponse>()
 
     var editableGiftModel: GiftModel? = null
+
+    private val _phoneVisibilityLiveData = MediatorLiveData<PhoneVisibility?>()
+    val phoneVisibilityLiveData: LiveData<PhoneVisibility?> get() = _phoneVisibilityLiveData
+
+    init {
+        getPhoneVisibility()
+    }
 
     fun onTitleTextChange(text: CharSequence) {
         title.value = text.toString()
@@ -216,6 +225,25 @@ class SubmitGiftViewModel(
         isNew = true
     }
 
-    fun setPhoneVisibility(value : String)= giftRepo.setSettingNumber(viewModelScope,value)
-    fun getPhoneVisibility()=giftRepo.getSettingNumber(viewModelScope)
+    fun setPhoneVisibility(phoneVisibility: PhoneVisibility) {
+        _phoneVisibilityLiveData.addSource(
+            giftRepo.setSettingNumber(viewModelScope.coroutineContext, phoneVisibility)
+        ) {
+            when (it.status) {
+                CustomResult.Status.SUCCESS -> getPhoneVisibility()
+                CustomResult.Status.ERROR -> getPhoneVisibility()
+                CustomResult.Status.LOADING -> {}
+            }
+        }
+    }
+
+    private fun getPhoneVisibility() {
+        _phoneVisibilityLiveData.addSource(
+            giftRepo.getSettingNumber(viewModelScope.coroutineContext)
+        ) { _phoneVisibilityLiveData.value = it.data }
+    }
+
+    fun refreshPhoneVisibility() {
+        getPhoneVisibility()
+    }
 }

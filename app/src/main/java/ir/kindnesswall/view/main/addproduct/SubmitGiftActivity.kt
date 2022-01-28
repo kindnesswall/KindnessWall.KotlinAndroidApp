@@ -5,10 +5,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -16,14 +14,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CategoryModel
 import ir.kindnesswall.data.model.CityModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
-import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
@@ -33,9 +30,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SubmitGiftActivity : BaseActivity() {
-    var shPref: SharedPreferences?=null
-    val keyName = "nameKey"
-    var sEdite : SharedPreferences.Editor ?=null
     lateinit var binding: ActivitySubmitGiftBinding
     private val viewModel: SubmitGiftViewModel by viewModel()
     private lateinit var adapter: SelectedImagesAdapter
@@ -74,8 +68,14 @@ class SubmitGiftActivity : BaseActivity() {
             fillWithEditableGift()
         }
 
-        val numberstatus = NumberStatus(viewModel, binding.submitNone, binding.submitCharity, binding.submitAll)
-        numberstatus.getShowNumberStatus(this)
+        viewModel.phoneVisibilityLiveData.observe(this) {
+            when (it) {
+                PhoneVisibility.None -> binding.submitNone.isChecked = true
+                PhoneVisibility.JustCharities -> binding.submitCharity.isChecked = true
+                PhoneVisibility.All -> binding.submitAll.isChecked = true
+                null -> {}
+            }
+        }
     }
 
 
@@ -172,8 +172,7 @@ class SubmitGiftActivity : BaseActivity() {
 
         binding.backImageView.setOnClickListener { onBackPressed() }
         binding.addNewPhotoContainer.setOnClickListener { pickImage() }
-        shPref= getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
-        sEdite =shPref!!.edit()
+
         binding.chooseCategoryTextView.setOnClickListener {
             CategoryActivity.startActivityForResult(
                 this,
@@ -191,55 +190,13 @@ class SubmitGiftActivity : BaseActivity() {
             CityChooserActivity.startActivityForResult(this, true)
         }
         binding.submitNone.setOnClickListener {
-            sEdite!!.putString(keyName,"none")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("none").observe(this){
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                       Log.i("4566456456465465","LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465","ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465","SUCCESS")
-                    }
-                }
-            }
+            viewModel.setPhoneVisibility(PhoneVisibility.None)
         }
         binding.submitCharity.setOnClickListener {
-            sEdite!!.putString(keyName,"charity")
-            sEdite!!.apply()
-                viewModel.setPhoneVisibility("charity").observe(this){
-                    when (it.status) {
-                        CustomResult.Status.LOADING -> {
-                            Log.i("4566456456465465","LOADING")
-                        }
-                        CustomResult.Status.ERROR -> {
-                            Log.i("4566456456465465","ERROR")
-                        }
-                        CustomResult.Status.SUCCESS -> {
-                            Log.i("4566456456465465","SUCCESS")
-                        }
-                    }
-                }
+            viewModel.setPhoneVisibility(PhoneVisibility.JustCharities)
         }
         binding.submitAll.setOnClickListener {
-            sEdite!!.putString(keyName,"all")
-            sEdite!!.apply()
-              viewModel.setPhoneVisibility("all").observe(this){
-                    when (it.status) {
-                        CustomResult.Status.LOADING -> {
-                            Log.i("4566456456465465","LOADING")
-                        }
-                        CustomResult.Status.ERROR -> {
-                            Log.i("4566456456465465","ERROR")
-                        }
-                        CustomResult.Status.SUCCESS -> {
-                            Log.i("4566456456465465","SUCCESS")
-                        }
-                    }
-                }
+            viewModel.setPhoneVisibility(PhoneVisibility.All)
         }
         binding.submitButton.setOnClickListener {
             if (viewModel.editableGiftModel == null && viewModel.isNew) {

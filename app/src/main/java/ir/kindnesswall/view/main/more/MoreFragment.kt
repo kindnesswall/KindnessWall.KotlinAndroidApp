@@ -1,23 +1,20 @@
 package ir.kindnesswall.view.main.more
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.databinding.FragmentMoreBinding
-import ir.kindnesswall.utils.NumberStatus
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.openSupportForm
 import ir.kindnesswall.view.main.MainActivity
@@ -40,78 +37,24 @@ import org.koin.android.viewmodel.ext.android.viewModel
  */
 
 class MoreFragment() : BaseFragment() {
-    var shPref: SharedPreferences? = null
-    val keyName = "nameKey"
-    var sEdite: SharedPreferences.Editor? = null
-    var numview: Boolean = true
     lateinit var binding: FragmentMoreBinding
+
+    private val viewModel: SubmitGiftViewModel by viewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_more, container, false)
-        val viewModel: SubmitGiftViewModel by viewModel()
         MainActivity.liveData.observe(binding.root.context as LifecycleOwner, Observer {
-            shPref= context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE)
-            sEdite =shPref!!.edit()
-           if (UserInfoPref.bearerToken.isNotEmpty()){
-               val numberstatus = NumberStatus(viewModel, binding.moreNone, binding.moreCharity, binding.moreAll)
-                numberstatus.getShowNumberStatus(binding.root.context)
-           }
-
+            if (UserInfoPref.bearerToken.isNotEmpty()) {
+                viewModel.refreshPhoneVisibility()
+            }
         })
-
-        binding.moreCharity.setOnClickListener {
-            sEdite!!.putString(keyName, "charity")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("charity").observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        Log.i("4566456456465465", "LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465", "ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465", "SUCCESS")
-                    }
-                }
-            }
-        }
-        binding.moreAll.setOnClickListener {
-            sEdite!!.putString(keyName, "all")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("all").observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        Log.i("4566456456465465", "LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465", "ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465", "SUCCESS")
-                    }
-                }
-            }
-        }
-        binding.moreNone.setOnClickListener {
-            sEdite!!.putString(keyName, "none")
-            sEdite!!.apply()
-            viewModel.setPhoneVisibility("none").observe(this) {
-                when (it.status) {
-                    CustomResult.Status.LOADING -> {
-                        Log.i("4566456456465465", "LOADING")
-                    }
-                    CustomResult.Status.ERROR -> {
-                        Log.i("4566456456465465", "ERROR")
-                    }
-                    CustomResult.Status.SUCCESS -> {
-                        Log.i("4566456456465465", "SUCCESS")
-                    }
-                }
-            }
+        if (UserInfoPref.bearerToken.isNotEmpty()) {
+            // TODO because of its mediator livedata (cold observer)
+            viewModel.phoneVisibilityLiveData.observe(viewLifecycleOwner) {}
         }
 
         return binding.root
@@ -136,38 +79,10 @@ class MoreFragment() : BaseFragment() {
         }
         binding.aboutUs.setOnClickListener { context?.let { AboutUsActivity.start(it) } }
         binding.blockedUsers.setOnClickListener { context?.let { BlockListActivity.start(it) } }
-
-        binding.showNumber.setOnClickListener {
-            if (numview.equals(true)) {
-                numview = false
-                binding.numViewGroup.visibility = View.VISIBLE
-            } else {
-                numview = true
-                binding.numViewGroup.visibility = View.GONE
-
-            }
-        }
+        binding.showNumber.setOnClickListener { openPhoneVisibilityDialog() }
         binding.contactUs.setOnClickListener { openSupportForm(requireContext()) }
         binding.bugReport.setOnClickListener { openSupportForm(requireContext()) }
         binding.suggestions.setOnClickListener { openSupportForm(requireContext()) }
-        var shPref: SharedPreferences =
-            view?.context!!.getSharedPreferences(UserInfoPref.MyPref, Context.MODE_PRIVATE);
-        val keyName = "nameKey"
-        if (shPref.contains(keyName)) {
-            when (shPref.getString(keyName, null)) {
-                "none" -> {
-                    binding.moreNone.isChecked = true
-                }
-                "charity" -> {
-                    binding.moreCharity.isChecked = true
-                }
-                "all" -> {
-                    binding.moreAll.isChecked = true
-                }
-            }
-        }
-
-
         binding.logInLogOut.setOnClickListener {
             context?.runOrStartAuth {
                 showPromptDialog(
@@ -189,5 +104,31 @@ class MoreFragment() : BaseFragment() {
         binding.userInfo = UserInfoPref
     }
 
-
+    private fun openPhoneVisibilityDialog() {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.show_number)
+            .setSingleChoiceItems(
+                arrayOf(
+                    getString(R.string.none),
+                    getString(R.string.charity),
+                    getString(R.string.all),
+                ),
+                when (viewModel.phoneVisibilityLiveData.value) {
+                    PhoneVisibility.None -> 0
+                    PhoneVisibility.JustCharities -> 1
+                    PhoneVisibility.All -> 2
+                    null -> -1
+                }
+            ) { dialog, which ->
+                val item = when (which) {
+                    0 -> PhoneVisibility.None
+                    1 -> PhoneVisibility.JustCharities
+                    2 -> PhoneVisibility.All
+                    else -> error("unknown item. $which")
+                }
+                viewModel.setPhoneVisibility(item)
+                dialog.cancel()
+            }
+            .show()
+    }
 }
