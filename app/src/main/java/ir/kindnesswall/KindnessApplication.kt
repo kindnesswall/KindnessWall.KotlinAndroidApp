@@ -53,8 +53,6 @@ class KindnessApplication : Application(), LifecycleObserver {
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
 
-        Kotpref.init(this)
-
         startKoin {
             androidLogger()
             androidContext(this@KindnessApplication)
