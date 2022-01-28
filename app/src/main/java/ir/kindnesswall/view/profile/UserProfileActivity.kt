@@ -1,6 +1,5 @@
 package ir.kindnesswall.view.profile
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,11 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.annotation.Filter
@@ -25,12 +23,10 @@ import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.imageloader.GlideApp
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
-import ir.kindnesswall.utils.startSingleModeImagePicker
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.io.File
-
+import timber.log.Timber
 
 class UserProfileActivity : BaseActivity(), OnItemClickListener {
     lateinit var binding: ActivityMyProfileBinding
@@ -84,15 +80,18 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         }
 
         binding.saveChangesTextView.setOnClickListener {
-            if (viewModel.selectedImageFile == null && viewModel.newUserName.isEmpty()) {
+            val selectedImageUri = viewModel.selectedImageUri
+            if (selectedImageUri == null && viewModel.newUserName.isEmpty()) {
                 revertAllChanges()
                 binding.editProfileContainer.visibility = View.GONE
                 return@setOnClickListener
             }
 
-            if (viewModel.selectedImageFile != null) {
+            if (selectedImageUri != null) {
                 showProgressDialog()
-                viewModel.uploadImage(context = this, lifecycleOwner = this)
+                Timber.d("configureViews path=${selectedImageUri.path}")
+
+                viewModel.uploadImage(context = this, lifecycleOwner = this, uri = selectedImageUri)
             } else {
                 saveChanges()
             }
@@ -158,8 +157,17 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         startActivity(intent)
     }
 
+    private val imagePickerContract = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        Timber.d("imaged pick result: uri=$uri")
+
+        if (uri == null) return@registerForActivityResult
+
+        GlideApp.with(this).load(uri).circleCrop().into(binding.userNewImageView)
+        viewModel.selectedImageUri = uri
+    }
+
     private fun pickImage() {
-        startSingleModeImagePicker(this)
+        imagePickerContract.launch("image/*")
     }
 
     private fun initRecyclerView() {
@@ -356,21 +364,5 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
 
     override fun onItemClicked(position: Int, obj: Any?) {
         GiftDetailActivity.start(this, obj as GiftModel)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Config.RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
-            data.getParcelableArrayListExtra<Image>(Config.EXTRA_IMAGES)?.let {
-                val images: ArrayList<Image> = it
-                val path = images[0].path
-
-                GlideApp.with(this).load(path).circleCrop().into(binding.userNewImageView)
-
-                viewModel.selectedImagePath = path
-                viewModel.selectedImageFile = File(path)
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }

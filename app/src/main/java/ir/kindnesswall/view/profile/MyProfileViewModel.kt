@@ -1,8 +1,12 @@
 package ir.kindnesswall.view.profile
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.*
+import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.annotation.Filter
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
@@ -10,7 +14,7 @@ import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.UserRepo
-import java.io.File
+import kotlinx.coroutines.launch
 
 class MyProfileViewModel(
     private val userRepo: UserRepo,
@@ -21,8 +25,7 @@ class MyProfileViewModel(
     var newUserName: String = ""
     var newImageUrlLiveData = MutableLiveData<UploadImageResponse>()
 
-    var selectedImageFile: File? = null
-    lateinit var selectedImagePath: String
+    var selectedImageUri: Uri? = null
 
     var currentFilter = Filter.REGISTERED
 
@@ -37,8 +40,10 @@ class MyProfileViewModel(
         }
     }
 
-    fun uploadImage(context: Context, lifecycleOwner: LifecycleOwner) {
-        fileUploadRepo.uploadFile(context, lifecycleOwner, selectedImagePath, newImageUrlLiveData)
+    fun uploadImage(context: Context, lifecycleOwner: LifecycleOwner, uri: Uri) {
+        viewModelScope.launch {
+            newImageUrlLiveData.value = fileUploadRepo.uploadFile(context, uri)
+        }
     }
 
     fun updateUserProfile(): LiveData<CustomResult<Any>> {

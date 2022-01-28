@@ -72,8 +72,6 @@ ext {
 
     mockito_version = "2.23.4"
 
-    glide_version = "4.10.0"
-
     ktx_version = "1.2.0-rc01"
     koin_version = "2.0.1"
 
@@ -128,9 +126,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
-    //Glide
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    kapt "com.github.bumptech.glide:compiler:4.11.0"
 
     // firebase
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
@@ -151,12 +148,6 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
 
     implementation "com.github.marlonlom:timeago:4.0.3"
-
-    def uploadServiceVersion = "4.3.0"
-    implementation "net.gotev:uploadservice:$uploadServiceVersion"
-
-    //image picker
-    implementation 'com.github.nguyenhoanglam:ImagePicker:1.4.0'
 
     //recycler view swipe detector
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'

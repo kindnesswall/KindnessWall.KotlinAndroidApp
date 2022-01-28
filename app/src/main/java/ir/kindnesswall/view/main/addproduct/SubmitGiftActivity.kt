@@ -2,16 +2,18 @@ package ir.kindnesswall.view.main.addproduct
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.model.Image
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
@@ -22,13 +24,13 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
 import ir.kindnesswall.utils.NumberStatus
-import ir.kindnesswall.utils.startMultiSelectingImagePicker
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import ir.kindnesswall.view.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class SubmitGiftActivity : BaseActivity() {
     var shPref: SharedPreferences?=null
@@ -150,13 +152,17 @@ class SubmitGiftActivity : BaseActivity() {
                 return@observe
             }
 
-            viewModel.uploadedImagesAddress.add(it.address)
-            viewModel.imagesToUpload.removeAt(0)
-            if (viewModel.imagesToUpload.isEmpty()) {
+            viewModel.applyUploadedLocalImage(it.address)
+
+            if (viewModel.images.all { image -> image is GiftImage.OnlineImage }) {
                 registerGift()
             } else {
                 viewModel.uploadImages(this, this)
             }
+        }
+
+        viewModel.openCameraLiveData.observe(this) { uriEvent ->
+            uriEvent?.ifNotHandled { cameraPickerContract.launch(it) }
         }
     }
 
@@ -291,12 +297,11 @@ class SubmitGiftActivity : BaseActivity() {
             viewModel.cityName.value = it.cityName
             viewModel.isNew = false
 
-            if (!it.giftImages.isNullOrEmpty()) {
-                viewModel.uploadedImagesAddress.addAll(it.giftImages!!)
-                viewModel.imagesToShow.addAll(it.giftImages!!)
-            }
+            it.giftImages.takeUnless { it.isNullOrEmpty() }
+                ?.map { GiftImage.OnlineImage(it) }
+                ?.let { viewModel.fillByOnlineImages(it) }
 
-            if (viewModel.imagesToShow.isNotEmpty()) {
+            if (viewModel.images.isNotEmpty()) {
                 showImages()
             }
 
@@ -415,10 +420,9 @@ class SubmitGiftActivity : BaseActivity() {
                     binding.chooseCityTextView.setBackgroundResource(R.drawable.profile_filter_stroke)
                 }
 
-                viewModel.imagesToShow.addAll(it.giftImages)
-                viewModel.imagesToUpload.addAll(it.giftImages)
+                viewModel.fillByLocalImages(it.giftImages.map { GiftImage.LocalImage(it.toUri()) })
 
-                if (viewModel.imagesToShow.isNotEmpty()) {
+                if (viewModel.images.isNotEmpty()) {
                     showImages()
                 }
             }
@@ -509,19 +513,27 @@ class SubmitGiftActivity : BaseActivity() {
     }
 
     private fun pickImage() {
-        startMultiSelectingImagePicker(this)
+        AlertDialog.Builder(this)
+            .setItems(
+                listOf(R.string.from_gallery, R.string.by_camera).map(::getString).toTypedArray()
+            ) { _, which ->
+                when (which) {
+                    0 -> {
+                        imagePickerContract.launch("image/*")
+                    }
+                    1 -> {
+                        viewModel.attemptOpenCamera(this)
+                    }
+                    else -> {}
+                }
+            }
+            .show()
     }
 
     private fun initRecyclerView() {
         adapter = SelectedImagesAdapter().apply {
-            onClickCallback = { position, url ->
-                if (viewModel.editableGiftModel == null && viewModel.isNew) {
-                    viewModel.imagesToShow.removeAt(position)
-                    viewModel.imagesToUpload.removeAt(position)
-                } else {
-                    viewModel.uploadedImagesAddress.removeAt(position)
-                    viewModel.imagesToShow.removeAt(position)
-                }
+            onClickCallback = { position ->
+                viewModel.deleteImage(position)
                 showImages()
             }
         }
@@ -539,7 +551,7 @@ class SubmitGiftActivity : BaseActivity() {
 
     private fun showImages() {
         if (::adapter.isInitialized) {
-            adapter.setItems(viewModel.imagesToShow)
+            adapter.setItems(viewModel.images)
         }
 
         checkSubmitButtonEnabling()
@@ -553,7 +565,7 @@ class SubmitGiftActivity : BaseActivity() {
                     (viewModel.provinceId.value ?: 0 > 0) &&
                     (viewModel.cityId.value ?: 0 > 0) &&
                     (viewModel.categoryId.value ?: 0 > 0) &&
-                    viewModel.imagesToShow.isNotEmpty()
+                viewModel.images.isNotEmpty()
 
         if (viewModel.hasRegion) {
             if (viewModel.regionId.value ?: 0 > 0) {
@@ -568,14 +580,29 @@ class SubmitGiftActivity : BaseActivity() {
         binding.submitButton.isEnabled = condition
     }
 
+    private val imagePickerContract =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris: List<Uri?>? ->
+            Timber.d("image-picker result=$uris ")
+            if (uris.isNullOrEmpty()) return@registerForActivityResult
+
+            val filteredUris = uris.filterNotNull().map { GiftImage.LocalImage(it) }
+            viewModel.addLocalImages(filteredUris)
+
+            showImages()
+        }
+
+    private val cameraPickerContract =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { wasSuccessfully: Boolean ->
+            Timber.d("camera result=$wasSuccessfully ")
+            if (wasSuccessfully.not()) return@registerForActivityResult
+
+            viewModel.submitPendingImages()
+
+            showImages()
+        }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Config.RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
-            data.getParcelableArrayListExtra<Image>(Config.EXTRA_IMAGES)?.let {
-                viewModel.imagesToShow.addAll(it.map { image -> image.path })
-                viewModel.imagesToUpload.addAll(it.map { image -> image.path })
-                showImages()
-            }
-        } else if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {
+        if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val region = data?.getSerializableExtra("region")
                 val cityModel = data?.getSerializableExtra("city")

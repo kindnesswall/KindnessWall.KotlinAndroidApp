@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -18,17 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
-import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.dp
 import timber.log.Timber
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
 import java.io.IOException
-import java.io.InputStreamReader
 
 /**
  * Created by Farshid Abazari since 25/10/19
@@ -59,31 +51,6 @@ fun shareString(
     sharingIntent.putExtra(Intent.EXTRA_TEXT, message)
 
     context.startActivity(Intent.createChooser(sharingIntent, shareTitle))
-}
-
-fun Uri.getFilePathFromUri(): String {
-    try {
-        val fIS = FileInputStream(File(path))
-
-        val isr = InputStreamReader(fIS, "UTF-8")
-        val br = BufferedReader(isr)
-
-        var line: String? = null
-        val path = ""
-
-        while ({ line = br.readLine(); line }() != null) {
-            path.plus(line + '\n')
-        }
-
-        br.close()
-        fIS.close()
-
-        return path
-    } catch (e: IOException) {
-        Log.e(">>>>>", "Error occured while reading text file!!")
-    }
-
-    return ""
 }
 
 fun getRoundBottomSheet(
@@ -222,44 +189,6 @@ fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap {
     val matrix = Matrix()
     matrix.preScale((if (horizontal) -1 else 1).toFloat(), (if (vertical) -1 else 1).toFloat())
     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-}
-
-fun startSingleModeImagePicker(activity: BaseActivity) {
-    ImagePicker.with(activity)
-        .setToolbarColor("#11BC89")
-        .setStatusBarColor("#0FB282")
-        .setToolbarTextColor("#FFFFFF")
-        .setToolbarIconColor("#FFFFFF")
-        .setProgressBarColor("#D81B60")
-        .setBackgroundColor("#212121")
-        .setCameraOnly(false)
-        .setMultipleMode(false)
-        .setFolderMode(true)
-        .setShowCamera(true)
-        .setDoneTitle(activity.getString(R.string.choose))
-        .setDirectoryName("ImagePicker")
-        .setAlwaysShowDoneButton(true)
-        .setRequestCode(Config.RC_PICK_IMAGES)
-        .start()
-}
-
-fun startMultiSelectingImagePicker(activity: BaseActivity) {
-    ImagePicker.with(activity)
-        .setToolbarColor("#11BC89")
-        .setStatusBarColor("#0FB282")
-        .setToolbarTextColor("#FFFFFF")
-        .setToolbarIconColor("#FFFFFF")
-        .setProgressBarColor("#D81B60")
-        .setBackgroundColor("#212121")
-        .setCameraOnly(false)
-        .setMultipleMode(true)
-        .setFolderMode(true)
-        .setShowCamera(true)
-        .setDoneTitle(activity.getString(R.string.choose))
-        .setDirectoryName("ImagePicker")
-        .setAlwaysShowDoneButton(true)
-        .setRequestCode(Config.RC_PICK_IMAGES)
-        .start()
 }
 
 fun openSupportForm(context: Context) {

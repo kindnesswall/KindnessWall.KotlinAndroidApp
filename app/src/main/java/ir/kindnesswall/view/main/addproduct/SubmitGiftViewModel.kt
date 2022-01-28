@@ -1,9 +1,13 @@
 package ir.kindnesswall.view.main.addproduct
 
 import android.content.Context
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.*
+import android.net.Uri
+import androidx.core.content.FileProvider
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -12,7 +16,11 @@ import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.repository.FileUploadRepo
 import ir.kindnesswall.data.repository.GiftRepo
+import ir.kindnesswall.utils.Event
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.File
 import java.math.BigDecimal
 
 class SubmitGiftViewModel(
@@ -41,10 +49,8 @@ class SubmitGiftViewModel(
 
     var isNew = true
 
-    var imagesToShow = arrayListOf<String>()
-    var imagesToUpload = arrayListOf<String>()
-
-    var uploadedImagesAddress = arrayListOf<String>()
+    private val _images = mutableListOf<GiftImage>()
+    val images: List<GiftImage> = _images
 
     var uploadImagesLiveData = MutableLiveData<UploadImageResponse>()
 
@@ -67,7 +73,7 @@ class SubmitGiftViewModel(
             title = title.value ?: "",
             description = description.value ?: "",
             price = price.value?.toBigDecimal() ?: BigDecimal.ZERO,
-            giftImages = ArrayList(uploadedImagesAddress),
+            giftImages = images.filterIsInstance<GiftImage.OnlineImage>().map { it.url },
             categoryId = categoryId.value?.toInt() ?: 0,
             provinceId = provinceId.value?.toInt() ?: 0,
             regionId = regionId.value?.toInt(),
@@ -89,19 +95,82 @@ class SubmitGiftViewModel(
     }
 
     fun uploadImages(context: Context, lifecycleOwner: LifecycleOwner) {
-        fileUploadRepo.uploadFile(
-            context,
-            lifecycleOwner,
-            imagesToUpload.first(),
-            uploadImagesLiveData
-        )
+        viewModelScope.launch {
+            uploadImagesLiveData.value = fileUploadRepo.uploadFile(
+                context,
+                images.first { it is GiftImage.LocalImage }.let {
+                    (it as GiftImage.LocalImage).uri
+                }
+            )
+        }
+    }
+
+    fun applyUploadedLocalImage(address: String) {
+        val uploadedImageIndex = images.indexOfFirst { it is GiftImage.LocalImage }
+
+        _images[uploadedImageIndex] = GiftImage.OnlineImage(address)
+    }
+
+    fun addLocalImages(images: List<GiftImage.LocalImage>) {
+        _images.addAll(images)
+    }
+
+    fun fillByOnlineImages(list: List<GiftImage.OnlineImage>) {
+        _images.clear()
+        _images.addAll(list)
+    }
+
+    fun fillByLocalImages(list: List<GiftImage.LocalImage>) {
+        _images.clear()
+        _images.addAll(list)
+    }
+
+    fun deleteImage(position: Int) {
+        _images.removeAt(position)
+    }
+
+    private val _openCameraLiveData = MutableLiveData<Event<Uri>?>()
+    val openCameraLiveData: LiveData<Event<Uri>?> get() = _openCameraLiveData
+    private var isProcessingOpeningCamera = false
+
+    fun attemptOpenCamera(context: Context) {
+        if (isProcessingOpeningCamera) return
+
+        isProcessingOpeningCamera = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val directory = context.filesDir.resolve("camera_temporary")
+            directory.mkdirs()
+
+            val tempFile = File.createTempFile("pending_image", ".jpg", directory)
+
+            val uri = FileProvider.getUriForFile(
+                context,
+                context.applicationContext.packageName.plus(".fileprovider"),
+                tempFile
+            )
+
+            _openCameraLiveData.postValue(Event(uri))
+            isProcessingOpeningCamera = false
+        }
+    }
+
+    fun submitPendingImages() {
+        val pendingUri = openCameraLiveData.value?.peekContent() ?: kotlin.run {
+            Timber.w("submitting image occurred in a illegal state")
+            return
+        }
+
+        _images.add(GiftImage.LocalImage(pendingUri))
+
+        _openCameraLiveData.value = null
     }
 
     fun backupData(callback: (Boolean) -> Unit) {
         val registerGiftRequestModel = RegisterGiftRequestModel(
         title = title.value ?: "",
         description = description.value ?: "",
-        giftImages= ArrayList(imagesToShow),
+            giftImages = images.filterIsInstance<GiftImage.LocalImage>()
+                .map { it.uri.toString() },
         categoryId = categoryId.value?.toInt() ?: 0,
         categoryName = categoryName.value ?: "",
         provinceId = provinceId.value?.toInt() ?: 0,
@@ -134,9 +203,7 @@ class SubmitGiftViewModel(
     fun clearData() {
         appDatabase.registerGiftRequestDao().delete()
 
-        imagesToShow.clear()
-        imagesToUpload.clear()
-        uploadedImagesAddress.clear()
+        _images.clear()
 
         categoryId.value = 0
         categoryName.value = ""

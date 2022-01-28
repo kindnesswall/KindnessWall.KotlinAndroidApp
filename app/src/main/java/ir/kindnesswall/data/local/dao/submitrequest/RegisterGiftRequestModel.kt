@@ -24,7 +24,7 @@ data class RegisterGiftRequestModel(
     var cityId: Int = 0,
     var cityName: String? = "",
     var countryId: Int = 103,
-    var giftImages: ArrayList<String>,
+    var giftImages: List<String>,
     var isBackup: Boolean? = false
 ) {
     fun isEmpty(): Boolean {

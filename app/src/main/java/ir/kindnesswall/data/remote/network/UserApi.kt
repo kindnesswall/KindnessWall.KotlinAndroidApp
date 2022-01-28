@@ -1,11 +1,13 @@
 package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.PushRegisterRequestModel
 import ir.kindnesswall.data.model.requestsmodel.SettingRequestBody
 import ir.kindnesswall.data.model.requestsmodel.UpdateProfileRequestBaseModel
 import ir.kindnesswall.data.model.user.User
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -90,4 +92,7 @@ interface UserApi {
                 setting = settingdata
             }
     ):Response<Any>
+
+    @POST("image/upload")
+    suspend fun uploadImage(@Body request: RequestBody): Response<UploadImageResponse>
 }

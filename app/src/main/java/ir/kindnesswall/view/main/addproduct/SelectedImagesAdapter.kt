@@ -8,15 +8,15 @@ import ir.kindnesswall.R
 import ir.kindnesswall.databinding.ItemSelectedImagesBinding
 
 class SelectedImagesAdapter : RecyclerView.Adapter<SelectedImagesViewHolder>() {
-    private var items = ArrayList<String>()
+    private var items = ArrayList<GiftImage>()
 
-    var onClickCallback: ((Int, String) -> Unit)? = null
+    var onClickCallback: ((Int) -> Unit)? = null
 
     override fun getItemId(position: Int): Long {
         return items[position].hashCode().toLong()
     }
 
-    fun setItems(items: List<String>) {
+    fun setItems(items: List<GiftImage>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -42,11 +42,14 @@ class SelectedImagesAdapter : RecyclerView.Adapter<SelectedImagesViewHolder>() {
 
     override fun onBindViewHolder(holder: SelectedImagesViewHolder, position: Int) {
         val item = items[position]
-        holder.binding.item = item
+        holder.binding.item = when (item) {
+            is GiftImage.LocalImage -> item.uri.toString()
+            is GiftImage.OnlineImage -> item.url
+        }
         holder.binding.position = position
 
         holder.binding.root.setOnClickListener {
-            onClickCallback?.invoke(holder.adapterPosition, item)
+            onClickCallback?.invoke(holder.adapterPosition)
         }
     }
 }
