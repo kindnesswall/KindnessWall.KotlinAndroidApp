@@ -83,19 +83,21 @@ class MoreFragment() : BaseFragment() {
         binding.contactUs.setOnClickListener { openSupportForm(requireContext()) }
         binding.bugReport.setOnClickListener { openSupportForm(requireContext()) }
         binding.suggestions.setOnClickListener { openSupportForm(requireContext()) }
-        binding.logInLogOut.setOnClickListener {
-            context?.runOrStartAuth {
-                showPromptDialog(
-                    getString(R.string.logout_message),
-                    positiveButtonText = getString(R.string.yes),
-                    negativeButtonText = getString(R.string.no),
-                    onPositiveClickCallback = {
-                        UserInfoPref.clear()
-                        AppPref.clear()
-                        KindnessApplication.instance.clearContactList()
-                        activity?.recreate()
-                    })
-            }
+        binding.logInLogOut.setOnClickListener { startAuthOrLogoutPrompt() }
+    }
+
+    private fun startAuthOrLogoutPrompt() {
+        context?.runOrStartAuth {
+            showPromptDialog(
+                getString(R.string.logout_message),
+                positiveButtonText = getString(R.string.yes),
+                negativeButtonText = getString(R.string.no),
+                onPositiveClickCallback = {
+                    UserInfoPref.clear()
+                    AppPref.clear()
+                    KindnessApplication.instance.clearContactList()
+                    activity?.recreate()
+                })
         }
     }
 
