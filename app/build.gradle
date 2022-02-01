@@ -43,6 +43,7 @@ android {
         }
         debug {
             manifestPlaceholders = [isBranchSdkInTestMode: "true"]
+            applicationIdSuffix = ".debug"
         }
     }
 

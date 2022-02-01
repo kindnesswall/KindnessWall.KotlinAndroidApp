@@ -17,6 +17,19 @@
           "current_key": "AAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         }
       ]
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1111:android:bbbbbbbbb",
+        "android_client_info": {
+          "package_name": "com.kindnesswand.debug"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "BBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ]
     }
   ],
   "configuration_version": "1"
