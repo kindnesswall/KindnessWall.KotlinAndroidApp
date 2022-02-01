@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
@@ -157,9 +157,9 @@ class InsertVerificationNumberFragment : BaseFragment() {
             when (it.status) {
                 CustomResult.Status.SUCCESS -> {
                     dismissProgressDialog()
-                    FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { result ->
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener { result ->
                         if (result.isSuccessful) {
-                            val token = result.result?.token.toString()
+                            val token = result.result.toString()
                             if (token.isNotEmpty()) {
                                 UserInfoPref.fireBaseToken = token
                                 AppPref.shouldUpdatedFireBaseToken = true
