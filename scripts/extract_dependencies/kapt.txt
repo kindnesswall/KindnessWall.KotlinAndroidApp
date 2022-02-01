@@ -109,5 +109,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 See https://docs.gradle.org/7.2/userguide/command_line_interface.html#sec:command_line_warnings
 
-BUILD SUCCESSFUL in 1s
+BUILD SUCCESSFUL in 4s
 1 actionable task: 1 executed
