@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.chibatching.kotpref.Kotpref
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
@@ -20,7 +21,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 /**
  * Created by farshid.abazari since 2019-11-01
@@ -48,6 +49,8 @@ class KindnessApplication : Application(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
+
+        Kotpref.init(this)
 
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())

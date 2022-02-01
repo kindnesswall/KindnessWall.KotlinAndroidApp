@@ -127,7 +127,6 @@ dependencies {
     def kotpref_version = "2.13.2"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
     implementation "com.chibatching.kotpref:gson-support:$kotpref_version"
-    implementation "com.chibatching.kotpref:initializer:$kotpref_version"
     implementation "com.chibatching.kotpref:livedata-support:$kotpref_version"
 
     // zoomable image view
