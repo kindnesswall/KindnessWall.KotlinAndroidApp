@@ -86,9 +86,6 @@ dependencies {
     def koin_version = "2.0.1"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
-    def androidXAnnotations = '1.0.1'
-    implementation "androidx.annotation:annotation:$androidXAnnotations"
-
     def coroutinesVersion = '1.5.2'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
@@ -145,9 +142,6 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
 
     implementation "com.github.marlonlom:timeago:4.0.3"
-
-    //recycler view swipe detector
-    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 
