@@ -11,8 +11,11 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -46,9 +49,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayoutScope
+import androidx.constraintlayout.compose.Dimension
 import androidx.core.content.res.ResourcesCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
@@ -59,7 +64,141 @@ import ir.kindnesswall.R
 val utilFont = FontFamily(
     Font(R.font.vazir, FontWeight.Normal),
 
+    )
+
+
+sealed class Generator() {
+    data class GeneratorA(val FakeList: List<String>) : Generator()
+    data class GeneratorB(val FakeList: List<String>) : Generator()
+    data class GeneratorC(val FakeList: List<String>) : Generator()
+}
+
+
+val a = listOf<String>(
+    "خیریه شماره 1",
+    "خیریه شماره 2",
+    "خیریه شماره 3",
+    "خیریه شماره 4",
+    "خیریه شماره 5",
+    "خیریه شماره 6",
+    "خیریه شماره 7",
+    "خیریه شماره 8",
+    "خیریه شماره 9",
+    "خیریه شماره 10",
+    "خیریه شماره 11",
+    "خیریه شماره 12",
+    "خیریه شماره 13",
+    "خیریه شماره 14",
+    "خیریه شماره15",
+    "خیریه شماره 16",
+    "خیریه شماره 17",
+    "خیریه شماره 18",
+    "خیریه شماره 19",
+    "خیریه شماره 20"
 )
+val b = listOf<String>(
+    "خیریه شماره 21",
+    "خیریه شماره 22",
+    "خیریه شماره 23",
+    "خیریه شماره 24",
+    "خیریه شماره 25",
+    "خیریه شماره 26",
+    "خیریه شماره 27",
+    "خیریه شماره 28",
+    "خیریه شماره 29",
+    "خیریه شماره 30",
+    "خیریه شماره 31",
+    "خیریه شماره 32",
+    "خیریه شماره 33",
+    "خیریه شماره 34",
+    "خیریه 35",
+    "خیریه شماره 36",
+    "خیریه شماره 37",
+    "خیریه شماره 38",
+    "خیریه شماره 39",
+    "خیریه شماره 40"
+)
+
+val c = listOf<String>("a", "c", "f", "f")
+
+@Composable
+fun ConstraintLayoutScope.ShowListNationalId(
+    id: ConstrainedLayoutReference,
+    idDependencyDown: ConstrainedLayoutReference,
+    idDependencyUp: ConstrainedLayoutReference,
+    visible: Boolean,
+    fakeGenarator: Int
+
+) {
+    if (visible) {
+        val list: List<String>
+
+        if (fakeGenarator == 1) {
+            list = a
+        } else {
+            list = b
+        }
+
+
+        LazyColumn(modifier = Modifier
+            .constrainAs(id) {
+                bottom.linkTo(idDependencyDown.bottom, margin = 10.dp)
+                top.linkTo(idDependencyUp.bottom, margin = 10.dp)
+                height = Dimension.fillToConstraints
+            }
+            .fillMaxWidth()) {
+            items(list) { item ->
+                ItemNationalId(item = item)
+            }
+
+        }
+    }
+
+
+}
+
+@Composable
+fun ItemNationalId(item: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp)
+    ) {
+        Row() {
+            Image(
+                modifier = Modifier
+                    .width(60.dp)
+                    .height(60.dp),
+                painter = painterResource(R.drawable.ic_city),
+                contentDescription = "Content description for visually impaired"
+            )
+            Column(modifier = Modifier.padding(start = 15.dp)) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = item,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = item,
+                    color = Color.Green,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Start
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(2.dp)
+            .height(1.dp)
+            .background(Color.Gray))
+
+    }
+
+}
+
 
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
@@ -93,7 +232,11 @@ fun ConstraintLayoutScope.SlideInHorizontally(
 
 @ExperimentalAnimationApi
 @Composable
-fun ConstraintLayoutScope.SlideOutVertically(addComponent: @Composable () -> Unit, id: ConstrainedLayoutReference, visible: Boolean) {
+fun ConstraintLayoutScope.SlideOutVertically(
+    addComponent: @Composable () -> Unit,
+    id: ConstrainedLayoutReference,
+    visible: Boolean
+) {
     AnimatedVisibility(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,14 +276,14 @@ fun mirroringCancelIcon() = mirroringIcon(
 @ExperimentalAnimationApi
 @Composable
 fun NationalIdFiled(
-    query: String ,
+    query: String,
     onQueryChange: (String) -> Unit,
     onClearQuery: () -> Unit,
     onSearchFocusChange: (Boolean) -> Unit,
-    enableClose:Boolean,
+    enableClose: Boolean,
     modifier: Modifier = Modifier,
-    colorBorder:Color,
-    ) {
+    colorBorder: Color,
+) {
     MdcTheme() {
         Box(
             modifier
@@ -149,10 +292,13 @@ fun NationalIdFiled(
                 .border(
                     border = BorderStroke(1.dp, colorBorder),
                     shape = RoundedCornerShape(25.dp),
-                )) {
+                )
+        ) {
             if (query.isEmpty()) {
-                Column( modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Text(
                         text = "لطفا شماره کارت ملی خود را وارد کنید",
                         color = Color.Gray
@@ -204,22 +350,37 @@ fun NationalIdFiled(
         }
     }
 }
+
 @Composable
-fun ConstraintLayoutScope.TextStateRequest(txtMessage:String, id: ConstrainedLayoutReference,idTarget: ConstrainedLayoutReference){
-    Text(modifier = Modifier
-        .fillMaxWidth()
-        .constrainAs(id) {
-            top.linkTo(idTarget.bottom, margin = 15.dp)
-        }, textAlign = TextAlign.Center, text = txtMessage)
+fun ConstraintLayoutScope.TextStateRequest(
+    txtMessage: String,
+    id: ConstrainedLayoutReference,
+    idTarget: ConstrainedLayoutReference
+) {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .constrainAs(id) {
+                top.linkTo(idTarget.bottom, margin = 15.dp)
+            }, textAlign = TextAlign.Center, text = txtMessage
+    )
 
 }
 
 @Composable
-fun ConstraintLayoutScope.Loader(isvisible:Boolean,anim:Int,id: ConstrainedLayoutReference,idTarget: ConstrainedLayoutReference) {
+fun ConstraintLayoutScope.Loader(
+    isvisible: Boolean,
+    anim: Int,
+    id: ConstrainedLayoutReference,
+    idTarget: ConstrainedLayoutReference
+) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(anim))
-    val progress by animateLottieCompositionAsState(composition,    iterations = LottieConstants.IterateForever)
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever
+    )
 
-    if(isvisible){
+    if (isvisible) {
         Column(
             modifier = Modifier
                 .constrainAs(id) {
@@ -237,27 +398,31 @@ fun ConstraintLayoutScope.Loader(isvisible:Boolean,anim:Int,id: ConstrainedLayou
         }
     }
 }
+
 @Composable
-fun ConstraintLayoutScope.ErrorSearchNationalId(isVisible:Boolean,id: ConstrainedLayoutReference,idTarget: ConstrainedLayoutReference){
-    if(isVisible){
+fun ConstraintLayoutScope.ErrorSearchNationalId(
+    isVisible: Boolean,
+    id: ConstrainedLayoutReference,
+    idTarget: ConstrainedLayoutReference
+) {
+    if (isVisible) {
         Column(
             modifier = Modifier
                 .constrainAs(id) {
                     top.linkTo(idTarget.bottom, margin = 30.dp)
                 }
-                .fillMaxWidth()
-                    ,
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-           Text(text = "کد ملی مورد نظر یافت نشد", textAlign = TextAlign.Center)
+            Text(text = "کد ملی مورد نظر یافت نشد", textAlign = TextAlign.Center)
             Image(
                 painter = painterResource(R.drawable.ic_error_message),
                 contentDescription = "Content description for visually impaired"
             )
         }
     }
-    
+
 }
 
 

@@ -31,7 +31,7 @@ fun ScreenNationalId(viewModel: NationalIdViewModel) {
             }
         ) {
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-                val (nextBtn, txtInformationNationalId, EditNationalId, textStateRequest, loader, errorfindNatinal) = createRefs()
+                val (nextBtn, txtInformationNationalId, EditNationalId, textStateRequest, loader, errorfindNatinal, listNational) = createRefs()
                 SlideOutVertically(addComponent = {
                     Text(
                         stringResource(id = R.string.detailsOFNationalId),
@@ -78,6 +78,15 @@ fun ScreenNationalId(viewModel: NationalIdViewModel) {
                     id = loader,
                     idTarget = textStateRequest
                 )
+                ShowListNationalId(
+                    listNational,
+                    nextBtn,
+                    EditNationalId,
+                    viewModel.visibilityListNationalId.value,
+                    viewModel.fakeGenerator.value
+                )
+
+
                 Button(
                     colors = ButtonDefaults.buttonColors(backgroundColor = viewModel.colorButton.value),
                     modifier = Modifier
@@ -86,8 +95,8 @@ fun ScreenNationalId(viewModel: NationalIdViewModel) {
                         .constrainAs(nextBtn) {
                             bottom.linkTo(parent.bottom, margin = 16.dp)
                         }, onClick = {
-                         viewModel.handleEvent(ResultOfSearch)
-                        }) {
+                        viewModel.handleEvent(ResultOfSearch)
+                    }) {
                     Text(
                         color = Color.White,
                         text = stringResource(id = viewModel.textButton.value)
