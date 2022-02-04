@@ -16,6 +16,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -33,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
@@ -67,11 +69,7 @@ val utilFont = FontFamily(
     )
 
 
-sealed class Generator() {
-    data class GeneratorA(val FakeList: List<String>) : Generator()
-    data class GeneratorB(val FakeList: List<String>) : Generator()
-    data class GeneratorC(val FakeList: List<String>) : Generator()
-}
+
 
 
 val a = listOf<String>(
@@ -119,8 +117,6 @@ val b = listOf<String>(
     "خیریه شماره 40"
 )
 
-val c = listOf<String>("a", "c", "f", "f")
-
 @Composable
 fun ConstraintLayoutScope.ShowListNationalId(
     id: ConstrainedLayoutReference,
@@ -131,12 +127,11 @@ fun ConstraintLayoutScope.ShowListNationalId(
 
 ) {
     if (visible) {
-        val list: List<String>
 
-        if (fakeGenarator == 1) {
-            list = a
+        val list: List<String> = if (fakeGenarator == 1) {
+            a
         } else {
-            list = b
+            b
         }
 
 
@@ -168,7 +163,7 @@ fun ItemNationalId(item: String) {
             Image(
                 modifier = Modifier
                     .width(60.dp)
-                    .height(60.dp),
+                    .height(60.dp).padding(start = 10.dp).clip(CircleShape),
                 painter = painterResource(R.drawable.ic_city),
                 contentDescription = "Content description for visually impaired"
             )

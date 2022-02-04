@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.R
-import ir.kindnesswall.view.main.charity.nationalId.screen.Generator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -47,12 +46,6 @@ class NationalIdViewModel : ViewModel() {
             }
         }
     }
-
-    private fun showList(generator: Generator) {
-
-
-    }
-
     private fun resultSearchNationalId() {
         nationalCodeVerification(valueOfNationalId.value)
             .apply {
