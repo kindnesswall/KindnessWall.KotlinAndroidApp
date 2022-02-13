@@ -31,58 +31,58 @@
     <string name="just_now">دقایقی پیش</string>
     <string name="next">بعدی</string>
 
-    <string name="onboarding_title_first">نیاز داری بردار ، نیاز نداری بذار</string>
-    <string name="onboarding_desc_first">همه ما کلی وسیله توی خونه داریم که بهشون !نیاز نداریم اما نمی دونیم باهشون چیکار کنیم چه بهتر از اینکه به کسی بدیم که بهش نیاز داره؟</string>
+    <string name="onboarding_title_first">نیاز داری بردار، نیاز نداری بذار</string>
+    <string name="onboarding_desc_first">همه ما کلی وسیله توی خونه داریم که بهشون نیاز نداریم! اما نمی‌دونیم باهاشون چیکار کنیم چه بهتر از اینکه به کسی بدیم که بهش نیاز داره؟</string>
 
-    <string name="onboarding_title_second">خیریه ها</string>
-    <string name="onboarding_desc_second">خیلیا میخوان به نیازمندای واقعی کمک کنن اما نمیدونن چطوری اینجا میتونین کمکهاتون رو به خیریه های مطمئن بدین</string>
+    <string name="onboarding_title_second">خیریه‌ها</string>
+    <string name="onboarding_desc_second">خیلی‌ها می‌خوان به نیازمندای واقعی کمک کنن اما نمی‌دونن چطوری اینجا می‌تونین کمک‌هاتون رو به خیریه‌های مطمئن بدین</string>
 
     <string name="onboarding_title_third">همیشه رایگان</string>
     <string name="onboarding_desc_third">برنامه دیوار مهربانی برای همیشه رایگان خواهد بود</string>
 
-    <string name="onboarding_title_fourth">متن باز</string>
-    <string name="onboarding_desc_fourth">کدهای برنامه همیشه در دسترس برنامه نویسان خواهد بود</string>
+    <string name="onboarding_title_fourth">متن‌باز</string>
+    <string name="onboarding_desc_fourth">کدهای برنامه همیشه در دسترس برنامه‌نویسان خواهد بود</string>
     <string name="choose_city">انتخاب شهر</string>
     <string name="choose_your_city">شهر خود را انتخاب کنید</string>
     <string name="lets_go">بزن بریم</string>
 
     <string name="choose_province">انتخاب استان</string>
     <string name="more_items">موارد بیشتر</string>
-    <string name="bookmarks">نشان شده ها</string>
+    <string name="bookmarks">نشان‌شده‌ها</string>
     <string name="setting">تنظیمات</string>
-    <string name="blocked_users">کاربر های بلاک شده</string>
+    <string name="blocked_users">کاربرهای بلاک شده</string>
     <string name="about">معرفی دیوار مهربانی</string>
     <string name="contact_us">ارتباط با ما</string>
     <string name="logout">خروج از حساب کاربری</string>
     <string name="login">ورود به حساب کاربری</string>
-    <string name="category">دسته بندی</string>
+    <string name="category">دسته‌بندی</string>
     <string name="neighborhood">محل</string>
     <string name="description">توضیحات</string>
     <string name="request">درخواست از طریق چت</string>
     <string name="send_verification_code">ارسال کد ورود</string>
     <string name="close">بستن</string>
     <string name="submit_information">ثبت اطلاعات</string>
-    <string name="charities">خیریه ها</string>
+    <string name="charities">خیریه‌ها</string>
     <string name="manager">مسئول</string>
     <string name="central_office">دفتر مرکزی</string>
-    <string name="address">آدرس</string>
+    <string name="address">نشانی</string>
     <string name="license_number">شماره مجوز</string>
     <string name="national_id">شناسه ملی</string>
     <string name="contact_info">اطلاعات تماس</string>
     <string name="registrationDate">تاریخ ثبت</string>
-    <string name="search">جستجو …</string>
+    <string name="search">جستجو…</string>
     <string name="search_your_word">کلمه مورد نظر خود را جستجو کنید!</string>
-    <string name="category_choosing">انتخاب دسته بندی ها</string>
-    <string name="search_your_category">دسته بندی موردنظر خود را جست و جو کنید</string>
+    <string name="category_choosing">انتخاب دسته‌بندی‌ها</string>
+    <string name="search_your_category">دسته‌بندی موردنظر خود را جست‌وجو کنید</string>
     <string name="choose_neighborhood">انتخاب منطقه</string>
-    <string name="search_your_neighborhood">منطقه موردنظر خود را جست و جو کنید</string>
+    <string name="search_your_neighborhood">منطقه موردنظر خود را جست‌وجو کنید</string>
     <string name="filters">فیلترها</string>
     <string name="remove_filters">حذف فیلترها</string>
 
     <string name="choose">انتخاب</string>
-    <string name="gift_from_me">هدیه هایی که از طرف من…</string>
-    <string name="gift_from_user">هدیه هایی که از این کاربر:</string>
-    <string name="registered">ثبت شده</string>
+    <string name="gift_from_me">هدیه‌هایی که از طرف من…</string>
+    <string name="gift_from_user">هدیه‌هایی که از این کاربر:</string>
+    <string name="registered">ثبت‌شده</string>
     <string name="submitcomment">ثبت نظر</string>
     <string name="filter_profile_donate">اهدا شده</string>
     <string name="filter_profile_received">دریافت شده</string>
@@ -102,12 +102,12 @@
     <string name="submit_gift">ثبت هدیه</string>
     <string name="gift_title">عنوان هدیه</string>
     <string name="submit_gift_title_message">در عنوان هدیه به موارد مهم اشاره کنید. (حداقل ۵ حرف)</string>
-    <string name="submit_gift_price_message">ارزش مالی هدیه به دریافت کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
+    <string name="submit_gift_price_message">ارزش مالی هدیه به دریافت‌کننده نمایش داده نخواهد شد و تنها برای بهبود کیفیت و بدست آوردن آمار کاربرد دارد. (حداقل ۱۰۰۰ تومان)</string>
     <string name="submit_gift_description_message">جزئیات قابل توجه هدیه خود را به طور کامل ذکر نمایید. (حداقل ۵ حرف)</string>
     <string name="price_range">حدود قیمت</string>
     <string name="price_range_hint">_ _ _ , _ _ _ تومان</string>
     <string name="gift_image">عکس هدیه (اجباری)</string>
-    <string name="choose_category">انتخاب دسته بندی</string>
+    <string name="choose_category">انتخاب دسته‌بندی</string>
     <string name="submit">ثبت</string>
     <string name="chatHintMessage">پیام …</string>
     <string name="unblock">رفع بلاک</string>
@@ -116,13 +116,13 @@
     <string name="by_camera">دوربین</string>
     <string name="from_gallery">گالری</string>
 
-    <string name="about_us_message_part_1">دیوار مهربانی ، ایده‌ای برای کمک به نیازمندان در ایران تبدیل به موضوع مورد بحث سایت های خبری انگلیسی زبان شد. سایتهایی نظیر ‏Lonely Planet‏ و ‏France24‎‏ خبری را درباره این رفتار مردمی مردم ایران اختصاص داده اند و تصاویری در ‏این ارتباط منتشر کردند تا بار دیگر مهربانی مردم ایران زبانزد خاص و عام شود</string>
+    <string name="about_us_message_part_1">دیوار مهربانی، ایده‌ای برای کمک به نیازمندان در ایران تبدیل به موضوع مورد بحث سایت‌های خبری انگلیسی زبان شد. سایت‌هایی نظیر ‏Lonely Planet‏ و ‏France24‎‏ خبری را درباره این رفتار مردمی مردم ایران اختصاص داده‌اند و تصاویری در ‏این ارتباط منتشر کردند تا بار دیگر مهربانی مردم ایران زبانزد خاص و عام شود</string>
     <string name="about_us_message_part_2">فقیر و غنی از دیوار مهربانی بهره ببرند</string>
-    <string name="about_us_message_part_3">هنگام شنیدن نام دیوار مهربانی اولین چیزی که به ذهنمان خطور می کند کمک به افراد نیازمند است اما اینگونه نیست دیوار مهربانی متعلق به همه ی مردم است این دیوار الزاما فقط برای کمک به فقرا نیست داراترین فرد نیز می تواند ضمن کمک به دیوار مهربانی از وسایل آن استفاده کند وسایلی که فقط لباس نیست. دیگر دارا و ندار بودن مطرح نیست همه ی آدم ها می توانند از این دیوار مهربانی بهره ببرند و به راحتی نیازهای خود را در دیوار جستجو کنند و از آن استفاده نمایند.  افراد غنی به آسانی می توانند وسایلی را که نیاز دارند در کمترین زمان جستجو کنند و از آن استفاده نمایند.</string>
+    <string name="about_us_message_part_3">هنگام شنیدن نام دیوار مهربانی اولین چیزی که به ذهنمان خطور می‌کند کمک به افراد نیازمند است اما اینگونه نیست دیوار مهربانی متعلق به همهٔ مردم است این دیوار الزاماً فقط برای کمک به فقرا نیست داراترین فرد نیز می‌تواند ضمن کمک به دیوار مهربانی از وسایل آن استفاده کند وسایلی که فقط لباس نیست. دیگر دارا و ندار بودن مطرح نیست همه‌ی آدم‌ها می‌توانند از این دیوار مهربانی بهره ببرند و به راحتی نیازهای خود را در دیوار جستجو کنند و از آن استفاده نمایند.  افراد غنی به آسانی می توانند وسایلی را که نیاز دارند در کمترین زمان جستجو کنند و از آن استفاده نمایند.</string>
     <string name="yes">بله</string>
     <string name="no">خیر</string>
 
-    <string name="logout_message">آیا میخواهید از حساب کاربری خود خارج شوید؟</string>
+    <string name="logout_message">آیا می‌خواهید از حساب کاربری خود خارج شوید؟</string>
     <string name="login_to_submit_order">برای ثبت آگهی وارد حساب کاربری خود شوید</string>
     <string name="login_to_show_conversations">برای نمایش گفتگوها وارد حساب کاربری خود شوید</string>
     <string name="enter">ورود</string>
@@ -148,19 +148,21 @@
     <string name="pros_and_cons">انتقادات و پیشنهادات</string>
     <string name="report_bug">گزارش خطا</string>
     <string name="related_app_not_found">برنامه‌ای برای اجرای این کار یافت نشد</string>
-    <string name="gift_submitted_successfully">هدیه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع ترین زمان ممکن به نمایش  دیگران در خواهد آمد
-شما میتوانید از صفحه پروفایل به هدیه های ثبت شده خود دسترسی داشته باشید
+    <string name="gift_submitted_successfully">هدیه شما با موفقیت ثبت شده است. بعد از بررسی و تایید، در سریع‌ترین زمان ممکن به نمایش  دیگران در خواهد آمد
+شما می‌توانید از صفحه پروفایل به هدیه‌های ثبت شده خود دسترسی داشته باشید
 </string>
 
-    <string name="verify_code_error">کد وارد شده صحیح نمی باشد.</string>
-    <string name="which_gift_to_donate">کدام هدیه را اهدا می کنید؟</string>
-    <string name="no_gift_to_donate">برای اهدا، هدیه‌ای ثبت نکرده اید.</string>
-    <string name="error_in_donate">خطا در اهدا هدیه، لطفا دوباره تلاش کنید</string>
+    <string name="verify_code_error">کد وارد شده صحیح نیست.</string>
+    <string name="which_gift_to_donate">کدام هدیه را اهدا می‌کنید؟</string>
+    <string name="no_gift_to_donate">برای اهدا، هدیه‌ای ثبت نکرده‌اید.</string>
+    <string name="error_in_donate">خطا در اهدا هدیه، لطفاً دوباره تلاش کنید</string>
     <string name="gift_donated">هدیه با موفقیت اهدا شد</string>
     <string name="no_block_user">هیچ کاربری بلاک نشده است</string>
 
-    <string name="blocked_count">%s کاربر بلاک شده اند</string>
-    <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
+    <plurals name="blocked_count">
+        <item quantity="one">یک کاربر بلاک شده است</item>
+        <item quantity="other">%d کاربر بلاک شده‌اند</item>
+    </plurals>
     <string name="no_gift_to_show">هدیه‌ای یافت نشد</string>
     <string name="unblock_user_question">کاربر %s رفع بلاک شود؟</string>
     <string name="ok">باشه</string>
@@ -172,28 +174,28 @@
     <string name="you_have_new_update">شما آپدیت جدیدی دارید</string>
 
     <string name="update">بروزرسانی</string>
-    <string name="force_update_message">نسخه فعلی برنامه دیگر پشتیبانی نمی شود جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
-    <string name="optional_update_message">نسخه جدید برای این برنامه آمده است جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید.</string>
-    <string name="check_submitted_gifts">بررسی هدیه های ثبت شده</string>
+    <string name="force_update_message">نسخه فعلی برنامه دیگر پشتیبانی نمی‌شود جهت بهره‌مندی از امکانات جدید برنامه لطفاً برنامه را بروزرسانی کنید.</string>
+    <string name="optional_update_message">نسخه جدید برای این برنامه آمده است جهت بهره‌مندی از امکانات جدید برنامه لطفاً برنامه را بروزرسانی کنید.</string>
+    <string name="check_submitted_gifts">بررسی هدیه‌های ثبت شده</string>
     <string name="reject_gift">رد هدیه</string>
     <string name="accept_gift">" تایید هدیه"</string>
     <string name="reason_of_reject">دلیل رد هدیه</string>
-    <string name="Please_write_reason">لطفا دلیل رد هدیه را بنویسید</string>
-    <string name="please_try_again">مشکلی پیش آمده، لطفا دوباره تلاش کنید</string>
+    <string name="Please_write_reason">لطفاً دلیل رد هدیه را بنویسید</string>
+    <string name="please_try_again">مشکلی پیش آمده، لطفاً دوباره تلاش کنید</string>
     <string name="review_gifts_empty_state">هدیه‌ای برای بررسی وجود ندارد</string>
-    <string name="loading">لطفا شکیبا باشید…</string>
+    <string name="loading">لطفاً شکیبا باشید…</string>
     <string name="talk_with_donator">گفتگو با اهدا کننده</string>
-    <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار میگیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
+    <string name="edit_gift_warning_message">در صورت ویرایش، اطلاعات هدیه مجدد در صف بررسی و تایید قرار می‌گیرد. آیا از اعمال تغییرات اطمینان دارید؟</string>
     <string name="edit">ویرایش</string>
-    <string name="your_are_blocked">شما توسط این کاربر بلاک شده اید</string>
+    <string name="your_are_blocked">شما توسط این کاربر بلاک شده‌اید</string>
     <string name="edit_gift">ویرایش هدیه</string>
     <string name="talk_with_receiver">"گفتگو با دریافت کننده"</string>
     <string name="set_filter">اعمال فیلتر</string>
     <string name="donate_item_chat_text">%s به %s اهدا شد</string>
     <string name="block">بلاک</string>
-    <string name="block_hint_message">با استفاده از دکمه بلاک میتوانید این کاربر را بلاک کنید</string>
+    <string name="block_hint_message">با استفاده از دکمه بلاک می‌توانید این کاربر را بلاک کنید</string>
     <string name="donate_gift">اهدای هدیه</string>
-    <string name="donate_gift_hint_message">برای اهدای هدیه می توانید از این دکمه استفاده کنید</string>
+    <string name="donate_gift_hint_message">برای اهدای هدیه می‌توانید از این دکمه استفاده کنید</string>
     <string name="no_inteneet_message">متاسفانه اینترنت شما قطع شده است</string>
     <string name="try_again">تلاش مجدد</string>
     <string name="delete_gift">حذف هدیه</string>
@@ -201,11 +203,15 @@
     <string name="notfound_related_app">برنامه مرتبط یافت نشد</string>
     <string name="version">نسخه %1$s</string>
     <string name="submit_charity">ثبت خیریه</string>
-    <string name="add_charity_description">لطفا مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
-    <string name="submit_gift_reminder_description">با هدیه دادن وسایلی که دیگر از آنها استفاده نمیکنید، به راحتی  میتوانید نیاز یک نیازمند را برطرف سازید.</string>
-    <string name="later">بعدا</string>
+    <string name="add_charity_description">لطفاً مشخصات خیریه خود را در تلگرام برای ما ارسال نمایید.</string>
+    <string name="submit_gift_reminder_description">با هدیه دادن وسایلی که دیگر از آن‌ها استفاده نمی‌کنید، به راحتی می‌توانید نیاز یک نیازمند را برطرف سازید.</string>
+    <string name="later">بعداً</string>
     <string name="none">عدم نمایش</string>
-    <string name="charity">نمایش فقط برای خیریه ها</string>
-    <string name="all">نمایش برای تمامی کاربر ها</string>
+    <string name="charity">نمایش فقط برای خیریه‌ها</string>
+    <string name="all">نمایش برای تمامی کاربرها</string>
+    <string name="please_wait_dialog_message">لطفاً شکیبا باشید…</string>
+    <string name="gift_detail_hidden_phone_number">بنا به درخواست اهدا کننده، امکان نمایش شماره تلفن وجود ندارد</string>
+    <string name="gift_detail_charities_only_phone_number">بنا به درخواست اهدا کننده، تنها خیریه‌ها به شماره تلفن دسترسی دارند</string>
+    <string name="gift_detail_contact_with">تماس با: %s</string>
 
 </resources>

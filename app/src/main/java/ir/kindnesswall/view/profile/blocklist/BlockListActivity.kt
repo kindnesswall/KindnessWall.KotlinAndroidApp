@@ -161,13 +161,9 @@ class BlockListActivity : BaseActivity(), OnItemClickListener {
             return
         }
 
-        if (viewModel.blockedUsers.size == 1) {
-            binding.blockUsersCount.text =
-                getString(R.string.one_user_blocked_count, viewModel.blockedUsers.size.toString())
-        } else {
-            binding.blockUsersCount.text =
-                getString(R.string.blocked_count, viewModel.blockedUsers.size.toString())
-        }
+        val blockedCount = viewModel.blockedUsers.size
+        binding.blockUsersCount.text =
+            resources.getQuantityString(R.plurals.blocked_count, blockedCount, blockedCount)
     }
 
     override fun onItemClicked(position: Int, obj: Any?) {

@@ -411,7 +411,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     when (it.data!!.setting) {
                         "none" -> {
                             CallMessage!!.text =
-                                "بنا به درخواست اهدا کننده،امکان نمایش شماره تلفن وجود ندارد "
+                                getString(R.string.gift_detail_hidden_phone_number)
                             if (UserInfoPref.isAdmin) {
                                 CallMessage!!.text = ""
                                 show_number!!.visibility = View.VISIBLE
@@ -420,7 +420,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                         }
                         "charity" -> {
                             CallMessage!!.text =
-                                "بنا به درخواست اهدا کننده،تنها خیریه ها به شماره تلفن دسترسی دارند"
+                                getString(R.string.gift_detail_charities_only_phone_number)
                             show_number!!.visibility = View.VISIBLE
                             if (UserInfoPref.bearerToken.isNotEmpty()) {
                                 if (UserInfoPref.isCharity || UserInfoPref.isAdmin) {
@@ -480,7 +480,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 }
                 CustomResult.Status.SUCCESS -> {
                     progress!!.visibility = View.GONE
-                    show_number_txt!!.text = "تماس با : " + it.data!!.phoneNumber.toString()
+                    show_number_txt!!.text =
+                        getString(R.string.gift_detail_contact_with, it.data!!.phoneNumber)
                     viewModel.callPageStatus = true
                     CallMessage!!.text = ""
                     //numberMessage!!.visibility = View.VISIBLE

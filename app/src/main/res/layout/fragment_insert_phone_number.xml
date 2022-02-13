@@ -120,7 +120,7 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/errorPhoneNumberTextView"
-            tools:text="شرایط استفاده را میپذیرم" />
+            tools:text="شرایط استفاده را می‌پذیرم" />
 
         <TextView
             android:id="@+id/sendPhoneNumberTextView"

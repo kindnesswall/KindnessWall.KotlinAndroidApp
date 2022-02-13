@@ -56,7 +56,7 @@
             android:paddingStart="16dp"
             android:textColor="@color/colorPrimary"
             app:layout_constraintTop_toBottomOf="@id/toolbarRelativeLayout"
-            tools:text="۲ کاربر بلاک شده اند" />
+            tools:text="۲ کاربر بلاک شده‌اند" />
 
         <TextView
             android:id="@+id/emptyPagePlaceHolder"

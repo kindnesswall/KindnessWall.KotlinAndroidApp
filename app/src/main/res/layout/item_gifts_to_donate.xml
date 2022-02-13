@@ -21,7 +21,7 @@
             android:paddingEnd="16dp"
             android:text="@{item.title}"
             android:textColor="@color/secondaryTextColor"
-            tools:text="لپ تاپ" />
+            tools:text="لپ‌تاپ" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

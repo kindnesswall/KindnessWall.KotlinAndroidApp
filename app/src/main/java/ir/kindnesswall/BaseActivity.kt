@@ -196,7 +196,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private var progressDialog: AlertDialog? = null
     fun showProgressDialog(
-        messageToShow: String? = "لطفا شکیبا باشید…",
+        messageToShow: String? = getString(R.string.please_wait_dialog_message),
         title: String = "",
         confirmButtonText: String = "",
         cancelButtonText: String = "",

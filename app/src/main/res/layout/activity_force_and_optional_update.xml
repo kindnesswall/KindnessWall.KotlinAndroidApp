@@ -68,7 +68,7 @@
             android:text="@{isForeUpdate ? @string/force_update_message : @string/optional_update_message}"
             android:textColor="@color/secondaryTextColor"
             android:textSize="15sp"
-            tools:text=" نسخه فعلی برنامه دیگر پشتیبانی نمی شود جهت بهرهمندی از امکانات جدید برنامه لطفا برنامه را بروزرسانی کنید." />
+            tools:text=" نسخه فعلی برنامه دیگر پشتیبانی نمی‌شود جهت بهرهمندی از امکانات جدید برنامه لطفاً برنامه را بروزرسانی کنید." />
 
         <View
             android:layout_width="wrap_content"
