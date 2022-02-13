@@ -116,7 +116,7 @@
     <string name="by_camera">دوربین</string>
     <string name="from_gallery">گالری</string>
 
-    <string name="about_us_message_part_1">دیوار مهربانی، ایده‌ای برای کمک به نیازمندان در ایران تبدیل به موضوع مورد بحث سایت‌های خبری انگلیسی زبان شد. سایت‌هایی نظیر ‏Lonely Planet‏ و ‏France24‎‏ خبری را درباره این رفتار مردمی مردم ایران اختصاص داده اند و تصاویری در ‏این ارتباط منتشر کردند تا بار دیگر مهربانی مردم ایران زبانزد خاص و عام شود</string>
+    <string name="about_us_message_part_1">دیوار مهربانی، ایده‌ای برای کمک به نیازمندان در ایران تبدیل به موضوع مورد بحث سایت‌های خبری انگلیسی زبان شد. سایت‌هایی نظیر ‏Lonely Planet‏ و ‏France24‎‏ خبری را درباره این رفتار مردمی مردم ایران اختصاص داده‌اند و تصاویری در ‏این ارتباط منتشر کردند تا بار دیگر مهربانی مردم ایران زبانزد خاص و عام شود</string>
     <string name="about_us_message_part_2">فقیر و غنی از دیوار مهربانی بهره ببرند</string>
     <string name="about_us_message_part_3">هنگام شنیدن نام دیوار مهربانی اولین چیزی که به ذهنمان خطور می‌کند کمک به افراد نیازمند است اما اینگونه نیست دیوار مهربانی متعلق به همهٔ مردم است این دیوار الزاماً فقط برای کمک به فقرا نیست داراترین فرد نیز می‌تواند ضمن کمک به دیوار مهربانی از وسایل آن استفاده کند وسایلی که فقط لباس نیست. دیگر دارا و ندار بودن مطرح نیست همه‌ی آدم‌ها می‌توانند از این دیوار مهربانی بهره ببرند و به راحتی نیازهای خود را در دیوار جستجو کنند و از آن استفاده نمایند.  افراد غنی به آسانی می توانند وسایلی را که نیاز دارند در کمترین زمان جستجو کنند و از آن استفاده نمایند.</string>
     <string name="yes">بله</string>
@@ -159,7 +159,7 @@
     <string name="gift_donated">هدیه با موفقیت اهدا شد</string>
     <string name="no_block_user">هیچ کاربری بلاک نشده است</string>
 
-    <string name="blocked_count">%s کاربر بلاک شده اند</string>
+    <string name="blocked_count">%s کاربر بلاک شده‌اند</string>
     <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
     <string name="no_gift_to_show">هدیه‌ای یافت نشد</string>
     <string name="unblock_user_question">کاربر %s رفع بلاک شود؟</string>
@@ -207,5 +207,9 @@
     <string name="none">عدم نمایش</string>
     <string name="charity">نمایش فقط برای خیریه‌ها</string>
     <string name="all">نمایش برای تمامی کاربرها</string>
+    <string name="please_wait_dialog_message">لطفاً شکیبا باشید…</string>
+    <string name="gift_detail_hidden_phone_number">بنا به درخواست اهدا کننده، امکان نمایش شماره تلفن وجود ندارد</string>
+    <string name="gift_detail_charities_only_phone_number">بنا به درخواست اهدا کننده، تنها خیریه‌ها به شماره تلفن دسترسی دارند</string>
+    <string name="gift_detail_contact_with">تماس با: %s</string>
 
 </resources>
