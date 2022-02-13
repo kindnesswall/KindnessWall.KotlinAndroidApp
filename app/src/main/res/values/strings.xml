@@ -159,8 +159,10 @@
     <string name="gift_donated">هدیه با موفقیت اهدا شد</string>
     <string name="no_block_user">هیچ کاربری بلاک نشده است</string>
 
-    <string name="blocked_count">%s کاربر بلاک شده‌اند</string>
-    <string name="one_user_blocked_count">%s کاربر بلاک شده</string>
+    <plurals name="blocked_count">
+        <item quantity="one">یک کاربر بلاک شده است</item>
+        <item quantity="other">%d کاربر بلاک شده‌اند</item>
+    </plurals>
     <string name="no_gift_to_show">هدیه‌ای یافت نشد</string>
     <string name="unblock_user_question">کاربر %s رفع بلاک شود؟</string>
     <string name="ok">باشه</string>
