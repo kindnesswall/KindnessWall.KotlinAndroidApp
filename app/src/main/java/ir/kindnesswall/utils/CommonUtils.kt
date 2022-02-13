@@ -86,11 +86,7 @@ fun getRoundBottomSheet(
 }
 
 fun isNextPageAvailable(selfPageUrl: String? = "", nextPageUrl: String? = ""): Boolean {
-    if (selfPageUrl.isNullOrEmpty()) {
-        return false
-    }
-
-    return selfPageUrl != nextPageUrl
+    return !selfPageUrl.isNullOrEmpty() && selfPageUrl != nextPageUrl
 }
 
 fun wrapInBearer(token: String): String {
@@ -115,22 +111,11 @@ fun updateApp(context: Context) {
 }
 
 fun isLocationPermissionGranted(context: Context?): Boolean {
-    if (context == null)
-        return false
-
-    if (ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
-        || ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
-    ) {
-        return false
-    }
-
-    return true
+    return context != null && ContextCompat.checkSelfPermission(
+        context, Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+        context, Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
 }
 
 /**

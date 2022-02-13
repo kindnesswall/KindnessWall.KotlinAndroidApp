@@ -49,15 +49,7 @@ fun String.isValidVerificationCode(): Boolean {
 /**
  * A method for validate a string is only number or not
  */
-fun String.isNumeric(): Boolean {
-    var i = length
-    while (--i >= 0) {
-        if (!Character.isDigit(this[i])) {
-            return false
-        }
-    }
-    return true
-}
+fun String.isNumeric(): Boolean = this.toCharArray().all(Character::isDigit)
 
 /**
  * A method to format country code to
@@ -141,12 +133,7 @@ fun String.boldAndColorStringHtml(string:String=this,color: Int = Color.BLACK):S
     return formattedText
 }
 
-fun String.isUniCode(): Boolean {
-    for (c in this.toCharArray()) {
-        if (c.toInt() > 255) return true
-    }
-    return false
-}
+fun String.isUnicode(): Boolean = this.toCharArray().any { it.code > 255 }
 
 fun String.intOrString(): Any {
     val v = toIntOrNull()
