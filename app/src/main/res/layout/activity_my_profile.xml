@@ -279,7 +279,7 @@
                     android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileFilterContainer"
-                    tools:text="شما هدیه ای ثبت شده ای ندارید" />
+                    tools:text="شما هدیه‌ای ثبت‌شده‌ای ندارید" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/editProfileContainer"

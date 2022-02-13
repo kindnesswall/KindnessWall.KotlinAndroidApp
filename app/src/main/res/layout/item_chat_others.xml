@@ -48,7 +48,7 @@
                 android:padding="8dp"
                 android:text="@{item.text}"
                 android:textColor="@color/primaryTextColor"
-                tools:text="برای هدیه ای که گذاشتین پیام دادم" />
+                tools:text="برای هدیه‌ای که گذاشتید پیام دادم" />
 
         </LinearLayout>
 

@@ -411,7 +411,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     when (it.data!!.setting) {
                         "none" -> {
                             CallMessage!!.text =
-                                "بنا به درخواست اهدا کننده،امکان نمایش شماره تلفن وجود ندارد "
+                                "بنا به درخواست اهدا کننده، امکان نمایش شماره تلفن وجود ندارد "
                             if (UserInfoPref.isAdmin) {
                                 CallMessage!!.text = ""
                                 show_number!!.visibility = View.VISIBLE
@@ -420,7 +420,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                         }
                         "charity" -> {
                             CallMessage!!.text =
-                                "بنا به درخواست اهدا کننده،تنها خیریه ها به شماره تلفن دسترسی دارند"
+                                "بنا به درخواست اهدا کننده، تنها خیریه‌ها به شماره تلفن دسترسی دارند"
                             show_number!!.visibility = View.VISIBLE
                             if (UserInfoPref.bearerToken.isNotEmpty()) {
                                 if (UserInfoPref.isCharity || UserInfoPref.isAdmin) {

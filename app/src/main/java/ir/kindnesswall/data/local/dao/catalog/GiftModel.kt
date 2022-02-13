@@ -51,7 +51,7 @@ data class GiftModel(
     }
 
     fun getShortAddress(): String {
-        return "$cityName،$provinceName"
+        return "$cityName، $provinceName"
     }
 
     fun getRegistrationTime(context: Context) =
