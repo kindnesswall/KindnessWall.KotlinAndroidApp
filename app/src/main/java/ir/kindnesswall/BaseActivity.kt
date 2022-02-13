@@ -89,7 +89,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private var promptDialog: android.app.AlertDialog? = null
+    private var promptDialog: AlertDialog? = null
 
     fun showPromptDialog(
         title: String? = null,
@@ -123,7 +123,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //                }
 //            }
 
-            promptDialog = android.app.AlertDialog.Builder(this).apply {
+            promptDialog = AlertDialog.Builder(this).apply {
                 this.setMessage(messageToShow)
                 this.setTitle(title)
                 if (showPositiveButton)
@@ -158,11 +158,11 @@ abstract class BaseActivity : AppCompatActivity() {
             promptDialog?.setCancelable(cancelable)
             promptDialog?.setCanceledOnTouchOutside(canceledOnTouchOutside)
             if (showNegativeButton)
-                promptDialog?.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextColor(
+                promptDialog?.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(
                     negativeButtonTextColor
                 )
             if (showPositiveButton)
-                promptDialog?.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setTextColor(
+                promptDialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(
                     positiveButtonTextColor
                 )
         }
