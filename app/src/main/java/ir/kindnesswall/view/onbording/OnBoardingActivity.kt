@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,6 @@ import ir.kindnesswall.databinding.ActivityOnBoardingBinding
 import ir.kindnesswall.utils.extentions.getSnapPosition
 import ir.kindnesswall.view.citychooser.CityChooserActivity
 import ir.kindnesswall.view.main.MainActivity
-import java.util.*
 
 class OnBoardingActivity : BaseActivity() {
     private var snapPosition: Int = 0
@@ -32,6 +32,7 @@ class OnBoardingActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_on_boarding)
 
         configureViews(savedInstanceState)
@@ -92,7 +93,7 @@ class OnBoardingActivity : BaseActivity() {
         if (snapPositionChanged) {
             this.snapPosition = snapPosition
 
-            if(snapPosition == 4){
+            if (snapPosition == 4) {
                 hideBottomButtons()
             } else {
                 showBottomButtons()

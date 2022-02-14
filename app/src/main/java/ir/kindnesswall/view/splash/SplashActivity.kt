@@ -1,6 +1,7 @@
 package ir.kindnesswall.view.splash
 
 import android.os.Bundle
+import android.view.WindowManager
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
@@ -21,6 +22,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         setContentView(R.layout.activity_splash)
 
         viewModel.isStartFromNotification = intent.getBooleanExtra("isStartFromNotification", false)
