@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -470,7 +471,7 @@ class SubmitGiftActivity : BaseActivity() {
     }
 
     private fun pickImage() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setItems(
                 listOf(R.string.from_gallery, R.string.by_camera).map(::getString).toTypedArray()
             ) { _, which ->
