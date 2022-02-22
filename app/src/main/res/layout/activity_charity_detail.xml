@@ -21,8 +21,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -114,11 +113,11 @@
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:visibility="gone"
+                    android:layout_marginTop="5dp"
                     android:gravity="right"
                     android:onClick="@{()->viewModel.onRating()}"
-                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/neighborhoodText"
                     app:layout_constraintTop_toBottomOf="@+id/managerTextView"
                     app:layout_constraintVertical_bias="0.0"
@@ -159,9 +158,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="17dp"
-                    android:visibility="gone"
                     android:layout_marginBottom="20dp"
                     android:background="@color/divider"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/neighborhoodTextView"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                     tools:layout_editor_absoluteX="38dp" />

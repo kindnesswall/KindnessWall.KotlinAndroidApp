@@ -22,8 +22,8 @@ class BottomTabHistory : Serializable {
     val size: Int
         get() = stack.size
 
-    fun push(entry: Int,removeExist:Boolean = true) {
-        if(removeExist)
+    fun push(entry: Int, removeExist: Boolean = true) {
+        if (removeExist)
             stack.remove(entry)
         stack.add(entry)
     }
@@ -38,9 +38,8 @@ class BottomTabHistory : Serializable {
         return entry
     }
 
-    fun hasNext():Boolean
-    {
-        return stack.size!=0
+    fun hasNext(): Boolean {
+        return stack.size != 0
     }
 
     fun clear() {

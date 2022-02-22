@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class InsertVerificationNumberFragment : BaseFragment() {
     companion object {
         var login: Boolean? = null
-        var isAdmin: Boolean =false
+        var isAdmin: Boolean = false
     }
 
     private var couldResendCode: Boolean = false

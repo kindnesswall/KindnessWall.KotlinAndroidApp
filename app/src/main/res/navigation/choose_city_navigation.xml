@@ -40,7 +40,7 @@
         android:id="@+id/chooseRegionFragment"
         android:name="ir.kindnesswall.view.citychooser.ChooseRegionFragment"
         android:label="fragment_choose_region"
-        tools:layout="@layout/fragment_choose_region" >
+        tools:layout="@layout/fragment_choose_region">
         <argument
             android:name="city_id"
             app:argType="integer" />

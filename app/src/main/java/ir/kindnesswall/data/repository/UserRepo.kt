@@ -293,37 +293,31 @@ class UserRepo(context: Context, private val userApi: UserApi) : BaseDataSource(
         }
 
 
-
-
     fun setUserPhoneSetting(
         viewModelScope: CoroutineScope,
         setting: String
-    ): LiveData<CustomResult<Any>> = liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
-        Log.i("56456465456", "Run2")
-        emit(CustomResult.loading())
-        getResultWithExponentialBackoffStrategy {
-            userApi.setPhoneSetting(setting)
-        }.collect { result ->
-            Log.i("56456465456", "Run3")
+    ): LiveData<CustomResult<Any>> =
+        liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            Log.i("56456465456", "Run2")
+            emit(CustomResult.loading())
+            getResultWithExponentialBackoffStrategy {
+                userApi.setPhoneSetting(setting)
+            }.collect { result ->
+                Log.i("56456465456", "Run3")
 
-            when (result.status) {
-                CustomResult.Status.SUCCESS -> {
-                    Log.i("56456465456", "SUCCESS")
-                }
-                CustomResult.Status.ERROR -> {
-                    Log.i("56456465456", "ERROR")
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        Log.i("56456465456", "SUCCESS")
+                    }
+                    CustomResult.Status.ERROR -> {
+                        Log.i("56456465456", "ERROR")
 
+                    }
                 }
+
             }
 
         }
-
-    }
-
-
-
-
-
 
 
 }

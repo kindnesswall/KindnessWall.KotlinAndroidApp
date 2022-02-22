@@ -8,14 +8,7 @@ import androidx.lifecycle.map
 import ir.kindnesswall.data.local.UserPreferences
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
-import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.GiftRequestStatusModel
-import ir.kindnesswall.data.model.PhoneNumberModel
-import ir.kindnesswall.data.model.PhoneVisibility
-import ir.kindnesswall.data.model.SetSetting
-import ir.kindnesswall.data.model.SettingModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.RejectGiftRequestModel
@@ -307,7 +300,10 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
         viewModelScope: CoroutineScope,
         giftId: Long
     ): LiveData<CustomResult<GiftRequestStatusModel>> =
-        liveData<CustomResult<GiftRequestStatusModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<GiftRequestStatusModel>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {
@@ -358,7 +354,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                             value = result.data as PhoneNumberModel?
                         }.map { CustomResult.success(it) }))
                     }
-                    CustomResult.Status.ERROR ->{
+                    CustomResult.Status.ERROR -> {
                         emit(CustomResult.error(result.errorMessage))
 
                     }

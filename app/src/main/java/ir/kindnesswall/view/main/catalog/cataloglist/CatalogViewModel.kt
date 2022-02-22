@@ -11,7 +11,7 @@ class CatalogViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     private var lastId = Long.MAX_VALUE
 
     val catalogItems = ArrayList<GiftModel>()
-    
+
     fun getCatalogItemsFromServer(): LiveData<CustomResult<List<GiftModel>>> {
         lastId = if (catalogItems.isNullOrEmpty()) {
             Long.MAX_VALUE

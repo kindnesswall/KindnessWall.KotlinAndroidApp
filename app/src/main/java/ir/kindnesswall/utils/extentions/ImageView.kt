@@ -13,7 +13,6 @@ import android.widget.ImageView
  *
  */
 
-fun ImageView.toCircle()
-{
+fun ImageView.toCircle() {
     this.setImageBitmap(this.drawable.toBitmap().toCircle())
 }

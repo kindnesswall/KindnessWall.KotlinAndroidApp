@@ -2,7 +2,6 @@ package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.ChatMessageModel
-import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel

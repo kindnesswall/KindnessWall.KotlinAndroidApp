@@ -12,7 +12,7 @@ import android.view.View
  *
  */
 
-interface OnItemClickListener : View.OnClickListener{
+interface OnItemClickListener : View.OnClickListener {
     fun onItemClicked(position: Int, obj: Any? = null)
 
     override fun onClick(p0: View?) {

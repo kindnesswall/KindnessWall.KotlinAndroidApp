@@ -193,6 +193,10 @@ fun openUrl(context: Context, url: String) {
         )
     }.onFailure {
         Timber.d(it, "can't open link")
-        Toast.makeText(context, context.getString(R.string.related_app_not_found), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            context,
+            context.getString(R.string.related_app_not_found),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

@@ -48,8 +48,11 @@ class AuthRepo(context: Context, private var authApi: AuthApi) : BaseDataSource(
         }
 
     fun loginUser(viewModelScope: CoroutineScope, phoneNumber: String, verificationCode: String):
-        LiveData<CustomResult<LoginResponseModel>> =
-        liveData<CustomResult<LoginResponseModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            LiveData<CustomResult<LoginResponseModel>> =
+        liveData<CustomResult<LoginResponseModel>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy {

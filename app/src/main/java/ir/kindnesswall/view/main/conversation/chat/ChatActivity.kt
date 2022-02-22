@@ -19,13 +19,7 @@ import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.BlockStatus
-import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.ChatMessageModel
-import ir.kindnesswall.data.model.ChatModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.TextMessageBaseModel
-import ir.kindnesswall.data.model.TextMessageModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityChatBinding
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
@@ -618,7 +612,7 @@ class ChatActivity : BaseActivity() {
                 }
 
                 showOrHideBlockState(true)
-            }else if (it.status == CustomResult.Status.ERROR) {
+            } else if (it.status == CustomResult.Status.ERROR) {
                 if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
                     NoInternetDialogFragment().display(supportFragmentManager) {
                         blockUser()

@@ -86,12 +86,13 @@ interface UserApi {
     fun registerFirebaseToken(@Body pushRegisterRequestModel: PushRegisterRequestModel): Call<Any>
 
     @POST("phone/visibility/setting")
-    fun  setPhoneSetting(settingdata:String,
+    fun setPhoneSetting(
+        settingdata: String,
         @Body settingRequest: SettingRequestBody =
             SettingRequestBody().apply {
                 setting = settingdata
             }
-    ):Response<Any>
+    ): Response<Any>
 
     @POST("image/upload")
     suspend fun uploadImage(@Body request: RequestBody): Response<UploadImageResponse>

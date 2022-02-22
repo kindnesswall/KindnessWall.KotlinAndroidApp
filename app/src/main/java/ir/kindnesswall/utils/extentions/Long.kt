@@ -14,17 +14,16 @@ import java.util.*
  *
  */
 
-fun Long?.inSameDay(date:Long?):Boolean
-{
-    if(this==null) return false
-    if(date == null) return false
-    
+fun Long?.inSameDay(date: Long?): Boolean {
+    if (this == null) return false
+    if (date == null) return false
+
     return Calendar.getInstance().apply {
         timeInMillis = this@inSameDay
     }.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().apply {
         timeInMillis = date
     }.get(Calendar.DAY_OF_MONTH)
-    
+
 }
 
 fun Long.getHourOfDay(): String {

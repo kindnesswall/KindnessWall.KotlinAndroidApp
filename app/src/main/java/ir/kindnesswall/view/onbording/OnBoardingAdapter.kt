@@ -14,7 +14,7 @@ class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var onItemClickListener: (Int, OnBoardingModel) -> Unit
-    private lateinit var onActionButtonClickListener :(OnBoardingModel) -> Unit
+    private lateinit var onActionButtonClickListener: (OnBoardingModel) -> Unit
 
     fun setItems(items: ArrayList<OnBoardingModel>) {
         this.items = items
@@ -88,7 +88,7 @@ class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
         }
 
         item.city?.let {
-            if(it.id > 0){
+            if (it.id > 0) {
                 holder.binding.cityNameTextView.text = it.name
             }
         }

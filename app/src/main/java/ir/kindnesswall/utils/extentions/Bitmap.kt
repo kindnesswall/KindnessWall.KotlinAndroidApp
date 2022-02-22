@@ -12,8 +12,7 @@ import android.graphics.*
  * Useful parameter:
  *
  */
-fun Bitmap.toCircle():Bitmap
-{
+fun Bitmap.toCircle(): Bitmap {
     val output = Bitmap.createBitmap(
         this.width,
         this.height, Bitmap.Config.ARGB_8888

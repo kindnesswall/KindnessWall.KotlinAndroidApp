@@ -29,7 +29,7 @@ data class RegisterGiftRequestModel(
 ) {
     fun isEmpty(): Boolean {
         return title.isEmpty() && description.isEmpty() && price == BigDecimal.ZERO && categoryId == 0 &&
-            categoryName.isNullOrEmpty() && provinceId == 0 && provinceName.isNullOrEmpty() &&
-            cityId == 0 && cityName.isNullOrEmpty() && giftImages.isEmpty() && regionId == 0 && regionName.isNullOrEmpty()
+                categoryName.isNullOrEmpty() && provinceId == 0 && provinceName.isNullOrEmpty() &&
+                cityId == 0 && cityName.isNullOrEmpty() && giftImages.isEmpty() && regionId == 0 && regionName.isNullOrEmpty()
     }
 }

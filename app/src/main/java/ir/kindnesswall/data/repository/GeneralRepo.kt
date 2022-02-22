@@ -1,7 +1,6 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -28,7 +27,10 @@ class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase:
     BaseDataSource(context) {
 
     fun getProvinces(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ProvinceModel>>> =
-        liveData<CustomResult<List<ProvinceModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<ProvinceModel>>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             fun fetchFromDb() = appDatabase.provinceDao().getAll().map { CustomResult.success(it) }
 
             emit(CustomResult.loading())
@@ -82,7 +84,10 @@ class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase:
         viewModelScope: CoroutineScope,
         cityId: Int
     ): LiveData<CustomResult<List<RegionModel>>> =
-        liveData<CustomResult<List<RegionModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<RegionModel>>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 generalApi.getRegions(cityId)
@@ -104,7 +109,10 @@ class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase:
         }
 
     fun getAllCatgories(viewModelScope: CoroutineScope): LiveData<CustomResult<List<CategoryModel>>> =
-        liveData<CustomResult<List<CategoryModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<CategoryModel>>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             emit(CustomResult.loading())
 
             getResultWithExponentialBackoffStrategy { generalApi.getAllCategories() }
@@ -148,16 +156,15 @@ class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase:
         }
 
 
-
     fun getSetting(viewModelScope: CoroutineScope): LiveData<CustomResult<SettingModel>> =
         liveData<CustomResult<SettingModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
-            getResultWithExponentialBackoffStrategy{generalApi.getSetting()}.collect{ result->
-                when (result.status){
-                    CustomResult.Status.SUCCESS->{
-                            emitSource(MutableLiveData<SettingModel>().apply {
-                                value = result.data
-                            }.map { CustomResult.success(it) })
+            getResultWithExponentialBackoffStrategy { generalApi.getSetting() }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emitSource(MutableLiveData<SettingModel>().apply {
+                            value = result.data
+                        }.map { CustomResult.success(it) })
 
                     }
                 }

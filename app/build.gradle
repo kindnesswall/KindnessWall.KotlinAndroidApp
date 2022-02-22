@@ -131,7 +131,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.4.2'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
 
-    def kotpref_version="2.13.2"
+    def kotpref_version = "2.13.2"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
     implementation "com.chibatching.kotpref:gson-support:$kotpref_version"
     implementation "com.chibatching.kotpref:initializer:$kotpref_version"

@@ -59,8 +59,9 @@ class AuthenticationActivity : BaseActivity(), AuthenticationInteractor {
     override fun onAuthenticationComplete(view: View) {
         finish()
     }
+
     override fun onStop() {
         super.onStop()
-        MainActivity.liveData.value="getPhoneNumberValue"
+        MainActivity.liveData.value = "getPhoneNumberValue"
     }
 }

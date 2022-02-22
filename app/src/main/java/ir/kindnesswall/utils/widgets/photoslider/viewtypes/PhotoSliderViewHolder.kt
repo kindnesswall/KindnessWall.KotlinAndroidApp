@@ -3,8 +3,8 @@ package ir.kindnesswall.utils.widgets.photoslider.viewtypes
 import android.view.View
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
-import ir.kindnesswall.R
 import com.github.chrisbanes.photoview.PhotoView
+import ir.kindnesswall.R
 
 
 /**

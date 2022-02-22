@@ -15,5 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  *
  */
 fun BottomSheetDialogFragment.setBackgroundTransparent() {
-    context?.let { context -> (view?.parent as View).setBackgroundColor(ContextCompat.getColor(context,android.R.color.transparent)) }
+    context?.let { context ->
+        (view?.parent as View).setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                android.R.color.transparent
+            )
+        )
+    }
 }

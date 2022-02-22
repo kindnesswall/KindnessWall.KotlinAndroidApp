@@ -14,8 +14,7 @@ import androidx.fragment.app.Fragment
  * Useful parameter:
  *
  */
-fun Fragment.clearKeyboard()
-{
+fun Fragment.clearKeyboard() {
     val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view!!.windowToken, 0)
 }

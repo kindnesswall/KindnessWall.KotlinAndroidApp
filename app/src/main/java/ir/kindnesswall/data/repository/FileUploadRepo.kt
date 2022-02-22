@@ -5,20 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.Log
 import android.webkit.MimeTypeMap
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.transition.Transition
-import com.google.gson.Gson
-import ir.kindnesswall.BuildConfig
-import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.model.BaseDataSource
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.remote.network.UserApi
-import ir.kindnesswall.utils.wrapInBearer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
@@ -68,9 +61,10 @@ class FileUploadRepo(
 
             // convert a flow to a blocking statement
             // TODO refactor after deprecating backoff or api call strategy
-            val results: List<CustomResult<UploadImageResponse>> = getResultWithExponentialBackoffStrategy {
-                userApi.uploadImage(request)
-            }.toList()
+            val results: List<CustomResult<UploadImageResponse>> =
+                getResultWithExponentialBackoffStrategy {
+                    userApi.uploadImage(request)
+                }.toList()
 
             results.find { it.status == CustomResult.Status.SUCCESS }?.data ?: failedResult
         }
@@ -93,7 +87,10 @@ class FileUploadRepo(
         // estimate original bitmap size
         val option = BitmapFactory.Options()
         option.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(inFile.absolutePath, option) // retrieve bitmap size and write on `option`
+        BitmapFactory.decodeFile(
+            inFile.absolutePath,
+            option
+        ) // retrieve bitmap size and write on `option`
 
         // create normalized bitmap
         option.inSampleSize = calculateInSampleSize(option, 1000, 1000)
@@ -103,7 +100,11 @@ class FileUploadRepo(
     }
 
     // source: https://developer.android.com/topic/performance/graphics/load-bitmap.html#load-bitmap
-    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    private fun calculateInSampleSize(
+        options: BitmapFactory.Options,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Int {
         // Raw height and width of image
         val (height: Int, width: Int) = options.run { outHeight to outWidth }
         var inSampleSize = 1

@@ -55,6 +55,8 @@ data class GiftModel(
     }
 
     fun getRegistrationTime(context: Context) =
-        "${context.getString(R.string.registrationDate)}: ${createdAt?.toSimpleSlashFormat()
-            ?: ""}"
+        "${context.getString(R.string.registrationDate)}: ${
+            createdAt?.toSimpleSlashFormat()
+                ?: ""
+        }"
 }

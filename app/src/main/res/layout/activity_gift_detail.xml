@@ -19,9 +19,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layoutDirection="rtl"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:layoutDirection="rtl"
         android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
@@ -36,7 +36,6 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 tools:context=".view.giftdetail.GiftDetailActivity">
-
 
 
                 <ir.kindnesswall.utils.widgets.photoslider.PhotoSlider
@@ -253,16 +252,17 @@
                     android:background="@color/divider"
                     app:layout_constraintBottom_toTopOf="@+id/CallMessage"
                     app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
                 <TextView
                     android:id="@+id/CallMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/onBoardingFirstColor"
+                    android:foregroundGravity="center"
                     android:gravity="center"
                     android:paddingTop="15dp"
-                    android:foregroundGravity="center"
-                    android:layout_margin="20dp"
+                    android:textColor="@color/onBoardingFirstColor"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
                     tools:layout_editor_absoluteX="10dp" />
 
@@ -276,8 +276,8 @@
                     android:onClick="@{(v)-> viewModel.callPageStatus ? viewModel.callPage() : viewModel.onCallClick(v)}"
                     android:orientation="vertical"
                     android:paddingStart="16dp"
-                    android:paddingRight="10dp"
                     android:paddingEnd="16dp"
+                    android:paddingRight="10dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -288,11 +288,11 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/primary_round_selector_4dp"
+                        android:orientation="horizontal"
                         android:paddingLeft="13dp"
                         android:paddingRight="13dp"
-                        android:background="@drawable/primary_round_selector_4dp"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal"
                         tools:visibility="visible">
 
 
@@ -302,18 +302,18 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:textColor="@color/white"
                             android:text="@string/show_number"
+                            android:textColor="@color/white"
                             android:textSize="15sp" />
+
                         <ProgressBar
                             android:id="@+id/numberProgressBar"
                             android:layout_width="wrap_content"
-                            android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:indeterminateDrawable="@drawable/progress"
                             android:layout_margin="10dp"
-                            />
+                            android:indeterminateDrawable="@drawable/progress"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
@@ -323,9 +323,7 @@
                         android:orientation="vertical">
 
 
-
                     </LinearLayout>
-
 
 
                 </androidx.cardview.widget.CardView>

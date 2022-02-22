@@ -9,10 +9,9 @@ import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.GiftRepo
-import ir.kindnesswall.view.authentication.AuthenticationActivity
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
-    var callPageStatus :Boolean = false
+    var callPageStatus: Boolean = false
     var isDonatedToSomeone: Boolean = false
 
     var isReceivedGift: Boolean = false
@@ -43,13 +42,16 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun onShareClicked() {
         giftViewListener?.onShareClicked()
     }
-    fun onCallClick(view :View){
+
+    fun onCallClick(view: View) {
         giftViewListener?.onCallButtonClick(view)
 
-        }
-        fun callPage(){
-            giftViewListener?.onCallPageClick()
-        }
+    }
+
+    fun callPage() {
+        giftViewListener?.onCallPageClick()
+    }
+
     fun onBookmarkClicked() {
         giftViewListener?.onBookmarkClicked()
     }
@@ -79,8 +81,8 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
 
     fun deleteGift() = giftRepo.deleteGift(viewModelScope, giftModel!!.id)
 
-    fun getSetting()=giftRepo.getSetting(viewModelScope , giftModel!!.userId)
+    fun getSetting() = giftRepo.getSetting(viewModelScope, giftModel!!.userId)
 
-    fun getUserNumber()=giftRepo.getUserNmber(viewModelScope,giftModel!!.userId)
+    fun getUserNumber() = giftRepo.getUserNmber(viewModelScope, giftModel!!.userId)
 
 }

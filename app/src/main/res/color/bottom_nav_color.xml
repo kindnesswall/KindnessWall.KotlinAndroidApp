@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true" android:color="@color/selectedTabColor" />
-    <item android:state_checked="false" android:color="@color/unselectedTabColor"/>
+    <item android:color="@color/selectedTabColor" android:state_checked="true" />
+    <item android:color="@color/unselectedTabColor" android:state_checked="false" />
 </selector>

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
  * Useful parameter:
  *
  */
-fun RecyclerView.smoothMoveToTop()
-{
+fun RecyclerView.smoothMoveToTop() {
     smoothScrollToPosition(0)
 }

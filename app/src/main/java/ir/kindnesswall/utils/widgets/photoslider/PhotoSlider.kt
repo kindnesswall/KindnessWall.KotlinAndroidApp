@@ -8,10 +8,10 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import ir.kindnesswall.R
 import ir.kindnesswall.utils.extentions.getSnapPosition
 import ir.kindnesswall.utils.widgets.photoslider.viewtypes.PhotoSliderAdapter
-import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 
 
 /**
@@ -50,7 +50,7 @@ class PhotoSlider : RelativeLayout {
         images?.let {
             this.imagesUrl.addAll(it)
 
-            if(indicatorVisibility) {
+            if (indicatorVisibility) {
                 if (imagesUrl.size <= 1) {
                     recyclerPagerIndicator.visibility = View.INVISIBLE
                 } else {

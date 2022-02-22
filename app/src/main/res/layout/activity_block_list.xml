@@ -52,8 +52,8 @@
             android:layout_height="48dp"
             android:fontFamily="@font/vazir_bold"
             android:gravity="center_vertical"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColor="@color/colorPrimary"
             app:layout_constraintTop_toBottomOf="@id/toolbarRelativeLayout"
             tools:text="۲ کاربر بلاک شده‌اند" />
