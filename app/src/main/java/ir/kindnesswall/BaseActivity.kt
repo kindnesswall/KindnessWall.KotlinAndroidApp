@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
@@ -123,7 +124,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //                }
 //            }
 
-            promptDialog = AlertDialog.Builder(this).apply {
+            promptDialog = MaterialAlertDialogBuilder(this).apply {
                 this.setMessage(messageToShow)
                 this.setTitle(title)
                 if (showPositiveButton)
@@ -218,7 +219,7 @@ abstract class BaseActivity : AppCompatActivity() {
         tvText.text = messageToShow
         tvText.setTextColor(ContextCompat.getColor(applicationContext, R.color.secondaryTextColor))
 
-        val builder = AlertDialog.Builder(this)
+        val builder = MaterialAlertDialogBuilder(this)
         builder.setCancelable(true)
         builder.setView(progressContainerLinearLayout)
 
