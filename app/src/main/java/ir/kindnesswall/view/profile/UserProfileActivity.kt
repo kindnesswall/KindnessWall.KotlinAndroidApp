@@ -157,14 +157,15 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         startActivity(intent)
     }
 
-    private val imagePickerContract = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        Timber.d("imaged pick result: uri=$uri")
+    private val imagePickerContract =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            Timber.d("imaged pick result: uri=$uri")
 
-        if (uri == null) return@registerForActivityResult
+            if (uri == null) return@registerForActivityResult
 
-        GlideApp.with(this).load(uri).circleCrop().into(binding.userNewImageView)
-        viewModel.selectedImageUri = uri
-    }
+            GlideApp.with(this).load(uri).circleCrop().into(binding.userNewImageView)
+            viewModel.selectedImageUri = uri
+        }
 
     private fun pickImage() {
         imagePickerContract.launch("image/*")

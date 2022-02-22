@@ -7,5 +7,5 @@ class PhoneNumberModel {
 
     @SerializedName("phoneNumber")
     @Expose
-    val phoneNumber : String ?= null
+    val phoneNumber: String? = null
 }

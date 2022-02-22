@@ -37,5 +37,5 @@ interface GeneralApi {
     suspend fun getAllCategories(@Body requestBaseModel: RequestBaseModel = RequestBaseModel()): Response<List<CategoryModel>>
 
     @GET("phone/visibility/setting")
-    suspend fun getSetting():Response<SettingModel>
+    suspend fun getSetting(): Response<SettingModel>
 }

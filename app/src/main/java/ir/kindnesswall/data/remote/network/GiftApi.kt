@@ -38,10 +38,10 @@ interface GiftApi {
     suspend fun deleteGift(@Path("id") id: Long): Response<Any>
 
     @GET("phone/visibility/setting/{userId}")
-    suspend fun getSetting(@Path("userId") userId: Long) :Response<SettingModel>
+    suspend fun getSetting(@Path("userId") userId: Long): Response<SettingModel>
 
     @GET("phone/visibility/access/{userId}")
-    suspend fun getUserNumber(@Path("userId") userId: Long) :Response<PhoneNumberModel>
+    suspend fun getUserNumber(@Path("userId") userId: Long): Response<PhoneNumberModel>
 
     @POST("gifts/todonate/{userId}")
     suspend fun getToDonateGifts(
@@ -74,8 +74,8 @@ interface GiftApi {
     suspend fun getGiftRequestStatus(@Path("id") id: Long): Response<GiftRequestStatusModel>
 
     @POST("phone/visibility/setting")
-    suspend fun setPhoneVisibilitySetting(@Body setSetting : SetSetting):Response<Any>
+    suspend fun setPhoneVisibilitySetting(@Body setSetting: SetSetting): Response<Any>
 
     @GET("phone/visibility/setting")
-    suspend fun getPhoneVisibilitySetting() : Response<SettingModel>
+    suspend fun getPhoneVisibilitySetting(): Response<SettingModel>
 }

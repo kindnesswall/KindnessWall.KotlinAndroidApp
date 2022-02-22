@@ -3,7 +3,6 @@ package ir.kindnesswall.view.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.repository.GeneralRepo
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.view.authentication.AuthenticationActivity
@@ -42,7 +40,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-        val liveData :MutableLiveData<String> = MutableLiveData()
+        val liveData: MutableLiveData<String> = MutableLiveData()
         fun start(context: Context?, defaultTab: Int = R.id.navigation_home) {
             context?.let {
                 val intent = Intent(it, MainActivity::class.java)

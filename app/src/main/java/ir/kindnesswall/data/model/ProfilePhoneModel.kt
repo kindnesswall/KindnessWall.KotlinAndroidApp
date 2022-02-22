@@ -6,14 +6,14 @@ import com.google.gson.annotations.SerializedName
 class ProfilePhoneModel(
     @SerializedName("isCharity")
     @Expose
-    val isCharity : Boolean ,
+    val isCharity: Boolean,
     @SerializedName("phoneNumber")
     @Expose
-    val phoneNumber : String,
+    val phoneNumber: String,
     @SerializedName("isSupporter")
     @Expose
-    val isSupporter : Boolean,
+    val isSupporter: Boolean,
     @SerializedName("id")
     @Expose
-    val id : Int
+    val id: Int
 )

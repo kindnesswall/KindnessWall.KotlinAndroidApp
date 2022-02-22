@@ -1,14 +1,7 @@
 package ir.kindnesswall.data.local
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.viewModelScope
 import com.chibatching.kotpref.KotprefModel
 import ir.kindnesswall.data.model.user.User
-import ir.kindnesswall.data.repository.UserRepo
 
 
 /**

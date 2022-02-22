@@ -3,12 +3,7 @@ package ir.kindnesswall.view.main.addproduct
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
@@ -176,22 +171,22 @@ class SubmitGiftViewModel(
 
     fun backupData(callback: (Boolean) -> Unit) {
         val registerGiftRequestModel = RegisterGiftRequestModel(
-        title = title.value ?: "",
-        description = description.value ?: "",
+            title = title.value ?: "",
+            description = description.value ?: "",
             giftImages = images.filterIsInstance<GiftImage.LocalImage>()
                 .map { it.uri.toString() },
-        categoryId = categoryId.value?.toInt() ?: 0,
-        categoryName = categoryName.value ?: "",
-        provinceId = provinceId.value?.toInt() ?: 0,
-        provinceName = provinceName.value ?: "",
-        regionId = regionId.value?.toInt(),
-        regionName = regionName.value ?: "",
-        cityId = cityId.value?.toInt() ?: 0,
-        cityName = cityName.value ?: "",
-        countryId = AppPref.countryId,
-        isNew = isNew,
-        isBackup = true,
-        price =
+            categoryId = categoryId.value?.toInt() ?: 0,
+            categoryName = categoryName.value ?: "",
+            provinceId = provinceId.value?.toInt() ?: 0,
+            provinceName = provinceName.value ?: "",
+            regionId = regionId.value?.toInt(),
+            regionName = regionName.value ?: "",
+            cityId = cityId.value?.toInt() ?: 0,
+            cityName = cityName.value ?: "",
+            countryId = AppPref.countryId,
+            isNew = isNew,
+            isBackup = true,
+            price =
             if (price.value.isNullOrEmpty()) BigDecimal.ZERO else price.value!!.toBigDecimal()
         )
         viewModelScope.launch {
@@ -232,7 +227,8 @@ class SubmitGiftViewModel(
             when (it.status) {
                 CustomResult.Status.SUCCESS -> getPhoneVisibility()
                 CustomResult.Status.ERROR -> getPhoneVisibility()
-                CustomResult.Status.LOADING -> {}
+                CustomResult.Status.LOADING -> {
+                }
             }
         }
     }

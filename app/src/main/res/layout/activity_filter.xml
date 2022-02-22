@@ -174,23 +174,23 @@
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
+                    android:background="@drawable/primary_round_selector_4dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:fontFamily="@font/vazir_bold"
                     android:gravity="center"
                     android:text="@string/set_filter"
-                    android:textColor="@color/white"
-                    android:background="@drawable/primary_round_selector_4dp"/>
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/removeAllFilters"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:background="@drawable/accent_round_selector_4dp"
                     android:layout_margin="4dp"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:background="@drawable/accent_round_selector_4dp"
                     android:backgroundTint="@color/red"
                     android:fontFamily="@font/vazir_bold"
+                    android:gravity="center"
                     android:text="@string/remove_filters"
                     android:textColor="@color/white" />
 

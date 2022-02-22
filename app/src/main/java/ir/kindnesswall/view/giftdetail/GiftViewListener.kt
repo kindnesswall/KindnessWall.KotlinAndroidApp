@@ -11,7 +11,7 @@ interface GiftViewListener {
     fun onAcceptGiftClicked()
     fun onRejectGiftClicked()
     fun onDeleteButtonClicked()
-    fun onCallButtonClick(view : View)
+    fun onCallButtonClick(view: View)
     fun onCallPageClick()
 
 }

@@ -26,7 +26,8 @@ import android.util.DisplayMetrics
 fun Int.dp(context: Context?): Int {
     var result = this
     context?.let {
-        result =((this * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt())
+        result =
+            ((this * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt())
     }
     return result
 }
@@ -42,7 +43,8 @@ fun Int.dp(context: Context?): Int {
 fun Int.sp(context: Context?): Int {
     var result = this
     context?.let {
-        result =((this * (context.resources.displayMetrics.scaledDensity.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt())
+        result =
+            ((this * (context.resources.displayMetrics.scaledDensity.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt())
     }
     return result
 }
@@ -58,6 +60,8 @@ fun Int.sp(context: Context?): Int {
 fun Int.px(context: Context?): Int {
     var result = this
     context?.let {
-    result =(this / ( it.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt() }
+        result =
+            (this / (it.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+    }
     return result
 }

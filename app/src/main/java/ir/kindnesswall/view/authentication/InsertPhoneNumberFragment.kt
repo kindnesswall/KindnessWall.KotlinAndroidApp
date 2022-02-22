@@ -54,7 +54,7 @@ class InsertPhoneNumberFragment : BaseFragment() {
             authenticationInteractor?.onPhoneNumberSent(binding.sendPhoneNumberTextView)
         }
 
-        with(binding.tvTerms){
+        with(binding.tvTerms) {
             movementMethod = LinkMovementMethod.getInstance()
             text = buildSpannedString {
                 inSpans(

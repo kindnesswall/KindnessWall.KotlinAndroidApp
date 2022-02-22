@@ -50,7 +50,9 @@ class BookmarksActivity : BaseActivity(), OnItemClickListener {
                 }
                 CustomResult.Status.SUCCESS -> {
                     it.data?.let { regions ->
-                        (binding.bookmarksRecyclerView.adapter as UserBookmarksAdapter).submitList(regions)
+                        (binding.bookmarksRecyclerView.adapter as UserBookmarksAdapter).submitList(
+                            regions
+                        )
                     }
                 }
 

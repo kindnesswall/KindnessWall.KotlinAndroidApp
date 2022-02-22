@@ -151,7 +151,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
     override fun onRatingClick() {
-        val intent = Intent(this,RatingActivity::class.java)
+        val intent = Intent(this, RatingActivity::class.java)
         startActivity(intent)
     }
 

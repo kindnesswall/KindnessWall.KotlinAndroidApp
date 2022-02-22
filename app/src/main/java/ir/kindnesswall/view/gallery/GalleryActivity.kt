@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.databinding.ActivityGalleryBinding
-import ir.kindnesswall.utils.helper.getDeviceWidth
 import org.koin.android.viewmodel.ext.android.viewModel
 
 

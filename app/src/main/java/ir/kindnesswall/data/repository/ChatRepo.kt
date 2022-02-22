@@ -6,11 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.KindnessApplication
-import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.ChatMessageModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.TextMessageModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
 import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel
 import ir.kindnesswall.data.model.requestsmodel.SendChatMessageRequestModel
@@ -34,7 +30,10 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
     fun getConversationList(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<ChatContactModel>>> =
-        liveData<CustomResult<List<ChatContactModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<ChatContactModel>>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy { chatApi.getConversations() }.collect { result ->
                 when (result.status) {
@@ -121,27 +120,28 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         chatId: Long,
         message: String,
         type: String? = null
-    ): LiveData<CustomResult<TextMessageModel>> = liveData<CustomResult<TextMessageModel>>(viewModelScope.coroutineContext, 0) {
-        emit(CustomResult.loading())
+    ): LiveData<CustomResult<TextMessageModel>> =
+        liveData<CustomResult<TextMessageModel>>(viewModelScope.coroutineContext, 0) {
+            emit(CustomResult.loading())
 
-        getResultWithExponentialBackoffStrategy {
-            chatApi.sendMessage(SendChatMessageRequestModel(chatId, message, type))
-        }.collect { result ->
-            when (result.status) {
-                CustomResult.Status.SUCCESS -> {
-                    if (result.data == null) {
-                        emit(CustomResult.error(result.errorMessage))
-                    } else {
-                        emitSource(MutableLiveData<TextMessageModel>().apply {
-                            value = result.data
-                        }.map { CustomResult.success(it) })
+            getResultWithExponentialBackoffStrategy {
+                chatApi.sendMessage(SendChatMessageRequestModel(chatId, message, type))
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        if (result.data == null) {
+                            emit(CustomResult.error(result.errorMessage))
+                        } else {
+                            emitSource(MutableLiveData<TextMessageModel>().apply {
+                                value = result.data
+                            }.map { CustomResult.success(it) })
+                        }
                     }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.errorMessage))
                 }
-                CustomResult.Status.LOADING -> emit(CustomResult.loading())
-                else -> emit(CustomResult.error(result.errorMessage))
             }
         }
-    }
 
     fun blockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> =
         liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, 0) {
@@ -174,7 +174,10 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
         }
 
     fun getBlockedUsers(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> =
-        liveData<CustomResult<List<ChatContactModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+        liveData<CustomResult<List<ChatContactModel>>>(
+            viewModelScope.coroutineContext,
+            timeoutInMs = 0
+        ) {
             getResultWithExponentialBackoffStrategy {
                 chatApi.getBlockedUsers()
             }.collect { result: CustomResult<List<ChatContactModel>> ->

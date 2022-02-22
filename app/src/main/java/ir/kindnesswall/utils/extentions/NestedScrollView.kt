@@ -28,9 +28,9 @@ fun NestedScrollView.betterSmoothScrollToPosition(targetPosition: Int) {
             }
             if (anchorItem != topItem) scrollToPosition(anchorItem)
             post {
-                smoothScrollTo(0,targetPosition)
+                smoothScrollTo(0, targetPosition)
             }
         }
-        else -> smoothScrollTo(0,targetPosition)
-        }
+        else -> smoothScrollTo(0, targetPosition)
+    }
 }

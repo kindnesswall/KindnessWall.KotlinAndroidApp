@@ -35,7 +35,7 @@ class ChooseRegionFragment : BaseFragment() {
 
         getRegions()
     }
-    
+
     override fun configureViews() {
         binding.backImageView.setOnClickListener { activity?.onBackPressed() }
 

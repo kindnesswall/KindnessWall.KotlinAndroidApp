@@ -7,15 +7,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -58,7 +50,11 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class MoreFragment : BaseFragment() {
     private val viewModel: SubmitGiftViewModel by viewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         ComposeView(inflater.context).apply {
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         }.also {
@@ -95,9 +91,12 @@ class MoreFragment : BaseFragment() {
 
                         if (isLoggedIn)
                             Header(
-                                name = UserInfoPref.asLiveData(UserInfoPref::name).observeAsState().value ?: "",
-                                avatarUrl = UserInfoPref.asLiveData(UserInfoPref::image).observeAsState().value ?: "",
-                                phoneNumber = UserInfoPref.asLiveData(UserInfoPref::phoneNumber).observeAsState().value
+                                name = UserInfoPref.asLiveData(UserInfoPref::name)
+                                    .observeAsState().value ?: "",
+                                avatarUrl = UserInfoPref.asLiveData(UserInfoPref::image)
+                                    .observeAsState().value ?: "",
+                                phoneNumber = UserInfoPref.asLiveData(UserInfoPref::phoneNumber)
+                                    .observeAsState().value
                                     ?: ""
                             )
 
@@ -118,7 +117,9 @@ class MoreFragment : BaseFragment() {
                                 imgResId = R.drawable.ic_baseline_phone_iphone_24
                             ) { openPhoneVisibilityDialog() }
 
-                        if (UserInfoPref.asLiveData(UserInfoPref::isAdmin).observeAsState().value == true)
+                        if (UserInfoPref.asLiveData(UserInfoPref::isAdmin)
+                                .observeAsState().value == true
+                        )
                             Item(
                                 textResId = R.string.check_submitted_gifts,
                                 imgResId = R.drawable.ic_check_and_review

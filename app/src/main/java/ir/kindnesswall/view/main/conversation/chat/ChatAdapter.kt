@@ -137,7 +137,8 @@ class ChatAdapter(val viewModel: ChatViewModel) : RecyclerView.Adapter<RecyclerV
             is ChatDonationViewHolder -> {
                 holder.binding.item = item as TextMessageModel
                 holder.binding.donationDate.text =
-                    PersianDateFormat("j F Y").format(PersianDate(item.createdAt)).persianizeDigitsInString()
+                    PersianDateFormat("j F Y").format(PersianDate(item.createdAt))
+                        .persianizeDigitsInString()
             }
         }
     }

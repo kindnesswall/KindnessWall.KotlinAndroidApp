@@ -6,5 +6,5 @@ import com.google.gson.annotations.SerializedName
 class SettingModel {
     @SerializedName("setting")
     @Expose
-    var setting : String ?= null
+    var setting: String? = null
 }

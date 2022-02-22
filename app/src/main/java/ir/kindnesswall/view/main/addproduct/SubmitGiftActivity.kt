@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
@@ -16,11 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.CategoryModel
-import ir.kindnesswall.data.model.CityModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.PhoneVisibility
-import ir.kindnesswall.data.model.RegionModel
+import ir.kindnesswall.data.model.*
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
@@ -74,12 +69,11 @@ class SubmitGiftActivity : BaseActivity() {
                 PhoneVisibility.None -> binding.submitNone.isChecked = true
                 PhoneVisibility.JustCharities -> binding.submitCharity.isChecked = true
                 PhoneVisibility.All -> binding.submitAll.isChecked = true
-                null -> {}
+                null -> {
+                }
             }
         }
     }
-
-
 
 
     private fun configureViewModel() {
@@ -482,7 +476,8 @@ class SubmitGiftActivity : BaseActivity() {
                     1 -> {
                         viewModel.attemptOpenCamera(this)
                     }
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
             .show()
@@ -523,7 +518,7 @@ class SubmitGiftActivity : BaseActivity() {
                     (viewModel.provinceId.value ?: 0 > 0) &&
                     (viewModel.cityId.value ?: 0 > 0) &&
                     (viewModel.categoryId.value ?: 0 > 0) &&
-                viewModel.images.isNotEmpty()
+                    viewModel.images.isNotEmpty()
 
         if (viewModel.hasRegion) {
             if (viewModel.regionId.value ?: 0 > 0) {
@@ -628,6 +623,6 @@ class SubmitGiftActivity : BaseActivity() {
 
     override fun onStop() {
         super.onStop()
-        MainActivity.liveData.value="getPhoneNumberValue"
+        MainActivity.liveData.value = "getPhoneNumberValue"
     }
 }
