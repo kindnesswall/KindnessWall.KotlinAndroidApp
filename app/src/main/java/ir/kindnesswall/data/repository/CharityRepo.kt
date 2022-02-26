@@ -7,6 +7,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.CharityReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.remote.network.CharityApi
 import kotlinx.coroutines.CoroutineScope
@@ -60,6 +61,28 @@ class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource
                                 emit(CustomResult.error(result.errorMessage))
                             } else {
                                 emitSource(MutableLiveData<CharityModel>().apply {
+                                    value = result.data
+                                }
+                                    .map { CustomResult.success(it) })
+                            }
+                        }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(result.errorMessage))
+                    }
+                }
+        }
+
+    fun getCharityMessageReport(viewModelScope: CoroutineScope, charityReportMessageModel: CharityReportMessageModel):
+            LiveData<CustomResult<Any>> =
+        liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            getResultWithExponentialBackoffStrategy { charityApi.addMessageCharity(charityReportMessageModel) }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(result.errorMessage))
+                            } else {
+                                emitSource(MutableLiveData<Any>().apply {
                                     value = result.data
                                 }
                                     .map { CustomResult.success(it) })

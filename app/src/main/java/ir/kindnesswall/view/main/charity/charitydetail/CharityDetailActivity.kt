@@ -6,12 +6,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.charity.CharityModel
+import ir.kindnesswall.data.model.CharityReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
 import ir.kindnesswall.utils.StaticContentViewer
@@ -52,6 +54,26 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         configureViews(savedInstanceState)
 
         getUserInformation()
+        binding.reportButton.setOnClickListener {
+            sendReport()
+        }
+    }
+    private fun sendReport(){
+        viewModel.getMessageOfReport(CharityReportMessageModel(viewModel.charityModel?.userId!!,"hello")).observe(this){
+            if (it.status == CustomResult.Status.SUCCESS) {
+
+                Toast.makeText(applicationContext, "${it.data}", Toast.LENGTH_SHORT).show()
+            } else if (it.status == CustomResult.Status.ERROR) {
+                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                    NoInternetDialogFragment().display(supportFragmentManager) {
+                        sendReport()
+                    }
+                } else {
+                    showToastMessage(getString(R.string.please_try_again))
+                }
+            }
+        }
+
     }
 
     private fun getUserInformation() {

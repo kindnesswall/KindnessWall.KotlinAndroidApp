@@ -48,7 +48,7 @@ val viewModelModule = module {
     viewModel { NationalIdViewModel() }
     viewModel { BookmarksViewModel(get()) }
     viewModel { BlockListViewModel(get(), get()) }
-    viewModel { CharityViewModel(get(), get(), get()) }
+    viewModel { CharityViewModel(get(), get(), get(),get()) }
     viewModel { MyProfileViewModel(get(), get()) }
     viewModel { SplashViewModel(get(), get()) }
     viewModel { SubmitGiftViewModel(get(), get(), get()) }
