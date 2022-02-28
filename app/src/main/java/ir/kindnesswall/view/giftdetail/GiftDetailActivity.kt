@@ -88,7 +88,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
     private fun sendReport() {
         showMessageDialog(
-            "گزارش تخلف", "ارسال تخلف", false
+            getString(R.string.report_message), getString(R.string.report_send), false
         ) { des ->
             viewModel.sendReport(
                 GiftReportMessageModel(
@@ -535,40 +535,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
 
     }
-    private fun showMessageDialog(
-        title: String?,
-        btnLabel: String?,
-        canceledOnTouchOutside: Boolean,
-        sendRequest: (String) -> Unit
-    ): BottomSheetDialog? = BottomSheetDialog(this).apply {
-        val bind = CustomBottomSheetBinding.bind(
-            layoutInflater.inflate(
-                R.layout.custom_bottom_sheet,
-                null
-            )
-        )
-        setContentView(bind.root)
-        window?.setBackgroundDrawableResource(android.R.color.transparent)
-        setCanceledOnTouchOutside(canceledOnTouchOutside)
-        setCancelable(canceledOnTouchOutside)
-        bind.txtTitle.text = title
-        bind.btnSendRepost.apply {
-            text = btnLabel
-            setOnClickListener {
-                if (bind.txtDescribtion.text.toString().trim().isNullOrEmpty()) {
-                    bind.txtDescribtion.hint = "لطفا گزارش را وارد کنید"
-                } else {
-                    sendRequest(bind.txtDescribtion.text.toString())
-                    dismiss()
-                }
 
-            }
-        }
-        bind.btnCancelRepost.setOnClickListener {
-            dismiss()
-        }
-        if (!isFinishing) if (!isShowing()) show()
-    }
     override fun onResume() {
         super.onResume()
 
