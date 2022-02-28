@@ -15,10 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.databinding.CustomBottomSheetBinding
 import ir.kindnesswall.utils.LocaleHelper
 import ir.kindnesswall.utils.extentions.dp
 import ir.kindnesswall.utils.widgets.GetInputDialog
@@ -237,6 +239,40 @@ abstract class BaseActivity : AppCompatActivity() {
                 progressDialog?.window?.attributes = layoutParams
             }
         }
+    }
+    protected fun showMessageDialog(
+        title: String,
+        btnLabel: String,
+        canceledOnTouchOutside: Boolean,
+        sendRequest: (String) -> Unit
+    ): BottomSheetDialog = BottomSheetDialog(this).apply {
+        val bind = CustomBottomSheetBinding.bind(
+            layoutInflater.inflate(
+                R.layout.report_bottom_sheet,
+                null
+            )
+        )
+        setContentView(bind.root)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        setCanceledOnTouchOutside(canceledOnTouchOutside)
+        setCancelable(canceledOnTouchOutside)
+        bind.txtTitle.text = title
+        bind.btnSendRepost.apply {
+            text = btnLabel
+            setOnClickListener {
+                if (bind.txtDescribtion.text.toString().trim().isNullOrEmpty()) {
+                    bind.txtDescribtion.hint = getString(R.string.please_enter_repost)
+                } else {
+                    sendRequest(bind.txtDescribtion.text.toString())
+                    dismiss()
+                }
+
+            }
+        }
+        bind.btnCancelRepost.setOnClickListener {
+            dismiss()
+        }
+        if (!isFinishing) if (!isShowing()) show()
     }
 
     fun dismissProgressDialog() {
