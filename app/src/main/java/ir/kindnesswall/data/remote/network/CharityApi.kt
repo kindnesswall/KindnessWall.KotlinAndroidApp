@@ -25,5 +25,5 @@ interface CharityApi {
     suspend fun getCharity(@Path("id") id: Long): Response<CharityModel>
 
     @POST("charity/report")
-    suspend fun addMessageCharity(@Body model:CharityReportMessageModel):Response<Any>
+    suspend fun sendReport(@Body model:CharityReportMessageModel):Response<Any>
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CharityReportMessageModel
 import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.data.repository.CharityRepo
@@ -72,6 +71,6 @@ class CharityViewModel(
         return chatRepo.getChatId(viewModelScope, charityModel?.userId ?: 0)
     }
     fun getMessageOfReport(charityReportMessageModel: CharityReportMessageModel):LiveData<CustomResult<Any>> {
-        return charityRepo.getCharityMessageReport(viewModelScope,charityReportMessageModel)
+        return charityRepo.getMessageCharityReport(viewModelScope,charityReportMessageModel)
     }
 }
