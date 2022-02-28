@@ -438,4 +438,27 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                         }
                     }
         }
+
+    fun getMessageGiftReport(viewModelScope: CoroutineScope, giftReportMessageModel: GiftReportMessageModel):
+            LiveData<CustomResult<Any>> =
+        liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            getResultWithExponentialBackoffStrategy { giftApi.sendReport(giftReportMessageModel) }
+                .collect { result ->
+                    when (result.status) {
+                        CustomResult.Status.SUCCESS -> {
+                            if (result.data == null) {
+                                emit(CustomResult.error(result.errorMessage))
+                            } else {
+                                emitSource(MutableLiveData<Any>().apply {
+                                    value = result.data
+                                }
+                                    .map { CustomResult.success(it) })
+                            }
+                        }
+                        CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                        else -> emit(CustomResult.error(result.errorMessage))
+                    }
+                }
+        }
+
 }

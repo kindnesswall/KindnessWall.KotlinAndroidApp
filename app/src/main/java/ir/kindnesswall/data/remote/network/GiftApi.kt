@@ -78,4 +78,7 @@ interface GiftApi {
 
     @GET("phone/visibility/setting")
     suspend fun getPhoneVisibilitySetting(): Response<SettingModel>
+
+    @POST("gifts/report")
+    suspend fun sendReport(@Body model:GiftReportMessageModel):Response<Any>
 }

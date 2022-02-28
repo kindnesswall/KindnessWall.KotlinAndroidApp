@@ -8,17 +8,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.model.CharityReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.GiftReportMessageModel
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
+import ir.kindnesswall.databinding.CustomBottomSheetBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
@@ -75,8 +80,39 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0
 
         configureViews(savedInstanceState)
+
+        binding.reportButton.setOnClickListener {
+            sendReport()
+        }
     }
 
+    private fun sendReport() {
+        showMessageDialog(
+            "گزارش تخلف", "ارسال تخلف", false
+        ) { des ->
+            viewModel.sendReport(
+                GiftReportMessageModel(
+                    viewModel.giftModel?.userId!!,
+                    des
+                )
+            ).observe(this) {
+                if (it.status == CustomResult.Status.SUCCESS) {
+                    Toast.makeText(applicationContext, "${it.data}", Toast.LENGTH_SHORT).show()
+                } else if (it.status == CustomResult.Status.ERROR) {
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            sendReport()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
+                    }
+                }
+            }
+
+        }
+
+
+    }
     override fun configureViews(savedInstanceState: Bundle?) {
         viewModel.giftViewListener = this
         binding.item = viewModel.giftModel
@@ -497,8 +533,43 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 }
             }
         }
-    }
 
+
+    }
+    private fun showMessageDialog(
+        title: String?,
+        btnLabel: String?,
+        canceledOnTouchOutside: Boolean,
+        sendRequest: (String) -> Unit
+    ): BottomSheetDialog? = BottomSheetDialog(this).apply {
+        val bind = CustomBottomSheetBinding.bind(
+            layoutInflater.inflate(
+                R.layout.custom_bottom_sheet,
+                null
+            )
+        )
+        setContentView(bind.root)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        setCanceledOnTouchOutside(canceledOnTouchOutside)
+        setCancelable(canceledOnTouchOutside)
+        bind.txtTitle.text = title
+        bind.btnSendRepost.apply {
+            text = btnLabel
+            setOnClickListener {
+                if (bind.txtDescribtion.text.toString().trim().isNullOrEmpty()) {
+                    bind.txtDescribtion.hint = "لطفا گزارش را وارد کنید"
+                } else {
+                    sendRequest(bind.txtDescribtion.text.toString())
+                    dismiss()
+                }
+
+            }
+        }
+        bind.btnCancelRepost.setOnClickListener {
+            dismiss()
+        }
+        if (!isFinishing) if (!isShowing()) show()
+    }
     override fun onResume() {
         super.onResume()
 

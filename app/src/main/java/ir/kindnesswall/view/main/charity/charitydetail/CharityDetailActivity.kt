@@ -2,13 +2,22 @@ package ir.kindnesswall.view.main.charity.charitydetail
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import ir.kindnesswall.databinding.CustomBottomSheetBinding
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
@@ -16,9 +25,11 @@ import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CharityReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
+import ir.kindnesswall.generated.callback.OnTextChanged
 import ir.kindnesswall.utils.StaticContentViewer
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
+import ir.kindnesswall.utils.widgets.LineEditText
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.Rating.RatingActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
@@ -58,21 +69,32 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
             sendReport()
         }
     }
-    private fun sendReport(){
-        viewModel.getMessageOfReport(CharityReportMessageModel(viewModel.charityModel?.userId!!,"hello")).observe(this){
-            if (it.status == CustomResult.Status.SUCCESS) {
 
-                Toast.makeText(applicationContext, "${it.data}", Toast.LENGTH_SHORT).show()
-            } else if (it.status == CustomResult.Status.ERROR) {
-                if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
-                    NoInternetDialogFragment().display(supportFragmentManager) {
-                        sendReport()
+    private fun sendReport() {
+        showMessageDialog(
+            "گزارش تخلف", "ارسال تخلف", false
+        ) { des ->
+            viewModel.getMessageOfReport(
+                CharityReportMessageModel(
+                    viewModel.charityModel?.userId!!,
+                    des
+                )
+            ).observe(this) {
+                if (it.status == CustomResult.Status.SUCCESS) {
+                    Toast.makeText(applicationContext, "${it.data}", Toast.LENGTH_SHORT).show()
+                } else if (it.status == CustomResult.Status.ERROR) {
+                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
+                        NoInternetDialogFragment().display(supportFragmentManager) {
+                            sendReport()
+                        }
+                    } else {
+                        showToastMessage(getString(R.string.please_try_again))
                     }
-                } else {
-                    showToastMessage(getString(R.string.please_try_again))
                 }
             }
+
         }
+
 
     }
 
@@ -206,4 +228,40 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     override fun onWebsiteClicked() {
         StaticContentViewer.show(this, viewModel.charityModel?.website)
     }
+
+    private fun showMessageDialog(
+        title: String?,
+        btnLabel: String?,
+        canceledOnTouchOutside: Boolean,
+        sendRequest: (String) -> Unit
+    ): BottomSheetDialog? = BottomSheetDialog(this).apply {
+        val bind = CustomBottomSheetBinding.bind(
+            layoutInflater.inflate(
+                R.layout.custom_bottom_sheet,
+                null
+            )
+        )
+        setContentView(bind.root)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        setCanceledOnTouchOutside(canceledOnTouchOutside)
+        setCancelable(canceledOnTouchOutside)
+        bind.txtTitle.text = title
+        bind.btnSendRepost.apply {
+            text = btnLabel
+            setOnClickListener {
+                if (bind.txtDescribtion.text.toString().trim().isNullOrEmpty()) {
+                    bind.txtDescribtion.hint = "لطفا گزارش را وارد کنید"
+                } else {
+                    sendRequest(bind.txtDescribtion.text.toString())
+                    dismiss()
+                }
+
+            }
+        }
+        bind.btnCancelRepost.setOnClickListener {
+            dismiss()
+        }
+        if (!isFinishing) if (!isShowing()) show()
+    }
+
 }

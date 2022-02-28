@@ -71,6 +71,6 @@ class CharityViewModel(
         return chatRepo.getChatId(viewModelScope, charityModel?.userId ?: 0)
     }
     fun getMessageOfReport(charityReportMessageModel: CharityReportMessageModel):LiveData<CustomResult<Any>> {
-        return charityRepo.getCharityMessageReport(viewModelScope,charityReportMessageModel)
+        return charityRepo.getMessageCharityReport(viewModelScope,charityReportMessageModel)
     }
 }

@@ -213,5 +213,8 @@
     <string name="gift_detail_hidden_phone_number">بنا به درخواست اهدا کننده، امکان نمایش شماره تلفن وجود ندارد</string>
     <string name="gift_detail_charities_only_phone_number">بنا به درخواست اهدا کننده، تنها خیریه‌ها به شماره تلفن دسترسی دارند</string>
     <string name="gift_detail_contact_with">تماس با: %s</string>
+    <string name="enter_report">گزارش را وارد کنید</string>
+    <string name="txt_more_char">حداقل ۱۰۰ کاراکتر</string>
+
 
 </resources>
