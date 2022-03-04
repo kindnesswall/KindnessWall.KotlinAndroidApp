@@ -18,6 +18,8 @@ android {
         targetSdkVersion 30
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
+        archivesBaseName = "kindnesswall-$versionName"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
