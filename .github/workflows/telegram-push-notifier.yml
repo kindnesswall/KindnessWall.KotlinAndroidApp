@@ -15,5 +15,5 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT: ${{ secrets.TELEGRAM_TO }}
-        with:
-          footer: '@Kindnesswall_Android_App'
+#        with:
+#          commit_template: ./.github/telegram-message-template.txt

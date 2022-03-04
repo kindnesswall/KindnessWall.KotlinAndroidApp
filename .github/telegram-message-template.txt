@@ -1,0 +1,8 @@
+{{#commits}}
+<a href="https://github.com/{{actor}}">{{actor}}</a> • <a href="{{commit_url}}">{{commit_sha}}</a>
+{{commit_message}}
+
+{{/commits}}
+
+@Kindnesswall_Android_App
+{{status}}
