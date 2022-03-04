@@ -8,28 +8,32 @@ on:
 
 jobs:
   build:
+    name: Generate apk
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
 
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - name: set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: gradle
 
-    - name: set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-        cache: gradle
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > ${{ github.workspace }}/app/google-services.json
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew assembleProductionDebug --stacktrace
-      
-    - name: Upload APK
-      uses: actions/upload-artifact@v2
-      with:
-        name: Output Apk
-        path: app/build/outputs/apk/**/**/*.apk
+      - name: Build Apk
+        run: ./gradlew assembleProductionDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          path: app/build/outputs/apk/**/**/*.apk
