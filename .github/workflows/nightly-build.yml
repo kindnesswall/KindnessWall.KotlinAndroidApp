@@ -1,0 +1,64 @@
+name: Nightly Build
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # once a day
+
+jobs:
+  evaluateChanges:
+    name: Evaluate changes for run or skipping nightly build
+    runs-on: ubuntu-latest
+    outputs:
+      SHOULD_BUILD: ${{ steps.check.outputs.shouldBuild }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Check
+        id: check
+        run: |
+          if [[ $(git rev-list --after="24 hours" master) ]]; then
+            echo ::set-output name=shouldBuild::false
+          else
+            echo ::set-output name=shouldBuild::true
+          fi
+
+      - name: Print evaluation result
+        run: echo ${{steps.check.outputs.shouldBuild}}
+
+  nightlyBuild:
+    name: Generate Nightly Build
+    runs-on: ubuntu-latest
+    needs: evaluateChanges
+    if: ${{needs.evaluateChanges.outputs.SHOULD_BUILD}}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > ${{ github.workspace }}/app/google-services.json
+
+      - name: Build Apk
+        run: ./gradlew assembleProductionDebug --stacktrace
+
+      - name: Finding Apk
+        id: apk_finder
+        run: echo ::set-output name=APK_PATH::`find . -type f -iname *.apk`
+
+      - name: Send Apk in Telegram
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          document: ${{ steps.apk_finder.outputs.APK_PATH }}
