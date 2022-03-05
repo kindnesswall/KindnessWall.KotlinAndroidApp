@@ -19,9 +19,9 @@ jobs:
         id: check
         run: |
           if [[ $(git rev-list --after="24 hours" master) ]]; then
-            echo ::set-output name=shouldBuild::false
-          else
             echo ::set-output name=shouldBuild::true
+          else
+            echo ::set-output name=shouldBuild::false
           fi
 
       - name: Print evaluation result
