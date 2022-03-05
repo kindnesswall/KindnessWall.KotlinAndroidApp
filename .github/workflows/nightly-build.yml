@@ -33,6 +33,9 @@ jobs:
     needs: evaluateChanges
     if: ${{needs.evaluateChanges.outputs.SHOULD_BUILD}}
     steps:
+      - name: Print evaluation result
+        run: echo ${{needs.evaluateChanges.outputs.SHOULD_BUILD}}
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
