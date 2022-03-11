@@ -31,7 +31,7 @@ jobs:
     name: Generate Nightly Build
     runs-on: ubuntu-latest
     needs: evaluateChanges
-    if: ${{needs.evaluateChanges.outputs.SHOULD_BUILD}}
+    if: "${{ needs.evaluateChanges.outputs.SHOULD_BUILD }}"
     steps:
       - name: Print evaluation result
         run: echo ${{needs.evaluateChanges.outputs.SHOULD_BUILD}}
