@@ -2,22 +2,13 @@ package ir.kindnesswall.view.main.charity.charitydetail
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import ir.kindnesswall.databinding.CustomBottomSheetBinding
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
@@ -25,16 +16,13 @@ import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CharityReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
-import ir.kindnesswall.generated.callback.OnTextChanged
 import ir.kindnesswall.utils.StaticContentViewer
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
-import ir.kindnesswall.utils.widgets.LineEditText
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.Rating.RatingActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class CharityDetailActivity : BaseActivity(), CharityViewListener {
 

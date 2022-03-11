@@ -14,18 +14,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.repository.UserRepo
-import ir.kindnesswall.databinding.CustomBottomSheetBinding
+import ir.kindnesswall.databinding.ReportBottomSheetBinding
 import ir.kindnesswall.utils.LocaleHelper
 import ir.kindnesswall.utils.extentions.dp
 import ir.kindnesswall.utils.widgets.GetInputDialog
 import org.koin.android.ext.android.inject
-
 
 /**
  * Created by farshid.abazari since 2019-10-31
@@ -240,13 +239,14 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
     }
+
     protected fun showMessageDialog(
         title: String,
         btnLabel: String,
         canceledOnTouchOutside: Boolean,
         sendRequest: (String) -> Unit
     ): BottomSheetDialog = BottomSheetDialog(this).apply {
-        val bind = CustomBottomSheetBinding.bind(
+        val bind = ReportBottomSheetBinding.bind(
             layoutInflater.inflate(
                 R.layout.report_bottom_sheet,
                 null
