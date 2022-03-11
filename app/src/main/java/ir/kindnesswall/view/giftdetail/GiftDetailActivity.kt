@@ -79,7 +79,9 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         configureViews(savedInstanceState)
 
         binding.reportButton.setOnClickListener {
-            sendReport()
+            runOrStartAuth {
+                sendReport()
+            }
         }
     }
 

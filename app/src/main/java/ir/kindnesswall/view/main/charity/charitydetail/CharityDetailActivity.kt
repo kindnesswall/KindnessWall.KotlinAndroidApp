@@ -54,7 +54,9 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
         getUserInformation()
         binding.reportButton.setOnClickListener {
-            sendReport()
+            runOrStartAuth {
+                sendReport()
+            }
         }
     }
 
