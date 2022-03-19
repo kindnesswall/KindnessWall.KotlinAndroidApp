@@ -13,7 +13,7 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.charity.CharityModel
-import ir.kindnesswall.data.model.CharityReportMessageModel
+import ir.kindnesswall.data.model.ReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
 import ir.kindnesswall.utils.StaticContentViewer
@@ -61,13 +61,13 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
     private fun sendReport() {
-        showMessageDialog(
+        showReportMessageDialog(
             getString(R.string.report_message), getString(R.string.report_send), false
-        ) { des ->
-            viewModel.getMessageOfReport(
-                CharityReportMessageModel(
-                    viewModel.charityModel?.userId!!,
-                    des
+        ) { message ->
+            viewModel.sendReport(
+                ReportMessageModel(
+                    charityId = viewModel.charityModel?.userId!!,
+                    message = message
                 )
             ).observe(this) {
                 if (it.status == CustomResult.Status.SUCCESS) {
@@ -82,10 +82,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
                     }
                 }
             }
-
         }
-
-
     }
 
     private fun getUserInformation() {
@@ -218,6 +215,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     override fun onWebsiteClicked() {
         StaticContentViewer.show(this, viewModel.charityModel?.website)
     }
+
 
 
 

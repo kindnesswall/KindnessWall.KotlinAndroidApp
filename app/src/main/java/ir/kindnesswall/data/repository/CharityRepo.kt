@@ -7,7 +7,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.CharityReportMessageModel
+import ir.kindnesswall.data.model.ReportMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.remote.network.CharityApi
 import kotlinx.coroutines.CoroutineScope
@@ -75,7 +75,7 @@ class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource
                 }
         }
 
-    fun getMessageCharityReport(viewModelScope: CoroutineScope, charityReportMessageModel: CharityReportMessageModel):
+    fun sendMessageCharityReport(viewModelScope: CoroutineScope, charityReportMessageModel: ReportMessageModel):
             LiveData<CustomResult<Any>> =
         liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             getResultWithExponentialBackoffStrategy { charityApi.sendReport(charityReportMessageModel) }

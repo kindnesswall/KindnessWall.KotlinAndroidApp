@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.DialogTitle
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -240,9 +241,9 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected fun showMessageDialog(
-        title: String,
-        btnLabel: String,
+    protected fun showReportMessageDialog(
+        dialogTitle: String,
+        btnSendMessageTitle: String,
         canceledOnTouchOutside: Boolean,
         sendRequest: (String) -> Unit
     ): BottomSheetDialog = BottomSheetDialog(this).apply {
@@ -256,9 +257,9 @@ abstract class BaseActivity : AppCompatActivity() {
         window?.setBackgroundDrawableResource(android.R.color.transparent)
         setCanceledOnTouchOutside(canceledOnTouchOutside)
         setCancelable(canceledOnTouchOutside)
-        bind.txtTitle.text = title
+        bind.txtTitle.text = dialogTitle
         bind.btnSendRepost.apply {
-            text = btnLabel
+            text = btnSendMessageTitle
             setOnClickListener {
                 if (bind.txtDescribtion.text.toString().trim().isNullOrEmpty()) {
                     bind.txtDescribtion.hint = getString(R.string.please_enter_repost)

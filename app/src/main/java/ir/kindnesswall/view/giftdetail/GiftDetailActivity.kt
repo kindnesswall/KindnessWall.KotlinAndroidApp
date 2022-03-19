@@ -19,7 +19,7 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.GiftReportMessageModel
+import ir.kindnesswall.data.model.ReportMessageModel
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
@@ -86,13 +86,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     }
 
     private fun sendReport() {
-        showMessageDialog(
+        showReportMessageDialog(
             getString(R.string.report_message), getString(R.string.report_send), false
-        ) { des ->
+        ) { message ->
             viewModel.sendReport(
-                GiftReportMessageModel(
-                    viewModel.giftModel?.userId!!,
-                    des
+                ReportMessageModel(
+                    charityId = viewModel.giftModel?.userId!!,
+                    message = message
                 )
             ).observe(this) {
                 if (it.status == CustomResult.Status.SUCCESS) {
@@ -112,6 +112,7 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
 
     }
+
     override fun configureViews(savedInstanceState: Bundle?) {
         viewModel.giftViewListener = this
         binding.item = viewModel.giftModel
@@ -546,4 +547,5 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             }
         }
     }
+
 }
