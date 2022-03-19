@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+    android:paddingBottom="10dp">
+
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         android:textColor="@color/red"
         android:textSize="17sp"
         app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/describtion_container"
         android:layout_width="match_parent"
@@ -21,6 +23,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/bg_round_edit_report"
         app:layout_constraintTop_toBottomOf="@id/txtTitle">
+
         <EditText
             android:id="@+id/txtDescribtion"
             android:layout_width="match_parent"
@@ -36,6 +39,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:typeface="serif" />
     </FrameLayout>
+
     <TextView
         android:id="@+id/text_world"
         android:layout_width="wrap_content"
@@ -44,16 +48,17 @@
         android:text="@string/txt_more_char"
         app:layout_constraintEnd_toEndOf="@+id/describtion_container"
         app:layout_constraintTop_toBottomOf="@+id/describtion_container" />
+
     <TextView
         android:id="@+id/btn_cancelRepost"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_round_cancel_report"
         android:gravity="center"
         android:text="@string/cancel_laghve"
-        android:layout_marginBottom="10dp"
         android:textColor="@color/colorPrimary"
-        android:background="@drawable/bg_round_cancel_report"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_sendRepost"
         app:layout_constraintHorizontal_bias="0.5"
@@ -66,12 +71,12 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:gravity="center"
         android:layout_marginBottom="10dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:textColor="@color/rejectTextColor"
         android:background="@drawable/bg_round_edit_report"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/rejectTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_cancelRepost"

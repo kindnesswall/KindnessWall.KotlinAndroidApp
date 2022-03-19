@@ -217,6 +217,4 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     }
 
 
-
-
 }

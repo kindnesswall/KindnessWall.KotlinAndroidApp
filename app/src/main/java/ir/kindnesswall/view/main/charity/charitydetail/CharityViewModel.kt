@@ -70,7 +70,8 @@ class CharityViewModel(
     fun getChatId(): LiveData<CustomResult<ChatContactModel>> {
         return chatRepo.getChatId(viewModelScope, charityModel?.userId ?: 0)
     }
-    fun sendReport(charityReportMessageModel: ReportMessageModel):LiveData<CustomResult<Any>> {
-        return charityRepo.sendMessageCharityReport(viewModelScope,charityReportMessageModel)
+
+    fun sendReport(charityReportMessageModel: ReportMessageModel): LiveData<CustomResult<Any>> {
+        return charityRepo.sendMessageCharityReport(viewModelScope, charityReportMessageModel)
     }
 }

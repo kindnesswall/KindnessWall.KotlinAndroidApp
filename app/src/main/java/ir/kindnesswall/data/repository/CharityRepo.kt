@@ -75,10 +75,17 @@ class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource
                 }
         }
 
-    fun sendMessageCharityReport(viewModelScope: CoroutineScope, charityReportMessageModel: ReportMessageModel):
+    fun sendMessageCharityReport(
+        viewModelScope: CoroutineScope,
+        charityReportMessageModel: ReportMessageModel
+    ):
             LiveData<CustomResult<Any>> =
         liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
-            getResultWithExponentialBackoffStrategy { charityApi.sendReport(charityReportMessageModel) }
+            getResultWithExponentialBackoffStrategy {
+                charityApi.sendReport(
+                    charityReportMessageModel
+                )
+            }
                 .collect { result ->
                     when (result.status) {
                         CustomResult.Status.SUCCESS -> {

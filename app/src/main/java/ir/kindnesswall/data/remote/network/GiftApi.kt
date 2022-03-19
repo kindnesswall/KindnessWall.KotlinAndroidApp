@@ -80,5 +80,5 @@ interface GiftApi {
     suspend fun getPhoneVisibilitySetting(): Response<SettingModel>
 
     @POST("gifts/report")
-    suspend fun sendReport(@Body model:ReportMessageModel):Response<Any>
+    suspend fun sendReport(@Body model: ReportMessageModel): Response<Any>
 }

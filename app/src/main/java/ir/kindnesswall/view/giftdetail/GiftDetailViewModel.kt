@@ -72,8 +72,9 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
     fun requestGift(): LiveData<CustomResult<ChatContactModel>> {
         return giftRepo.requestGift(viewModelScope, giftModel?.id ?: 0)
     }
+
     fun sendReport(giftReportMessageModel: ReportMessageModel): LiveData<CustomResult<Any>> {
-        return giftRepo.sendMessageGiftReport(viewModelScope,giftReportMessageModel)
+        return giftRepo.sendMessageGiftReport(viewModelScope, giftReportMessageModel)
     }
 
     fun rejectGift(giftId: Long, reason: String) =

@@ -439,7 +439,10 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
                     }
         }
 
-    fun sendMessageGiftReport(viewModelScope: CoroutineScope, giftReportMessageModel: ReportMessageModel):
+    fun sendMessageGiftReport(
+        viewModelScope: CoroutineScope,
+        giftReportMessageModel: ReportMessageModel
+    ):
             LiveData<CustomResult<Any>> =
         liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             getResultWithExponentialBackoffStrategy { giftApi.sendReport(giftReportMessageModel) }

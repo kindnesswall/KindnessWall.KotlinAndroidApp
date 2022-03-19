@@ -7,4 +7,4 @@ data class ReportMessageModel(
     var charityId: Long,
     @SerializedName("message")
     var message: String
-    )
+)
