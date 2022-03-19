@@ -241,41 +241,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected fun showReportMessageDialog(
-        dialogTitle: String,
-        btnSendMessageTitle: String,
-        canceledOnTouchOutside: Boolean,
-        sendRequest: (String) -> Unit
-    ): BottomSheetDialog = BottomSheetDialog(this).apply {
-        val bind = ReportBottomSheetBinding.bind(
-            layoutInflater.inflate(
-                R.layout.report_bottom_sheet,
-                null
-            )
-        )
-        setContentView(bind.root)
-        window?.setBackgroundDrawableResource(android.R.color.transparent)
-        setCanceledOnTouchOutside(canceledOnTouchOutside)
-        setCancelable(canceledOnTouchOutside)
-        bind.txtTitle.text = dialogTitle
-        bind.btnSendRepost.apply {
-            text = btnSendMessageTitle
-            setOnClickListener {
-                if (bind.txtDescribtion.text.toString().trim().isNullOrEmpty()) {
-                    bind.txtDescribtion.hint = getString(R.string.please_enter_repost)
-                } else {
-                    sendRequest(bind.txtDescribtion.text.toString())
-                    dismiss()
-                }
-
-            }
-        }
-        bind.btnCancelRepost.setOnClickListener {
-            dismiss()
-        }
-        if (!isFinishing) if (!isShowing()) show()
-    }
-
     fun dismissProgressDialog() {
         progressDialog?.dismiss()
         progressDialog = null

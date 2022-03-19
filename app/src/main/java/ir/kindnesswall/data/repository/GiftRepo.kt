@@ -441,7 +441,7 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
 
     fun sendMessageGiftReport(
         viewModelScope: CoroutineScope,
-        giftReportMessageModel: ReportMessageModel
+        giftReportMessageModel: ReportGiftMessageModel
     ):
             LiveData<CustomResult<Any>> =
         liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {

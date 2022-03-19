@@ -19,7 +19,8 @@ import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.ReportMessageModel
+import ir.kindnesswall.data.model.ReportCharityMessageModel
+import ir.kindnesswall.data.model.ReportGiftMessageModel
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
@@ -27,7 +28,9 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.authentication.InsertVerificationNumberFragment
 import ir.kindnesswall.view.gallery.GalleryActivity
+import ir.kindnesswall.view.giftdetail.add.GiftMessageCharityFragment
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
+import ir.kindnesswall.view.main.charity.add.ReportMessageCharityFragment
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -80,32 +83,12 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
         binding.reportButton.setOnClickListener {
             runOrStartAuth {
-                sendReport()
-            }
-        }
-    }
-
-    private fun sendReport() {
-        showReportMessageDialog(
-            getString(R.string.report_message), getString(R.string.report_send), false
-        ) { message ->
-            viewModel.sendReport(
-                ReportMessageModel(
-                    charityId = viewModel.giftModel?.userId!!,
-                    message = message
+                val giftMessageCharityFragment =
+                    GiftMessageCharityFragment(giftId = viewModel.giftModel?.userId!!)
+                giftMessageCharityFragment.show(
+                    supportFragmentManager,
+                    giftMessageCharityFragment.tag
                 )
-            ).observe(this) {
-                if (it.status == CustomResult.Status.SUCCESS) {
-                    Toast.makeText(applicationContext, "${it.data}", Toast.LENGTH_SHORT).show()
-                } else if (it.status == CustomResult.Status.ERROR) {
-                    if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
-                        NoInternetDialogFragment().display(supportFragmentManager) {
-                            sendReport()
-                        }
-                    } else {
-                        showToastMessage(getString(R.string.please_try_again))
-                    }
-                }
             }
 
         }

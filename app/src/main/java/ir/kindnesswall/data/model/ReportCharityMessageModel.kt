@@ -2,7 +2,7 @@ package ir.kindnesswall.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ReportMessageModel(
+data class ReportCharityMessageModel(
     @SerializedName("charityId")
     var charityId: Long,
     @SerializedName("message")

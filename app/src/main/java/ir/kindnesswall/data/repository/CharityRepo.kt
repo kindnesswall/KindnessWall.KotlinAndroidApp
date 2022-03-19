@@ -7,7 +7,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.ReportMessageModel
+import ir.kindnesswall.data.model.ReportCharityMessageModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.remote.network.CharityApi
 import kotlinx.coroutines.CoroutineScope
@@ -77,7 +77,7 @@ class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource
 
     fun sendMessageCharityReport(
         viewModelScope: CoroutineScope,
-        charityReportMessageModel: ReportMessageModel
+        charityReportMessageModel: ReportCharityMessageModel
     ):
             LiveData<CustomResult<Any>> =
         liveData<CustomResult<Any>>(viewModelScope.coroutineContext, timeoutInMs = 0) {

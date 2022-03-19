@@ -8,7 +8,8 @@ import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.ReportMessageModel
+import ir.kindnesswall.data.model.ReportCharityMessageModel
+import ir.kindnesswall.data.model.ReportGiftMessageModel
 import ir.kindnesswall.data.repository.GiftRepo
 
 class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
@@ -73,7 +74,7 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         return giftRepo.requestGift(viewModelScope, giftModel?.id ?: 0)
     }
 
-    fun sendReport(giftReportMessageModel: ReportMessageModel): LiveData<CustomResult<Any>> {
+    fun sendReport(giftReportMessageModel: ReportGiftMessageModel): LiveData<CustomResult<Any>> {
         return giftRepo.sendMessageGiftReport(viewModelScope, giftReportMessageModel)
     }
 
