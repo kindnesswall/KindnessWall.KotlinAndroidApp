@@ -19,7 +19,7 @@ import ir.kindnesswall.view.giftdetail.GiftDetailViewModel
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class GiftMessageCharityFragment(private val giftId: Long) : RoundBottomSheetDialogFragment() {
+class GiftMessageReportFragment(private val giftId: Long) : RoundBottomSheetDialogFragment() {
     private lateinit var binding: ReportBottomSheetBinding
     private val viewModel: GiftDetailViewModel by viewModel()
     override fun onCreateView(
