@@ -22,6 +22,7 @@
     <string name="send">ارسال</string>
     <string name="send_to">ارسال به</string>
     <string name="send_again">ارسال مجدد کد</string>
+    <string name="report_success">"گزارش شما با موفقیت ثبت شد"</string>
     <string name="skip">رد کردن</string>
     <string name="insert_verification_code">کدی که برای شما ارسال شده است را وارد کنید</string>
     <string name="insert_user_name">برای ورود به سامانه نام کاربری خود را وارد نمایید</string>

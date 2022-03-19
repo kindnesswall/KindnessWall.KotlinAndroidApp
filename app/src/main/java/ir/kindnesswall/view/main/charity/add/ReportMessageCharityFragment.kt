@@ -56,11 +56,17 @@ class ReportMessageCharityFragment(private val charityId: Long) : RoundBottomShe
             )
         ).observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
-                Toast.makeText(requireContext(), "${it.data}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.report_success),
+                    Toast.LENGTH_SHORT
+                ).show()
+                dismiss()
             } else if (it.status == CustomResult.Status.ERROR) {
                 if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
                     NoInternetDialogFragment().display(childFragmentManager) {
                         sendReport(binding.editDescribtion.toString())
+                        dismiss()
                     }
                 } else {
                     Toast.makeText(

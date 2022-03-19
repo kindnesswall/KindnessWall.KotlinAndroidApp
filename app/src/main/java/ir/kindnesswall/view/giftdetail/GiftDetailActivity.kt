@@ -25,7 +25,7 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.authentication.InsertVerificationNumberFragment
 import ir.kindnesswall.view.gallery.GalleryActivity
-import ir.kindnesswall.view.giftdetail.add.GiftMessageReportFragment
+import ir.kindnesswall.view.giftdetail.add.ReportMessageGiftFragment
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -79,11 +79,11 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
         binding.reportButton.setOnClickListener {
             runOrStartAuth {
-                val giftMessageCharityFragment =
-                    GiftMessageReportFragment(giftId = viewModel.giftModel?.userId!!)
-                giftMessageCharityFragment.show(
+                val reportMessageGiftFragment =
+                    ReportMessageGiftFragment(giftId = viewModel.giftModel?.userId!!)
+                reportMessageGiftFragment.show(
                     supportFragmentManager,
-                    giftMessageCharityFragment.tag
+                    reportMessageGiftFragment.tag
                 )
             }
 

@@ -19,7 +19,7 @@ import ir.kindnesswall.view.giftdetail.GiftDetailViewModel
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class GiftMessageReportFragment(private val giftId: Long) : RoundBottomSheetDialogFragment() {
+class ReportMessageGiftFragment(private val giftId: Long) : RoundBottomSheetDialogFragment() {
     private lateinit var binding: ReportBottomSheetBinding
     private val viewModel: GiftDetailViewModel by viewModel()
     override fun onCreateView(
@@ -58,11 +58,17 @@ class GiftMessageReportFragment(private val giftId: Long) : RoundBottomSheetDial
             )
         ).observe(this) {
             if (it.status == CustomResult.Status.SUCCESS) {
-                Toast.makeText(requireContext(), "${it.data}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.report_success),
+                    Toast.LENGTH_SHORT
+                ).show()
+                dismiss()
             } else if (it.status == CustomResult.Status.ERROR) {
                 if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
                     NoInternetDialogFragment().display(childFragmentManager) {
                         sendReport(binding.editDescribtion.toString())
+                        dismiss()
                     }
                 } else {
                     Toast.makeText(

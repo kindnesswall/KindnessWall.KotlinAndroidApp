@@ -71,7 +71,7 @@ class CharityViewModel(
         return chatRepo.getChatId(viewModelScope, charityModel?.userId ?: 0)
     }
 
-    fun sendReport(charityReportMessageModel: ReportCharityMessageModel): LiveData<CustomResult<Any>> {
+    fun sendReport(charityReportMessageModel: ReportCharityMessageModel): LiveData<CustomResult<Any?>> {
         return charityRepo.sendMessageCharityReport(viewModelScope, charityReportMessageModel)
     }
 }

@@ -74,7 +74,7 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
         return giftRepo.requestGift(viewModelScope, giftModel?.id ?: 0)
     }
 
-    fun sendReport(giftReportMessageModel: ReportGiftMessageModel): LiveData<CustomResult<Any>> {
+    fun sendReport(giftReportMessageModel: ReportGiftMessageModel): LiveData<CustomResult<Any?>> {
         return giftRepo.sendMessageGiftReport(viewModelScope, giftReportMessageModel)
     }
 
