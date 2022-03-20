@@ -8,27 +8,28 @@ import android.widget.Toast
 import ir.kindnesswall.BR
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.ReportCharityMessageModel
 import ir.kindnesswall.data.model.ReportGiftMessageModel
-import ir.kindnesswall.databinding.FragmentAddCharityBinding
 import ir.kindnesswall.databinding.ReportBottomSheetBinding
-import ir.kindnesswall.utils.openSupportForm
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.utils.widgets.RoundBottomSheetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailViewModel
-import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ReportMessageGiftFragment(private val giftId: Long) : RoundBottomSheetDialogFragment() {
-    private lateinit var binding: ReportBottomSheetBinding
+class ReportMessageGiftFragment() : RoundBottomSheetDialogFragment() {
+    private var _binding: ReportBottomSheetBinding? = null
+    val binding get() = _binding!!
+
+    var giftId: Long = 0
+        private set
+
     private val viewModel: GiftDetailViewModel by viewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = ReportBottomSheetBinding.inflate(inflater, container, false)
-        return binding.root
+        _binding = ReportBottomSheetBinding.inflate(inflater, container, false)
+        return _binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +68,7 @@ class ReportMessageGiftFragment(private val giftId: Long) : RoundBottomSheetDial
             } else if (it.status == CustomResult.Status.ERROR) {
                 if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
                     NoInternetDialogFragment().display(childFragmentManager) {
-                        sendReport(binding.editDescribtion.toString())
+                        sendReport(binding!!.editDescribtion.toString())
                         dismiss()
                     }
                 } else {
@@ -80,6 +81,15 @@ class ReportMessageGiftFragment(private val giftId: Long) : RoundBottomSheetDial
                 }
             }
         }
+    }
+
+    fun setGiftId(GiftId: Long) {
+        this.giftId = GiftId
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
