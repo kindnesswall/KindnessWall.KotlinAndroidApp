@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import androidx.core.os.bundleOf
-import ir.kindnesswall.BR
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.ReportCharityMessageModel
@@ -34,19 +33,14 @@ class ReportMessageCharityFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
-            setVariable(BR.onClickSecondary, View.OnClickListener {
-                dismiss()
-            })
-
-            setVariable(BR.onClickPrimary, View.OnClickListener {
-                if (editDescribtion.text.toString().trim().isNotEmpty()) {
-                    sendReport(editDescribtion.toString())
-                }
-            })
+        binding.btnSendRepost.setOnClickListener {
+            val text = binding.editDescribtion.text.toString()
+            if (text.trim().isNotEmpty()) {
+                sendReport(text)
+            }
         }
+
+        binding.btnCancelRepost.setOnClickListener { dismiss() }
     }
 
     private fun sendReport(message: String) {
