@@ -34,6 +34,16 @@
                 android:layout_height="match_parent"
                 tools:context=".view.giftdetail.GiftDetailActivity">
 
+                <Button
+                    android:id="@+id/report_Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report"
+                    android:textSize="15sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/neighborhoodText"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <ImageView
                     android:id="@+id/charityImage"
                     srcUrl="@{item.imageUrl}"

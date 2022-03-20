@@ -1,8 +1,11 @@
 package ir.kindnesswall.data.remote.network
 
 import ir.kindnesswall.data.local.dao.charity.CharityModel
+import ir.kindnesswall.data.model.ReportCharityMessageModel
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 /**
@@ -20,4 +23,7 @@ interface CharityApi {
 
     @GET("charity/user/{id}")
     suspend fun getCharity(@Path("id") id: Long): Response<CharityModel>
+
+    @POST("charity/report")
+    suspend fun sendReport(@Body model: ReportCharityMessageModel): Response<Any>
 }

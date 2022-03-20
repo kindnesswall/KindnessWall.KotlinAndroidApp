@@ -24,7 +24,6 @@ import ir.kindnesswall.utils.extentions.dp
 import ir.kindnesswall.utils.widgets.GetInputDialog
 import org.koin.android.ext.android.inject
 
-
 /**
  * Created by farshid.abazari since 2019-10-31
  *

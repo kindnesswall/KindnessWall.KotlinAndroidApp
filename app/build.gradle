@@ -32,6 +32,7 @@ android {
 
     buildFeatures {
         dataBinding true
+        viewBinding true
         compose true
     }
 
@@ -170,3 +171,4 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
 }
+

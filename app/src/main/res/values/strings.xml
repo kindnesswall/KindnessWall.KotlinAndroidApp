@@ -22,6 +22,7 @@
     <string name="send">ارسال</string>
     <string name="send_to">ارسال به</string>
     <string name="send_again">ارسال مجدد کد</string>
+    <string name="report_success">"گزارش شما با موفقیت ثبت شد"</string>
     <string name="skip">رد کردن</string>
     <string name="insert_verification_code">کدی که برای شما ارسال شده است را وارد کنید</string>
     <string name="insert_user_name">برای ورود به سامانه نام کاربری خود را وارد نمایید</string>
@@ -213,5 +214,13 @@
     <string name="gift_detail_hidden_phone_number">بنا به درخواست اهدا کننده، امکان نمایش شماره تلفن وجود ندارد</string>
     <string name="gift_detail_charities_only_phone_number">بنا به درخواست اهدا کننده، تنها خیریه‌ها به شماره تلفن دسترسی دارند</string>
     <string name="gift_detail_contact_with">تماس با: %s</string>
+    <string name="enter_report">گزارش را وارد کنید</string>
+    <string name="txt_more_char">حداقل ۱۰۰ کاراکتر</string>
+    <string name="report_message">گزارش تخلف</string>
+    <string name="report">گزارش</string>
+    <string name="report_send">"ارسال تخلف"</string>
+    <string name="please_enter_repost">""لطفا گزارش را وارد کنید"</string>
+    <string name="cancel_laghve">لغو</string>
+
 
 </resources>

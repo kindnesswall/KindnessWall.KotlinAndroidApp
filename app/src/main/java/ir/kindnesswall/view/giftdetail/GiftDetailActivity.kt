@@ -25,6 +25,7 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.authentication.InsertVerificationNumberFragment
 import ir.kindnesswall.view.gallery.GalleryActivity
+import ir.kindnesswall.view.giftdetail.add.ReportMessageGiftFragment
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -75,6 +76,21 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             viewModel.giftModel!!.donatedToUserId != null && viewModel.giftModel!!.donatedToUserId!! > 0
 
         configureViews(savedInstanceState)
+
+        binding.reportButton.setOnClickListener {
+            runOrStartAuth {
+                ReportMessageGiftFragment().let {
+                    it.setGiftId(viewModel.giftModel?.userId ?: 0)
+                    it.show(
+                        supportFragmentManager,
+                        it.tag
+                    )
+                }
+            }
+
+        }
+
+
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
@@ -497,6 +513,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 }
             }
         }
+
+
     }
 
     override fun onResume() {
@@ -509,4 +527,5 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             }
         }
     }
+
 }

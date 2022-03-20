@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="onClickPrimary"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onClickSecondary"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/report_message"
+        android:textColor="@color/red"
+        android:textSize="17sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/describtion_container"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round_edit_report"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle">
+
+        <EditText
+            android:id="@+id/editDescribtion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="6dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="@string/enter_report"
+            android:maxLength="100"
+            android:maxLines="7"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:typeface="serif" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/text_world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/txt_more_char"
+        app:layout_constraintEnd_toEndOf="@+id/describtion_container"
+        app:layout_constraintTop_toBottomOf="@+id/describtion_container" />
+
+    <TextView
+        android:id="@+id/btn_cancelRepost"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_round_cancel_report"
+        android:gravity="center"
+        android:text="@string/cancel_laghve"
+        android:onClick="@{onClickSecondary}"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_sendRepost"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_sendRepost" />
+
+    <TextView
+        android:id="@+id/btn_sendRepost"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_round_edit_report"
+        android:gravity="center"
+        android:onClick="@{onClickPrimary}"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/report"
+        android:textColor="@color/rejectTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_cancelRepost"
+        app:layout_constraintTop_toBottomOf="@+id/text_world" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

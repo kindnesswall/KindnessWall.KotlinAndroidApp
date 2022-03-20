@@ -1,15 +1,19 @@
 package ir.kindnesswall.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.BaseDataSource
+import ir.kindnesswall.data.model.ReportCharityMessageModel
 import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.model.requestsmodel.DonateGiftRequestModel
 import ir.kindnesswall.data.remote.network.CharityApi
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 
 
@@ -72,5 +76,24 @@ class CharityRepo(context: Context, var charityApi: CharityApi) : BaseDataSource
                         else -> emit(CustomResult.error(result.errorMessage))
                     }
                 }
+        }
+
+    fun sendMessageCharityReport(
+        viewModelScope: CoroutineScope,
+        charityReportMessageModel: ReportCharityMessageModel
+    ): LiveData<CustomResult<Any?>> =
+        liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+            emit(CustomResult.loading())
+            getNullableResultWithExponentialBackoffStrategy {
+                charityApi.sendReport(charityReportMessageModel)
+            }.collect { result ->
+                when (result.status) {
+                    CustomResult.Status.SUCCESS -> {
+                        emit(CustomResult.success(result.data))
+                    }
+                    CustomResult.Status.LOADING -> emit(CustomResult.loading())
+                    else -> emit(CustomResult.error(result.errorMessage))
+                }
+            }
         }
 }
