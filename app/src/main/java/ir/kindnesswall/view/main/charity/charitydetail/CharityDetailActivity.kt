@@ -19,8 +19,8 @@ import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.Rating.RatingActivity
-import ir.kindnesswall.view.main.charity.add.ReportMessageCharityFragment
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
+import ir.kindnesswall.view.report.ReportDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CharityDetailActivity : BaseActivity(), CharityViewListener {
@@ -56,8 +56,8 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
             val charityId = viewModel.charityModel?.id ?: return@setOnClickListener
 
             runOrStartAuth {
-                ReportMessageCharityFragment
-                    .newInstance(charityId = charityId)
+                ReportDialog
+                    .newInstance(ReportDialog.ReportType.Charity(id = charityId))
                     .show(supportFragmentManager, null)
             }
         }
