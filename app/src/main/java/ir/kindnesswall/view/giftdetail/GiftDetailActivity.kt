@@ -78,16 +78,13 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         configureViews(savedInstanceState)
 
         binding.reportButton.setOnClickListener {
-            runOrStartAuth {
-                ReportMessageGiftFragment().let {
-                    it.setGiftId(viewModel.giftModel?.id ?: 0)
-                    it.show(
-                        supportFragmentManager,
-                        it.tag
-                    )
-                }
-            }
+            val giftId = viewModel.giftModel?.id ?: return@setOnClickListener
 
+            runOrStartAuth {
+                ReportMessageGiftFragment
+                    .newInstance(giftId = giftId)
+                    .show(supportFragmentManager, null)
+            }
         }
     }
 

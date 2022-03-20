@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.core.os.bundleOf
 import ir.kindnesswall.BR
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
@@ -19,8 +20,7 @@ class ReportMessageGiftFragment : BottomSheetDialogFragment() {
     private var _binding: ReportBottomSheetBinding? = null
     val binding get() = _binding!!
 
-    var giftId: Long = 0
-        private set
+    private val giftId: Long by lazy { requireArguments().getLong(ARG) }
 
     private val viewModel: GiftDetailViewModel by viewModel()
     override fun onCreateView(
@@ -82,12 +82,15 @@ class ReportMessageGiftFragment : BottomSheetDialogFragment() {
         }
     }
 
-    fun setGiftId(GiftId: Long) {
-        this.giftId = GiftId
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val ARG = "ARG"
+        fun newInstance(giftId: Long) = ReportMessageGiftFragment().apply {
+            arguments = bundleOf(ARG to giftId)
+        }
     }
 }
