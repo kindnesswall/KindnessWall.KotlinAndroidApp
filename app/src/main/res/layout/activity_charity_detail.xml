@@ -38,7 +38,7 @@
                     android:id="@+id/report_Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/report"
+                    android:text="@string/report_an_issue"
                     android:textSize="15sp"
                     android:layout_marginStart="10dp"
                     app:layout_constraintBottom_toTopOf="@+id/neighborhoodText"

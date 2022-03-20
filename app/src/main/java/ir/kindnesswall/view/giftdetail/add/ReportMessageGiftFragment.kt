@@ -41,9 +41,7 @@ class ReportMessageGiftFragment : BottomSheetDialogFragment() {
             })
 
             setVariable(BR.onClickPrimary, View.OnClickListener {
-                if (editDescribtion.text.toString().trim().isNullOrEmpty()) {
-                    editDescribtion.hint = getString(R.string.please_enter_repost)
-                } else {
+                if (editDescribtion.text.toString().trim().isNotEmpty()) {
                     sendReport(editDescribtion.toString())
                 }
             })
