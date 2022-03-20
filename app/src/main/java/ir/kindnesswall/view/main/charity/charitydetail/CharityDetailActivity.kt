@@ -53,15 +53,12 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
         getUserInformation()
         binding.reportButton.setOnClickListener {
-            runOrStartAuth {
-                ReportMessageCharityFragment().let {
-                    it.setCharityId(viewModel.charityModel?.id ?: 0)
-                    it.show(
-                        supportFragmentManager,
-                        it.tag
-                    )
-                }
+            val charityId = viewModel.charityModel?.id ?: return@setOnClickListener
 
+            runOrStartAuth {
+                ReportMessageCharityFragment
+                    .newInstance(charityId = charityId)
+                    .show(supportFragmentManager, null)
             }
         }
     }
