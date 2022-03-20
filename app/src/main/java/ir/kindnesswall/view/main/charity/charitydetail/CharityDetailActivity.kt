@@ -23,7 +23,6 @@ import ir.kindnesswall.view.main.charity.add.ReportMessageCharityFragment
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
 class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
     private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
@@ -56,7 +55,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
         binding.reportButton.setOnClickListener {
             runOrStartAuth {
                 ReportMessageCharityFragment().let {
-                    it.setCharityId(viewModel.charityModel?.userId ?: 0)
+                    it.setCharityId(viewModel.charityModel?.id ?: 0)
                     it.show(
                         supportFragmentManager,
                         it.tag
@@ -66,7 +65,6 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
             }
         }
     }
-
 
     private fun getUserInformation() {
         viewModel.getUserInformation().observe(this) {
@@ -95,7 +93,6 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
                 binding.informationBottomSheet.charityContentBottomSheet.visibility = View.GONE
         }
         initBottomSheet()
-
     }
 
     private fun initBottomSheet() {
@@ -198,6 +195,4 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     override fun onWebsiteClicked() {
         StaticContentViewer.show(this, viewModel.charityModel?.website)
     }
-
-
 }
