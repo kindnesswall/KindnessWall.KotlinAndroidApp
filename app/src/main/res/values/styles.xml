@@ -22,6 +22,10 @@
         <item name="textAppearanceButton">@style/AppTheme.Button</item>
         <item name="textAppearanceOverline">@style/AppTheme.Overline</item>
 
+        <item name="shapeAppearanceLargeComponent">@style/AppShape.LargeShape</item>
+        <item name="shapeAppearanceMediumComponent">@style/AppShape.MediumShape</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShape.SmallShape</item>
+
         <item name="bottomSheetDialogTheme">@style/BottomSheet.Round</item>
     </style>
 

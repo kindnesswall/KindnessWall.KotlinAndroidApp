@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppShape.LargeShape" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="AppShape.MediumShape" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="AppShape.SmallShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">4dp</item>
+    </style>
+</resources>
