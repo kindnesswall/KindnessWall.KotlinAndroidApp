@@ -5,24 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.kindnesswall.BR
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.ReportCharityMessageModel
 import ir.kindnesswall.databinding.ReportBottomSheetBinding
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
-import ir.kindnesswall.utils.widgets.RoundBottomSheetDialogFragment
 import ir.kindnesswall.view.main.charity.charitydetail.CharityViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ReportMessageCharityFragment() : RoundBottomSheetDialogFragment() {
+class ReportMessageCharityFragment : BottomSheetDialogFragment() {
 
     private var _binding: ReportBottomSheetBinding? = null
     val binding get() = _binding!!
 
     var charityId: Long = 0
         private set
-
 
     private val viewModel: CharityViewModel by viewModel()
     override fun onCreateView(

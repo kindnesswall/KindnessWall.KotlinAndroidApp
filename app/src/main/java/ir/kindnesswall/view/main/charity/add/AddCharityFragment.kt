@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.kindnesswall.BR
 import ir.kindnesswall.databinding.FragmentAddCharityBinding
 import ir.kindnesswall.utils.openSupportForm
-import ir.kindnesswall.utils.widgets.RoundBottomSheetDialogFragment
 
-class AddCharityFragment : RoundBottomSheetDialogFragment() {
+class AddCharityFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddCharityBinding
 

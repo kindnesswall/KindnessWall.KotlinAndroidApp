@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.kindnesswall.BR
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.databinding.FragmentReminderSubmitGiftBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
-import ir.kindnesswall.utils.widgets.RoundBottomSheetDialogFragment
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
-class ReminderSubmitGiftFragment : RoundBottomSheetDialogFragment() {
+class ReminderSubmitGiftFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentReminderSubmitGiftBinding
 

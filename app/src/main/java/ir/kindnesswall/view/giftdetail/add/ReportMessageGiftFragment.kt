@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.kindnesswall.BR
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.ReportGiftMessageModel
 import ir.kindnesswall.databinding.ReportBottomSheetBinding
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
-import ir.kindnesswall.utils.widgets.RoundBottomSheetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ReportMessageGiftFragment() : RoundBottomSheetDialogFragment() {
+class ReportMessageGiftFragment : BottomSheetDialogFragment() {
     private var _binding: ReportBottomSheetBinding? = null
     val binding get() = _binding!!
 
@@ -49,7 +49,6 @@ class ReportMessageGiftFragment() : RoundBottomSheetDialogFragment() {
             })
         }
     }
-
 
     private fun sendReport(message: String) {
         viewModel.sendReport(
@@ -91,6 +90,4 @@ class ReportMessageGiftFragment() : RoundBottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
