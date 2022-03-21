@@ -11,9 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send message to Telegram
-        uses: Lukasss93/telegram-action@v2
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT: ${{ secrets.TELEGRAM_TO }}
-#        with:
-#          commit_template: ./.github/telegram-message-template.txt
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <a href="https://github.com/${{github.repository}}/commit/${{github.sha}}">${{github.sha}}</a> • <a href="https://github.com/${{github.actor}}">${{github.actor}}</a>
+            ${{ github.event.commits[0].message }}
+            
+            @Kindnesswall_Android_App
