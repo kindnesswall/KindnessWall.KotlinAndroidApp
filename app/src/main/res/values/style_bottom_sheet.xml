@@ -32,6 +32,6 @@
     </style>
 
     <style name="BottomSheetModal.Round" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_bottom_sheet</item>
+        <item name="shapeAppearance">@style/AppShape.BottomSheetShape</item>
     </style>
 </resources>
