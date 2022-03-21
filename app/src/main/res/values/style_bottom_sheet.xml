@@ -1,7 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="BottomSheet" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -21,16 +20,14 @@
         <item name="textAppearanceCaption">@style/AppTheme.Caption</item>
         <item name="textAppearanceButton">@style/AppTheme.Button</item>
         <item name="textAppearanceOverline">@style/AppTheme.Overline</item>
-
-        <item name="bottomSheetDialogTheme">@style/BottomSheet.Round</item>
     </style>
 
-    <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@android:color/white</item>
-        <item name="actionMenuTextColor">@color/colorAccent</item>
+
+    <style name="BottomSheet.Round">
+        <item name="bottomSheetStyle">@style/BottomSheetModal.Round</item>
+    </style>
+
+    <style name="BottomSheetModal.Round" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 </resources>
