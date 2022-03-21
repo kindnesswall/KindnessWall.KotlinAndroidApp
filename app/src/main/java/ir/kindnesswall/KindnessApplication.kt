@@ -10,7 +10,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.chibatching.kotpref.Kotpref
+import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import ir.kindnesswall.data.local.AppPref
+import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.di.dataBaseModule
@@ -54,6 +57,21 @@ class KindnessApplication : Application(), LifecycleObserver {
 
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
+
+        if (BuildConfig.DEBUG.not()) {
+            YandexMetrica.activate(
+                this,
+                YandexMetricaConfig
+                    .newConfigBuilder(BuildConfig.APP_METRICA_API_KEY)
+                    .withLocationTracking(false)
+                    .apply {
+                        UserInfoPref.userId.takeIf { it != 0L }
+                            ?.let { withUserProfileID(it.toString()) }
+                    }
+                    .build()
+            )
+            YandexMetrica.enableActivityAutoTracking(this)
+        }
 
         startKoin {
             androidLogger()

@@ -22,6 +22,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         resValue "string", "google_maps_key", "\"${GOOGLE_MAPS_API_KEY}\""
+        buildConfigField "String", "APP_METRICA_API_KEY", "\"${APP_METRICA_API_KEY}\""
     }
 
     buildFeatures {
@@ -123,6 +124,8 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
     implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
+
+    implementation 'com.yandex.android:mobmetricalib:4.1.1'
 
     def kotpref_version = "2.13.2"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
