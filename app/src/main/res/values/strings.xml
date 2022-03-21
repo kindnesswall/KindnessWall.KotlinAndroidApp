@@ -217,10 +217,9 @@
     <string name="enter_report">گزارش را وارد کنید</string>
     <string name="txt_more_char">حداقل ۱۰۰ کاراکتر</string>
     <string name="report_message">گزارش تخلف</string>
-    <string name="report">گزارش</string>
-    <string name="report_send">"ارسال تخلف"</string>
-    <string name="please_enter_repost">""لطفا گزارش را وارد کنید"</string>
-    <string name="cancel_laghve">لغو</string>
+    <string name="report_an_issue">گزارش تخلف</string>
+    <string name="submit_report">ارسال</string>
+    <string name="cancel_report">لغو</string>
 
 
 </resources>

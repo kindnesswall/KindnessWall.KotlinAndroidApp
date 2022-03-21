@@ -25,9 +25,9 @@ import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.authentication.InsertVerificationNumberFragment
 import ir.kindnesswall.view.gallery.GalleryActivity
-import ir.kindnesswall.view.giftdetail.add.ReportMessageGiftFragment
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
+import ir.kindnesswall.view.report.ReportDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GiftDetailActivity : BaseActivity(), GiftViewListener {
@@ -78,19 +78,14 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         configureViews(savedInstanceState)
 
         binding.reportButton.setOnClickListener {
+            val giftId = viewModel.giftModel?.id ?: return@setOnClickListener
+
             runOrStartAuth {
-                ReportMessageGiftFragment().let {
-                    it.setGiftId(viewModel.giftModel?.userId ?: 0)
-                    it.show(
-                        supportFragmentManager,
-                        it.tag
-                    )
-                }
+                ReportDialog
+                    .newInstance(ReportDialog.ReportType.Gift(id = giftId))
+                    .show(supportFragmentManager, null)
             }
-
         }
-
-
     }
 
     override fun configureViews(savedInstanceState: Bundle?) {
@@ -171,7 +166,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     viewModel.selectedImageIndex = selectedImageIndex
                 })
             .show(viewModel.giftModel?.giftImages)
-
     }
 
     private fun setSituationText() {
@@ -304,7 +298,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
     }
 
     override fun onBookmarkClicked() {
-
     }
 
     override fun onAcceptGiftClicked() {
@@ -401,15 +394,12 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
         //  getSetting(progress!!, numberMessage!!)
         if (UserInfoPref.bearerToken.isNotEmpty()) {
             getUserNumber()
-
         } else {
             AuthenticationActivity.start(this)
             LoginFlag = "GiftDetailActivity"
             progress!!.visibility = View.GONE
-
         }
     }
-
 
     fun getSetting() {
         show_number_txt!!.text = resources.getString(R.string.show_number)
@@ -421,7 +411,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     //showProgressDialog { }
                 }
 
-
                 CustomResult.Status.SUCCESS -> {
 
                     when (it.data!!.setting) {
@@ -432,7 +421,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                                 CallMessage!!.text = ""
                                 show_number!!.visibility = View.VISIBLE
                             }
-
                         }
                         "charity" -> {
                             CallMessage!!.text =
@@ -445,11 +433,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                                         resources.getString(R.string.show_number)
                                 } else {
                                     show_number!!.visibility = View.GONE
-
                                 }
                             }
-
-
                         }
                         "all" -> {
                             CallMessage!!.text = ""
@@ -460,7 +445,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
 
             }
         }
-
     }
 
     override fun onCallPageClick() {
@@ -469,7 +453,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number))
             startActivity(callIntent)
         }
-
     }
 
     private fun returnResult(result: Boolean, task: String) {
@@ -492,7 +475,6 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                 CustomResult.Status.LOADING -> {
                     // showProgressDialog { }
                     progress!!.visibility = View.VISIBLE
-
                 }
                 CustomResult.Status.SUCCESS -> {
                     progress!!.visibility = View.GONE
@@ -509,12 +491,9 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     viewModel.callPageStatus = false
                     show_number!!.visibility = View.GONE
                     number = ""
-
                 }
             }
         }
-
-
     }
 
     override fun onResume() {
@@ -527,5 +506,4 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
             }
         }
     }
-
 }

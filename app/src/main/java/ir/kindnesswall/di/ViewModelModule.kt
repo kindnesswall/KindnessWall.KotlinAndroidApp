@@ -17,6 +17,7 @@ import ir.kindnesswall.view.main.conversation.chat.todonategifts.DonateGiftViewM
 import ir.kindnesswall.view.profile.MyProfileViewModel
 import ir.kindnesswall.view.profile.blocklist.BlockListViewModel
 import ir.kindnesswall.view.profile.bookmarks.BookmarksViewModel
+import ir.kindnesswall.view.report.ReportViewModel
 import ir.kindnesswall.view.reviewgift.ReviewGiftsViewModel
 import ir.kindnesswall.view.splash.SplashViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -53,4 +54,5 @@ val viewModelModule = module {
     viewModel { DonateGiftViewModel(get()) }
     viewModel { ReviewGiftsViewModel(get()) }
     viewModel { ChatViewModel(get(), get(), get(), get()) }
+    viewModel { ReportViewModel(get(), get()) }
 }

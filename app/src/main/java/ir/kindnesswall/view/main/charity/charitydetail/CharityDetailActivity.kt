@@ -19,10 +19,9 @@ import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.Rating.RatingActivity
-import ir.kindnesswall.view.main.charity.add.ReportMessageCharityFragment
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
+import ir.kindnesswall.view.report.ReportDialog
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
@@ -54,19 +53,15 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
         getUserInformation()
         binding.reportButton.setOnClickListener {
-            runOrStartAuth {
-                ReportMessageCharityFragment().let {
-                    it.setCharityId(viewModel.charityModel?.userId ?: 0)
-                    it.show(
-                        supportFragmentManager,
-                        it.tag
-                    )
-                }
+            val charityId = viewModel.charityModel?.id ?: return@setOnClickListener
 
+            runOrStartAuth {
+                ReportDialog
+                    .newInstance(ReportDialog.ReportType.Charity(id = charityId))
+                    .show(supportFragmentManager, null)
             }
         }
     }
-
 
     private fun getUserInformation() {
         viewModel.getUserInformation().observe(this) {
@@ -95,7 +90,6 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
                 binding.informationBottomSheet.charityContentBottomSheet.visibility = View.GONE
         }
         initBottomSheet()
-
     }
 
     private fun initBottomSheet() {
@@ -198,6 +192,4 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
     override fun onWebsiteClicked() {
         StaticContentViewer.show(this, viewModel.charityModel?.website)
     }
-
-
 }
