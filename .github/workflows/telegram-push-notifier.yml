@@ -16,22 +16,18 @@ jobs:
           to: -1001575459251
           token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
           disable_web_page_preview: true
-          disable_notification: true
           format: html
           message: |
             <a href="github.com/${{github.repository}}/commit/${{github.sha}}">${{github.sha}}</a> • <a href="github.com/${{github.actor}}">${{github.actor}}</a>
             commits=${{github.event.commits}}
-            commits
+            $commits
+            {{commits}}
+            ${{commits}}
             
             ${{ github.event.commits[0].message }}
             @Kindnesswall_Android_App
-
-      - name: send custom message with args
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          args: The ${{ github.event_name }} event triggered first step.
+            ⚡️ <a href="https://github.com/aszenz/repo/commit/${{ github.event.push.after }}">Commits</a> pushed to master by <em>${{ github.event.push.pusher.name }}</em> ⚡️
+            ${{ github.actor }}:${{ github.event.head_commit.message }}
 
       - name: send message using with
         uses: appleboy/telegram-action@v0.1.1
@@ -45,86 +41,3 @@ jobs:
             show the github variable ref: {{ commit.ref }}
             show the github variable commit: {{ commit.sha }}
             Commit Message: ${{ github.event.head_commit.message }}
-
-
-      - name: send default message
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-
-      - name: send photo message
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          message: send photo message
-          photo: './tests/github.png'
-          document: './tests/gophercolor.png'
-
-      - name: send location message
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          location: '24.9163213 121.1424972'
-          venue: '35.661777 139.704051 竹北體育館 新竹縣竹北市'
-
-      - name: send custom message
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          message: |
-            The ${{ github.event_name }} event triggered final step.
-            echo This event is a pull request that had an assignee removed.
-
-
-#      - name: send message file
-#        uses: appleboy/telegram-action@v0.1.1
-#        with:
-#          to: -1001575459251
-#          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-#          message_file: tests/message.txt
-
-      - name: try multiple message
-        uses: appleboy/telegram-action@master
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          format: html
-          message: |
-            ⚡️ <a href="https://github.com/aszenz/repo/commit/${{ github.event.push.after }}">Commits</a> pushed to master by <em>${{ github.event.push.pusher.name }}</em> ⚡️
-            ${{ github.actor }}:${{ github.event.head_commit.message }}
-
-
-      - name: link preview
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          message: |
-            show link preview https://beigirad.ir
-
-
-      - name: disable link preview
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          disable_web_page_preview: true
-          message: |
-            disable link preview https://beigirad.ir
-
-
-
-
-
-      - name: sending a message without notification
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          disable_notification: true
-          message: |
-            disable link preview https://beigirad.ir
