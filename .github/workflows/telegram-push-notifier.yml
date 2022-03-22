@@ -25,7 +25,6 @@ jobs:
             
             ${{ github.event.commits[0].message }}
             @Kindnesswall_Android_App
-          args: The ${{ github.event_name }} event triggered first step.
 
       - name: send custom message with args
         uses: appleboy/telegram-action@v0.1.1
