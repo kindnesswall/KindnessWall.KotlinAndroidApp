@@ -104,7 +104,7 @@ jobs:
           to: -1001575459251
           token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
           message: |
-            show link preview https://google.com.tw
+            show link preview https://google.com
 
 
       - name: disable link preview
@@ -114,7 +114,7 @@ jobs:
           token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
           disable_web_page_preview: true
           message: |
-            disable link preview https://google.com.tw
+            disable link preview https://google.com
 
 
       - name: sending a message without notification
@@ -124,4 +124,4 @@ jobs:
           token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
           disable_notification: true
           message: |
-            disable link preview https://google.com.tw
+            disable link preview https://google.com
