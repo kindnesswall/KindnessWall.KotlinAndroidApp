@@ -81,12 +81,12 @@ jobs:
             echo This event is a pull request that had an assignee removed.
 
 
-      - name: send message file
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: -1001575459251
-          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
-          message_file: tests/message.txt
+#      - name: send message file
+#        uses: appleboy/telegram-action@v0.1.1
+#        with:
+#          to: -1001575459251
+#          token: 5285147386:AAE6dVJcU5eyNODmI2f-6iZb7QeauajBc70
+#          message_file: tests/message.txt
 
       - name: try multiple message
         uses: appleboy/telegram-action@master
