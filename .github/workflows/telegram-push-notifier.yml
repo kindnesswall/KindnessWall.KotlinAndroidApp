@@ -10,6 +10,15 @@ jobs:
     name: Notify via Telegram
     runs-on: ubuntu-latest
     steps:
+      - name: Message creator
+        run: |
+          commits=${{github.event.commits}}
+          echo ${{github.event.commits}}
+          echo $commits
+          echo {{commits}}
+          echo ${{commits}}
+
+
       - name: Send message to Telegram
         uses: appleboy/telegram-action@v0.1.1
         with:
@@ -20,9 +29,6 @@ jobs:
           message: |
             <a href="github.com/${{github.repository}}/commit/${{github.sha}}">${{github.sha}}</a> • <a href="github.com/${{github.actor}}">${{github.actor}}</a>
             commits=${{github.event.commits}}
-            $commits
-            {{commits}}
-            ${{commits}}
             
             ${{ github.event.commits[0].message }}
             @Kindnesswall_Android_App
