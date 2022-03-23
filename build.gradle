@@ -17,8 +17,8 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
 
         classpath 'com.google.gms:google-services:4.3.3'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
         classpath "com.github.ben-manes:gradle-versions-plugin:0.39.0"
+        classpath "com.yandex.android:appmetrica-build-plugin:0.3.0"
     }
 }
 

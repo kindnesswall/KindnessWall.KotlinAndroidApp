@@ -81,9 +81,9 @@ fun headersInterceptor(addAuthHeader: Boolean) = Interceptor { chain ->
 
 private fun setTimeOutToOkHttpClient(okHttpClientBuilder: OkHttpClient.Builder) =
     okHttpClientBuilder.apply {
-        readTimeout(BuildConfig.READ_TIMEOUT_SECOND, TimeUnit.SECONDS)
-        connectTimeout(BuildConfig.CONNECTION_TIMEOUT_SECOND, TimeUnit.SECONDS)
-        writeTimeout(BuildConfig.READ_TIMEOUT_SECOND, TimeUnit.SECONDS)
+        readTimeout(15L, TimeUnit.SECONDS)
+        connectTimeout(15L, TimeUnit.SECONDS)
+        writeTimeout(15L, TimeUnit.SECONDS)
     }
 
 class NullOnEmptyConverterFactory : Converter.Factory() {

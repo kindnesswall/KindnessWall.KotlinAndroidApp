@@ -4,7 +4,7 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'appmetrica-plugin'
 
 ext {
     compose_version = "1.0.5"
@@ -22,12 +22,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        vectorDrawables.useSupportLibrary = true
-
-        buildConfigField "Long", "READ_TIMEOUT_SECOND", READ_TIMEOUT_SECOND
-        buildConfigField "Long", "CONNECTION_TIMEOUT_SECOND", CONNECTION_TIMEOUT_SECOND
-
-        resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
+        resValue "string", "google_maps_key", "\"${GOOGLE_MAPS_API_KEY}\""
+        buildConfigField "String", "APP_METRICA_API_KEY", "\"${APP_METRICA_API_KEY}\""
     }
 
     buildFeatures {
@@ -38,11 +34,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         debug {
-            manifestPlaceholders = [isBranchSdkInTestMode: "true"]
+            applicationIdSuffix = ".debug"
         }
     }
 
@@ -51,11 +48,11 @@ android {
     productFlavors {
         staging {
             versionNameSuffix 'Staging'
-            buildConfigField "String", "URL_WEBAPI", "${STAGING_URL_WEBAPI_BASE_URL}"
+            buildConfigField "String", "URL_WEBAPI", "\"${STAGING_URL_WEBAPI_BASE_URL}\""
         }
 
         production {
-            buildConfigField "String", "URL_WEBAPI", "${PRODUCTION_URL_WEBAPI_BASE_URL}"
+            buildConfigField "String", "URL_WEBAPI", "\"${PRODUCTION_URL_WEBAPI_BASE_URL}\""
         }
     }
 
@@ -90,9 +87,6 @@ dependencies {
 
     def koin_version = "2.0.1"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
-
-    def androidXAnnotations = '1.0.1'
-    implementation "androidx.annotation:annotation:$androidXAnnotations"
 
     def coroutinesVersion = '1.5.2'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
@@ -130,14 +124,14 @@ dependencies {
     implementation "com.github.skydoves:landscapist-glide:1.4.0"
 
     // firebase
-    implementation 'com.google.firebase:firebase-messaging:20.2.0'
-    implementation 'com.google.firebase:firebase-analytics:17.4.2'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
+
+    implementation 'com.yandex.android:mobmetricalib:4.1.1'
 
     def kotpref_version = "2.13.2"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
     implementation "com.chibatching.kotpref:gson-support:$kotpref_version"
-    implementation "com.chibatching.kotpref:initializer:$kotpref_version"
     implementation "com.chibatching.kotpref:livedata-support:$kotpref_version"
 
     // zoomable image view
@@ -150,9 +144,6 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
 
     implementation "com.github.marlonlom:timeago:4.0.3"
-
-    //recycler view swipe detector
-    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
 
@@ -172,3 +163,6 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 }
 
+appmetrica {
+    postApiKey = "${APP_METRICA_POST_API_KEY}"
+}
