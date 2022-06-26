@@ -197,7 +197,7 @@ class MoreFragment : BaseFragment() {
     }
 
     private fun openPhoneVisibilityDialog() {
-        MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.show_number)
             .setSingleChoiceItems(
                 arrayOf(

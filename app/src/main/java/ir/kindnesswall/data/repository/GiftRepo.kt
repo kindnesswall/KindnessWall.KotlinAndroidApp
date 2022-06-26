@@ -385,7 +385,8 @@ class GiftRepo(context: Context, private val giftApi: GiftApi) : BaseDataSource(
     fun setSettingNumber(
         context: CoroutineContext,
         visibility: PhoneVisibility
-    ): LiveData<CustomResult<Any?>> = liveData<CustomResult<Any?>>(context, timeoutInMs = 0) {
+    ): LiveData<CustomResult<Any?>> =
+        liveData<CustomResult<Any?>>(context, timeoutInMs = 0) {
         emit(CustomResult.loading())
         getNullableResultWithExponentialBackoffStrategy {
             val requestBody = SetSetting(

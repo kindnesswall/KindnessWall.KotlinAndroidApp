@@ -147,9 +147,10 @@ class MainActivity : BaseActivity() {
     private fun fixBottomNavigationBug() {
         val menuView = binding.mainBottomNavigationView.getChildAt(0) as? ViewGroup ?: return
 
-        menuView.forEach {
-            it.findViewById<View>(R.id.largeLabel)?.setPadding(0, 0, 0, 0)
-        }
+        //TODO fix later
+//        menuView.forEach {
+//            it.findViewById<View>(R.id.largeLabel)?.setPadding(0, 0, 0, 0)
+//        }
     }
 
     private fun selectDefaultTab() {

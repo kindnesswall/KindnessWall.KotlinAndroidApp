@@ -81,6 +81,6 @@ class SplashActivity : BaseActivity() {
             AppPref.isOnBoardingShown = true
             OnBoardingActivity.start(this)
             finish()
-        }
+       // }
     }
 }
