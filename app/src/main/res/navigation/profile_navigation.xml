@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_navigation"
+    app:startDestination="@id/charityFragment2">
+
+    <fragment
+        android:id="@+id/charityFragment2"
+        android:name="ir.kindnesswall.view.test.CharityProfile"
+        android:label="CharityProfile" />
+</navigation>

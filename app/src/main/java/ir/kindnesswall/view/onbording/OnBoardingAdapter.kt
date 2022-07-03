@@ -22,7 +22,7 @@ class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 4) {
+        if (position == 3) {
             return OnBoardingLayoutType.CITY
         }
 
@@ -89,6 +89,9 @@ class OnBoardingAdapter(private var items: ArrayList<OnBoardingModel>) :
 
         item.city?.let {
             if (it.id > 0) {
+                if (it.name?.isNotEmpty() == true) {
+                    holder.binding.actionButton.isEnabled = true
+                }
                 holder.binding.cityNameTextView.text = it.name
             }
         }

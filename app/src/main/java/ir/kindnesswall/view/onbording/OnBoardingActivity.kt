@@ -46,11 +46,6 @@ class OnBoardingActivity : BaseActivity() {
                 snapPosition + 1
             )
         }
-
-        binding.skipTextView.setOnClickListener {
-            MainActivity.start(this)
-            finish()
-        }
     }
 
     private fun initRecyclerView() {
@@ -103,12 +98,10 @@ class OnBoardingActivity : BaseActivity() {
 
     private fun hideBottomButtons() {
         binding.nextTextView.visibility = View.INVISIBLE
-        binding.skipTextView.visibility = View.INVISIBLE
     }
 
     private fun showBottomButtons() {
         binding.nextTextView.visibility = View.VISIBLE
-        binding.skipTextView.visibility = View.VISIBLE
     }
 
     private fun getOnBoardingModel(): ArrayList<OnBoardingModel> {
@@ -117,7 +110,7 @@ class OnBoardingActivity : BaseActivity() {
         items.add(OnBoardingModel().apply {
             title = getString(R.string.onboarding_title_first)
             descrption = getString(R.string.onboarding_desc_first)
-            imageId = R.drawable.ic_gift
+            imageId = R.drawable.ic_free
             backgroundColor = R.color.onBoardingFirstColor
         })
 
@@ -131,15 +124,8 @@ class OnBoardingActivity : BaseActivity() {
         items.add(OnBoardingModel().apply {
             title = getString(R.string.onboarding_title_third)
             descrption = getString(R.string.onboarding_desc_third)
-            imageId = R.drawable.ic_free
+            imageId = R.drawable.ic_gift
             backgroundColor = R.color.onBoardingThirdColor
-        })
-
-        items.add(OnBoardingModel().apply {
-            title = getString(R.string.onboarding_title_fourth)
-            descrption = getString(R.string.onboarding_desc_fourth)
-            imageId = R.drawable.ic_opensource
-            backgroundColor = R.color.onBoardingFourthColor
         })
 
         items.add(OnBoardingModel())
@@ -153,7 +139,7 @@ class OnBoardingActivity : BaseActivity() {
         if (requestCode == CityChooserActivity.CITY_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val items = getOnBoardingModel()
-                items[4].city = data?.getSerializableExtra("city") as CityModel
+                items[3].city = data?.getSerializableExtra("city") as CityModel
                 (binding.onBoardingRecyclerView.adapter as OnBoardingAdapter).setItems(items)
             }
         }

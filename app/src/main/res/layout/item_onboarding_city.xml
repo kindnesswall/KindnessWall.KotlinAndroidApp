@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="item"
             type="ir.kindnesswall.data.model.OnBoardingModel" />
@@ -97,15 +96,15 @@
                     android:layout_toEndOf="@+id/dropDownImage"
                     android:text="@string/choose_your_city"
                     android:textColor="@color/secondaryTextColor" />
-
             </RelativeLayout>
 
             <Button
                 android:id="@+id/actionButton"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="96dp"
                 android:background="@drawable/white_round_background_4dp"
+                android:enabled="false"
                 android:fontFamily="@font/vazir_bold"
                 android:text="@string/lets_go"
                 android:textSize="15sp"

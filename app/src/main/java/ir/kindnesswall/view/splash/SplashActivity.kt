@@ -28,8 +28,6 @@ class SplashActivity : BaseActivity() {
         viewModel.isStartFromNotification = intent.getBooleanExtra("isStartFromNotification", false)
         viewModel.requestChatModel =
             intent.getSerializableExtra("requestChatModel") as? ChatModel
-
-
     }
 
     override fun onResume() {

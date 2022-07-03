@@ -48,7 +48,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/conversationTabContainer"
+                android:id="@+id/profileTabContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="invisible"
@@ -56,12 +56,12 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <fragment
-                    android:id="@+id/conversationTab"
+                    android:id="@+id/profileTab"
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:defaultNavHost="false"
-                    app:navGraph="@navigation/conversation_navigation" />
+                    app:navGraph="@navigation/profile_navigation" />
             </FrameLayout>
 
             <FrameLayout
@@ -87,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
                 app:backgroundTint="@color/colorAccent"
+                app:tint="@color/white"
                 app:borderWidth="0dp"
                 app:elevation="9dp"
                 app:layout_constraintBottom_toBottomOf="parent"

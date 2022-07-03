@@ -3,7 +3,7 @@
 
     <string name="tabbar_home">خانه</string>
     <string name="tabbar_charity">خیریه</string>
-    <string name="tabbar_conversation">گفتگو</string>
+    <string name="tabbar_profile">پروفایل</string>
     <string name="tabbar_more">بیشتر</string>
 
     <string name="unauthenticated">Unauthenticated User</string>
@@ -32,17 +32,15 @@
     <string name="just_now">دقایقی پیش</string>
     <string name="next">بعدی</string>
 
-    <string name="onboarding_title_first">نیاز داری بردار، نیاز نداری بذار</string>
-    <string name="onboarding_desc_first">همه ما کلی وسیله توی خونه داریم که بهشون نیاز نداریم! اما نمی‌دونیم باهاشون چیکار کنیم چه بهتر از اینکه به کسی بدیم که بهش نیاز داره؟</string>
+    <string name="onboarding_title_first">اهدای هدفمند</string>
+    <string name="onboarding_desc_first">هرکالایی رو که نیاز نداری ثبت کن، ما در سریعترین زمان و رایگان اون رو به دست آدم نیازمند میرسونیم</string>
 
-    <string name="onboarding_title_second">خیریه‌ها</string>
-    <string name="onboarding_desc_second">خیلی‌ها می‌خوان به نیازمندای واقعی کمک کنن اما نمی‌دونن چطوری اینجا می‌تونین کمک‌هاتون رو به خیریه‌های مطمئن بدین</string>
+    <string name="onboarding_title_second">خیریه های معتبر</string>
+    <string name="onboarding_desc_second">این کار رو با کمک خیریه های معتبر و رسمی سراسر کشور انجام میدیم</string>
 
-    <string name="onboarding_title_third">همیشه رایگان</string>
-    <string name="onboarding_desc_third">برنامه دیوار مهربانی برای همیشه رایگان خواهد بود</string>
+    <string name="onboarding_title_third">نیازمندان واقعی</string>
+    <string name="onboarding_desc_third">و مطمئن میشیم که به دست نیازمندان واقعی میرسه</string>
 
-    <string name="onboarding_title_fourth">متن‌باز</string>
-    <string name="onboarding_desc_fourth">کدهای برنامه همیشه در دسترس برنامه‌نویسان خواهد بود</string>
     <string name="choose_city">انتخاب شهر</string>
     <string name="choose_your_city">شهر خود را انتخاب کنید</string>
     <string name="lets_go">بزن بریم</string>
@@ -219,6 +217,8 @@
     <string name="report_an_issue">گزارش تخلف</string>
     <string name="submit_report">ارسال</string>
     <string name="cancel_report">لغو</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

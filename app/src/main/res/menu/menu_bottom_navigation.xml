@@ -16,9 +16,9 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_conversation"
-        android:icon="@drawable/ic_chat_bubble_white"
-        android:title="@string/tabbar_conversation" />
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_profile_place_holder_white"
+        android:title="@string/tabbar_profile" />
 
     <item
         android:id="@+id/navigation_more"

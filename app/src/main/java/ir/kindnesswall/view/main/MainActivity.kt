@@ -24,7 +24,6 @@ import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogFragment
-import ir.kindnesswall.view.main.conversation.ConversationFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -34,7 +33,7 @@ class MainActivity : BaseActivity() {
 
     private val navHomeController: NavController by lazy { findNavController(R.id.homeTab) }
     private val navCharityController: NavController by lazy { findNavController(R.id.charityTab) }
-    private val navConversationController: NavController by lazy { findNavController(R.id.conversationTab) }
+    private val profileController: NavController by lazy { findNavController(R.id.profileTab) }
     private val navMoreController: NavController by lazy { findNavController(R.id.moreTab) }
 
     private lateinit var binding: ActivityMainBinding
@@ -96,21 +95,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updatePagesList() {
-        getConversationFragment()?.loadData()
         getCatalogFragment()?.checkAndRemoveDeletedGiftFromList()
-    }
-
-    private fun getConversationFragment(): ConversationFragment? {
-        val favoriteFragmentNavHost =
-            supportFragmentManager.findFragmentById(R.id.conversationTab)
-        favoriteFragmentNavHost?.childFragmentManager?.fragments?.filterNotNull()?.find {
-            if (it is ConversationFragment) {
-                return it
-            }
-            true
-        }
-
-        return null
     }
 
     private fun getCatalogFragment(): CatalogFragment? {
@@ -164,7 +149,7 @@ class MainActivity : BaseActivity() {
 
                 binding.homeTabContainer.visibility = View.VISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.conversationTabContainer.visibility = View.INVISIBLE
+                binding.profileTabContainer.visibility = View.INVISIBLE
                 binding.moreTabContainer.visibility = View.INVISIBLE
             }
 
@@ -173,7 +158,7 @@ class MainActivity : BaseActivity() {
 
                 binding.charityTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
-                binding.conversationTabContainer.visibility = View.INVISIBLE
+                binding.profileTabContainer.visibility = View.INVISIBLE
                 binding.moreTabContainer.visibility = View.INVISIBLE
             }
 
@@ -184,11 +169,11 @@ class MainActivity : BaseActivity() {
                 }
             }
 
-            R.id.navigation_conversation -> {
+            R.id.navigation_profile -> {
                 if (UserInfoPref.bearerToken.isNotEmpty()) {
-                    currentController = navConversationController
+                    currentController = profileController
 
-                    binding.conversationTabContainer.visibility = View.VISIBLE
+                    binding.profileTabContainer.visibility = View.VISIBLE
                     binding.homeTabContainer.visibility = View.INVISIBLE
                     binding.charityTabContainer.visibility = View.INVISIBLE
                     binding.moreTabContainer.visibility = View.INVISIBLE
@@ -204,7 +189,7 @@ class MainActivity : BaseActivity() {
                 binding.moreTabContainer.visibility = View.VISIBLE
                 binding.homeTabContainer.visibility = View.INVISIBLE
                 binding.charityTabContainer.visibility = View.INVISIBLE
-                binding.conversationTabContainer.visibility = View.INVISIBLE
+                binding.profileTabContainer.visibility = View.INVISIBLE
             }
         }
 
