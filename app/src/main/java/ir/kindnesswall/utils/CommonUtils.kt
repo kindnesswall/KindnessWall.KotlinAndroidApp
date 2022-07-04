@@ -177,7 +177,7 @@ fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap {
 }
 
 fun openSupportForm(context: Context) {
-    openUrl(context, "http://t.me/Kindness_Wall_Admin")
+    openUrl(context, "https://api.whatsapp.com/send?phone=989222961778")
 }
 
 fun openTermsAndConditionLink(context: Context) {
