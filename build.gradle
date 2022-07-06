@@ -12,13 +12,13 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        classpath "com.android.tools.build:gradle:${libs.versions.gradle.get()}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${libs.versions.navigation.get()}"
 
-        classpath 'com.google.gms:google-services:4.3.3'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.39.0"
+        classpath "com.google.gms:google-services:${libs.versions.googleServices.get()}"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:${libs.versions.firebaseCrashlyticsGradle.get()}"
+        classpath "com.github.ben-manes:gradle-versions-plugin:${libs.versions.gradleVersionsPlugin.get()}"
     }
 }
 

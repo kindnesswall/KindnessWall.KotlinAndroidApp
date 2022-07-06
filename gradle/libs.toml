@@ -1,0 +1,23 @@
+[versions]
+
+#sdk
+targetSdk = "30"
+compileSdk = "30"
+minSdk = "21"
+
+gradle = "7.0.4"
+kotlin = "1.5.31"
+googleServices = "4.3.3"
+firebaseCrashlyticsGradle = "2.5.2"
+gradleVersionsPlugin = "0.39.0"
+
+# AndroidX
+navigation = "2.3.5"
+
+[plugins]
+
+
+[libraries]
+
+
+[bundles]
