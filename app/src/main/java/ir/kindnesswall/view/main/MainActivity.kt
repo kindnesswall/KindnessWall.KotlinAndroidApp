@@ -170,17 +170,17 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.navigation_profile -> {
-                if (UserInfoPref.bearerToken.isNotEmpty()) {
+//                if (UserInfoPref.bearerToken.isNotEmpty()) {
                     currentController = profileController
 
                     binding.profileTabContainer.visibility = View.VISIBLE
                     binding.homeTabContainer.visibility = View.INVISIBLE
                     binding.charityTabContainer.visibility = View.INVISIBLE
                     binding.moreTabContainer.visibility = View.INVISIBLE
-                } else {
-                    AuthenticationActivity.start(this)
-                    return false
-                }
+//                } else {
+//                    AuthenticationActivity.start(this)
+//                    return false
+//                }
             }
 
             R.id.navigation_more -> {
