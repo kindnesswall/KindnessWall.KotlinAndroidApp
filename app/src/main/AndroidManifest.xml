@@ -35,7 +35,8 @@
         <activity android:name=".view.authentication.AuthenticationActivity" />
         <activity android:name=".view.main.MainActivity" />
         <activity android:name=".view.onbording.OnBoardingActivity" />
-        <activity android:name=".view.splash.SplashActivity">
+        <activity android:name=".view.splash.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
