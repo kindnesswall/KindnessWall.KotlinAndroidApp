@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
@@ -19,7 +18,6 @@ import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.charity.Rating.RatingActivity
-import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.report.ReportDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -118,37 +116,6 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
     override fun onBackButtonClicked() {
         onBackPressed()
-    }
-
-    override fun onStartChatClicked() {
-        runOrStartAuth {
-            if (viewModel.charityModel?.userId == UserInfoPref.userId) {
-                return
-            }
-
-            viewModel.getChatId().observe(this) {
-                when (it.status) {
-                    CustomResult.Status.SUCCESS -> {
-                        it.data?.let { data ->
-                            ChatActivity.start(
-                                this, data,
-                                isCharity = true,
-                                isStartFromNotification = false
-                            )
-                        }
-                    }
-                    CustomResult.Status.ERROR -> {
-                        if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
-                            NoInternetDialogFragment().display(supportFragmentManager) {
-                                onStartChatClicked()
-                            }
-                        } else {
-                            showToastMessage(getString(R.string.please_try_again))
-                        }
-                    }
-                }
-            }
-        }
     }
 
     override fun onShareClicked() {

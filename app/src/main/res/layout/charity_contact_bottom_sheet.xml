@@ -179,17 +179,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/startChatButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/primary_round_selector_4dp"
-            android:fontFamily="@font/vazir_bold"
-            android:onClick="@{() -> viewModel.onStartChatClicked()}"
-            android:text="@string/start_chat"
-            android:textColor="@color/white" />
-
     </LinearLayout>
 
 </layout>

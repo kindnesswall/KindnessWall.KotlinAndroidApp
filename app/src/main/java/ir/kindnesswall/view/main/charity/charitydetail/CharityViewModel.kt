@@ -27,10 +27,6 @@ class CharityViewModel(
         charityViewListener?.onBackButtonClicked()
     }
 
-    fun onStartChatClicked() {
-        charityViewListener?.onStartChatClicked()
-    }
-
     fun onShareClicked() {
         charityViewListener?.onShareClicked()
     }

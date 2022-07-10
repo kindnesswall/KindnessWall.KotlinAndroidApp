@@ -2,7 +2,6 @@ package ir.kindnesswall.view.main.charity.charitydetail
 
 interface CharityViewListener {
     fun onBackButtonClicked()
-    fun onStartChatClicked()
     fun onShareClicked()
     fun onBookmarkClicked()
     fun onRatingClick()
