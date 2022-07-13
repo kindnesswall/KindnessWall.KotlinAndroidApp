@@ -80,16 +80,26 @@ dependencies {
     implementation libs.cardView
     implementation libs.recyclerView
     implementation libs.constraintLayout
-    implementation libs.bundles.room
+
+    implementation libs.roomRuntime
+    implementation libs.roomKtx
+    kapt libs.roomCompiler
+
     implementation libs.androidXAnnotations
     implementation libs.fragmentKtx
     implementation libs.bundles.navigation
-    implementation libs.bundles.lifecycle
+
+    implementation libs.lifecycleProcess
+    implementation libs.lifecycleLivedataKtx
+    implementation libs.lifecycleViewmodelKtx
+    kapt libs.lifecycleCompiler
+
     implementation libs.swipeRefreshLayout
     implementation libs.coreKtx
     implementation libs.activityKtx
     implementation libs.browser
     implementation libs.bundles.compose
+    implementation libs.composeMaterial
 
     implementation libs.composeThemeAdapter
 
@@ -103,7 +113,8 @@ dependencies {
 
     implementation libs.loggingInterceptor
 
-    implementation libs.bundles.glide
+    implementation libs.glide
+    kapt libs.glideCompiler
 
     implementation libs.landscapistGlide
 
@@ -125,5 +136,7 @@ dependencies {
     releaseImplementation libs.chuckerLibraryNoOp
 
     implementation libs.timber
+
+    implementation libs.bundles.accompanist
 }
 

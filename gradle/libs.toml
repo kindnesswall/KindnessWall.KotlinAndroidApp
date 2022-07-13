@@ -1,8 +1,8 @@
 [versions]
 
 #sdk
-targetSdk = "30"
-compileSdk = "30"
+targetSdk = "32"
+compileSdk = "32"
 minSdk = "21"
 
 gradle = "7.0.4"
@@ -26,6 +26,7 @@ core-ktx = "1.5.0"
 activity-ktx = "1.3.1"
 browser = "1.2.0"
 compose = "1.0.5"
+composematerial = "1.1.1"
 flexbox = "2.0.1"
 koin = "2.0.1"
 coroutines = "1.5.2"
@@ -45,13 +46,14 @@ swipeDecorator = "1.2.2"
 persianDate = "0.8"
 chucker = "3.2.0"
 timber = "5.0.1"
+accompanist = "0.23.0"
 
 [plugins]
-androidapplication = { id = "com.android.application", version.ref = "gradleVersionsPlugin" }
-androidlibrary = { id = "com.android.library", version.ref = "gradleVersionsPlugin" }
-kotlinandroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinkapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-navigationsafeargs = { id = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+#androidapplication = { id = "com.android.application", version.ref = "gradleVersionsPlugin" }
+#androidlibrary = { id = "com.android.library", version.ref = "gradleVersionsPlugin" }
+#kotlinandroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#kotlinkapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+#navigationsafeargs = { id = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -72,13 +74,13 @@ lifecycleViewmodelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx",
 lifecycleCompiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "lifecycle" }
 swipeRefreshLayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
-activityKtx = { module = "androidx.core:core-ktx", version.ref = "activity-ktx" }
+activityKtx = { module = "androidx.activity:activity-ktx", version.ref = "activity-ktx" }
 browser = { module = "androidx.browser:browser", version.ref = "browser" }
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 composeFoundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 composeRuntimeLivedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
-composeMaterial = { module = "androidx.compose.material:material", version.ref = "compose" }
+composeMaterial = { module = "androidx.compose.material:material", version.ref = "composematerial" }
 composeThemeAdapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "compose" }
 flexbox = { module = "com.google.android:flexbox", version.ref = "flexbox" }
 koin = { module = "org.koin:koin-android-viewmodel", version.ref = "koin" }
@@ -105,14 +107,17 @@ persianDate = { module = "com.github.samanzamani.persiandate:PersianDate", versi
 chuckerLibrary = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 chuckerLibraryNoOp = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+accompanistPager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
+accompanistPagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 
 [bundles]
 room = ["roomRuntime", "roomKtx", "roomCompiler"]
 navigation = ["navigationFragmentKtx", "navigationUiKtx", "navitationRuntimeKtx"]
 lifecycle = ["lifecycleProcess", "lifecycleLivedataKtx", "lifecycleViewmodelKtx", "lifecycleCompiler"]
-compose = ["composeUi", "composeUiTooling", "composeFoundation", "composeRuntimeLivedata", "composeMaterial"]
+compose = ["composeUi", "composeUiTooling", "composeFoundation", "composeRuntimeLivedata"]
 coroutines = ["coroutinesAndroid", "coroutinesCore"]
 retrofit = ["retrofit", "converterGson"]
 glide = ["glide", "glideCompiler"]
 firebase = ["firebaseAnalytics", "firebaseMessaging", "firebaseCrashlytics"]
 kotpref = ["kotpref", "kotprefGsonSupport", "kotprefInitializer", "kotprefLivedataSupport"]
+accompanist = ["accompanistPager", "accompanistPagerIndicators"]
