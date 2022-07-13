@@ -12,8 +12,8 @@ android {
     compileSdkVersion 32
     defaultConfig {
         applicationId "com.kindnesswand"
-        minSdkVersion libs.versions.minSdk.get()
-        targetSdkVersion libs.versions.targetSdk.get()
+        minSdkVersion 21
+        targetSdkVersion 32
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         archivesBaseName = "kindnesswall-$versionName"
