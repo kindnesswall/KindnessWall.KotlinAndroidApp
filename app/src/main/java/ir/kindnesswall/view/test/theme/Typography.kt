@@ -20,7 +20,6 @@ private val BarlowCondensed = FontFamily(
     Font(R.font.vazir, FontWeight.Normal)
 )
 
-// Set of Material typography styles to start with
 val Typography = Typography(
     h1 = TextStyle(
         fontFamily = BarlowCondensed,

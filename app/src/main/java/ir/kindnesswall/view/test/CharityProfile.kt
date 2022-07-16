@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -24,6 +25,8 @@ import com.google.accompanist.pager.*
 import com.google.android.material.composethemeadapter.MdcTheme
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
+import ir.kindnesswall.data.local.dao.charity.CharityModel
+import ir.kindnesswall.view.main.charity.charitydetail.CharityDetailActivity
 import ir.kindnesswall.view.uidesign.AppTextRow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -69,6 +72,8 @@ class CharityProfile : BaseFragment() {
 fun AppColumn() {
     val tabs = listOf(TabItem.Booked, TabItem.Received)
     val pagerState = rememberPagerState()
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -83,6 +88,36 @@ fun AppColumn() {
         AppTextRow(label = "شماره تماس :", initValue = "09158537461", onTextChanged = {
             Timber.i(it)
         })
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+            var charityModel = CharityModel(
+                id = 1,
+                userId = 0,
+                name = "String? = null",
+                isRejected = true,
+                updatedAt = null,
+                createdAt = null,
+                imageUrl = "",
+                registerId = "",
+                address = "",
+                telephoneNumber = "",
+                mobileNumber = "",
+                website = "",
+                email = "",
+                instagram = "",
+                telegram = "",
+                description = ""
+            )
+            CharityDetailActivity.start(context, charityModel)
+        }) {
+            Text(text = "صفحه خیریه")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Divider(color = Color.Black, thickness = 1.dp)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "لیست هدایا:")
         Tabs(tabs = tabs, pagerState = pagerState)
         TabsContent(tabs = tabs, pagerState = pagerState)
     }

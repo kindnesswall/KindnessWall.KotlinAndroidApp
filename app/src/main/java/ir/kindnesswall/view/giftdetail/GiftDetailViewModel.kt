@@ -45,7 +45,6 @@ class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
 
     fun onCallClick(view: View) {
         giftViewListener?.onCallButtonClick(view)
-
     }
 
     fun callPage() {
