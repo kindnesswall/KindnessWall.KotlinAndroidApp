@@ -45,6 +45,10 @@
     <string name="choose_your_city">شهر خود را انتخاب کنید</string>
     <string name="lets_go">بزن بریم</string>
 
+    <string name="charity_profile_title">پروفایل خیریه</string>
+    <string name="donor_profile_title">پروفایل خیر</string>
+    <string name="two_profile_title">دو پروفایل</string>
+
     <string name="choose_province">انتخاب استان</string>
     <string name="more_items">موارد بیشتر</string>
     <string name="bookmarks">نشان‌شده‌ها</string>
