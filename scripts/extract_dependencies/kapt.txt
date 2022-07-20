@@ -1,3 +1,4 @@
+Type-safe dependency accessors is an incubating feature.
 
 > Configure project :app
 WARNING:API 'BaseVariant.getApplicationIdTextResource' is obsolete and has been replaced with 'VariantProperties.applicationId'.
