@@ -18,10 +18,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.databinding.ActivityMainBinding
 import ir.kindnesswall.utils.extentions.runOrStartAuth
-import ir.kindnesswall.view.authentication.AuthenticationActivity
 import ir.kindnesswall.view.main.addproduct.SubmitGiftActivity
 import ir.kindnesswall.view.main.catalog.cataloglist.CatalogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -69,6 +67,10 @@ class MainActivity : BaseActivity() {
         fixBottomNavigationBug()
         selectDefaultTab()
 
+        binding.fab.setOnClickListener {
+            runOrStartAuth { SubmitGiftActivity.start(this) }
+        }
+
         binding.mainBottomNavigationView
             .setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
@@ -78,7 +80,6 @@ class MainActivity : BaseActivity() {
             currentController = navHomeController
         }
     }
-
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -171,12 +172,12 @@ class MainActivity : BaseActivity() {
 
             R.id.navigation_profile -> {
 //                if (UserInfoPref.bearerToken.isNotEmpty()) {
-                    currentController = profileController
+                currentController = profileController
 
-                    binding.profileTabContainer.visibility = View.VISIBLE
-                    binding.homeTabContainer.visibility = View.INVISIBLE
-                    binding.charityTabContainer.visibility = View.INVISIBLE
-                    binding.moreTabContainer.visibility = View.INVISIBLE
+                binding.profileTabContainer.visibility = View.VISIBLE
+                binding.homeTabContainer.visibility = View.INVISIBLE
+                binding.charityTabContainer.visibility = View.INVISIBLE
+                binding.moreTabContainer.visibility = View.INVISIBLE
 //                } else {
 //                    AuthenticationActivity.start(this)
 //                    return false
