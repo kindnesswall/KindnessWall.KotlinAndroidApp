@@ -46,13 +46,14 @@ internal class EitherCall<R>(
                     this@EitherCall,
                     Response.success(
                         Either.Left(
-                            if (throwable.message!!.contains("Unable to resolve host")) {
-                                NetworkError
-                            } else {
-                                HttpError(
-                                    message = throwable.message ?: throwable.toString(),
-                                    serverError = true
-                                )
+                            throwable.message?.let {
+                                if (it.contains("Unable to resolve host")) {
+                                    NetworkError
+                                } else {
+                                    HttpError(message = it, serverError = true)
+                                }
+                            } ?: kotlin.run {
+                                HttpError(message = throwable.toString(), serverError = true)
                             }
                         )
                     )
