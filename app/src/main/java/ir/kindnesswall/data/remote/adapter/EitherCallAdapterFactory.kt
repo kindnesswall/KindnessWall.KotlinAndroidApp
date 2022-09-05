@@ -1,7 +1,7 @@
 package ir.kindnesswall.data.remote.adapter
 
 import ir.kindnesswall.data.model.Either
-import ir.kindnesswall.data.model.ApiError
+import ir.kindnesswall.data.model.Error
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
@@ -23,7 +23,7 @@ internal class EitherCallAdapterFactory : CallAdapter.Factory() {
         check(responseType is ParameterizedType) { "Response type must be a parameterized type." }
 
         val leftType = getParameterUpperBound(0, responseType)
-        if (getRawType(leftType) != ApiError::class.java) return null
+        if (getRawType(leftType) != Error::class.java) return null
 
         val rightType = getParameterUpperBound(1, responseType)
 

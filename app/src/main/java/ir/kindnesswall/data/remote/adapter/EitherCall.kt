@@ -1,9 +1,7 @@
 package ir.kindnesswall.data.remote.adapter
 
 import ir.kindnesswall.data.model.Either
-import ir.kindnesswall.data.model.ApiError
-import ir.kindnesswall.data.model.HttpError
-import ir.kindnesswall.data.model.NetworkError
+import ir.kindnesswall.data.model.Error
 import okhttp3.Request
 import retrofit2.*
 import java.lang.reflect.Type
@@ -11,9 +9,9 @@ import java.lang.reflect.Type
 internal class EitherCall<R>(
     private val delegate: Call<R>,
     private val successType: Type
-) : Call<Either<ApiError, R>> {
+) : Call<Either<Error, R>> {
 
-    override fun enqueue(callback: Callback<Either<ApiError, R>>) {
+    override fun enqueue(callback: Callback<Either<Error, R>>) {
 
         delegate.enqueue(object : Callback<R> {
             override fun onResponse(
@@ -23,21 +21,21 @@ internal class EitherCall<R>(
                 callback.onResponse(this@EitherCall, Response.success(response.toEither()))
             }
 
-            private fun Response<R>.toEither(): Either<ApiError, R> {
+            private fun Response<R>.toEither(): Either<Error, R> {
                 if (!isSuccessful) {
                     errorBody()?.let {
                         return Either.Left(
-                            HttpError(message(), code(), errorBody().toString())
+                            Error(message(), code(), errorBody().toString())
                         )
                     }
                 }
                 body()?.let { body -> return Either.Right(body) }
                 return if (successType == Unit::class.java) {
                     @Suppress("UNCHECKED_CAST")
-                    Either.Right(Unit) as Either<ApiError, R>
+                    Either.Right(Unit) as Either<Error, R>
                 } else {
                     @Suppress("UNCHECKED_CAST")
-                    Either.Left(UnknownError("Response body was null")) as Either<ApiError, R>
+                    Either.Left(UnknownError("Response body was null")) as Either<Error, R>
                 }
             }
 
@@ -47,13 +45,9 @@ internal class EitherCall<R>(
                     Response.success(
                         Either.Left(
                             throwable.message?.let {
-                                if (it.contains("Unable to resolve host")) {
-                                    NetworkError
-                                } else {
-                                    HttpError(message = it, serverError = true)
-                                }
+                                Error(message = it, serverError = true)
                             } ?: kotlin.run {
-                                HttpError(message = throwable.toString(), serverError = true)
+                                Error(message = throwable.toString(), serverError = true)
                             }
                         )
                     )
@@ -70,7 +64,7 @@ internal class EitherCall<R>(
 
     override fun cancel() = delegate.cancel()
 
-    override fun execute(): Response<Either<ApiError, R>> =
+    override fun execute(): Response<Either<Error, R>> =
         throw UnsupportedOperationException("NetworkResponseCall doesn't support execute")
 
     override fun request(): Request = delegate.request()
