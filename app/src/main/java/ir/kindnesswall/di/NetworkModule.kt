@@ -3,6 +3,7 @@ package ir.kindnesswall.di
 import android.content.Context
 import ir.kindnesswall.BuildConfig
 import ir.kindnesswall.data.local.UserInfoPref
+import ir.kindnesswall.data.remote.adapter.EitherCallAdapterFactory
 import ir.kindnesswall.utils.extentions.addDebugInterceptor
 import ir.kindnesswall.utils.wrapInBearer
 import okhttp3.Interceptor
@@ -63,6 +64,7 @@ private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit 
         .baseUrl(baseUrl)
         .client(httpClient)
         .addConverterFactory(NullOnEmptyConverterFactory())
+        .addCallAdapterFactory(EitherCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
