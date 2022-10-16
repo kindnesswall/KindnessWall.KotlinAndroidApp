@@ -6,8 +6,8 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.ChatModel
-import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.domain.common.CustomResult
+import ir.kindnesswall.domain.entities.ChatModel
 import ir.kindnesswall.utils.helper.runIfAuthenticated
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.main.MainActivity
@@ -69,7 +69,8 @@ class SplashActivity : BaseActivity() {
         if (AppPref.isOnBoardingShown or UserInfoPref.bearerToken.isNotEmpty()) {
             if (viewModel.requestChatModel != null && viewModel.isStartFromNotification) {
                 ChatActivity.start(
-                    this, viewModel.requestChatModel!!,
+                    this,
+                    viewModel.requestChatModel!!,
                     isCharity = true,
                     isStartFromNotification = true
                 )
@@ -83,4 +84,5 @@ class SplashActivity : BaseActivity() {
             finish()
        // }
     }
+}
 }

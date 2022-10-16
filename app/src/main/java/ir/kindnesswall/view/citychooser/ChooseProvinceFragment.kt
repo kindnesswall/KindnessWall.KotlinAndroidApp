@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentChooseProvinceBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.citychooser.adapters.ProvinceListAdapter
 import org.koin.android.viewmodel.ext.android.sharedViewModel

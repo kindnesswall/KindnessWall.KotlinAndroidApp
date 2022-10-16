@@ -14,8 +14,8 @@ import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.FragmentInsertVerificationNumberBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.giftdetail.GiftDetailActivity
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -61,7 +61,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
 
     override fun configureViews() {
         binding.sendVersificationTextView.setOnClickListener {
-            loginUser()
+            //loginUser()
         }
 
         binding.verificationCodeEditText.doOnTextChanged { text, _, _, _ ->
@@ -124,7 +124,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
         }.start()
     }
 
-    private fun loginUser() {
+    private suspend fun loginUser() {
         login = false
         viewModel.loginUser(binding.verificationCodeEditText.text.toString())
             .observe(viewLifecycleOwner) {
@@ -135,7 +135,7 @@ class InsertVerificationNumberFragment : BaseFragment() {
                         UserInfoPref.userId = it.data?.token?.userID ?: 0
                         UserInfoPref.isAdmin = it.data?.isAdmin ?: false
                         UserInfoPref.isCharity = it.data?.isCharity ?: false
-                        getUserProfile()
+                        //getUserProfile()
                         isAdmin = it.data?.isAdmin!!
                         if (GiftDetailActivity.LoginFlag.equals("GiftDetailActivity")) {
                             login = true

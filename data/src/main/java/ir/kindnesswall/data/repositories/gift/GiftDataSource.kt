@@ -10,85 +10,86 @@ import kotlin.coroutines.CoroutineContext
 
 interface GiftDataSource {
 
-  suspend fun getGifts(
+  fun getGifts(
     viewModelScope: CoroutineScope,
     lastId: Long
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun searchForGifts(
+  fun searchForGifts(
     viewModelScope: CoroutineScope,
     lastId: Long,
     getGiftsRequestBody: GetGiftsRequestBaseBody
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun registerGift(
+  fun registerGift(
     viewModelScope: CoroutineScope,
     registerGiftRequestModel: RegisterGiftRequestModel
   ): LiveData<CustomResult<GiftModel>>
 
-  suspend fun updateGift(
+  fun updateGift(
     viewModelScope: CoroutineScope,
     registerGiftRequestModel: RegisterGiftRequestModel
   ): LiveData<CustomResult<GiftModel>>
 
-  suspend fun requestGift(viewModelScope: CoroutineScope, giftId: Long):
+  fun requestGift(viewModelScope: CoroutineScope, giftId: Long):
     LiveData<CustomResult<ChatContactModel>>
 
-  suspend fun  getToDonateGifts(
+  fun  getToDonateGifts(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun donateGift(
+  fun donateGift(
     viewModelScope: CoroutineScope,
     giftId: Long,
     userToDonateId: Long
   ): LiveData<CustomResult<Any?>>
 
-  suspend fun getReviewGiftsFirstPage(
+  fun getReviewGiftsFirstPage(
     viewModelScope: CoroutineScope
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun getReviewGifts(
+  fun getReviewGifts(
     viewModelScope: CoroutineScope,
     lastId: Long
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun rejectGift(
+  fun rejectGift(
     viewModelScope: CoroutineScope,
     giftId: Long,
     rejectReason: String
   ): LiveData<CustomResult<Any?>>
 
-  suspend fun acceptGift(
+  fun acceptGift(
     viewModelScope: CoroutineScope,
     giftId: Long
   ): LiveData<CustomResult<Any?>>
 
-  suspend fun getGiftRequestStatus(
+  fun getGiftRequestStatus(
     viewModelScope: CoroutineScope,
     giftId: Long
   ): LiveData<CustomResult<GiftRequestStatusModel>>
 
-  suspend fun getSetting(
+  fun getSetting(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<SettingModel>>
 
- suspend fun getUserNmber(
+  fun getUserNmber(
    viewModelScope: CoroutineScope,
    userId: Long
  ): LiveData<CustomResult<PhoneNumberModel>>
 
- suspend fun deleteGift(
+  fun deleteGift(
    viewModelScope: CoroutineScope,
    giftId: Long
  ): LiveData<CustomResult<Any?>>
 
- suspend fun setSettingNumber(
-   context: CoroutineContext,
-   visibility: PhoneVisibility
+  fun setSettingNumber(
+    context: CoroutineContext,
+    visibility:
+    PhoneVisibility
  ): LiveData<CustomResult<Any?>>
 
- suspend fun getSettingNumber(context: CoroutineContext): LiveData<CustomResult<PhoneVisibility>>
+  fun getSettingNumber(context: CoroutineContext): LiveData<CustomResult<PhoneVisibility>>
 }

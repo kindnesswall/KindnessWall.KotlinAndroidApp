@@ -2,6 +2,7 @@ package ir.kindnesswall.data.local.dao.catalog
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 
 @Dao
 interface CatalogDao {
@@ -10,6 +11,6 @@ interface CatalogDao {
     abstract suspend fun insert(team: List<GiftModel>)
 
     @Transaction
-    @Query("SELECT * from catalog_table ORDER BY id DESC")
+    @Query("SELECT * from catalog_table1 ORDER BY id DESC")
     fun getAll(): LiveData<List<GiftModel>>
 }

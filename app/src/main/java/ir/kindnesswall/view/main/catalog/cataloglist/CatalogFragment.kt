@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.databinding.FragmentCatalogBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
@@ -126,7 +126,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
                 binding.pullToRefreshLayout.isRefreshing = false
                 dismissProgressDialog()
 
-                if (it.data != null && it.data.size < 20) {
+                if (it.data != null && it.data!!.size < 20) {
                     endlessRecyclerViewScrollListener.isLoading = true
                 } else if (it.data == null) {
                     endlessRecyclerViewScrollListener.isLoading = true
@@ -170,7 +170,7 @@ class CatalogFragment : BaseFragment(), OnItemClickListener {
 
         for (gift in KindnessApplication.instance.deletedGifts) {
             val items = viewModel.catalogItems.filter { it.id == gift.id }
-            viewModel.catalogItems.removeAll(items)
+            viewModel.catalogItems.removeAll(items.toSet())
         }
 
         KindnessApplication.instance.deletedGifts.clear()

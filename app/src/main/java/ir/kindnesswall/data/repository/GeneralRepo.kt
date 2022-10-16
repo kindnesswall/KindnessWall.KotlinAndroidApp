@@ -9,6 +9,7 @@ import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.local.dao.province.ProvinceModel
 import ir.kindnesswall.data.model.*
 import ir.kindnesswall.data.remote.network.GeneralApi
+import ir.kindnesswall.domain.common.CustomResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 
@@ -45,7 +46,7 @@ class GeneralRepo(context: Context, var generalApi: GeneralApi, var appDatabase:
                         if (result.data == null) {
                             emit(CustomResult.error(result.errorMessage))
                         } else {
-                            appDatabase.provinceDao().insert(result.data)
+                            appDatabase.provinceDao().insert(result.data!!)
                             emitSource(fetchFromDb())
                         }
                     }

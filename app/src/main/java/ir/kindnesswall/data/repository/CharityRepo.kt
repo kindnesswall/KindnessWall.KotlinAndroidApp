@@ -7,8 +7,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.remote.network.CharityApi
+import ir.kindnesswall.domain.common.CustomResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 

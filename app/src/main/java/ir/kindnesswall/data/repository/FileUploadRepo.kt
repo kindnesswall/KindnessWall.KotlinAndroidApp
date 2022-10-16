@@ -9,16 +9,18 @@ import android.webkit.MimeTypeMap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.transition.Transition
 import ir.kindnesswall.data.model.BaseDataSource
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.remote.network.UserApi
+import ir.kindnesswall.domain.common.CustomResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import timber.log.Timber
 import java.io.BufferedOutputStream
 import java.io.File
@@ -48,11 +50,10 @@ class FileUploadRepo(
             val os = BufferedOutputStream(FileOutputStream(normalizedFile))
             normalizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, os)
 
-            val mediaType = MediaType.get(
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension(normalizedFile.extension)
-                    ?: "application/octet-stream"
-            )
-            val imagePart = RequestBody.create(mediaType, normalizedFile)
+            val mediaType = (MimeTypeMap.getSingleton().getMimeTypeFromExtension(normalizedFile.extension)
+                ?: "application/octet-stream"
+              ).toMediaType()
+            val imagePart = normalizedFile.asRequestBody(mediaType)
 
             val request = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)

@@ -4,13 +4,13 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.repository.GiftRepo
+import ir.kindnesswall.data.repositories.gift.GiftDataSource
+import ir.kindnesswall.domain.common.CustomResult
+import ir.kindnesswall.domain.entities.ChatContactModel
 
-class GiftDetailViewModel(private val giftRepo: GiftRepo) : ViewModel() {
+class GiftDetailViewModel(private val giftRepo: GiftDataSource) : ViewModel() {
     var callPageStatus: Boolean = false
     var isDonatedToSomeone: Boolean = false
 

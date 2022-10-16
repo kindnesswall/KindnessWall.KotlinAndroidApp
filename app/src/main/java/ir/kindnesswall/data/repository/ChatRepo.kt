@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import ir.kindnesswall.KindnessApplication
-import ir.kindnesswall.data.model.*
-import ir.kindnesswall.data.model.requestsmodel.ChatMessageAckRequestModel
-import ir.kindnesswall.data.model.requestsmodel.GetChatsRequestModel
-import ir.kindnesswall.data.model.requestsmodel.SendChatMessageRequestModel
-import ir.kindnesswall.data.remote.network.ChatApi
+import ir.kindnesswall.data.api.ChatApi
+import ir.kindnesswall.data.repositories.base.BaseDataSource
+import ir.kindnesswall.domain.common.CustomResult
+import ir.kindnesswall.domain.entities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,7 +25,7 @@ import kotlinx.coroutines.launch
  *
  */
 
-class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(context) {
+class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource() {
     fun getConversationList(
         viewModelScope: CoroutineScope
     ): LiveData<CustomResult<List<ChatContactModel>>> =
@@ -41,7 +40,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
                         if (result.data == null) {
                             emit(CustomResult.error(result.errorMessage))
                         } else {
-                            KindnessApplication.instance.setContactList(result.data)
+                            KindnessApplication.instance.setContactList(result.data!!)
                             emitSource(MutableLiveData<List<ChatContactModel>>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
@@ -206,8 +205,8 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
     fun getChatId(
         viewModelScope: CoroutineScope,
         charityId: Long
-    ): LiveData<CustomResult<ChatContactModel>> =
-        liveData<CustomResult<ChatContactModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
+    ): LiveData<CustomResult<ir.kindnesswall.domain.entities.ChatContactModel>> =
+        liveData<CustomResult<ir.kindnesswall.domain.entities.ChatContactModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
             emit(CustomResult.loading())
             getResultWithExponentialBackoffStrategy {
                 chatApi.getChatId(charityId)
@@ -217,7 +216,7 @@ class ChatRepo(context: Context, private var chatApi: ChatApi) : BaseDataSource(
                         if (result.data == null) {
                             emit(CustomResult.error(result.errorMessage))
                         } else {
-                            emitSource(MutableLiveData<ChatContactModel>().apply {
+                            emitSource(MutableLiveData<ir.kindnesswall.domain.entities.ChatContactModel>().apply {
                                 value = result.data
                             }.map { CustomResult.success(it) })
                         }

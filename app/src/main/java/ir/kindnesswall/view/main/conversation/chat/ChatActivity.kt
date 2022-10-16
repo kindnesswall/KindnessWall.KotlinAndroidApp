@@ -19,9 +19,9 @@ import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.*
-import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityChatBinding
+import ir.kindnesswall.domain.common.CustomResult
+import ir.kindnesswall.domain.entities.*
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
 import ir.kindnesswall.utils.imageloader.circleCropTransform
 import ir.kindnesswall.utils.imageloader.loadImage
@@ -340,7 +340,7 @@ class ChatActivity : BaseActivity() {
                 CustomResult.Status.SUCCESS -> {
                     if (it.data != null) {
                         viewModel.toDonateList.clear()
-                        viewModel.toDonateList.addAll(it.data)
+                        viewModel.toDonateList.addAll(it.data!!)
                     }
                 }
             }
@@ -358,8 +358,8 @@ class ChatActivity : BaseActivity() {
                             user.name = it.data?.name
                             user.isCharity = true
                             user.id = it.data?.userId!!
-                            user.phoneNumber = it.data.mobileNumber
-                            user.image = it.data.imageUrl
+                            user.phoneNumber = it.data!!.mobileNumber
+                            user.image = it.data!!.imageUrl
 
                             viewModel.chatContactModel = ChatContactModel(
                                 BlockStatus(),
@@ -430,11 +430,11 @@ class ChatActivity : BaseActivity() {
                 }
 
                 CustomResult.Status.SUCCESS -> {
-                    if (it.data?.textMessages != null && it.data.textMessages!!.size < 50) {
+                    if (it.data?.textMessages != null && it.data!!.textMessages!!.size < 50) {
                         endlessRecyclerViewScrollListener.isLoading = true
                     } else if (it.data == null) {
                         endlessRecyclerViewScrollListener.isLoading = true
-                    } else if (it.data.textMessages == null) {
+                    } else if (it.data!!.textMessages == null) {
                         endlessRecyclerViewScrollListener.isLoading = true
                     }
 

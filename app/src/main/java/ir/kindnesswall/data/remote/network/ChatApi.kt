@@ -18,28 +18,28 @@ import retrofit2.http.*
  *
  */
 
-interface ChatApi {
-    @GET("chat/contacts")
-    suspend fun getConversations(): Response<List<ChatContactModel>>
-
-    @POST("chat/messages")
-    suspend fun getChats(@Body chatsRequestModel: GetChatsRequestModel): Response<ChatMessageModel>
-
-    @POST("chat/send")
-    suspend fun sendMessage(@Body sendChatMessageRequestModel: SendChatMessageRequestModel): Response<TextMessageModel>
-
-    @PUT("chat/block/{userId}")
-    suspend fun blockChat(@Path("userId") id: Long): Response<Any>
-
-    @PUT("chat/unblock/{userId}")
-    suspend fun unblockChat(@Path("userId") id: Long): Response<Any>
-
-    @POST("chat/ack")
-    suspend fun sendActMessage(@Body chatMessageAckRequestModel: ChatMessageAckRequestModel): Response<Any>
-
-    @GET("chat/start/{charityId}")
-    suspend fun getChatId(@Path("charityId") id: Long): Response<ChatContactModel>
-
-    @GET("chat/contacts/block")
-    suspend fun getBlockedUsers(): Response<List<ChatContactModel>>
-}
+//interface ChatApi {
+//    @GET("chat/contacts")
+//    suspend fun getConversations(): Response<List<ChatContactModel>>
+//
+//    @POST("chat/messages")
+//    suspend fun getChats(@Body chatsRequestModel: GetChatsRequestModel): Response<ChatMessageModel>
+//
+//    @POST("chat/send")
+//    suspend fun sendMessage(@Body sendChatMessageRequestModel: SendChatMessageRequestModel): Response<TextMessageModel>
+//
+//    @PUT("chat/block/{userId}")
+//    suspend fun blockChat(@Path("userId") id: Long): Response<Any>
+//
+//    @PUT("chat/unblock/{userId}")
+//    suspend fun unblockChat(@Path("userId") id: Long): Response<Any>
+//
+//    @POST("chat/ack")
+//    suspend fun sendActMessage(@Body chatMessageAckRequestModel: ChatMessageAckRequestModel): Response<Any>
+//
+//    @GET("chat/start/{charityId}")
+//    suspend fun getChatId(@Path("charityId") id: Long): Response<ChatContactModel>
+//
+//    @GET("chat/contacts/block")
+//    suspend fun getBlockedUsers(): Response<List<ChatContactModel>>
+//}

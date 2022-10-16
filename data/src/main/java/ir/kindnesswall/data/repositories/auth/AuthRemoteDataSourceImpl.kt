@@ -17,7 +17,7 @@ class AuthRemoteDataSourceImpl(
   private val authApi: AuthApi
 ) : AuthRemoteDataSource, BaseDataSource() {
 
-  override suspend fun registerUser(viewModelScope: CoroutineScope, phoneNumber: String): LiveData<CustomResult<Any?>> =
+  override fun registerUser(viewModelScope: CoroutineScope, phoneNumber: String): LiveData<CustomResult<Any?>> =
     liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
       getNullableResultWithExponentialBackoffStrategy {
@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl(
       }
     }
 
-  override suspend fun loginUser(
+  override fun loginUser(
     viewModelScope: CoroutineScope,
     phoneNumber: String,
     verificationCode: String

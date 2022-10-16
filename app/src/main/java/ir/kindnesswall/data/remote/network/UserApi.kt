@@ -1,6 +1,6 @@
 package ir.kindnesswall.data.remote.network
 
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.model.requestsmodel.GetGiftsRequestBaseBody
 import ir.kindnesswall.data.model.requestsmodel.PushRegisterRequestModel

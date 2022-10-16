@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
+import ir.kindnesswall.data.db.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.local.dao.catalog.CatalogDao
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.charity.CharityDao
 import ir.kindnesswall.data.local.dao.charity.CharityModel
 import ir.kindnesswall.data.local.dao.province.ProvinceDao
 import ir.kindnesswall.data.local.dao.province.ProvinceModel
 import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestDao
-import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
 
 @Database(
     entities = [

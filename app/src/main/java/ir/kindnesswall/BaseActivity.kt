@@ -18,7 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.data.repositories.user.UserDataSource
 import ir.kindnesswall.utils.LocaleHelper
 import ir.kindnesswall.utils.extentions.dp
 import ir.kindnesswall.utils.widgets.GetInputDialog
@@ -38,7 +38,7 @@ import org.koin.android.ext.android.inject
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
-    private val userRepo: UserRepo by inject()
+    private val userRepo: UserDataSource by inject()
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(
@@ -70,7 +70,7 @@ abstract class BaseActivity : AppCompatActivity() {
                         val token = result.result?.token.toString()
                         if (token.isNotEmpty()) {
                             UserInfoPref.fireBaseToken = token
-                            userRepo.registerFirebaseToken()
+                            //userRepo.registerFirebaseToken()
                         }
                     }
                 }
@@ -78,7 +78,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
         if (AppPref.shouldUpdatedFireBaseToken) {
-            userRepo.registerFirebaseToken()
+            //userRepo.registerFirebaseToken()
         }
     }
 

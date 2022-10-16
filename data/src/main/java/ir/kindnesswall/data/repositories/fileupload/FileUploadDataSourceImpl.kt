@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.coroutineScope
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import timber.log.Timber
@@ -45,10 +46,9 @@ class FileUploadDataSourceImpl(
       val os = BufferedOutputStream(FileOutputStream(normalizedFile))
       normalizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, os)
 
-      val mediaType = MediaType.get(
-        MimeTypeMap.getSingleton().getMimeTypeFromExtension(normalizedFile.extension)
-          ?: "application/octet-stream"
-      )
+      val mediaType = (MimeTypeMap.getSingleton().getMimeTypeFromExtension(normalizedFile.extension)
+        ?: "application/octet-stream"
+        ).toMediaType()
       val imagePart = RequestBody.create(mediaType, normalizedFile)
 
       val request = MultipartBody.Builder()

@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.model.CategoryModel
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCategoryBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel

@@ -6,11 +6,11 @@ import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.repository.ChatRepo
-import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.data.repositories.user.UserDataSource
 import javax.inject.Inject
 
 class BlockListViewModel @Inject constructor(
-    private val userRepo: UserRepo,
+    private val userRepo: UserDataSource,
     private val chatRepo: ChatRepo
 ) : ViewModel() {
 

@@ -1,5 +1,6 @@
 package ir.kindnesswall.di
 
+import ir.kindnesswall.data.api.ChatApi
 import ir.kindnesswall.data.local.dao.AppDatabase
 import ir.kindnesswall.data.remote.network.*
 import org.koin.android.ext.koin.androidContext

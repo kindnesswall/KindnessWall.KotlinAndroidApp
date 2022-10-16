@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface CharityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(team: List<CharityModel>)
+    abstract fun insert(team: List<CharityModel>)
 
     @Transaction
     @Query("SELECT * from charity_table")

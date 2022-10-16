@@ -23,7 +23,7 @@ import retrofit2.Response
 class UserDataSourceImpl(
   private val userApi: UserApi
 ) : UserDataSource, BaseDataSource() {
-  override suspend fun getUserProfile(viewModelScope: CoroutineScope): LiveData<CustomResult<User>> =
+  override fun getUserProfile(viewModelScope: CoroutineScope): LiveData<CustomResult<User>> =
     liveData<CustomResult<User>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
 
@@ -48,7 +48,7 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun getUserProfile(viewModelScope: CoroutineScope, userId: Long): LiveData<CustomResult<User>> =
+  override  fun getUserProfile(viewModelScope: CoroutineScope, userId: Long): LiveData<CustomResult<User>> =
     liveData<CustomResult<User>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
 
@@ -67,7 +67,7 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun updateUserProfile(
+  override fun updateUserProfile(
     viewModelScope: CoroutineScope,
     userName: String,
     imageUrl: String
@@ -94,7 +94,7 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun getOtherUsersProfile(
+  override fun getOtherUsersProfile(
     viewModelScope: CoroutineScope,
     userId: Long?
   ): LiveData<CustomResult<User>> =
@@ -123,7 +123,7 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun getUserReceivedGifts(
+  override fun getUserReceivedGifts(
     viewModelScope: CoroutineScope,
     userId: Long?
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -152,7 +152,7 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun getUserDonatedGifts(
+  override fun getUserDonatedGifts(
     viewModelScope: CoroutineScope,
     userId: Long?
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -181,7 +181,7 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun getUserRegisteredGifts(
+  override fun getUserRegisteredGifts(
     viewModelScope: CoroutineScope,
     userId: Long?
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -210,11 +210,11 @@ class UserDataSourceImpl(
       }
     }
 
-  override suspend fun getBookmarkList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>>? {
+  override fun getBookmarkList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>>? {
     return null
   }
 
-  override suspend fun registerFirebaseToken() {
+  override fun registerFirebaseToken() {
     userApi.registerFirebaseToken(PushRegisterRequestModel(UserInfoPref.fireBaseToken))
       .enqueue(object : Callback<Any> {
         override fun onFailure(call: Call<Any>, t: Throwable) {
@@ -227,7 +227,7 @@ class UserDataSourceImpl(
       })
   }
 
-  override suspend fun getUserAcceptedGifts(
+  override fun getUserAcceptedGifts(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -257,7 +257,7 @@ class UserDataSourceImpl(
         }
     }
 
-  override suspend fun getUserRejectedGifts(
+  override fun getUserRejectedGifts(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -287,7 +287,7 @@ class UserDataSourceImpl(
         }
     }
 
-  override suspend fun setUserPhoneSetting(
+  override fun setUserPhoneSetting(
     viewModelScope: CoroutineScope,
     setting: String
   ): LiveData<CustomResult<Any>> =

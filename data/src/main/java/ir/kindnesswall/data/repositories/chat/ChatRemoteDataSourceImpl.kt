@@ -17,11 +17,11 @@ class ChatRemoteDataSourceImpl(
   private val chatApi: ChatApi
 ) :ChatRemoteDataSource, BaseDataSource() {
 
-  override suspend fun getConversationList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> {
+  override fun getConversationList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> {
     TODO("Not yet implemented")
   }
 
-  override suspend fun getConversationList(): List<ChatContactModel>? {
+  override fun getConversationList(): List<ChatContactModel>? {
     TODO("Not yet implemented")
   }
 
@@ -54,7 +54,7 @@ class ChatRemoteDataSourceImpl(
 //    TODO("Not yet implemented")
 //  }
 
-  override suspend fun getChats(
+  override fun getChats(
     viewModelScope: CoroutineScope,
     lastId: Long,
     chatId: Long
@@ -62,14 +62,14 @@ class ChatRemoteDataSourceImpl(
     TODO("Not yet implemented")
   }
 
-  override suspend fun getChatsFirstPage(
+  override fun getChatsFirstPage(
     viewModelScope: CoroutineScope,
     chatId: Long
   ): LiveData<CustomResult<ChatMessageModel>> {
     TODO("Not yet implemented")
   }
 
-  override suspend fun sendMessage(
+  override fun sendMessage(
     viewModelScope: CoroutineScope,
     chatId: Long,
     message: String,
@@ -78,23 +78,23 @@ class ChatRemoteDataSourceImpl(
     TODO("Not yet implemented")
   }
 
-  override suspend fun blockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> {
+  override fun blockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> {
     TODO("Not yet implemented")
   }
 
-  override suspend fun unblockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> {
+  override fun unblockChat(viewModelScope: CoroutineScope, chatId: Long): LiveData<CustomResult<Any?>> {
     TODO("Not yet implemented")
   }
 
-  override suspend fun getBlockedUsers(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> {
+  override fun getBlockedUsers(viewModelScope: CoroutineScope): LiveData<CustomResult<List<ChatContactModel>>> {
     TODO("Not yet implemented")
   }
 
-  override suspend fun sendActMessage(viewModelScope: CoroutineScope, id: Long) {
+  override fun sendActMessage(viewModelScope: CoroutineScope, id: Long) {
     TODO("Not yet implemented")
   }
 
-  override suspend fun getChatId(
+  override fun getChatId(
     viewModelScope: CoroutineScope,
     charityId: Long
   ): LiveData<CustomResult<ChatContactModel>> =

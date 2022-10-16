@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.model
 
 import android.content.Context
+import ir.kindnesswall.domain.common.CustomResult
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response

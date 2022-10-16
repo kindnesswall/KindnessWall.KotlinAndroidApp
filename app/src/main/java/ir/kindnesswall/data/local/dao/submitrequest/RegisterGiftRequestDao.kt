@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.local.dao.submitrequest
 
 import androidx.room.*
+import ir.kindnesswall.data.db.dao.submitrequest.RegisterGiftRequestModel
 
 @Dao
 interface RegisterGiftRequestDao {

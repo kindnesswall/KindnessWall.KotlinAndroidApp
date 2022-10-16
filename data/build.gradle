@@ -41,7 +41,7 @@ dependencies {
   androidTestImplementation 'androidx.test.ext:junit:1.1.3'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-  def roomVersion = '2.3.0'
+  def roomVersion = '2.4.3'
   implementation "androidx.room:room-runtime:$roomVersion"
   implementation "androidx.room:room-ktx:$roomVersion"
   kapt "androidx.room:room-compiler:$roomVersion"
@@ -49,7 +49,7 @@ dependencies {
   def retrofit_version = '2.6.0'
   implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
   implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-  def okhttp_version = '3.9.1'
+  def okhttp_version = '4.9.3'
   implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
   implementation "com.github.marlonlom:timeago:4.0.3"
@@ -60,7 +60,7 @@ dependencies {
   implementation "com.chibatching.kotpref:initializer:$kotpref_version"
   implementation "com.chibatching.kotpref:livedata-support:$kotpref_version"
 
-  def navigation_version = "2.3.5"
+  def navigation_version = "2.5.2"
   implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
   implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
   implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"

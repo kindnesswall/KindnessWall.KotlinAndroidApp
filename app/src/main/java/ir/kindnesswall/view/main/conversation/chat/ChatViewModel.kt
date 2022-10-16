@@ -5,20 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.KindnessApplication
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.dao.charity.CharityModel
-import ir.kindnesswall.data.model.*
-import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.data.repositories.gift.GiftDataSource
 import ir.kindnesswall.data.repository.CharityRepo
 import ir.kindnesswall.data.repository.ChatRepo
-import ir.kindnesswall.data.repository.GiftRepo
-import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.data.repositories.user.UserDataSource
+import ir.kindnesswall.domain.common.CustomResult
+import ir.kindnesswall.domain.entities.*
 
 class ChatViewModel(
     private val chatRepo: ChatRepo,
-    private val userRepo: UserRepo,
-    private val giftRepo: GiftRepo,
+    private val userRepo: UserDataSource,
+    private val giftRepo: GiftDataSource,
     private val charityRepo: CharityRepo
 ) : ViewModel() {
     val refreshToDonateList = MutableLiveData<Boolean>()
@@ -87,7 +87,7 @@ class ChatViewModel(
         return charityRepo.getCharity(viewModelScope, receiverUserId)
     }
 
-    fun getToDonateGifts(): LiveData<CustomResult<List<GiftModel>>> {
+    fun getToDonateGifts(): LiveData<CustomResult<List<ir.kindnesswall.data.db.dao.catalog.GiftModel>>> {
         return giftRepo.getToDonateGifts(viewModelScope, receiverUserId)
     }
 

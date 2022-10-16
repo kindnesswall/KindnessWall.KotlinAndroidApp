@@ -9,13 +9,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.ChatContactModel
 import ir.kindnesswall.di.dataBaseModule
 import ir.kindnesswall.di.networkModule
 import ir.kindnesswall.di.repositoryModule
 import ir.kindnesswall.di.viewModelModule
+import ir.kindnesswall.domain.entities.ChatContactModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

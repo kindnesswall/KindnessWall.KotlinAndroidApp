@@ -8,9 +8,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.CustomResult
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.databinding.BottomSheetGiftsToDonateBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 

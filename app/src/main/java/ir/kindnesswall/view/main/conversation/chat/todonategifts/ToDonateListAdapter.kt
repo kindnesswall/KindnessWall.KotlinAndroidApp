@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.databinding.ItemGiftsToDonateBinding
 
 class ToDonateListAdapter : RecyclerView.Adapter<ToDonateListViewHolder>() {

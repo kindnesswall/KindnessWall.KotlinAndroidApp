@@ -1,5 +1,6 @@
 package ir.kindnesswall.data.model
 
+import ir.kindnesswall.domain.entities.ChatModel
 import ir.kindnesswall.utils.extentions.getHourAndMinute
 import java.io.Serializable
 import java.util.*

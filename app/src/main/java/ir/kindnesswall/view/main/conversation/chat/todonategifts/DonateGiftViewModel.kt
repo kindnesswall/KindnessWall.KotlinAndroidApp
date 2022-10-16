@@ -2,10 +2,10 @@ package ir.kindnesswall.view.main.conversation.chat.todonategifts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.repository.GiftRepo
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
+import ir.kindnesswall.data.repositories.gift.GiftDataSource
 
-class DonateGiftViewModel(private val giftRepo: GiftRepo) : ViewModel() {
+class DonateGiftViewModel(private val giftRepo: GiftDataSource) : ViewModel() {
     var contactId: Long = 0
     var giftsList: ArrayList<GiftModel>? = ArrayList()
 

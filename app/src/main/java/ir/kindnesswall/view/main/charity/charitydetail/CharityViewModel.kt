@@ -4,17 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.dao.charity.CharityModel
-import ir.kindnesswall.data.model.ChatContactModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.user.User
-import ir.kindnesswall.data.repository.ChatRepo
-import ir.kindnesswall.data.repository.GiftRepo
-import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.data.repositories.chat.ChatRemoteDataSource
+import ir.kindnesswall.data.repositories.gift.GiftDataSource
+import ir.kindnesswall.data.repositories.user.UserDataSource
+import ir.kindnesswall.domain.common.CustomResult
 
 class CharityViewModel(
-    private val userRepo: UserRepo,
-    private val giftRepo: GiftRepo,
-    private val chatRepo: ChatRepo
+    private val userRepo: UserDataSource,
+    private val giftRepo: GiftDataSource,
+    private val chatRepo: ChatRemoteDataSource
 ) :
     ViewModel() {
     var charityModel: CharityModel? = null
@@ -61,10 +59,10 @@ class CharityViewModel(
         charityViewListener?.onRatingClick()
     }
 
-    fun getUserInformation(): LiveData<CustomResult<User>> =
+    fun getUserInformation(): LiveData<CustomResult<ir.kindnesswall.domain.entities.User>> =
         userRepo.getOtherUsersProfile(viewModelScope, charityModel?.userId)
 
-    fun getChatId(): LiveData<CustomResult<ChatContactModel>> {
+    fun getChatId(): LiveData<CustomResult<ir.kindnesswall.domain.entities.ChatContactModel>> {
         return chatRepo.getChatId(viewModelScope, charityModel?.userId ?: 0)
     }
 }

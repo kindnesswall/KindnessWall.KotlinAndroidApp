@@ -15,10 +15,10 @@ import androidx.databinding.DataBindingUtil
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityGiftDetailBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
@@ -222,8 +222,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
                         ChatActivity.start(
                             this,
-                            it.data.chat,
-                            it.data.chat.contactProfile?.isCharity ?: false
+                            it.data!!.chat,
+                            it.data!!.chat.contactProfile?.isCharity ?: false
                         )
                     } else if (it.status == CustomResult.Status.ERROR) {
                         if (it.errorMessage?.message!!.contains("Unable to resolve host")) {
@@ -247,8 +247,8 @@ class GiftDetailActivity : BaseActivity(), GiftViewListener {
                     if (it.status == CustomResult.Status.SUCCESS && it.data != null) {
                         ChatActivity.start(
                             this,
-                            it.data.chat,
-                            it.data.chat.contactProfile?.isCharity ?: false
+                            it.data!!.chat,
+                            it.data!!.chat.contactProfile?.isCharity ?: false
                         )
                     } else if (it.status == CustomResult.Status.ERROR) {
                         if (it.errorMessage?.message!!.contains("Unable to resolve host")) {

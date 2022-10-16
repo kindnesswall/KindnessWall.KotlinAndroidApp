@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseFragment
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.R
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.FilterModel
 import ir.kindnesswall.databinding.FragmentSearchCatalogBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.extentions.onDone
 import ir.kindnesswall.utils.helper.EndlessRecyclerViewScrollListener
@@ -172,7 +172,7 @@ class SearchFragment : BaseFragment() {
             CustomResult.Status.SUCCESS -> {
                 hidePrvSearchList()
 
-                if (it.data != null && it.data.size < 20) {
+                if (it.data != null && it.data!!.size < 20) {
                     endlessRecyclerViewScrollListener.isLoading = true
                 } else if (it.data == null) {
                     endlessRecyclerViewScrollListener.isLoading = true
@@ -183,7 +183,7 @@ class SearchFragment : BaseFragment() {
                         viewModel.searchItems.value = it.data as ArrayList<GiftModel>?
                     } else {
                         endlessRecyclerViewScrollListener.isLoading = false
-                        viewModel.searchItems.value?.addAll(it.data)
+                        viewModel.searchItems.value?.addAll(it.data!!)
                     }
 
                     showList(viewModel.searchItems.value)

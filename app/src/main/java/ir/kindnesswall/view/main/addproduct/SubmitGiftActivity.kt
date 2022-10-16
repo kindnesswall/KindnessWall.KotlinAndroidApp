@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.model.*
+import ir.kindnesswall.data.repositories.gift.PhoneVisibility
 import ir.kindnesswall.databinding.ActivitySubmitGiftBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.widgets.NoInternetDialogFragment
 import ir.kindnesswall.view.category.CategoryActivity
 import ir.kindnesswall.view.citychooser.CityChooserActivity

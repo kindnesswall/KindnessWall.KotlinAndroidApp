@@ -11,7 +11,7 @@
 
         <variable
             name="otherUser"
-            type="ir.kindnesswall.data.model.user.User" />
+            type="ir.kindnesswall.domain.entities.User" />
 
         <variable
             name="viewModel"

@@ -12,8 +12,8 @@ import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
 import ir.kindnesswall.data.local.dao.charity.CharityModel
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.databinding.ActivityCharityDetailBinding
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.StaticContentViewer
 import ir.kindnesswall.utils.extentions.runOrStartAuth
 import ir.kindnesswall.utils.shareString
@@ -77,7 +77,7 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
 
         viewModel.charityViewListener = this
         viewModel.charityModel?.apply {
-            if (listOfNotNull(telephoneNumber, telegram, instagram, website).count() == 0)
+            if (listOfNotNull(telephoneNumber, telegram, instagram, website).isEmpty())
                 binding.informationBottomSheet.charityContentBottomSheet.visibility = View.GONE
         }
         initBottomSheet()
@@ -123,7 +123,8 @@ class CharityDetailActivity : BaseActivity(), CharityViewListener {
                     CustomResult.Status.SUCCESS -> {
                         it.data?.let { data ->
                             ChatActivity.start(
-                                this, data,
+                                this,
+                                data,
                                 isCharity = true,
                                 isStartFromNotification = false
                             )

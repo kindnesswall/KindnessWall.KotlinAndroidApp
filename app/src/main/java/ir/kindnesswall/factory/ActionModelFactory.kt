@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import ir.kindnesswall.KindnessApplication
 import ir.kindnesswall.data.local.AppPref
-import ir.kindnesswall.data.model.ChatModel
 import ir.kindnesswall.data.model.TextMessageModel
+import ir.kindnesswall.domain.entities.ChatModel
 import ir.kindnesswall.view.main.conversation.chat.ChatActivity
 import ir.kindnesswall.view.splash.SplashActivity
 

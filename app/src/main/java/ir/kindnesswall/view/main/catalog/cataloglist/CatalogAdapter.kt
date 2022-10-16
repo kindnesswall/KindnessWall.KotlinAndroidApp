@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.databinding.ItemCatalogBinding
 import ir.kindnesswall.utils.OnItemClickListener
 

@@ -1,6 +1,7 @@
 package ir.kindnesswall.data.model
 
 import ir.kindnesswall.data.model.user.User
+import ir.kindnesswall.domain.entities.ChatModel
 import java.io.Serializable
 
 data class ChatContactModel(

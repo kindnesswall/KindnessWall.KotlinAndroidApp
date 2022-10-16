@@ -1,7 +1,7 @@
 package ir.kindnesswall.view.main
 
 import androidx.lifecycle.ViewModel
-import ir.kindnesswall.data.repository.UserRepo
+import ir.kindnesswall.data.repositories.user.UserDataSource
 import javax.inject.Inject
 
 
@@ -16,6 +16,6 @@ import javax.inject.Inject
  *
  */
 
-class MainViewModel @Inject constructor(private val userRepo: UserRepo) : ViewModel() {
+class MainViewModel @Inject constructor(private val userRepo: UserDataSource) : ViewModel() {
     var defaultTab: Int = 0
 }

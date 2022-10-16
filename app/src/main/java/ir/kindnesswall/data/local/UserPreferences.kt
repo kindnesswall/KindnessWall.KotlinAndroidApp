@@ -1,7 +1,7 @@
 package ir.kindnesswall.data.local
 
 import com.chibatching.kotpref.KotprefModel
-import ir.kindnesswall.data.model.PhoneVisibility
+import ir.kindnesswall.data.repositories.gift.PhoneVisibility
 
 object UserPreferences : KotprefModel() {
     override val kotprefName: String = "MyPrefers" // to be compatible with older versions

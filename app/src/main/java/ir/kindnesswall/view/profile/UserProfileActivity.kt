@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import ir.kindnesswall.BaseActivity
 import ir.kindnesswall.R
 import ir.kindnesswall.annotation.Filter
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.user.User
 import ir.kindnesswall.databinding.ActivityMyProfileBinding
+import ir.kindnesswall.domain.common.CustomResult
+import ir.kindnesswall.domain.entities.User
 import ir.kindnesswall.utils.OnItemClickListener
 import ir.kindnesswall.utils.imageloader.GlideApp
 import ir.kindnesswall.utils.imageloader.circleCropTransform
@@ -124,14 +124,14 @@ class UserProfileActivity : BaseActivity(), OnItemClickListener {
         binding.acceptedFilter.setOnClickListener {
             deselectAllFilters()
             selectFilter(binding.acceptedFilter)
-            viewModel.currentFilter = Filter.ACCEPTED
+            //viewModel.currentFilter = Filter.ACCEPTED
             getGiftList()
         }
 
         binding.rejectedFilter.setOnClickListener {
             deselectAllFilters()
             selectFilter(binding.rejectedFilter)
-            viewModel.currentFilter = Filter.REJECTED
+            //viewModel.currentFilter = Filter.REJECTED
             getGiftList()
         }
 

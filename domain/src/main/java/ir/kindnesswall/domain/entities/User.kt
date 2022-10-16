@@ -1,7 +1,6 @@
 package ir.kindnesswall.domain.entities
 
 import android.content.Context
-import ir.kindnesswall.domain.R
 import java.io.Serializable
 
 data class User(

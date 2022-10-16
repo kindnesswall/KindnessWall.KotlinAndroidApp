@@ -6,13 +6,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import ir.kindnesswall.R
 import ir.kindnesswall.data.local.UserInfoPref
-import ir.kindnesswall.data.model.TextMessageBaseModel
-import ir.kindnesswall.data.model.TextMessageHeaderModel
-import ir.kindnesswall.data.model.TextMessageModel
 import ir.kindnesswall.databinding.ItemChatDateHeaderBinding
 import ir.kindnesswall.databinding.ItemChatDonationBinding
 import ir.kindnesswall.databinding.ItemChatMyselfBinding
 import ir.kindnesswall.databinding.ItemChatOthersBinding
+import ir.kindnesswall.domain.entities.TextMessageBaseModel
+import ir.kindnesswall.domain.entities.TextMessageHeaderModel
+import ir.kindnesswall.domain.entities.TextMessageModel
 import ir.kindnesswall.utils.extentions.persianizeDigitsInString
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat

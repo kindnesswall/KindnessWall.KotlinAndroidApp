@@ -8,45 +8,45 @@ import kotlinx.coroutines.CoroutineScope
 
 interface UserDataSource {
 
-  suspend fun getUserProfile(viewModelScope: CoroutineScope):
+  fun getUserProfile(viewModelScope: CoroutineScope):
     LiveData<CustomResult<User>>
 
-  suspend fun getUserProfile(viewModelScope: CoroutineScope, userId: Long):
+   fun getUserProfile(viewModelScope: CoroutineScope, userId: Long):
     LiveData<CustomResult<User>>
 
-  suspend fun updateUserProfile(
+   fun updateUserProfile(
     viewModelScope: CoroutineScope,
     userName: String,
     imageUrl: String
   ): LiveData<CustomResult<Any>>
 
-  suspend fun getOtherUsersProfile(viewModelScope: CoroutineScope, userId: Long?):
+   fun getOtherUsersProfile(viewModelScope: CoroutineScope, userId: Long?):
     LiveData<CustomResult<User>>
 
-  suspend fun getUserReceivedGifts(viewModelScope: CoroutineScope, userId: Long?):
+   fun getUserReceivedGifts(viewModelScope: CoroutineScope, userId: Long?):
     LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun getUserDonatedGifts(viewModelScope: CoroutineScope, userId: Long?):
+   fun getUserDonatedGifts(viewModelScope: CoroutineScope, userId: Long?):
     LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun getUserRegisteredGifts(viewModelScope: CoroutineScope, userId: Long?):
+   fun getUserRegisteredGifts(viewModelScope: CoroutineScope, userId: Long?):
     LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun getBookmarkList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>>?
+   fun getBookmarkList(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>>?
 
-  suspend fun registerFirebaseToken()
+   fun registerFirebaseToken()
 
-  suspend fun getUserAcceptedGifts(
+   fun getUserAcceptedGifts(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun getUserRejectedGifts(
+   fun getUserRejectedGifts(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<List<GiftModel>>>
 
-  suspend fun setUserPhoneSetting(
+   fun setUserPhoneSetting(
     viewModelScope: CoroutineScope,
     setting: String
   ): LiveData<CustomResult<Any>>

@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.kindnesswall.data.local.dao.province.ProvinceModel
 import ir.kindnesswall.data.model.CityModel
-import ir.kindnesswall.data.model.CustomResult
 import ir.kindnesswall.data.model.RegionModel
 import ir.kindnesswall.data.repository.GeneralRepo
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.OnItemClickListener
 
 class CityChooserViewModel(private val generalRepo: GeneralRepo) : ViewModel() {

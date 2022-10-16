@@ -18,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
 class GiftDataSourceImpl(
   private val giftApi: GiftApi
 ) : GiftDataSource, BaseDataSource() {
-  override suspend fun getGifts(viewModelScope: CoroutineScope, lastId: Long): LiveData<CustomResult<List<GiftModel>>> =
+  override fun getGifts(viewModelScope: CoroutineScope, lastId: Long): LiveData<CustomResult<List<GiftModel>>> =
     liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
       getResultWithExponentialBackoffStrategy {
@@ -40,7 +40,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun searchForGifts(
+  override fun searchForGifts(
     viewModelScope: CoroutineScope,
     lastId: Long,
     getGiftsRequestBody: GetGiftsRequestBaseBody
@@ -67,7 +67,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun registerGift(
+  override fun registerGift(
     viewModelScope: CoroutineScope,
     registerGiftRequestModel: RegisterGiftRequestModel
   ): LiveData<CustomResult<GiftModel>> =
@@ -92,7 +92,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun updateGift(
+  override fun updateGift(
     viewModelScope: CoroutineScope,
     registerGiftRequestModel: RegisterGiftRequestModel
   ): LiveData<CustomResult<GiftModel>> =
@@ -117,7 +117,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun requestGift(
+  override fun requestGift(
     viewModelScope: CoroutineScope,
     giftId: Long
   ): LiveData<CustomResult<ChatContactModel>> =
@@ -142,7 +142,7 @@ class GiftDataSourceImpl(
     }
 
 
-  override suspend fun getToDonateGifts(
+  override fun getToDonateGifts(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -171,7 +171,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun donateGift(
+  override fun donateGift(
     viewModelScope: CoroutineScope,
     giftId: Long,
     userToDonateId: Long
@@ -191,7 +191,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun getReviewGiftsFirstPage(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>> =
+  override fun getReviewGiftsFirstPage(viewModelScope: CoroutineScope): LiveData<CustomResult<List<GiftModel>>> =
     liveData<CustomResult<List<GiftModel>>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
       getResultWithExponentialBackoffStrategy {
@@ -213,7 +213,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun getReviewGifts(
+  override fun getReviewGifts(
     viewModelScope: CoroutineScope,
     lastId: Long
   ): LiveData<CustomResult<List<GiftModel>>> =
@@ -240,7 +240,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun rejectGift(
+  override fun rejectGift(
     viewModelScope: CoroutineScope,
     giftId: Long,
     rejectReason: String
@@ -261,7 +261,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun acceptGift(viewModelScope: CoroutineScope, giftId: Long): LiveData<CustomResult<Any?>> =
+  override fun acceptGift(viewModelScope: CoroutineScope, giftId: Long): LiveData<CustomResult<Any?>> =
     liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
 
@@ -278,7 +278,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun getGiftRequestStatus(
+  override fun getGiftRequestStatus(
     viewModelScope: CoroutineScope,
     giftId: Long
   ): LiveData<CustomResult<GiftRequestStatusModel>> =
@@ -305,7 +305,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun getSetting(viewModelScope: CoroutineScope, userId: Long): LiveData<CustomResult<SettingModel>> =
+  override fun getSetting(viewModelScope: CoroutineScope, userId: Long): LiveData<CustomResult<SettingModel>> =
     liveData<CustomResult<SettingModel>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
       getResultWithExponentialBackoffStrategy { giftApi.getSetting(userId) }.collect { result ->
@@ -320,7 +320,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun getUserNmber(
+  override fun getUserNmber(
     viewModelScope: CoroutineScope,
     userId: Long
   ): LiveData<CustomResult<PhoneNumberModel>> =
@@ -340,7 +340,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun deleteGift(viewModelScope: CoroutineScope, giftId: Long): LiveData<CustomResult<Any?>> =
+  override fun deleteGift(viewModelScope: CoroutineScope, giftId: Long): LiveData<CustomResult<Any?>> =
     liveData<CustomResult<Any?>>(viewModelScope.coroutineContext, timeoutInMs = 0) {
       emit(CustomResult.loading())
       getNullableResultWithExponentialBackoffStrategy { giftApi.deleteGift(giftId) }.collect { result ->
@@ -356,7 +356,7 @@ class GiftDataSourceImpl(
       }
     }
 
-  override suspend fun setSettingNumber(
+  override fun setSettingNumber(
     context: CoroutineContext,
     visibility: PhoneVisibility
   ): LiveData<CustomResult<Any?>> =
@@ -386,7 +386,7 @@ class GiftDataSourceImpl(
 
     }
 
-  override suspend fun getSettingNumber(context: CoroutineContext): LiveData<CustomResult<PhoneVisibility>> =
+  override fun getSettingNumber(context: CoroutineContext): LiveData<CustomResult<PhoneVisibility>> =
     liveData<CustomResult<PhoneVisibility>>(context, timeoutInMs = 0) {
       emit(CustomResult.loading())
       val cachedVisibility = UserPreferences.phoneVisibilityStatus

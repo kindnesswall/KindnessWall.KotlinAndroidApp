@@ -9,47 +9,47 @@ import kotlinx.coroutines.CoroutineScope
 
 interface ChatRemoteDataSource {
 
-  suspend fun getConversationList(
+  fun getConversationList(
     viewModelScope: CoroutineScope
   ): LiveData<CustomResult<List<ChatContactModel>>>
 
-  suspend fun getConversationList(): List<ChatContactModel>?
+   fun getConversationList(): List<ChatContactModel>?
 
-  suspend fun getChats(
+   fun getChats(
     viewModelScope: CoroutineScope,
     lastId: Long,
     chatId: Long
   ): LiveData<CustomResult<ChatMessageModel>>
 
-  suspend fun getChatsFirstPage(
+   fun getChatsFirstPage(
     viewModelScope: CoroutineScope,
     chatId: Long
   ): LiveData<CustomResult<ChatMessageModel>>
 
-  suspend fun sendMessage(
+   fun sendMessage(
     viewModelScope: CoroutineScope,
     chatId: Long,
     message: String,
     type: String? = null
   ): LiveData<CustomResult<TextMessageModel>>
 
-  suspend fun blockChat(
+   fun blockChat(
     viewModelScope: CoroutineScope,
     chatId: Long
   ): LiveData<CustomResult<Any?>>
 
-  suspend fun unblockChat(
+   fun unblockChat(
     viewModelScope: CoroutineScope,
     chatId: Long
   ): LiveData<CustomResult<Any?>>
 
-  suspend fun getBlockedUsers(
+   fun getBlockedUsers(
     viewModelScope: CoroutineScope
   ): LiveData<CustomResult<List<ChatContactModel>>>
 
-  suspend fun sendActMessage(viewModelScope: CoroutineScope, id: Long)
+  fun sendActMessage(viewModelScope: CoroutineScope, id: Long)
 
-  suspend fun getChatId(
+  fun getChatId(
     viewModelScope: CoroutineScope,
     charityId: Long
   ): LiveData<CustomResult<ChatContactModel>>

@@ -4,15 +4,15 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.lifecycle.*
+import ir.kindnesswall.data.db.dao.catalog.GiftModel
+import ir.kindnesswall.data.db.dao.submitrequest.RegisterGiftRequestModel
 import ir.kindnesswall.data.local.AppPref
 import ir.kindnesswall.data.local.dao.AppDatabase
-import ir.kindnesswall.data.local.dao.catalog.GiftModel
-import ir.kindnesswall.data.local.dao.submitrequest.RegisterGiftRequestModel
-import ir.kindnesswall.data.model.CustomResult
-import ir.kindnesswall.data.model.PhoneVisibility
 import ir.kindnesswall.data.model.UploadImageResponse
 import ir.kindnesswall.data.repository.FileUploadRepo
-import ir.kindnesswall.data.repository.GiftRepo
+import ir.kindnesswall.data.repositories.gift.GiftDataSource
+import ir.kindnesswall.data.repositories.gift.PhoneVisibility
+import ir.kindnesswall.domain.common.CustomResult
 import ir.kindnesswall.utils.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ import java.math.BigDecimal
 
 class SubmitGiftViewModel(
     private val fileUploadRepo: FileUploadRepo,
-    private val giftRepo: GiftRepo,
+    private val giftRepo: GiftDataSource,
     private val appDatabase: AppDatabase
 ) : ViewModel() {
     var hasRegion: Boolean = false
@@ -72,7 +72,7 @@ class SubmitGiftViewModel(
         price.value = text.toString()
     }
 
-    fun submitGift(): LiveData<CustomResult<GiftModel>> {
+    fun submitGift(): LiveData<CustomResult<ir.kindnesswall.data.db.dao.catalog.GiftModel>> {
         val registerGiftRequestModel = RegisterGiftRequestModel(
             title = title.value ?: "",
             description = description.value ?: "",
